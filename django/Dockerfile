@@ -1,26 +1,23 @@
-# django/Dockerfile
-
-# Utiliser l'image Python slim comme base
 FROM python:3.10-slim
 
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le fichier requirements.txt dans le conteneur
+# Installer les dépendances système nécessaires
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copier le fichier requirements.txt et installer les dépendances Python
 COPY requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Installer les dépendances Python
-RUN pip install -r requirements.txt
-
-# Copier le code source de l'application dans le conteneur
+# Copier tout le code de l'application dans le conteneur
 COPY . .
 
-# Exposer le port 8000 pour le serveur Django
+# Exposer le port de l'application
 EXPOSE 8000
 
-# django/Dockerfile
-ADD wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
-
-# Démarrer le serveur Django
-CMD ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Commande pour démarrer l'application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
