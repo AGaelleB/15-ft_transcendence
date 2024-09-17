@@ -19,5 +19,5 @@ COPY . .
 # Exposer le port de l'application
 EXPOSE 8000
 
-# Commande pour démarrer l'application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Commande pour démarrer avec un wait pour attendre db
+CMD ["sh", "-c", "sleep 10 && python manage.py runserver 0.0.0.0:8000"]
