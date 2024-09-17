@@ -1,11 +1,11 @@
-# Utiliser l'image officielle Nginx
+# nginx/Dockerfile
+
 FROM nginx:latest
 
-# Copier le fichier de configuration personnalisé pour Nginx
+# Copie le fichier de config
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # # Copier les fichiers statiques du frontend, si nécessaire
 # COPY /path/to/your/static/files /usr/share/nginx/html
 
-# Exposer le port 80
 EXPOSE 80
