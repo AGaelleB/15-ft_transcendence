@@ -24,12 +24,64 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 60vh;
     text-align: center;
     font-family: 'Jersey', sans-serif;
+    margin-top: 0;
 }
 
 .welcome-text h1 {
-    font-size: 150px;
-    color: #adc2ee;
+    font-size: 120px;
+    color: #a16935;
+    margin-bottom: 10px;
 }
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 0;
+}
+
+.option-button {
+    position: relative;
+    background: none;
+    border: none;
+    color: #a16935;
+    font-size: 90px;
+    margin: 0 40px;
+    cursor: pointer;
+    padding: 10px 20px;
+    outline: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Effet de survol */
+.option-button:hover,
+.option-button:focus {
+    color: #ffcc00;
+    transform: scale(1.05);
+}
+
+/* Style pour les triangles */
+.option-button::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #ffcc00;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.option-button:hover::before,
+.option-button:focus::before {
+    opacity: 1;
+}
+
