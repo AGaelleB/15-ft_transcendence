@@ -47,3 +47,8 @@ Pour que Django génère automatiquement le fichier manage.py, exécuter la comm
 ``` bash
 django-admin startproject mybackend .
 ```
+
+## Installer Bootstrap
+
+
+
