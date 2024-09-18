@@ -8,6 +8,11 @@
     font-style: normal;
 }
 
+::selection {
+    background: #302a66;
+    color: #a16935;
+}
+
 body {
     background-image: url('../images/backgroundEmpty.jpg');
     background-size: cover;

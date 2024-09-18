@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginBtn = document.querySelector("label.login");
     const signupBtn = document.querySelector("label.signup");
     const signupLink = document.getElementById("signup-link");
-  
+    const loginSubmitButton = document.querySelector("form.login button[type='submit']");
+
     signupLink.addEventListener("click", (event) => {
         event.preventDefault();
         signupBtn.click();
@@ -36,5 +37,13 @@ document.addEventListener("DOMContentLoaded", function() {
         else if (event.key === 'ArrowLeft')
             loginBtn.click();
     });
+
+
+    // Redirection vers gameScreen.html après le clic sur "Login"
+    loginSubmitButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Empêche le comportement par défaut
+        window.location.href = './gameScreen.html'; // Redirige vers la page gameScreen.html
+    });
+
   });
   

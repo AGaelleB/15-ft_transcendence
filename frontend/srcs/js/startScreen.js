@@ -10,12 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = "./html/loginSignUp.html#signup";
     });
 
-    //temporaire
-    const startGameButton = document.getElementById('start game');
-    startGameButton.addEventListener('click', function() {
-        window.location.href = './html/gameScreen.html';
-    });
-
     let keyboardNavigationEnabled = true;
 
     function clearFocus() {
