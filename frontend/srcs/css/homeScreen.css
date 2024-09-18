@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'Jersey';
+    src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Jersey', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../images/backgroundEmpty.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-container {
+    position: relative;
+    height: 500px; /* Hauteur ajustée pour le menu */
+    width: 400px;
+    overflow: hidden; /* Cache les éléments qui dépassent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    margin-top: 350px; /* Décale le menu plus bas dans la page */
+}
+
+.menu-list {
+    position: relative;
+    transition: transform 0.3s ease;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    font-size: 40px;
+    color: #a16935;
+    text-align: center;
+}
+
+.menu-item.selected {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.logout-link {
+    position: absolute;
+    top: 100px;
+    left: 200px;
+}
+
+.profile-link {
+    position: absolute;
+    top: 100px;
+    right: 200px;
+}
+
+.logout-link img, .profile-link img {
+    width: 40px;
+    height: 40px;
+}
+
+.start-game-text {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    font-size: 200px;
+    color: #a16935;
+    text-align: center;
+    z-index: 20;
+}

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Redirection vers gameScreen.html après le clic sur "Login"
     loginSubmitButton.addEventListener('click', function(event) {
         event.preventDefault(); // Empêche le comportement par défaut
-        window.location.href = './gameScreen.html'; // Redirige vers la page gameScreen.html
+        window.location.href = './homeScreen.html'; // Redirige vers la page gameScreen.html
     });
 
   });
