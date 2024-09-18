@@ -52,3 +52,5 @@ django-admin startproject mybackend .
 
 
 
+pixel art pour les icons 
+./index.html
