@@ -47,29 +47,34 @@ html, body {
     font-size: 40px;
     color: #a16935;
     text-align: center;
-    position: relative; /* Pour positionner les triangles */
+    position: relative;
     padding: 10px 0;
     transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .menu-item.selected {
     color: #ffcc00;
     font-weight: bold;
-    transform: scale(1.1); /* Effet d'agrandissement */
+    transform: scale(1.1);
 }
 
 /* Triangle à gauche de l'option sélectionnée */
 .menu-item.selected::before {
     content: '';
     position: absolute;
-    left: -35px; /* Ajuster pour bien positionner le triangle */
+    left: -35px;
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
     border-top: 15px solid transparent;
     border-bottom: 15px solid transparent;
-    border-left: 15px solid #ffcc00; /* Triangle couleur orange */
+    border-left: 15px solid #ffcc00;
     opacity: 1;
     transition: opacity 0.3s ease;
 }
@@ -78,14 +83,14 @@ html, body {
 .menu-item.selected::after {
     content: '';
     position: absolute;
-    right: -35px; /* Ajuster pour bien positionner le triangle */
+    right: -35px;
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
     border-top: 15px solid transparent;
     border-bottom: 15px solid transparent;
-    border-right: 15px solid #ffcc00; /* Triangle inversé couleur orange */
+    border-right: 15px solid #ffcc00;
     opacity: 1;
     transition: opacity 0.3s ease;
 }

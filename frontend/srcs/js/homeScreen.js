@@ -1,19 +1,17 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const menuItems = document.querySelectorAll('.menu-item');
+    const menuItems = document.querySelectorAll('.menu-item a');
     let currentIndex = 0;
 
-    // Fonction pour mettre à jour la sélection
     function updateSelection() {
         menuItems.forEach((item, index) => {
             if (index === currentIndex) {
-                item.classList.add('selected');
+                item.parentElement.classList.add('selected');
             } else {
-                item.classList.remove('selected');
+                item.parentElement.classList.remove('selected');
             }
         });
     }
 
-    // Navigation au clavier
     document.addEventListener('keydown', function(event) {
         if (event.key === 'ArrowDown' && currentIndex < menuItems.length - 1) {
             currentIndex++;
@@ -22,11 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
             currentIndex--;
             updateSelection();
         } else if (event.key === 'Enter') {
-            const selectedItem = menuItems[currentIndex].textContent;
-            alert(`You selected: ${selectedItem}`);
+            menuItems[currentIndex].click();
         }
     });
 
-    // Initialisation de la sélection
     updateSelection();
 });
