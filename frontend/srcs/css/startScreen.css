@@ -8,6 +8,11 @@
     font-style: normal;
 }
 
+::selection {
+    background: #302a66;
+    color: #a16935;
+}
+
 /* style pour le background du startpage */
 body {
     background-image: url('../images/background.jpg');

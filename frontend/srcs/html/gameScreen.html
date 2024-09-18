@@ -1,0 +1,47 @@
+<!-- frontend/srcs/html/gameScreen.html -->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Game Screen</title>
+    <link href="../css/gameScreen.css" rel="stylesheet"> <!-- Link to your CSS -->
+</head>
+<body>
+    <div class="game-screen">
+        <!-- Header with "PONG" centered -->
+        <div class="game-header">
+            <div class="game-title">
+                <h1>PONG</h1>
+            </div>
+        </div>
+
+        <!-- Score section below the PONG title -->
+        <section class="score-section">
+            <div class="score-container left">
+                <h2 id="player1Score" class="score">0</h2>
+                <p class="username">Player 1</p>
+            </div>
+            <div class="score-container right">
+                <h2 id="player2Score" class="score">0</h2>
+                <p class="username">Player 2</p>
+            </div>
+        </section>
+
+        <!-- Game part -->
+        <section class="game-container">
+            <canvas id="pongCanvas" width="850" height="450"></canvas>
+
+            <!-- Win message -->
+            <div id="winMessage" class="win-message">
+                <h1></h1>
+            </div>
+
+        </section>
+    </div>
+
+    <script src="../js/gameScreen.js" defer></script>
+
+</body>
+</html>

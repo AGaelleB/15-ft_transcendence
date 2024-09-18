@@ -2,57 +2,61 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
-    let keyboardNavigationEnabled = true; // Indicateur pour activer ou désactiver la navigation clavier
+    loginButton.addEventListener("click", function() {
+        window.location.href = "./html/loginSignUp.html#login";
+    });
 
-    // Fonction pour désactiver le focus
+    signupButton.addEventListener("click", function() {
+        window.location.href = "./html/loginSignUp.html#signup";
+    });
+
+    //temporaire
+    const startGameButton = document.getElementById('start game');
+    startGameButton.addEventListener('click', function() {
+        window.location.href = './html/gameScreen.html';
+    });
+
+    let keyboardNavigationEnabled = true;
+
     function clearFocus() {
         loginButton.blur();
         signupButton.blur();
     }
 
-    // Empêcher le focus par défaut au chargement
     clearFocus();
 
-    // Gestion des flèches pour naviguer entre les boutons
     document.addEventListener('keydown', (event) => {
-        // Ne réagit qu'aux touches si la navigation au clavier est activée
         if (!keyboardNavigationEnabled) return;
 
         if (event.key === 'ArrowRight') {
-            if (document.activeElement !== signupButton) {
-                signupButton.focus();
-                event.preventDefault();
-            }
-        } else if (event.key === 'ArrowLeft') {
-            if (document.activeElement !== loginButton) {
-                loginButton.focus();
-                event.preventDefault();
-            }
+            signupButton.focus();
+            event.preventDefault();
+        }
+        else if (event.key === 'ArrowLeft') {
+            loginButton.focus();
+            event.preventDefault();
         }
     });
 
-    // Gestion du survol de la souris pour désactiver la navigation clavier
     loginButton.addEventListener('mouseenter', () => {
-        keyboardNavigationEnabled = false; // Désactive la navigation clavier
+        keyboardNavigationEnabled = false;
         loginButton.focus();
         signupButton.blur();
     });
 
     signupButton.addEventListener('mouseenter', () => {
-        keyboardNavigationEnabled = false; // Désactive la navigation clavier
+        keyboardNavigationEnabled = false;
         signupButton.focus();
         loginButton.blur();
     });
 
-    // Réactive la navigation clavier lorsqu'on quitte les boutons avec la souris
     loginButton.addEventListener('mouseleave', () => {
         clearFocus();
-        keyboardNavigationEnabled = true; // Réactive la navigation clavier
+        keyboardNavigationEnabled = true;
     });
 
     signupButton.addEventListener('mouseleave', () => {
         clearFocus();
-        keyboardNavigationEnabled = true; // Réactive la navigation clavier
+        keyboardNavigationEnabled = true;
     });
 });
-

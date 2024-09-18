@@ -1,0 +1,263 @@
+@font-face {
+  font-family: 'Jersey';
+  src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Jersey', sans-serif;
+}
+
+html, body {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  place-items: center;
+  background: url('../images/backgroundEmpty.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+::selection {
+  background: #302a66;
+  color: #a16935;
+}
+
+.wrapper {
+  overflow: hidden;
+  max-width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.wrapper .title-text {
+  display: flex;
+  width: 200%;
+}
+
+.wrapper .title {
+  margin-top: 50px;
+  width: 50%;
+  font-size: 100px;
+  font-weight: 900;
+  text-align: center;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  color: #a16935;
+}
+
+.wrapper .slide-controls {
+  position: relative;
+  display: flex;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  margin: 30px 0 10px 0;
+  justify-content: space-between;
+  border-radius: 0px;
+}
+
+.slide-controls .slide {
+  height: 100%;
+  width: 100%;
+  color: #a16935;
+  font-size: 50px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 48px;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.6s ease;
+}
+
+.slide-controls label.signup,
+.slide-controls label.login {
+  color: #a16935;
+}
+
+.slide-controls .slider-tab {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  left: 0;
+  z-index: 0;
+  border-radius: 0px;
+  background: #a16935;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+#signup:checked ~ .slider-tab {
+  left: 50%;
+}
+
+#signup:checked ~ label.signup,
+#login:checked ~ label.login {
+  color: #302a66;
+  cursor: default;
+  user-select: none;
+}
+
+#signup:checked ~ label.login,
+#login:checked ~ label.signup {
+  color: #a16935;
+}
+
+.wrapper .form-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.form-container .form-inner {
+  display: flex;
+  width: 200%;
+}
+
+.form-container .form-inner form {
+  width: 50%;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-inner form .field {
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-inner form .field input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding-left: 15px;
+  border-radius: 0px;
+  border-bottom-width: 2px;
+  background-color: #302a66;
+  color: #a16935;
+  font-size: 17px;
+  transition: all 0.3s ease;
+  font-family: 'Jersey', sans-serif;
+}
+
+.form-inner form .field input:focus {
+  border-color: #a16935;
+}
+
+.form-inner form .field input::placeholder {
+  color: #a16935;
+  transition: all 0.3s ease;
+  font-family: 'Jersey', sans-serif;
+}
+
+form .btn {
+  height: 50px;
+  width: 100%;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+form .btn .btn-layer {
+  height: 100%;
+  width: 300%;
+  position: absolute;
+  left: -100%;
+  background: #a16935;
+  border-radius: 15px;
+  transition: all 0.4s ease;
+}
+
+form .btn:hover .btn-layer {
+  left: 0;
+}
+
+form .btn input[type="submit"] {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  background: none;
+  border: none;
+  color: #a16935;
+  padding-left: 0;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Jersey', sans-serif;
+}
+
+/* Style pour les boutons Login et Signup*/
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 0;
+}
+
+.option-button {
+  position: relative;
+  background: none;
+  border: none;
+  color: #a16935;
+  font-size: 50px;
+  margin: 0 20px;
+  cursor: pointer;
+  padding: 5px 10px;
+  outline: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Effet de survol */
+.option-button:hover,
+.option-button:focus {
+  color: #ffcc00;
+  transform: scale(1.05);
+}
+
+/* Style pour les triangles réduits */
+.option-button::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #ffcc00;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.option-button:hover::before,
+.option-button:focus::before {
+  opacity: 1;
+}
+
+/* Lien orange non souligné */
+.orange-link {
+  color: #a16935;
+  text-decoration: none;
+  font-family: 'Jersey', sans-serif;
+}
+
+.orange-link:hover {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+/* "Never played before?" */
+.signup-link-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 18px;
+  font-family: 'Jersey', sans-serif;
+  color: #625f8a;
+}

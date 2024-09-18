@@ -1,0 +1,101 @@
+/* frontend/srcs/css/gameScreen.css */
+
+/* Police d'ecriture */
+@font-face {
+    font-family: 'Jersey';
+    src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-image: url('../images/backgroundEmpty.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Jersey', sans-serif;
+    overflow: hidden;
+}
+
+/* Header with flexbox layout for centering */
+.game-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for the PONG title */
+.game-title h1 {
+    font-size: 100px;
+    color: #a16935;
+    margin: 0;
+}
+
+/* Section for scores below the PONG title */
+.score-section {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Score containers on the left and right */
+.score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Jersey';
+}
+
+/* Style for the score numbers */
+.score {
+    font-size: 100px;
+    color: #ffcc00;
+    margin: 0;
+}
+
+/* Style for the player usernames */
+.username {
+    font-size: 60px;
+    color: #a16935;
+    margin-top: 5px;
+}
+
+/* Left and right spacing adjustments */
+.score-container.left {
+    margin-left: 100px;
+}
+
+.score-container.right {
+    margin-right: 100px;
+}
+
+/* Game */
+.game-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+#pongCanvas {
+    border: 2px solid #a16935; /* Optional: add a border to the canvas */
+}
+
+/* Style for win message */
+.win-message {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none;
+    font-family: 'Jersey';
+}
+
+.win-message h1 {
+    font-size: 100px;
+    color: #ffcc00;
+    margin: 0;
+}
