@@ -1,0 +1,40 @@
+<!-- frontend/srcs/html/2Players.html -->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PONG - 2 Players</title>
+    <link href="../css/gameScreen.css" rel="stylesheet"> <!-- Link to your CSS -->
+    <script src="../js/2Players.js" defer></script> <!-- JS for 2 Players mode -->
+</head>
+<body>
+    <div class="game-screen">
+        <div class="game-header">
+            <div class="game-title">
+                <h1>PONG</h1>
+                <h2>2 Players mode</h2>
+            </div>
+        </div>
+
+        <section class="score-section">
+            <div class="score-container left">
+                <h2 id="player1Score" class="score">0</h2>
+                <p class="username">Player 1</p>
+            </div>
+            <div class="score-container right">
+                <h2 id="player2Score" class="score">0</h2>
+                <p class="username">Player 2</p>
+            </div>
+        </section>
+
+        <section class="game-container">
+            <canvas id="pongCanvas" width="850" height="450"></canvas>
+            <div id="winMessage" class="win-message">
+                <h1></h1>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

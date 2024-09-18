@@ -1,3 +1,5 @@
+// frontend/srcs/js/startScreen.js
+
 document.addEventListener("DOMContentLoaded", function() {
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');

@@ -1,6 +1,9 @@
+// frontend/srcs/js/homeScreen.js
+
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll('.menu-item a');
     let currentIndex = 0;
+    let keyboardNavigationEnabled = true;
 
     function updateSelection() {
         menuItems.forEach((item, index) => {
@@ -12,7 +15,25 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    menuItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', function() {
+            keyboardNavigationEnabled = false;
+            currentIndex = index;
+            updateSelection();
+        });
+
+        item.addEventListener('mouseleave', function() {
+            keyboardNavigationEnabled = true;
+        });
+
+        item.addEventListener('click', function() {
+            item.click();
+        });
+    });
+
     document.addEventListener('keydown', function(event) {
+        if (!keyboardNavigationEnabled) return;
+
         if (event.key === 'ArrowDown' && currentIndex < menuItems.length - 1) {
             currentIndex++;
             updateSelection();

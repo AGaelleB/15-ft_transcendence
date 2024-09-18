@@ -1,3 +1,5 @@
+// frontend/srcs/js/loginSignUp.js
+
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.querySelector("form.login");
     const signupForm = document.querySelector("form.signup");

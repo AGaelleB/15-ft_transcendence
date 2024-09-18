@@ -35,7 +35,17 @@ body {
 .game-title h1 {
     font-size: 100px;
     color: #a16935;
+    text-align: center;
     margin: 0;
+    font-weight: normal; 
+}
+
+.game-title h2 {
+    font-size: 60px;
+    color: #a16935;
+    text-align: center;
+    margin: 0;
+    font-weight: normal; 
 }
 
 /* Section for scores below the PONG title */
@@ -81,26 +91,28 @@ body {
 .game-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px; /* Adjust as needed */
+    margin-top: 20px;
 }
 
 #pongCanvas {
-    border: 2px solid #a16935; /* Optional: add a border to the canvas */
+    border: 12px solid #a16935;
 }
 
 /* Style for win message */
 .win-message {
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     display: none;
     font-family: 'Jersey';
+    font-weight: normal; 
 }
 
 .win-message h1 {
     font-size: 100px;
     color: #ffcc00;
     margin: 0;
+    font-weight: normal; 
 }
