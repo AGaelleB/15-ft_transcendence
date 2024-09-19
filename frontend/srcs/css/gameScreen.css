@@ -25,7 +25,6 @@ body {
 
 /* Header with flexbox layout for centering */
 .game-header {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,15 +32,16 @@ body {
 
 /* Style for the PONG title */
 .game-title h1 {
-    font-size: 100px;
+    font-size: calc(4vw + 4vh);
     color: #a16935;
     text-align: center;
     margin: 0;
-    font-weight: normal; 
+    font-weight: normal;
+    margin-top: calc(2.5vw + 2vh);
 }
 
 .game-title h2 {
-    font-size: 60px;
+    font-size: calc(1vw + 2vh);
     color: #a16935;
     text-align: center;
     margin: 0;
@@ -52,7 +52,7 @@ body {
 .score-section {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
 }
 
@@ -66,53 +66,35 @@ body {
 
 /* Style for the score numbers */
 .score {
-    font-size: 100px;
+    font-size: calc(3vw + 3vh);
     color: #ffcc00;
     margin: 0;
 }
 
 /* Style for the player usernames */
 .username {
-    font-size: 60px;
+    font-size: calc(2vw + 2vh);
     color: #a16935;
-    margin-top: 5px;
+    margin-top: calc(0vh);
 }
 
 /* Left and right spacing adjustments */
 .score-container.left {
-    margin-left: 100px;
+    margin-left: calc(0vh);
 }
 
 .score-container.right {
-    margin-right: 100px;
+    margin-right: calc(0vh);
 }
 
 /* Game */
 .game-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: calc(0vh);
 }
 
 #pongCanvas {
     border: 12px solid #a16935;
 }
 
-/* Style for win message */
-.win-message {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    display: none;
-    font-family: 'Jersey';
-    font-weight: normal; 
-}
-
-.win-message h1 {
-    font-size: 100px;
-    color: #ffcc00;
-    margin: 0;
-    font-weight: normal; 
-}

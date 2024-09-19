@@ -19,7 +19,7 @@ html, body {
   place-items: center;
   background: url('../images/backgroundEmpty.jpg') no-repeat center center fixed;
   background-size: cover;
-  font-size: calc(1vw + 1vh); /* Ajuste la taille globale du texte */
+  font-size: calc(1vw + 1vh);
 }
 
 ::selection {
@@ -40,9 +40,9 @@ html, body {
 }
 
 .wrapper .title {
-  margin-top: 5vh; /* Proportionnel à la hauteur de la fenêtre */
+  margin-top: 5vh;
   width: 50%;
-  font-size: calc(4vw + 4vh); /* Taille proportionnelle */
+  font-size: calc(4vw + 4vh);
   font-weight: 900;
   text-align: center;
   transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -64,7 +64,7 @@ html, body {
   height: 100%;
   width: 100%;
   color: #a16935;
-  font-size: calc(1vw + 2vh); /* Taille proportionnelle */
+  font-size: calc(1vw + 2vh);
   font-weight: 500;
   text-align: center;
   cursor: pointer;
@@ -124,7 +124,7 @@ input[type="radio"] {
 }
 
 .form-inner form .field {
-  height: 6vh; /* Proportionnel à la hauteur de la fenêtre */
+  height: 6vh;
   width: 100%;
   margin-top: 2vh;
 }
@@ -133,12 +133,12 @@ input[type="radio"] {
   height: 100%;
   width: 100%;
   outline: none;
-  padding-left: calc(1vw + 1vh); /* Padding proportionnel */
+  padding-left: calc(1vw + 1vh);
   border-radius: 0;
-  border-bottom-width: 0.2vh; /* Ajustement proportionnel */
+  border-bottom-width: 0.2vh;
   background-color: #302a66;
   color: #a16935;
-  font-size: calc(1vw + 1vh); /* Taille proportionnelle */
+  font-size: calc(1vw + 1vh);
   transition: all 0.3s ease;
   font-family: 'Jersey', sans-serif;
 }
@@ -154,7 +154,7 @@ input[type="radio"] {
 }
 
 form .btn {
-  height: 6vh; /* Proportionnel à la hauteur */
+  height: 6vh;
   width: 100%;
   border-radius: 1vh;
   position: relative;
@@ -185,7 +185,7 @@ form .btn input[type="submit"] {
   color: #a16935;
   padding-left: 0;
   border-radius: 1vh;
-  font-size: calc(1vw + 1vh); /* Taille proportionnelle */
+  font-size: calc(1vw + 1vh);
   font-weight: 500;
   cursor: pointer;
   font-family: 'Jersey', sans-serif;
@@ -205,10 +205,10 @@ form .btn input[type="submit"] {
   background: none;
   border: none;
   color: #a16935;
-  font-size: calc(2vw + 2vh); /* Taille proportionnelle */
-  margin: 0 calc(2vw); /* Ajuste la marge pour l'adapter */
+  font-size: calc(2vw + 2vh);
+  margin: 0 calc(2vw);
   cursor: pointer;
-  padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh); /* Padding proportionnel */
+  padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh);
   outline: none;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -257,7 +257,7 @@ form .btn input[type="submit"] {
 .signup-link-bottom {
   text-align: center;
   margin-top: calc(2vh);
-  font-size: calc(1.5vw + 1.5vh); /* Taille proportionnelle */
+  font-size: calc(1.5vw + 1.5vh);
   font-family: 'Jersey', sans-serif;
   color: #625f8a;
 }

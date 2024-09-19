@@ -4,13 +4,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
 
-    const paddleWidth = 25;
-    const paddleHeight = 100;
-    const ballSize = 12;
+    // Constantes pour les vitesses des éléments
+    const PADDLE_SPEED = 6;
+    const BALL_SPEED_X = 3;
+    const BALL_SPEED_Y = 3;
 
-    let paddleSpeed = 6;
-    let ballSpeedX = 3;
-    let ballSpeedY = 3;
+    let paddleWidth = 25;
+    let paddleHeight = 100;
+    let ballSize = 12;
+
+    // Variables de vitesse constantes
+    let paddleSpeed = PADDLE_SPEED;
+    let ballSpeedX = BALL_SPEED_X;
+    let ballSpeedY = BALL_SPEED_Y;
 
     const paddleLeft = {
         x: 0,
@@ -76,9 +82,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showWinMessage(winner) {
-        const winMessage = document.getElementById('winMessage');
-        winMessage.querySelector('h1').innerHTML = `Player ${winner} Wins!<br>Congrats!`;
-        winMessage.style.display = 'block';
+        const winnerMessage = document.querySelector('.message');
+        winnerMessage.innerHTML = `Player ${winner} Wins!`;
+    
+
+        const modal = document.querySelector('.modal');
+        modal.style.display = 'block';
+    }
+    
+
+    function checkGameEnd(player1Score, player2Score) {
+        const winningScore = 2;
+        if (player1Score >= winningScore) {
+            showWinMessage(1);
+            return true;
+        }
+        else if (player2Score >= winningScore) {
+            showWinMessage(2);
+            return true;
+        }
+        return false;
     }
 
     function resetBall() {
@@ -89,55 +112,18 @@ document.addEventListener('DOMContentLoaded', function() {
         ballOutOfBounds = false;
     }
 
-    function moveComputerPaddle() {
-        // const chanceToMiss = 0.50;
-        // const randomChance = Math.random();
-
-        // if (randomChance < chanceToMiss) {
-        //     // Le robot rate la balle une fois sur quatre
-        //     return; // Ne pas bouger la raquette
-        // }
-
-        if (ball.x > canvas.width / 2) {
-            const centerOfPaddle = paddleRight.y + paddleHeight / 2;
-
-            // Adjust paddle speed according to distance from ball
-            let targetSpeed = 2;
-            if (Math.abs(ball.y - centerOfPaddle) > 50) {
-                targetSpeed = 5;
-            }
-            
-            if (ball.y > centerOfPaddle)
-                paddleRight.y += targetSpeed;
-            else
-                paddleRight.y -= targetSpeed;
-
-            if (paddleRight.y < 0)
-                paddleRight.y = 0;
-            if (paddleRight.y > canvas.height - paddleHeight)
-                paddleRight.y = canvas.height - paddleHeight;
-        }
-    }
-
     function update() {
-        if (player1Score >= 3) {
-            showWinMessage(1);
-            return;
-        }
-        else if (player2Score >= 3) {
-            showWinMessage(2);
-            return;
-        }
 
-        // Move the ball
+        const gameEnded = checkGameEnd(player1Score, player2Score);
+        if (gameEnded)
+            return;
+
         ball.x += ball.dx;
         ball.y += ball.dy;
 
-        // Ball collision with top and bottom
         if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height)
             ball.dy = -ball.dy;
 
-        // Ball collision with paddles
         if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
             ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
             ball.dx = -ball.dx;
@@ -148,31 +134,28 @@ document.addEventListener('DOMContentLoaded', function() {
             ball.dx = -ball.dx;
         }
 
-        // Sortie de balle et scoring
-        if (ball.x - ball.size < 0 && !ballOutOfBounds) { // Player 2 scores
+        if (ball.x - ball.size < 0 && !ballOutOfBounds) {
             player2Score++;
             updateScore();
             ballOutOfBounds = true;
             resetBall();
         }
-        else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) { // Player 1 scores
+        else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) {
             player1Score++;
             updateScore();
             ballOutOfBounds = true;
             resetBall();
         }
 
-        // Clear the canvas and redraw everything
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPaddle(paddleLeft);
         drawDottedLine();
         drawPaddle(paddleRight);
         drawBall();
 
-        moveComputerPaddle();
+        moveComputerPaddle(ball, paddleRight, canvas);
     }
 
-    // Player 1 movement
     const keys = {};
 
     function handleKeydown(e) {
@@ -194,24 +177,28 @@ document.addEventListener('DOMContentLoaded', function() {
             paddleLeft.dy = 0;
     }
 
-    // Continuous paddle movement
     function movePaddles() {
         paddleLeft.y += paddleLeft.dy;
 
-        // Prevent paddles from leaving the canvas
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
-        if (paddleLeft.y > canvas.height - paddleHeight)
-            paddleLeft.y = canvas.height - paddleHeight;
+        if (paddleLeft.y > canvas.height - paddleLeft.height)
+            paddleLeft.y = canvas.height - paddleLeft.height;
     }
 
-    // Listen to keyboard input
+    // fonction de pour resize le pong 
+    window.onResizeCanvas = () => {
+        resizeCanvas(canvas, paddleLeft, paddleRight, ball);
+    };
+
+    window.addEventListener('resize', onResizeCanvas);
+    onResizeCanvas();
+
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    // Start the game loop
     setInterval(function() {
         update();
         movePaddles();
-    }, 1000 / 90); // speed game
+    }, 1000 / 90);
 });

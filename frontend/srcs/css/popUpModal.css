@@ -1,0 +1,61 @@
+html {
+  font-size: 18px;
+}
+
+body {
+color: black;
+background-size: 60px 60px;
+animation: slide 4s infinite linear;
+}
+
+.modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: auto;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  border: 3px solid black;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.message {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* Centrage et espacement des boutons */
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.btn {
+  font-size: 1rem;
+  background: white;
+  padding: 0.5rem 1.5rem;
+  border: 3px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Effet au survol */
+.btn:hover {
+  box-shadow: 0.4rem 0.4rem 0 black;
+  transform: translate(-0.4rem, -0.4rem);
+}
+
+/* Effet lorsque le bouton est pressé */
+.btn:active {
+  box-shadow: none;
+  transform: translate(0, 0);
+}

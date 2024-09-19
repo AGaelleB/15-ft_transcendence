@@ -22,20 +22,20 @@ html, body {
     background-size: cover;
     position: relative;
     overflow: hidden;
-    font-size: calc(1vw + 1vh); /* Ajuste la taille globale */
+    font-size: calc(1vw + 1vh);
 }
 
 
 .menu-container {
     position: relative;
-    height: calc(30vh); /* Réduire la hauteur du menu pour éviter le chevauchement */
-    width: calc(40vw);  /* Proportionnel à la largeur de la fenêtre */
+    height: calc(30vh);
+    width: calc(40vw);
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    margin-top: calc(45vh); /* Ajuster la marge supérieure pour un meilleur espacement */
+    margin-top: calc(45vh);
 }
 
 .menu-list {
@@ -46,11 +46,11 @@ html, body {
 }
 
 .menu-item {
-    font-size: calc(2vw + 2vh); /* Réduire la taille du texte pour éviter le chevauchement */
+    font-size: calc(2vw + 2vh);
     color: #a16935;
     text-align: center;
     position: relative;
-    padding: calc(0.5vh + 0.5vw) 0; /* Padding proportionnel */
+    padding: calc(0.5vh + 0.5vw) 0;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -99,19 +99,19 @@ html, body {
 
 .logout-link {
     position: absolute;
-    top: calc(5vh); /* Proportionnel à la hauteur de la fenêtre */
-    left: calc(10vw); /* Proportionnel à la largeur de la fenêtre */
+    top: calc(5vh);
+    left: calc(10vw);
 }
 
 .profile-link {
     position: absolute;
-    top: calc(5vh); /* Proportionnel à la hauteur de la fenêtre */
-    right: calc(10vw); /* Proportionnel à la largeur de la fenêtre */
+    top: calc(5vh);
+    right: calc(10vw);
 }
 
 .logout-link img, .profile-link img {
-    width: calc(14vw); /* Taille proportionnelle */
-    height: calc(24vh); /* Taille proportionnelle */
+    width: calc(14vw);
+    height: calc(24vh);
 }
 
 .start-game-text {
@@ -119,7 +119,7 @@ html, body {
     top: 25%; /* Ajustement de la position pour éviter le chevauchement */
     left: 50%;
     transform: translate(-50%, -10%);
-    font-size: calc(7vw + 7vh); /* Taille légèrement réduite */
+    font-size: calc(7vw + 7vh);
     color: #a16935;
     text-align: center;
     z-index: 20;
