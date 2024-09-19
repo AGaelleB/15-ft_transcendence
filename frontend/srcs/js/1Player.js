@@ -8,22 +8,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const paddleHeight = 100;
     const ballSize = 12;
 
-    let paddleSpeed = 8;
-    let ballSpeedX = 2;
-    let ballSpeedY = 2;
+    let paddleSpeed = 6;
+    let ballSpeedX = 3;
+    let ballSpeedY = 3;
 
     const paddleLeft = {
         x: 0,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
-        height: paddleHeight
+        height: paddleHeight,
+        dy: 0
     };
 
     const paddleRight = {
         x: canvas.width - paddleWidth,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
-        height: paddleHeight
+        height: paddleHeight,
+        dy: 0
     };
 
     const ball = {
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         winMessage.querySelector('h1').innerHTML = `Player ${winner} Wins!<br>Congrats!`;
         winMessage.style.display = 'block';
     }
-    
+
     function resetBall() {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
@@ -88,17 +90,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function moveComputerPaddle() {
-        // Simple AI: Move paddle to follow the ball
-        if (ball.y > paddleRight.y + paddleRight.height / 2)
-            paddleRight.y += 4;
-        else
-            paddleRight.y -= 4;
+        const centerOfPaddle = paddleRight.y + paddleHeight / 2;
 
-        // Prevent paddle from going out of bounds
-        if (paddleRight.y < 0)
-            paddleRight.y = 0;
-        if (paddleRight.y > canvas.height - paddleHeight)
-            paddleRight.y = canvas.height - paddleHeight;
+        // Adjust paddle speed according to distance from ball
+        let targetSpeed = 2;
+        if (Math.abs(ball.y - centerOfPaddle) > 50) {
+            targetSpeed = 5;
+        }
+        
+        if (ball.y > centerOfPaddle)
+            paddleRight.y += targetSpeed;
+        else
+            paddleRight.y -= targetSpeed;
+
+        // Prevent the paddle from leaving the canvas
+        if (paddleRight.y < 0) paddleRight.y = 0;
+        if (paddleRight.y > canvas.height - paddleHeight) paddleRight.y = canvas.height - paddleHeight;
     }
 
     function update() {
@@ -130,11 +137,11 @@ document.addEventListener('DOMContentLoaded', function() {
             ball.dx = -ball.dx;
         }
 
-        // Ball out of bounds and scoring
+        // Sortie de balle et scoring
         if (ball.x - ball.size < 0 && !ballOutOfBounds) { // Player 2 scores
             player2Score++;
             updateScore();
-            ballOutOfBounds = true; 
+            ballOutOfBounds = true;
             resetBall();
         }
         else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) { // Player 1 scores
@@ -151,27 +158,49 @@ document.addEventListener('DOMContentLoaded', function() {
         drawPaddle(paddleRight);
         drawBall();
 
-        // Move the computer paddle if it's a 1-player game
-        if (isComputerPlayer)
-            moveComputerPaddle();
+        moveComputerPaddle();
     }
+
+    // Player 1 movement
+    const keys = {};
 
     function handleKeydown(e) {
-        switch(e.key) {
-            case 'ArrowUp':
-                if (paddleLeft.y > 0)
-                    paddleLeft.y -= paddleSpeed;
-                break;
-            case 'ArrowDown':
-                if (paddleLeft.y < canvas.height - paddleHeight)
-                    paddleLeft.y += paddleSpeed;
-                break;
-        }
+        keys[e.key] = true;
+        updatePaddleDirection();
     }
 
-    // Initialize whether the game is against a computer
-    const isComputerPlayer = true; // Set to false for 2-player mode
+    function handleKeyup(e) {
+        keys[e.key] = false;
+        updatePaddleDirection();
+    }
 
+    function updatePaddleDirection() {
+        if (keys['ArrowUp'])
+            paddleLeft.dy = -paddleSpeed;
+        else if (keys['ArrowDown'])
+            paddleLeft.dy = paddleSpeed;
+        else
+            paddleLeft.dy = 0;
+    }
+
+    // Continuous paddle movement
+    function movePaddles() {
+        paddleLeft.y += paddleLeft.dy;
+
+        // Prevent paddles from leaving the canvas
+        if (paddleLeft.y < 0)
+            paddleLeft.y = 0;
+        if (paddleLeft.y > canvas.height - paddleHeight)
+            paddleLeft.y = canvas.height - paddleHeight;
+    }
+
+    // Listen to keyboard input
     document.addEventListener('keydown', handleKeydown);
-    setInterval(update, 1000 / 60); // speed game
+    document.addEventListener('keyup', handleKeyup);
+
+    // Start the game loop
+    setInterval(function() {
+        update();
+        movePaddles();
+    }, 1000 / 90); // speed game
 });
