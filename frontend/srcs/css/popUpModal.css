@@ -21,8 +21,8 @@ animation: slide 4s infinite linear;
   padding: 2rem;
   border: 3px solid #a16935;
   border-radius: 5px;
-  background: #302a66;
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+  background: #625f8a;
+  box-shadow: 8px 8px 0 #a16935;
 }
 
 .message {
@@ -40,12 +40,13 @@ animation: slide 4s infinite linear;
 
 .btn {
   font-size: 1rem;
-  background: #302a66;
+  background: #625f8a;
   padding: 0.5rem 1.5rem;
   border: 3px solid #a16935;
   border-radius: 5px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  color: #a16935;
 }
 
 /* Effet au survol */
