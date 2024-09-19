@@ -21,12 +21,13 @@ animation: slide 4s infinite linear;
   padding: 2rem;
   border: 3px solid #a16935;
   border-radius: 5px;
-  background: #625f8a;
+  background: #2f213a;
   box-shadow: 8px 8px 0 #a16935;
 }
 
 .message {
-  font-size: 1.2rem;
+  font-size: 1.8rem;
+  text-align: center;
   margin-bottom: 2rem;
 }
 
@@ -39,8 +40,8 @@ animation: slide 4s infinite linear;
 }
 
 .btn {
-  font-size: 1rem;
-  background: #625f8a;
+  font-size: 1.3rem;
+  background: #2f213a;
   padding: 0.5rem 1.5rem;
   border: 3px solid #a16935;
   border-radius: 5px;

@@ -15,19 +15,15 @@ document.addEventListener('DOMContentLoaded', function() {
     noButton.addEventListener('click', function() {
         window.location.href = '1Player.html';
     });
-    // Constantes pour les vitesses des éléments
-    const PADDLE_SPEED = 6;
-    const BALL_SPEED_X = 3;
-    const BALL_SPEED_Y = 3;
 
     let paddleWidth = 25;
     let paddleHeight = 100;
     let ballSize = 12;
 
-    // Variables de vitesse constantes
-    let paddleSpeed = PADDLE_SPEED;
-    let ballSpeedX = BALL_SPEED_X;
-    let ballSpeedY = BALL_SPEED_Y;
+    // Variables de vitesse ajustables dynamiquement
+    let paddleSpeed = canvas.height * 0.02;
+    let ballSpeedX = canvas.width * 0.003;
+    let ballSpeedY = canvas.height * 0.003;
 
     const paddleLeft = {
         x: 0,
@@ -95,20 +91,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function showWinMessage(winner) {
         const winnerMessage = document.querySelector('.message');
         winnerMessage.innerHTML = `Player ${winner} Wins!`;
-    
 
         const modal = document.querySelector('.modal');
         modal.style.display = 'block';
     }
-    
 
     function checkGameEnd(player1Score, player2Score) {
         const winningScore = 2;
         if (player1Score >= winningScore) {
             showWinMessage(1);
             return true;
-        }
-        else if (player2Score >= winningScore) {
+        } else if (player2Score >= winningScore) {
             showWinMessage(2);
             return true;
         }
@@ -116,15 +109,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetBall() {
+        // Reset ball position to the center
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
-        ball.dx = ballSpeedX;
-        ball.dy = ballSpeedY;
+    
+        // Dynamically calculate the ball's speed based on canvas size
+        ball.dx = window.ballSpeedX = canvas.width * 0.007;
+        ball.dy = window.ballSpeedY = canvas.height * 0.007;
+    
         ballOutOfBounds = false;
     }
+    
 
     function update() {
-
         const gameEnded = checkGameEnd(player1Score, player2Score);
         if (gameEnded)
             return;
@@ -150,8 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateScore();
             ballOutOfBounds = true;
             resetBall();
-        }
-        else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) {
+        } else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) {
             player1Score++;
             updateScore();
             ballOutOfBounds = true;
@@ -180,12 +176,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePaddleDirection() {
-        if (keys['ArrowUp'])
+        if (keys['ArrowUp']) {
             paddleLeft.dy = -paddleSpeed;
-        else if (keys['ArrowDown'])
+        } else if (keys['ArrowDown']) {
             paddleLeft.dy = paddleSpeed;
-        else
+        } else {
             paddleLeft.dy = 0;
+        }
     }
 
     function movePaddles() {
@@ -208,8 +205,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    setInterval(function() {
+    function gameLoop() {
         update();
         movePaddles();
-    }, 1000 / 90);
+        requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop(); // Start the game loop
 });
