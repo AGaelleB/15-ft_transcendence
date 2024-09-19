@@ -19,6 +19,7 @@ html, body {
   place-items: center;
   background: url('../images/backgroundEmpty.jpg') no-repeat center center fixed;
   background-size: cover;
+  font-size: calc(1vw + 1vh); /* Ajuste la taille globale du texte */
 }
 
 ::selection {
@@ -39,9 +40,9 @@ html, body {
 }
 
 .wrapper .title {
-  margin-top: 50px;
+  margin-top: 5vh; /* Proportionnel à la hauteur de la fenêtre */
   width: 50%;
-  font-size: 100px;
+  font-size: calc(4vw + 4vh); /* Taille proportionnelle */
   font-weight: 900;
   text-align: center;
   transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -51,22 +52,21 @@ html, body {
 .wrapper .slide-controls {
   position: relative;
   display: flex;
-  height: 50px;
+  height: 5vh;
   width: 100%;
   overflow: hidden;
-  margin: 30px 0 10px 0;
+  margin: calc(3vw + 3vh) 0 calc(1vw + 1vh) 0;
   justify-content: space-between;
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 .slide-controls .slide {
   height: 100%;
   width: 100%;
   color: #a16935;
-  font-size: 50px;
+  font-size: calc(1vw + 2vh); /* Taille proportionnelle */
   font-weight: 500;
   text-align: center;
-  line-height: 48px;
   cursor: pointer;
   z-index: 1;
   transition: all 0.6s ease;
@@ -83,7 +83,7 @@ html, body {
   width: 50%;
   left: 0;
   z-index: 0;
-  border-radius: 0px;
+  border-radius: 0;
   background: #a16935;
   transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
@@ -124,21 +124,21 @@ input[type="radio"] {
 }
 
 .form-inner form .field {
-  height: 50px;
+  height: 6vh; /* Proportionnel à la hauteur de la fenêtre */
   width: 100%;
-  margin-top: 20px;
+  margin-top: 2vh;
 }
 
 .form-inner form .field input {
   height: 100%;
   width: 100%;
   outline: none;
-  padding-left: 15px;
-  border-radius: 0px;
-  border-bottom-width: 2px;
+  padding-left: calc(1vw + 1vh); /* Padding proportionnel */
+  border-radius: 0;
+  border-bottom-width: 0.2vh; /* Ajustement proportionnel */
   background-color: #302a66;
   color: #a16935;
-  font-size: 17px;
+  font-size: calc(1vw + 1vh); /* Taille proportionnelle */
   transition: all 0.3s ease;
   font-family: 'Jersey', sans-serif;
 }
@@ -154,9 +154,9 @@ input[type="radio"] {
 }
 
 form .btn {
-  height: 50px;
+  height: 6vh; /* Proportionnel à la hauteur */
   width: 100%;
-  border-radius: 15px;
+  border-radius: 1vh;
   position: relative;
   overflow: hidden;
 }
@@ -167,7 +167,7 @@ form .btn .btn-layer {
   position: absolute;
   left: -100%;
   background: #a16935;
-  border-radius: 15px;
+  border-radius: 1vh;
   transition: all 0.4s ease;
 }
 
@@ -184,14 +184,14 @@ form .btn input[type="submit"] {
   border: none;
   color: #a16935;
   padding-left: 0;
-  border-radius: 15px;
-  font-size: 20px;
+  border-radius: 1vh;
+  font-size: calc(1vw + 1vh); /* Taille proportionnelle */
   font-weight: 500;
   cursor: pointer;
   font-family: 'Jersey', sans-serif;
 }
 
-/* Style pour les boutons Login et Signup*/
+/* Style pour les boutons Login et Signup */
 .button-container {
   display: flex;
   align-items: center;
@@ -205,10 +205,10 @@ form .btn input[type="submit"] {
   background: none;
   border: none;
   color: #a16935;
-  font-size: 50px;
-  margin: 0 20px;
+  font-size: calc(2vw + 2vh); /* Taille proportionnelle */
+  margin: 0 calc(2vw); /* Ajuste la marge pour l'adapter */
   cursor: pointer;
-  padding: 5px 10px;
+  padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh); /* Padding proportionnel */
   outline: none;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -224,14 +224,14 @@ form .btn input[type="submit"] {
 .option-button::before {
   content: '';
   position: absolute;
-  left: -15px;
+  left: -calc(1.5vw + 1.5vh);
   top: 50%;
   transform: translateY(-50%);
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #ffcc00;
+  border-top: calc(0.8vh) solid transparent;
+  border-bottom: calc(0.8vh) solid transparent;
+  border-left: calc(0.8vh) solid #ffcc00;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -256,8 +256,8 @@ form .btn input[type="submit"] {
 /* "Never played before?" */
 .signup-link-bottom {
   text-align: center;
-  margin-top: 30px;
-  font-size: 18px;
+  margin-top: calc(2vh);
+  font-size: calc(1.5vw + 1.5vh); /* Taille proportionnelle */
   font-family: 'Jersey', sans-serif;
   color: #625f8a;
 }

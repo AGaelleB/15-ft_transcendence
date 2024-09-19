@@ -90,22 +90,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function moveComputerPaddle() {
-        const centerOfPaddle = paddleRight.y + paddleHeight / 2;
+        // const chanceToMiss = 0.50;
+        // const randomChance = Math.random();
 
-        // Adjust paddle speed according to distance from ball
-        let targetSpeed = 2;
-        if (Math.abs(ball.y - centerOfPaddle) > 50) {
-            targetSpeed = 5;
+        // if (randomChance < chanceToMiss) {
+        //     // Le robot rate la balle une fois sur quatre
+        //     return; // Ne pas bouger la raquette
+        // }
+
+        if (ball.x > canvas.width / 2) {
+            const centerOfPaddle = paddleRight.y + paddleHeight / 2;
+
+            // Adjust paddle speed according to distance from ball
+            let targetSpeed = 2;
+            if (Math.abs(ball.y - centerOfPaddle) > 50) {
+                targetSpeed = 5;
+            }
+            
+            if (ball.y > centerOfPaddle)
+                paddleRight.y += targetSpeed;
+            else
+                paddleRight.y -= targetSpeed;
+
+            if (paddleRight.y < 0)
+                paddleRight.y = 0;
+            if (paddleRight.y > canvas.height - paddleHeight)
+                paddleRight.y = canvas.height - paddleHeight;
         }
-        
-        if (ball.y > centerOfPaddle)
-            paddleRight.y += targetSpeed;
-        else
-            paddleRight.y -= targetSpeed;
-
-        // Prevent the paddle from leaving the canvas
-        if (paddleRight.y < 0) paddleRight.y = 0;
-        if (paddleRight.y > canvas.height - paddleHeight) paddleRight.y = canvas.height - paddleHeight;
     }
 
     function update() {
