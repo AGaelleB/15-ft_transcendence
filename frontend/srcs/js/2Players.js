@@ -1,5 +1,3 @@
-// frontend/srcs/js/2Players.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
@@ -8,22 +6,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const paddleHeight = 100;
     const ballSize = 12;
 
-    let paddleSpeed = 8;
-    let ballSpeedX = 2;
-    let ballSpeedY = 2;
+    let paddleSpeed = 6;
+    let ballSpeedX = 3;
+    let ballSpeedY = 3;
 
     const paddleLeft = {
         x: 0,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
-        height: paddleHeight
+        height: paddleHeight,
+        dy: 0
     };
 
     const paddleRight = {
         x: canvas.width - paddleWidth,
         y: canvas.height / 2 - paddleHeight / 2,
         width: paddleWidth,
-        height: paddleHeight
+        height: paddleHeight,
+        dy: 0
     };
 
     const ball = {
@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
         winMessage.querySelector('h1').innerHTML = `Player ${winner} Wins!<br>Congrats!`;
         winMessage.style.display = 'block';
     }
-    
 
     function resetBall() {
         ball.x = canvas.width / 2;
@@ -99,14 +98,27 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Move paddles
+        paddleLeft.y += paddleLeft.dy;
+        paddleRight.y += paddleRight.dy;
+
+        // Ensure paddles stay within canvas
+        if (paddleLeft.y < 0)
+            paddleLeft.y = 0;
+        if (paddleLeft.y > canvas.height - paddleHeight)
+            paddleLeft.y = canvas.height - paddleHeight;
+        if (paddleRight.y < 0)
+            paddleRight.y = 0;
+        if (paddleRight.y > canvas.height - paddleHeight)
+            paddleRight.y = canvas.height - paddleHeight;
+
         // Move the ball
         ball.x += ball.dx;
         ball.y += ball.dy;
 
         // Ball collision with top and bottom
-        if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
+        if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height)
             ball.dy = -ball.dy;
-        }
 
         // Ball collision with paddles
         if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
@@ -123,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (ball.x - ball.size < 0 && !ballOutOfBounds) { // Player 2 scores
             player2Score++;
             updateScore();
-            ballOutOfBounds = true; 
+            ballOutOfBounds = true;
             resetBall();
         }
         else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) { // Player 1 scores
@@ -141,32 +153,40 @@ document.addEventListener('DOMContentLoaded', function() {
         drawBall();
     }
 
+    // Variables to track key states
+    const keys = {};
+
     function handleKeydown(e) {
-        switch(e.key) {
-            case 'ArrowUp':
-                if (paddleRight.y > 0) {
-                    paddleRight.y -= paddleSpeed;
-                }
-                break;
-            case 'ArrowDown':
-                if (paddleRight.y < canvas.height - paddleHeight) {
-                    paddleRight.y += paddleSpeed;
-                }
-                break;
-            case 'w':
-                if (paddleLeft.y > 0) {
-                    paddleLeft.y -= paddleSpeed;
-                }
-                break;
-            case 's':
-                if (paddleLeft.y < canvas.height - paddleHeight) {
-                    paddleLeft.y += paddleSpeed;
-                }
-                break;
-        }
+        keys[e.key] = true;
+        updatePaddleDirection();
+    }
+
+    function handleKeyup(e) {
+        keys[e.key] = false;
+        updatePaddleDirection();
+    }
+
+    function updatePaddleDirection() {
+        // Handle paddle movement for both players based on key states
+        if (keys['w'])
+            paddleLeft.dy = -paddleSpeed;
+        else if (keys['s'])
+            paddleLeft.dy = paddleSpeed;
+        else
+            paddleLeft.dy = 0;
+
+        if (keys['ArrowUp'])
+            paddleRight.dy = -paddleSpeed;
+        else if (keys['ArrowDown'])
+            paddleRight.dy = paddleSpeed;
+        else
+            paddleRight.dy = 0;
     }
 
     // Listen to keyboard input
     document.addEventListener('keydown', handleKeydown);
-    setInterval(update, 1000 / 60); // speed game
+    document.addEventListener('keyup', handleKeyup);
+
+    // Start the game loop
+    setInterval(update, 1000 / 90); // speed game
 });
