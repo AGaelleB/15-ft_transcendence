@@ -3,7 +3,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
 
+    // Rediriger vers homeScreen.html quand on clique sur Yes
+    yesButton.addEventListener('click', function() {
+        window.location.href = 'homeScreen.html';
+    });
+
+    // Rediriger vers 1Player.html quand on clique sur No
+    noButton.addEventListener('click', function() {
+        window.location.href = '1Player.html';
+    });
     // Constantes pour les vitesses des éléments
     const PADDLE_SPEED = 6;
     const BALL_SPEED_X = 3;
