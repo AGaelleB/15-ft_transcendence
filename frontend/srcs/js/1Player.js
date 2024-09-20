@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     closeSettingsButton.addEventListener('click', () => {
         settingsModal.style.display = 'none';
     });
-    
+
     let gameStarted = false;
 
     function startGame() {
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showWinMessage(winner) {
         const winnerMessage = document.querySelector('.message');
-        winnerMessage.innerHTML = `Player ${winner} Wins!`;
+        winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
 
         const modal = document.querySelector('.modal');
         modal.style.display = 'block';
