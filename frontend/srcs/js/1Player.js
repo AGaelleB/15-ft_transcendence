@@ -10,28 +10,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
+    const startGameMessage = document.getElementById('startGameMessage');
+
     const settingsIcon = document.getElementById('settingsIcon');
     const settingsModal = document.getElementById('settingsModal');
     const closeSettingsButton = document.getElementById('closeSettings');
-    const startGameMessage = document.getElementById('startGameMessage');
 
-    // Fonction pour ouvrir le modal de paramètres
+    settingsModal.style.display = 'none';
     settingsIcon.addEventListener('click', () => {
         settingsModal.style.display = 'flex';
     });
-
-    // Fonction pour fermer le modal de paramètres
     closeSettingsButton.addEventListener('click', () => {
         settingsModal.style.display = 'none';
     });
 
     let gameStarted = false;
-
     function startGame() {
         startGameMessage.style.display = 'none';
+        settingsIcon.classList.add('hidden');
         gameStarted = true;
+        
     }
-
     document.addEventListener('keydown', (e) => {
         if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
             startGame();
@@ -134,10 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
         if (player1Score >= winningScore) {
             showWinMessage(1);
+            settingsIcon.classList.remove('hidden');
             return true;
         }
         else if (player2Score >= winningScore) {
             showWinMessage(2);
+            settingsIcon.classList.remove('hidden');
             return true;
         }
         return false;

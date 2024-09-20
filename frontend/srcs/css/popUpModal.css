@@ -8,6 +8,11 @@ body {
   animation: slide 4s infinite linear;
 }
 
+::selection {
+  background: #302a66;
+  color: #a16935;
+}
+
 .modal {
   position: absolute;
   left: 50%;
@@ -23,6 +28,7 @@ body {
   border-radius: calc(0.5vw);
   background: #2f213a;
   box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+  z-index: 1000;
 }
 
 .message {

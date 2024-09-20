@@ -24,9 +24,10 @@ export const gameSettings = {
     aiSpeedFactor: 0.9,
 
     // Border
-    borderFactor: 0.015,
-    minBorderSize: 6,
+    borderFactor: 0.025,
+    minBorderSize: 12,
+    borderColor: '#a16935',
 
     // Score
-    winningScore: 5,
+    winningScore: 3,
 };
