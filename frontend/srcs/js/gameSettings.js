@@ -17,8 +17,8 @@ export const gameSettings = {
 
     // Speed of the game
     paddleSpeedFactor: 0.05,
-    ballSpeedX: 15,
-    ballSpeedY: 15,
+    ballSpeedX: 7,
+    ballSpeedY: 7,
 
     // IA speed
     aiSpeedFactor: 0.9,

@@ -25,10 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-
-
-    console.log("Canvas and buttons initialized", canvas, yesButton, noButton);
-
     // Redirection buttons
     yesButton.addEventListener('click', function() {
         window.location.href = 'homeScreen.html';
@@ -38,17 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '1Player.html';
     });
 
-    // Initialize game objects
-    let paddleWidth = canvas.width * gameSettings.paddleWidth;
-    let paddleHeight = canvas.height * gameSettings.paddleHeight;
-    let ballSize = canvas.width * gameSettings.ballSize;
+    // Initialize game objects using gameSettings
+    let paddleWidth = gameSettings.canvasWidth * gameSettings.paddleWidthFactor;
+    let paddleHeight = gameSettings.canvasHeight * gameSettings.paddleHeightFactor;
+    let ballSize = gameSettings.canvasWidth * gameSettings.ballSizeFactor;
 
-    let paddleSpeed = canvas.height * gameSettings.paddleSpeed;
-    let ballSpeedX = canvas.width * gameSettings.ballSpeedX;
-    let ballSpeedY = canvas.height * gameSettings.ballSpeedY;
+    let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
+    let ballSpeedX = gameSettings.ballSpeedX;
+    let ballSpeedY = gameSettings.ballSpeedY;
 
-    console.log("Game settings initialized", gameSettings);
-    
+  
     const paddleLeft = {
         x: 0,
         y: 0,  // Will be set later in resizeCanvas
@@ -73,9 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
         dy: 0
     };
 
-
-    console.log("Paddles and ball initialized", paddleLeft, paddleRight, ball);
-
     let player1Score = 0;
     let player2Score = 0;
     let ballOutOfBounds = false;
@@ -94,22 +86,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function drawDottedLine() {
-        // Scale the lineWidth and gap based on canvas size
-        const lineWidth = canvas.width * 0.016;
-        const gap = canvas.height * 0.04;
+        const lineWidth = gameSettings.canvasWidth * 0.016;
+        const gap = gameSettings.canvasHeight * 0.04;
     
         ctx.strokeStyle = '#a16935';
         ctx.lineWidth = lineWidth;
         ctx.setLineDash([lineWidth, gap]);
     
         ctx.beginPath();
-        ctx.moveTo(canvas.width / 2, 0);
-        ctx.lineTo(canvas.width / 2, canvas.height);
+        ctx.moveTo(gameSettings.canvasWidth / 2, 0);
+        ctx.lineTo(gameSettings.canvasWidth / 2, gameSettings.canvasHeight);
         ctx.stroke();
         ctx.closePath();
     
         ctx.setLineDash([]);
     }
+    
 
     function updateScore() {
         document.getElementById('player1Score').textContent = player1Score;
@@ -139,16 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetBall() {
-        // Reset ball position to the center
-        ball.x = canvas.width / 2;
-        ball.y = canvas.height / 2;
+        ball.x = gameSettings.canvasWidth / 2;
+        ball.y = gameSettings.canvasHeight / 2;
     
-        // Dynamically calculate the ball's speed based on canvas size
-        ball.dx = window.ballSpeedX = gameSettings.ballSpeedX;
-        ball.dy = window.ballSpeedY = gameSettings.ballSpeedY;
+        ball.dx = gameSettings.ballSpeedX;
+        ball.dy = gameSettings.ballSpeedY;
     
         ballOutOfBounds = false;
     }
+    
     
     function handlePaddleCollision(ball, paddle) {
         const paddleCenter = paddle.y + paddle.height / 2;
@@ -182,9 +173,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Ball collision with bottom wall
-        if (ball.y + ball.size > canvas.height) {
-            ball.dy = -ball.dy;  // Reverse vertical direction
-            ball.y = canvas.height - ball.size;  // Push ball away from the wall
+        if (ball.y + ball.size > gameSettings.canvasHeight) {
+            ball.dy = -ball.dy;
+            ball.y = gameSettings.canvasHeight - ball.size;
         }
 
         // Ball collision with left paddle (Player 1)
@@ -210,14 +201,14 @@ document.addEventListener('DOMContentLoaded', function() {
             ballOutOfBounds = true;
             resetBall();
         }
-        else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) {
+        else if (ball.x + ball.size > gameSettings.canvasWidth && !ballOutOfBounds) {
             player1Score++;
             updateScore();
             ballOutOfBounds = true;
             resetBall();
         }
     
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, gameSettings.canvasWidth, gameSettings.canvasHeight);
         drawPaddle(paddleLeft);
         drawDottedLine();
         drawPaddle(paddleRight);
@@ -249,15 +240,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePaddles() {
         paddleLeft.y += paddleLeft.dy;
-
-        // Ensure the paddle stays within the canvas bounds
-        if (paddleLeft.y < 0) {
+    
+        if (paddleLeft.y < 0)
             paddleLeft.y = 0;
-        }
-        if (paddleLeft.y > canvas.height - paddleLeft.height) {
-            paddleLeft.y = canvas.height - paddleLeft.height;
-        }
+        if (paddleLeft.y > gameSettings.canvasHeight - paddleLeft.height)
+            paddleLeft.y = gameSettings.canvasHeight - paddleLeft.height;
     }
+    
 
     // Function to resize canvas and adjust elements
     window.onResizeCanvas = () => resizeCanvas(paddleLeft, paddleRight, ball);
