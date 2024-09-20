@@ -1,30 +1,37 @@
 // frontend/srcs/js/1Player.js
 
+import { gameSettings } from './gameSettings.js';
+import { resizeCanvas } from './resizeCanvas.js';
+import { moveComputerPaddle } from './computerIA.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
-    // Rediriger vers homeScreen.html quand on clique sur Yes
+    console.log("Canvas and buttons initialized", canvas, yesButton, noButton);
+
+    // Redirection buttons
     yesButton.addEventListener('click', function() {
         window.location.href = 'homeScreen.html';
     });
 
-    // Rediriger vers 1Player.html quand on clique sur No
     noButton.addEventListener('click', function() {
         window.location.href = '1Player.html';
     });
 
-    let paddleWidth = 25;
-    let paddleHeight = 100;
-    let ballSize = 12;
+    // Initialize game objects
+    let paddleWidth = canvas.width * gameSettings.paddleWidth;
+    let paddleHeight = canvas.height * gameSettings.paddleHeight;
+    let ballSize = canvas.width * gameSettings.ballSize;
 
-    // Variables de vitesse ajustables dynamiquement
-    let paddleSpeed = canvas.height * 0.009;
-    let ballSpeedX = canvas.width * 0.08;
-    let ballSpeedY = canvas.height * 0.08;
+    let paddleSpeed = canvas.height * gameSettings.paddleSpeed;
+    let ballSpeedX = canvas.width * gameSettings.ballSpeedX;
+    let ballSpeedY = canvas.height * gameSettings.ballSpeedY;
 
+    console.log("Game settings initialized", gameSettings);
+    
     const paddleLeft = {
         x: 0,
         y: canvas.height / 2 - paddleHeight / 2,
@@ -48,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dx: ballSpeedX,
         dy: ballSpeedY
     };
+
+    console.log("Paddles and ball initialized", paddleLeft, paddleRight, ball);
 
     let player1Score = 0;
     let player2Score = 0;
@@ -98,11 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function checkGameEnd(player1Score, player2Score) {
-        const winningScore = 2;
+        const winningScore = gameSettings.winningScore;
+    
         if (player1Score >= winningScore) {
             showWinMessage(1);
             return true;
-        } else if (player2Score >= winningScore) {
+        }
+        else if (player2Score >= winningScore) {
             showWinMessage(2);
             return true;
         }
@@ -115,8 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ball.y = canvas.height / 2;
     
         // Dynamically calculate the ball's speed based on canvas size
-        ball.dx = window.ballSpeedX = canvas.width * 0.007;
-        ball.dy = window.ballSpeedY = canvas.height * 0.007;
+        ball.dx = window.ballSpeedX = gameSettings.ballSpeedX;
+        ball.dy = window.ballSpeedY = gameSettings.ballSpeedY;
     
         ballOutOfBounds = false;
     }
@@ -196,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
         moveComputerPaddle(ball, paddleRight, canvas, paddleSpeed * 0.9);  // AI paddle movement
     }
-        
 
     const keys = {};
 
@@ -240,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
+    // Main game loop
     function gameLoop() {
         update();
         movePaddles();

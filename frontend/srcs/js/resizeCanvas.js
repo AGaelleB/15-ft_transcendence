@@ -1,6 +1,8 @@
 // frontend/srcs/js/resizeCanvas.js
 
-function resizeCanvas(canvas, paddleLeft, paddleRight, ball, aspectRatio = 16 / 9) {
+import { gameSettings } from './gameSettings.js';
+
+export function resizeCanvas(canvas, paddleLeft, paddleRight, ball, aspectRatio = 16 / 9) {
     const gameContainer = document.querySelector('.game-container');
     const containerWidth = gameContainer.offsetWidth;
     const containerHeight = window.innerHeight * 0.45;
@@ -9,19 +11,18 @@ function resizeCanvas(canvas, paddleLeft, paddleRight, ball, aspectRatio = 16 / 
     if (containerWidth / containerHeight < aspectRatio) {
         canvas.width = containerWidth * 0.9;
         canvas.height = canvas.width / aspectRatio;
-    }
-    else {
+    } else {
         canvas.height = containerHeight * 0.9;
         canvas.width = canvas.height * aspectRatio;
     }
 
     // Adjust paddle and ball sizes
-    paddleLeft.width = canvas.width * 0.03;
-    paddleLeft.height = canvas.height * 0.2;
+    paddleLeft.width = canvas.width * gameSettings.paddleWidth;
+    paddleLeft.height = canvas.height * gameSettings.paddleHeight;
     paddleRight.width = paddleLeft.width;
     paddleRight.height = paddleLeft.height;
 
-    ball.size = canvas.width * 0.015;
+    ball.size = canvas.width * gameSettings.ballSize;
 
     // Update paddle positions
     paddleLeft.y = canvas.height / 2 - paddleLeft.height / 2;
@@ -36,9 +37,9 @@ function resizeCanvas(canvas, paddleLeft, paddleRight, ball, aspectRatio = 16 / 
     canvas.style.border = `${Math.max(canvas.width * 0.015, 6)}px solid #a16935`;
 
     // Adjust paddle and ball speed based on canvas size
-    window.paddleSpeed = canvas.height * 0.03;
-    window.ballSpeedX = canvas.width * 0.009;
-    window.ballSpeedY = canvas.height * 0.009;
+    window.paddleSpeed = canvas.height * gameSettings.paddleSpeed;
+    window.ballSpeedX = canvas.width * gameSettings.ballSpeedX;
+    window.ballSpeedY = canvas.height * gameSettings.ballSpeedY;
 
     // Apply the new speed to the ball
     ball.dx = window.ballSpeedX;

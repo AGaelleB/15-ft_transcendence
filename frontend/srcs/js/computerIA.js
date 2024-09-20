@@ -1,6 +1,6 @@
 // frontend/srcs/js/computerIA.js
 
-function moveComputerPaddle(ball, paddleRight, canvas, aiSpeed) {
+export function moveComputerPaddle(ball, paddleRight, canvas, aiSpeed) {
     if (ball.x > canvas.width / 2) {
         const centerOfPaddle = paddleRight.y + paddleRight.height / 2;
 
