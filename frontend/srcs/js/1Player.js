@@ -8,25 +8,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+
     const settingsIcon = document.getElementById('settingsIcon');
     const settingsModal = document.getElementById('settingsModal');
     const closeSettingsButton = document.getElementById('closeSettings');
     const startGameMessage = document.getElementById('startGameMessage');
 
+    // Fonction pour ouvrir le modal de paramètres
     settingsIcon.addEventListener('click', () => {
         settingsModal.style.display = 'flex';
     });
 
+    // Fonction pour fermer le modal de paramètres
     closeSettingsButton.addEventListener('click', () => {
         settingsModal.style.display = 'none';
     });
+    
+    let gameStarted = false;
 
     function startGame() {
         startGameMessage.style.display = 'none';
+        gameStarted = true;
     }
 
     document.addEventListener('keydown', (e) => {
-        if (e.code === 'Space' || e.code === 'Enter') {
+        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
             startGame();
         }
     });
