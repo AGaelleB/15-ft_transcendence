@@ -1,10 +1,14 @@
 // frontend/srcs/js/computerIA.js
 
-export function moveComputerPaddle(ball, paddleRight, canvas, aiSpeed) {
-    if (ball.x > canvas.width / 2) {
+import { gameSettings } from './gameSettings.js';
+
+export function moveComputerPaddle(ball, paddleRight) {
+    const aiSpeed = window.paddleSpeed * gameSettings.aiSpeedFactor;
+
+    if (ball.x > gameSettings.canvasWidth / 2) {
         const centerOfPaddle = paddleRight.y + paddleRight.height / 2;
 
-        // AI paddle moves at 90% of the player's speed
+        // AI paddle moves at a percentage of the player's speed
         if (ball.y > centerOfPaddle)
             paddleRight.y += aiSpeed;
         else
@@ -13,7 +17,7 @@ export function moveComputerPaddle(ball, paddleRight, canvas, aiSpeed) {
         // Prevent the AI paddle from going out of bounds
         if (paddleRight.y < 0)
             paddleRight.y = 0;
-        if (paddleRight.y > canvas.height - paddleRight.height)
-            paddleRight.y = canvas.height - paddleRight.height;
+        else if (paddleRight.y > gameSettings.canvasHeight - paddleRight.height)
+            paddleRight.y = gameSettings.canvasHeight - paddleRight.height;
     }
 }

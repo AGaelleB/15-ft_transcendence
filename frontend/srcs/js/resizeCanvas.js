@@ -2,44 +2,52 @@
 
 import { gameSettings } from './gameSettings.js';
 
-export function resizeCanvas(canvas, paddleLeft, paddleRight, ball, aspectRatio = 16 / 9) {
+export function resizeCanvas(paddleLeft, paddleRight, ball) {
     const gameContainer = document.querySelector('.game-container');
     const containerWidth = gameContainer.offsetWidth;
     const containerHeight = window.innerHeight * 0.45;
+    const aspectRatio = gameSettings.aspectRatio;
 
     // Calculate the new canvas size based on the aspect ratio
+    let canvasWidth, canvasHeight;
     if (containerWidth / containerHeight < aspectRatio) {
-        canvas.width = containerWidth * 0.9;
-        canvas.height = canvas.width / aspectRatio;
-    } else {
-        canvas.height = containerHeight * 0.9;
-        canvas.width = canvas.height * aspectRatio;
+        canvasWidth = containerWidth * gameSettings.canvasWidthFactor;
+        canvasHeight = canvasWidth / aspectRatio;
+    }
+    else {
+        canvasHeight = containerHeight * gameSettings.canvasWidthFactor;
+        canvasWidth = canvasHeight * aspectRatio;
     }
 
-    // Adjust paddle and ball sizes
-    paddleLeft.width = canvas.width * gameSettings.paddleWidth;
-    paddleLeft.height = canvas.height * gameSettings.paddleHeight;
+    // Utilisez la nouvelle taille calculée pour mettre à jour les dimensions des éléments du jeu
+    const effectiveCanvasWidth = Math.min(canvasWidth, gameSettings.canvasWidth);
+    const effectiveCanvasHeight = Math.min(canvasHeight, gameSettings.canvasHeight);
+
+    // Adjust paddle and ball sizes using factors from gameSettings
+    paddleLeft.width = effectiveCanvasWidth * gameSettings.paddleWidthFactor;
+    paddleLeft.height = effectiveCanvasHeight * gameSettings.paddleHeightFactor;
     paddleRight.width = paddleLeft.width;
     paddleRight.height = paddleLeft.height;
 
-    ball.size = canvas.width * gameSettings.ballSize;
+    ball.size = effectiveCanvasWidth * gameSettings.ballSizeFactor;
 
     // Update paddle positions
-    paddleLeft.y = canvas.height / 2 - paddleLeft.height / 2;
-    paddleRight.x = canvas.width - paddleRight.width;
-    paddleRight.y = canvas.height / 2 - paddleRight.height / 2;
+    paddleLeft.y = effectiveCanvasHeight / 2 - paddleLeft.height / 2;
+    paddleRight.x = effectiveCanvasWidth - paddleRight.width;
+    paddleRight.y = effectiveCanvasHeight / 2 - paddleRight.height / 2;
 
     // Update ball position
-    ball.x = canvas.width / 2;
-    ball.y = canvas.height / 2;
+    ball.x = effectiveCanvasWidth / 2;
+    ball.y = effectiveCanvasHeight / 2;
 
     // Update canvas border size
-    canvas.style.border = `${Math.max(canvas.width * 0.015, 6)}px solid #a16935`;
+    const borderSize = `${Math.max(effectiveCanvasWidth * gameSettings.borderFactor, gameSettings.minBorderSize)}px solid #a16935`;
+    document.querySelector('.game-container').style.border = borderSize;
 
     // Adjust paddle and ball speed based on canvas size
-    window.paddleSpeed = canvas.height * gameSettings.paddleSpeed;
-    window.ballSpeedX = canvas.width * gameSettings.ballSpeedX;
-    window.ballSpeedY = canvas.height * gameSettings.ballSpeedY;
+    window.paddleSpeed = effectiveCanvasHeight * gameSettings.paddleSpeedFactor;
+    window.ballSpeedX = gameSettings.ballSpeedX;
+    window.ballSpeedY = gameSettings.ballSpeedY;
 
     // Apply the new speed to the ball
     ball.dx = window.ballSpeedX;

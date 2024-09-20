@@ -10,6 +10,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
 
+    const startGameMessage = document.getElementById('startGameMessage');
+    
+    let gameStarted = false;
+
+    function startGame() {
+        startGameMessage.style.display = 'none';
+        gameStarted = true;
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
+            startGame();
+        }
+    });
+
+
+
     console.log("Canvas and buttons initialized", canvas, yesButton, noButton);
 
     // Redirection buttons
@@ -34,27 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const paddleLeft = {
         x: 0,
-        y: canvas.height / 2 - paddleHeight / 2,
-        width: paddleWidth,
-        height: paddleHeight,
+        y: 0,  // Will be set later in resizeCanvas
+        width: 0,
+        height: 0,
         dy: 0
     };
 
     const paddleRight = {
-        x: canvas.width - paddleWidth,
-        y: canvas.height / 2 - paddleHeight / 2,
-        width: paddleWidth,
-        height: paddleHeight,
+        x: 0,  // Will be set later in resizeCanvas
+        y: 0,
+        width: 0,
+        height: 0,
         dy: 0
     };
 
     const ball = {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        size: ballSize,
-        dx: ballSpeedX,
-        dy: ballSpeedY
+        x: 0,
+        y: 0,
+        size: 0,
+        dx: 0,
+        dy: 0
     };
+
 
     console.log("Paddles and ball initialized", paddleLeft, paddleRight, ball);
 
@@ -205,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         drawPaddle(paddleRight);
         drawBall();
     
-        moveComputerPaddle(ball, paddleRight, canvas, paddleSpeed * 0.9);  // AI paddle movement
+        moveComputerPaddle(ball, paddleRight);
     }
 
     const keys = {};
@@ -221,39 +239,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePaddleDirection() {
-        if (keys['ArrowUp']) {
-            paddleLeft.dy = -paddleSpeed;
-        } else if (keys['ArrowDown']) {
-            paddleLeft.dy = paddleSpeed;
-        } else {
+        if (keys['ArrowUp'])
+            paddleLeft.dy = -window.paddleSpeed;  // Use window.paddleSpeed for consistency
+        else if (keys['ArrowDown'])
+            paddleLeft.dy = window.paddleSpeed;  // Use window.paddleSpeed for consistency
+        else
             paddleLeft.dy = 0;
-        }
     }
 
     function movePaddles() {
         paddleLeft.y += paddleLeft.dy;
 
-        if (paddleLeft.y < 0)
+        // Ensure the paddle stays within the canvas bounds
+        if (paddleLeft.y < 0) {
             paddleLeft.y = 0;
-        if (paddleLeft.y > canvas.height - paddleLeft.height)
+        }
+        if (paddleLeft.y > canvas.height - paddleLeft.height) {
             paddleLeft.y = canvas.height - paddleLeft.height;
+        }
     }
 
-    // fonction de pour resize le pong 
-    window.onResizeCanvas = () => {
-        resizeCanvas(canvas, paddleLeft, paddleRight, ball);
-    };
-
+    // Function to resize canvas and adjust elements
+    window.onResizeCanvas = () => resizeCanvas(paddleLeft, paddleRight, ball);
     window.addEventListener('resize', onResizeCanvas);
     onResizeCanvas();
 
+    // Game logic and event handling remains unchanged
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    // Main game loop
     function gameLoop() {
-        update();
-        movePaddles();
+        if (gameStarted) {
+            update();
+            movePaddles();
+        }
         requestAnimationFrame(gameLoop);
     }
 
