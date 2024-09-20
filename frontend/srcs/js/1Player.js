@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let ballSize = 12;
 
     // Variables de vitesse ajustables dynamiquement
-    let paddleSpeed = canvas.height * 0.006;
+    let paddleSpeed = canvas.height * 0.009;
     let ballSpeedX = canvas.width * 0.08;
     let ballSpeedY = canvas.height * 0.08;
 
@@ -121,59 +121,82 @@ document.addEventListener('DOMContentLoaded', function() {
         ballOutOfBounds = false;
     }
     
+    function handlePaddleCollision(ball, paddle) {
+        const paddleCenter = paddle.y + paddle.height / 2;
+        const ballDistanceFromCenter = ball.y - paddleCenter;
+    
+        // Calculate the ratio of how far from the center the ball hit
+        const impactRatio = ballDistanceFromCenter / (paddle.height / 2); // Between -1 and 1
+    
+        // Adjust the ball's vertical speed based on the impact ratio
+        const maxBounceAngle = Math.PI / 4; // 45 degrees
+        const bounceAngle = impactRatio * maxBounceAngle;
+    
+        // Adjust the ball's dx and dy based on the new bounce angle
+        const speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy); // Preserve the ball's speed
+        ball.dx = speed * Math.cos(bounceAngle) * Math.sign(ball.dx);  // Reverse horizontal direction but keep speed
+        ball.dy = speed * Math.sin(bounceAngle);  // Adjust vertical speed based on bounce angle
+    }
 
     function update() {
         const gameEnded = checkGameEnd(player1Score, player2Score);
         if (gameEnded)
             return;
     
-        // Move the ball
         ball.x += ball.dx;
         ball.y += ball.dy;
     
-        // Ball collision with top and bottom walls
-        if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
-            ball.dy = -ball.dy;
+        // Ball collision with top wall
+        if (ball.y - ball.size < 0) {
+            ball.dy = -ball.dy;  // Reverse vertical direction
+            ball.y = ball.size;  // Push ball away from the wall
         }
-    
-        // Ball collision with paddles
+
+        // Ball collision with bottom wall
+        if (ball.y + ball.size > canvas.height) {
+            ball.dy = -ball.dy;  // Reverse vertical direction
+            ball.y = canvas.height - ball.size;  // Push ball away from the wall
+        }
+
+        // Ball collision with left paddle (Player 1)
         if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
             ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
-            ball.dx = -ball.dx;
+            ball.dx = -ball.dx;  // Reverse horizontal direction
+            ball.x = paddleLeft.x + paddleLeft.width + ball.size;  // Push ball outside the paddle
+            handlePaddleCollision(ball, paddleLeft);
         }
-    
+
+        // Ball collision with right paddle (AI or Player 2)
         if (ball.x + ball.size > paddleRight.x &&
             ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
-            ball.dx = -ball.dx;
+            ball.dx = -ball.dx;  // Reverse horizontal direction
+            ball.x = paddleRight.x - ball.size;  // Push ball outside the paddle
+            handlePaddleCollision(ball, paddleRight);
         }
-    
-        // Ball out of bounds
+
+        // Ball out of bounds and scoring logic
         if (ball.x - ball.size < 0 && !ballOutOfBounds) {
             player2Score++;
             updateScore();
             ballOutOfBounds = true;
             resetBall();
-        } else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) {
+        }
+        else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) {
             player1Score++;
             updateScore();
             ballOutOfBounds = true;
             resetBall();
         }
     
-        // Clear canvas and redraw
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPaddle(paddleLeft);
         drawDottedLine();
         drawPaddle(paddleRight);
         drawBall();
     
-        // Move the computer paddle with aiSpeed
-        const aiSpeed = paddleSpeed * 0.9;  // AI moves at 90% of the player's speed
-        moveComputerPaddle(ball, paddleRight, canvas, aiSpeed);
-
-        movePaddles();
+        moveComputerPaddle(ball, paddleRight, canvas, paddleSpeed * 0.9);  // AI paddle movement
     }
-    
+        
 
     const keys = {};
 
