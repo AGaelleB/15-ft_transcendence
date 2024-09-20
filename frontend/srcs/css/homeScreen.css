@@ -25,7 +25,11 @@ html, body {
     font-size: calc(1vw + 1vh);
 }
 
-
+::selection {
+    background: #302a66;
+    color: #a16935;
+  }
+  
 .menu-container {
     position: relative;
     height: calc(30vh);

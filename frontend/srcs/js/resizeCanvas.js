@@ -37,8 +37,8 @@ function resizeCanvas(canvas, paddleLeft, paddleRight, ball, aspectRatio = 16 / 
 
     // Adjust paddle and ball speed based on canvas size
     window.paddleSpeed = canvas.height * 0.02;
-    window.ballSpeedX = canvas.width * 0.007;
-    window.ballSpeedY = canvas.height * 0.007;
+    window.ballSpeedX = canvas.width * 0.008;
+    window.ballSpeedY = canvas.height * 0.008;
 
     // Apply the new speed to the ball
     ball.dx = window.ballSpeedX;

@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let ballSize = 12;
 
     // Variables de vitesse ajustables dynamiquement
-    let paddleSpeed = canvas.height * 0.02;
-    let ballSpeedX = canvas.width * 0.003;
-    let ballSpeedY = canvas.height * 0.003;
+    let paddleSpeed = canvas.height * 0.006;
+    let ballSpeedX = canvas.width * 0.08;
+    let ballSpeedY = canvas.height * 0.08;
 
     const paddleLeft = {
         x: 0,
@@ -67,19 +67,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function drawDottedLine() {
-        const lineWidth = 12;
-        const gap = 15;
-
+        // Scale the lineWidth and gap based on canvas size
+        const lineWidth = canvas.width * 0.016;
+        const gap = canvas.height * 0.04;
+    
         ctx.strokeStyle = '#a16935';
         ctx.lineWidth = lineWidth;
         ctx.setLineDash([lineWidth, gap]);
-
+    
         ctx.beginPath();
         ctx.moveTo(canvas.width / 2, 0);
         ctx.lineTo(canvas.width / 2, canvas.height);
         ctx.stroke();
         ctx.closePath();
-
+    
         ctx.setLineDash([]);
     }
 
@@ -125,23 +126,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const gameEnded = checkGameEnd(player1Score, player2Score);
         if (gameEnded)
             return;
-
+    
+        // Move the ball
         ball.x += ball.dx;
         ball.y += ball.dy;
-
-        if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height)
+    
+        // Ball collision with top and bottom walls
+        if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
             ball.dy = -ball.dy;
-
+        }
+    
+        // Ball collision with paddles
         if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
             ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
             ball.dx = -ball.dx;
         }
-
+    
         if (ball.x + ball.size > paddleRight.x &&
             ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
             ball.dx = -ball.dx;
         }
-
+    
+        // Ball out of bounds
         if (ball.x - ball.size < 0 && !ballOutOfBounds) {
             player2Score++;
             updateScore();
@@ -153,15 +159,21 @@ document.addEventListener('DOMContentLoaded', function() {
             ballOutOfBounds = true;
             resetBall();
         }
-
+    
+        // Clear canvas and redraw
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPaddle(paddleLeft);
         drawDottedLine();
         drawPaddle(paddleRight);
         drawBall();
+    
+        // Move the computer paddle with aiSpeed
+        const aiSpeed = paddleSpeed * 0.9;  // AI moves at 90% of the player's speed
+        moveComputerPaddle(ball, paddleRight, canvas, aiSpeed);
 
-        moveComputerPaddle(ball, paddleRight, canvas);
+        movePaddles();
     }
+    
 
     const keys = {};
 
