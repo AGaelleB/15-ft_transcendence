@@ -67,3 +67,8 @@ body {
   box-shadow: none;
   transform: translate(0, 0);
 }
+
+.btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
+  background-color: #2f213a !important;
+  color: #a16935 !important;
+}

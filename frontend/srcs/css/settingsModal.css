@@ -57,6 +57,11 @@
     border: none;
 }
 
+.btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
+    background-color: #2f213a !important;
+    color: #a16935 !important;
+}
+
 /* Effet lorsque le bouton est pressé */
 .btn:active {
     background-color: #2f213a;

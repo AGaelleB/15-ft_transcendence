@@ -7,8 +7,8 @@ import { moveComputerPaddle } from './computerIA.js';
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
-    const yesButton = document.getElementById('yesButton');
-    const noButton = document.getElementById('noButton');
+    const homeButton = document.getElementById('homeButton');
+    const againButton = document.getElementById('againButton');
 
     const startGameMessage = document.getElementById('startGameMessage');
 
@@ -38,11 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Redirection buttons
-    yesButton.addEventListener('click', function() {
+    homeButton.addEventListener('click', function() {
         window.location.href = 'homeScreen.html';
     });
 
-    noButton.addEventListener('click', function() {
+    againButton.addEventListener('click', function() {
         window.location.href = '1Player.html';
     });
 
