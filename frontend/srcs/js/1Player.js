@@ -1,4 +1,3 @@
-
 // frontend/srcs/js/1Player.js
 
 import { gameSettings } from './gameSettings.js';
@@ -6,9 +5,6 @@ import { resizeCanvas } from './resizeCanvas.js';
 import { moveComputerPaddle } from './computerIA.js';
 import { initializeButton } from './buttonsSettings.js';
 import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
-// import { handleKeydown, handleKeyup, updatePaddleDirection } from './keyHandler.js';
-// import { handleBallWallCollision, handleBallPaddleCollision } from './collisionHandler.js';
-// import { player1Score, player2Score, resetScores, updateScoreBoard, checkGameEnd } from './scoreManager.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
