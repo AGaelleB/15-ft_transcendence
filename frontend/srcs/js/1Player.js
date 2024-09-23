@@ -3,48 +3,19 @@
 import { gameSettings } from './gameSettings.js';
 import { resizeCanvas } from './resizeCanvas.js';
 import { moveComputerPaddle } from './computerIA.js';
+import { setupButtons } from './gameButton.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const homeButton = document.getElementById('homeButton');
     const againButton = document.getElementById('againButton');
-
     const startGameMessage = document.getElementById('startGameMessage');
-
     const settingsIcon = document.getElementById('settingsIcon');
     const settingsModal = document.getElementById('settingsModal');
     const closeSettingsButton = document.getElementById('closeSettings');
+    const { startGame, gameStarted } = setupButtons(homeButton, againButton, settingsIcon, settingsModal, closeSettingsButton, startGameMessage);
 
-    settingsModal.style.display = 'none';
-    settingsIcon.addEventListener('click', () => {
-        settingsModal.style.display = 'flex';
-    });
-    closeSettingsButton.addEventListener('click', () => {
-        settingsModal.style.display = 'none';
-    });
-
-    let gameStarted = false;
-    function startGame() {
-        startGameMessage.style.display = 'none';
-        settingsIcon.classList.add('hidden');
-        gameStarted = true;
-        
-    }
-    document.addEventListener('keydown', (e) => {
-        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter'))
-            startGame();
-    });
-
-    // Redirection buttons
-    homeButton.addEventListener('click', function() {
-        window.location.href = 'homeScreen.html';
-    });
-    
-    againButton.addEventListener('click', function() {
-        window.location.href = '1Player.html';
-    });
-    
     // Initialize game objects using gameSettings
     let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
     let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
