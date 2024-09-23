@@ -49,6 +49,8 @@ export function initializeGameStartListener(startGame) {
     document.addEventListener('keydown', (e) => {
         if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
             gameStarted = startGame();
+            return true;
         }
     });
+    return false;
 }

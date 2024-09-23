@@ -14,12 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsIcon = document.getElementById('settingsIcon');
 
     let gameStarted = false;
+    function setGameStarted(value) {
+        gameStarted = value;
+    }
 
-    // Initialise les boutons depuis buttonsSettings.js
     initializeButton();
-
-    // Initialise l'écouteur d'événements pour démarrer le jeu
-    initializeGameStartListener(() => startGame(settingsIcon, startGameMessage));
+    initializeGameStartListener(() => {
+        setGameStarted(true);
+        return startGame(settingsIcon, startGameMessage);
+    });
 
     // Initialize game objects using gameSettings
     let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
