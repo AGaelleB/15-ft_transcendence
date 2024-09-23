@@ -73,14 +73,14 @@ html, body {
 .menu-item.selected::before {
     content: '';
     position: absolute;
-    left: -35px;
+    left: calc(-3vw); /* Positionnement proportionnel à la largeur de la fenêtre */
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    border-left: 15px solid #ffcc00;
+    border-top: calc(0.8vw + 0.8vh) solid transparent; /* Taille proportionnelle du triangle */
+    border-bottom: calc(0.8vw + 0.8vh) solid transparent;
+    border-left: calc(0.8vw + 0.8vh) solid #ffcc00; /* Largeur proportionnelle */
     opacity: 1;
     transition: opacity 0.3s ease;
 }
@@ -89,14 +89,14 @@ html, body {
 .menu-item.selected::after {
     content: '';
     position: absolute;
-    right: -35px;
+    right: calc(-3vw); /* Positionnement proportionnel à la largeur de la fenêtre */
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    border-right: 15px solid #ffcc00;
+    border-top: calc(0.8vw + 0.8vh) solid transparent; /* Taille proportionnelle du triangle */
+    border-bottom: calc(0.8vw + 0.8vh) solid transparent;
+    border-right: calc(0.8vw + 0.8vh) solid #ffcc00; /* Largeur proportionnelle */
     opacity: 1;
     transition: opacity 0.3s ease;
 }

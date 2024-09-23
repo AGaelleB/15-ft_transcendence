@@ -23,7 +23,7 @@ export const gameSettings = {
 
     // Border
     borderFactor: 0.025,
-    minBorderSize: 12,
+    minBorderSize: 1,
     borderColor: '#a16935',
 
     // Score
