@@ -4,30 +4,23 @@
 import { gameSettings } from './gameSettings.js';
 import { resizeCanvas } from './resizeCanvas.js';
 import { moveComputerPaddle } from './computerIA.js';
-import { initializeButton } from './buttonsSettings.js';  // Import du nouveau module
+import { showWinMessage, startGame, initializeButton, initializeGameStartListener } from './buttonsSettings.js';  // Import du module
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
 
     const startGameMessage = document.getElementById('startGameMessage');
+    const settingsIcon = document.getElementById('settingsIcon');
 
     let gameStarted = false;
 
+    // Initialise les boutons depuis buttonsSettings.js
     initializeButton();
 
-    function startGame() {
-        startGameMessage.style.display = 'none';
-        settingsIcon.classList.add('hidden');
-        gameStarted = true;
-    }
+    // Initialise l'écouteur d'événements pour démarrer le jeu
+    initializeGameStartListener(() => startGame(settingsIcon, startGameMessage));
 
-    document.addEventListener('keydown', (e) => {
-        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
-            startGame();
-        }
-    });
-    
     // Initialize game objects using gameSettings
     let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
     let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
@@ -100,24 +93,16 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('player2Score').textContent = player2Score;
     }
 
-    function showWinMessage(winner) {
-        const winnerMessage = document.querySelector('.message');
-        winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
-
-        const modal = document.querySelector('.modal');
-        modal.style.display = 'block';
-    }
-
     function checkGameEnd(player1Score, player2Score) {
         const winningScore = gameSettings.winningScore;
     
         if (player1Score >= winningScore) {
-            showWinMessage(1);
+            showWinMessage(1);  // Utilisation de la fonction importée
             settingsIcon.classList.remove('hidden');
             return true;
         }
         else if (player2Score >= winningScore) {
-            showWinMessage(2);
+            showWinMessage(2);  // Utilisation de la fonction importée
             settingsIcon.classList.remove('hidden');
             return true;
         }
@@ -148,14 +133,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const paddleCenter = paddle.y + paddle.height / 2;
         const ballDistanceFromCenter = ball.y - paddleCenter;
     
-        // Calculate the ratio of how far from the center the ball hit
         const impactRatio = ballDistanceFromCenter / (paddle.height / 2); // Between -1 and 1
     
-        // Adjust the ball's vertical speed based on the impact ratio
         const maxBounceAngle = Math.PI / 4; // 45 degrees
         const bounceAngle = impactRatio * maxBounceAngle;
     
-        // Adjust the ball's dx and dy based on the new bounce angle
         const speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy); // Preserve the ball's speed
         ball.dx = speed * Math.cos(bounceAngle) * Math.sign(ball.dx);  // Reverse horizontal direction but keep speed
         ball.dy = speed * Math.sin(bounceAngle);  // Adjust vertical speed based on bounce angle

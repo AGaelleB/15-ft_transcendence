@@ -28,3 +28,27 @@ export function initializeButton() {
         window.location.href = '1Player.html';
     });
 }
+
+export function showWinMessage(winner) {
+    const winnerMessage = document.querySelector('.message');
+    winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
+
+    const modal = document.querySelector('.modal');
+    modal.style.display = 'block';
+}
+
+export function startGame(settingsIcon, startGameMessage) {
+    startGameMessage.style.display = 'none';
+    settingsIcon.classList.add('hidden');
+    return true;
+}
+
+// Ajoute un écouteur d'événement pour démarrer le jeu
+export function initializeGameStartListener(startGame) {
+    let gameStarted = false;
+    document.addEventListener('keydown', (e) => {
+        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
+            gameStarted = startGame();
+        }
+    });
+}
