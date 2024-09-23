@@ -32,9 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
     }
     document.addEventListener('keydown', (e) => {
-        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
+        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter'))
             startGame();
-        }
     });
 
     // Redirection buttons
@@ -54,18 +53,17 @@ document.addEventListener('DOMContentLoaded', function() {
     let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
     let ballSpeedX = gameSettings.ballSpeedX;
     let ballSpeedY = gameSettings.ballSpeedY;
-
   
     const paddleLeft = {
         x: 0,
-        y: 0,  // Will be set later in resizeCanvas
+        y: 0,
         width: 0,
         height: 0,
         dy: 0
     };
 
     const paddleRight = {
-        x: 0,  // Will be set later in resizeCanvas
+        x: 0,
         y: 0,
         width: 0,
         height: 0,
@@ -112,9 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.closePath();
     
         ctx.setLineDash([]); // Réinitialise les pointillés après avoir dessiné
-    }
-    
-    
+    }    
 
     function updateScore() {
         document.getElementById('player1Score').textContent = player1Score;
@@ -146,16 +142,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetBall() {
-        ball.x = canvas.width / 2;  // Centre la balle horizontalement
-        ball.y = canvas.height / 2;  // Centre la balle verticalement
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
     
-        // Remet la direction initiale de la balle (aléatoirement vers la gauche ou la droite)
-        ball.dx = Math.random() < 0.5 ? window.ballSpeedX : -window.ballSpeedX;
-        ball.dy = window.ballSpeedY * (Math.random() < 0.5 ? 1 : -1);  // Aléatoirement vers le haut ou le bas
+        const direction = Math.floor(Math.random() * 2);
     
-        ballOutOfBounds = false;  // Réinitialise l'état "hors-limites"
+        if (direction === 0)
+            ball.dx = -window.ballSpeedX;
+        else
+            ball.dx = window.ballSpeedX;
+    
+        const verticalDirection = Math.floor(Math.random() * 2);
+        if (verticalDirection === 0)
+            ball.dy = window.ballSpeedY;
+        else
+            ball.dy = -window.ballSpeedY;
+    
+        ballOutOfBounds = false;
     }
-    
     
     function handlePaddleCollision(ball, paddle) {
         const paddleCenter = paddle.y + paddle.height / 2;
