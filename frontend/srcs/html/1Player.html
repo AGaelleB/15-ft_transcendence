@@ -25,7 +25,46 @@
     <div id="settingsModal" class="settings-modal">
         <div class="settings-content">
             <h2>Game Settings</h2>
-            <p>Here you can adjust the game settings.</p>
+            <div class="wrapper">
+                <div class="wrapper">
+                    <!-- Slider pour Game: 2D / 3D -->
+                    <div class="slide-controls-2d-3d">
+                        <input type="radio" name="game-mode" id="game2d" checked>
+                        <input type="radio" name="game-mode" id="game3d">
+                        <label for="game2d" class="slide">2D</label>
+                        <label for="game3d" class="slide">3D</label>
+                        <div class="slider-tab"></div>
+                    </div>
+                
+                    <!-- Slider pour Bot Level: Novice / Intermediate / Expert -->
+                    <div class="slide-controls-bot-level">
+                        <input type="radio" name="bot-level" id="novice" checked>
+                        <input type="radio" name="bot-level" id="intermediate">
+                        <input type="radio" name="bot-level" id="expert">
+                        <label for="novice" class="slide">Novice</label>
+                        <label for="intermediate" class="slide">Intermediate</label>
+                        <label for="expert" class="slide">Expert</label>
+                        <div class="slider-tab"></div>
+                    </div>
+                </div>                             
+                <div class="slider-container">
+                    <label for="ballSpeed" class="slider-label">Ball Speed</label>
+                    <input type="range" id="ballSpeed" name="ballSpeed" min="1" max="10" value="5">
+                </div>
+                
+                <div class="slider-container">
+                    <label for="paddleSpeed" class="slider-label">Paddle Speed</label>
+                    <input type="range" id="paddleSpeed" name="paddleSpeed" min="1" max="10" value="5">
+                </div>                          
+                <div class="checkbox-container">
+                    <input type="checkbox" id="resetPaddlePosition" name="resetPaddlePosition">
+                    <label for="resetPaddlePosition">Reset paddles after each point</label>
+                </div>                
+                <div class="increment-container">
+                    <label for="pointsToWin">Points to Win</label>
+                    <input type="number" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
+                </div>                                
+            </div>            
             <button id="closeSettings" class="btn btn-primary">Close</button>
         </div>
     </div>    

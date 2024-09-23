@@ -41,16 +41,16 @@ document.addEventListener('DOMContentLoaded', function() {
     homeButton.addEventListener('click', function() {
         window.location.href = 'homeScreen.html';
     });
-
+    
     againButton.addEventListener('click', function() {
         window.location.href = '1Player.html';
     });
-
+    
     // Initialize game objects using gameSettings
-    let paddleWidth = gameSettings.canvasWidth * gameSettings.paddleWidthFactor;
-    let paddleHeight = gameSettings.canvasHeight * gameSettings.paddleHeightFactor;
-    let ballSize = gameSettings.canvasWidth * gameSettings.ballSizeFactor;
-
+    let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
+    let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
+    let ballSize = canvas.width * gameSettings.ballSizeFactor;
+    
     let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
     let ballSpeedX = gameSettings.ballSpeedX;
     let ballSpeedY = gameSettings.ballSpeedY;
@@ -97,22 +97,23 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.closePath();
     }
 
-    function drawDottedLine() {
-        const lineWidth = gameSettings.canvasWidth * 0.016;
-        const gap = gameSettings.canvasHeight * 0.04;
+    function drawDottedLine(canvas) {
+        const lineWidth = canvas.width * 0.016;
+        const gap = canvas.height * 0.04;
     
         ctx.strokeStyle = '#a16935';
         ctx.lineWidth = lineWidth;
         ctx.setLineDash([lineWidth, gap]);
     
         ctx.beginPath();
-        ctx.moveTo(gameSettings.canvasWidth / 2, 0);
-        ctx.lineTo(gameSettings.canvasWidth / 2, gameSettings.canvasHeight);
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(canvas.width / 2, canvas.height);
         ctx.stroke();
         ctx.closePath();
     
-        ctx.setLineDash([]);
+        ctx.setLineDash([]); // Réinitialise les pointillés après avoir dessiné
     }
+    
     
 
     function updateScore() {
@@ -145,13 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetBall() {
-        ball.x = gameSettings.canvasWidth / 2;
-        ball.y = gameSettings.canvasHeight / 2;
+        ball.x = canvas.width / 2;  // Centre la balle horizontalement
+        ball.y = canvas.height / 2;  // Centre la balle verticalement
     
-        ball.dx = gameSettings.ballSpeedX;
-        ball.dy = gameSettings.ballSpeedY;
+        // Remet la direction initiale de la balle (aléatoirement vers la gauche ou la droite)
+        ball.dx = Math.random() < 0.5 ? window.ballSpeedX : -window.ballSpeedX;
+        ball.dy = window.ballSpeedY * (Math.random() < 0.5 ? 1 : -1);  // Aléatoirement vers le haut ou le bas
     
-        ballOutOfBounds = false;
+        ballOutOfBounds = false;  // Réinitialise l'état "hors-limites"
     }
     
     
@@ -187,9 +189,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Ball collision with bottom wall
-        if (ball.y + ball.size > gameSettings.canvasHeight) {
+        if (ball.y + ball.size > canvas.height) {
             ball.dy = -ball.dy;
-            ball.y = gameSettings.canvasHeight - ball.size;
+            ball.y = canvas.height - ball.size;
         }
 
         // Ball collision with left paddle (Player 1)
@@ -222,13 +224,14 @@ document.addEventListener('DOMContentLoaded', function() {
             resetBall();
         }
     
-        ctx.clearRect(0, 0, gameSettings.canvasWidth, gameSettings.canvasHeight);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         drawPaddle(paddleLeft);
-        drawDottedLine();
+        drawDottedLine(canvas);
         drawPaddle(paddleRight);
         drawBall();
     
-        moveComputerPaddle(ball, paddleRight);
+        moveComputerPaddle(ball, paddleRight, canvas);
     }
 
     const keys = {};
@@ -245,9 +248,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updatePaddleDirection() {
         if (keys['ArrowUp'])
-            paddleLeft.dy = -window.paddleSpeed;  // Use window.paddleSpeed for consistency
+            paddleLeft.dy = -window.paddleSpeed;
         else if (keys['ArrowDown'])
-            paddleLeft.dy = window.paddleSpeed;  // Use window.paddleSpeed for consistency
+            paddleLeft.dy = window.paddleSpeed;
         else
             paddleLeft.dy = 0;
     }
@@ -257,8 +260,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
-        if (paddleLeft.y > gameSettings.canvasHeight - paddleLeft.height)
-            paddleLeft.y = gameSettings.canvasHeight - paddleLeft.height;
+        if (paddleLeft.y > canvas.height - paddleLeft.height)
+            paddleLeft.y = canvas.height - paddleLeft.height; 
     }
     
 
@@ -278,6 +281,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         requestAnimationFrame(gameLoop);
     }
-
     gameLoop(); // Start the game loop
 });

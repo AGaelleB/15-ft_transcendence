@@ -5,8 +5,6 @@ export const gameSettings = {
     // Canvas dimensions
     canvasWidthFactor: 0.9,
     aspectRatio: 16 / 9, 
-    canvasWidth: 650,
-    canvasHeight: 350,
 
     // Paddle 
     paddleWidthFactor: 0.035,
@@ -17,8 +15,8 @@ export const gameSettings = {
 
     // Speed of the game
     paddleSpeedFactor: 0.05,
-    ballSpeedX: 7,
-    ballSpeedY: 7,
+    ballSpeedX: 1,
+    ballSpeedY: 1,
 
     // IA speed
     aiSpeedFactor: 0.9,
