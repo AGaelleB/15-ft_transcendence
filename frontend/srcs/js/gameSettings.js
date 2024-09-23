@@ -5,8 +5,8 @@ export const gameSettings = {
     // Canvas dimensions
     canvasWidthFactor: 0.9,
     aspectRatio: 16 / 9, 
-    canvasWidth: 850,
-    canvasHeight: 450,
+    canvasWidth: 650,
+    canvasHeight: 350,
 
     // Paddle 
     paddleWidthFactor: 0.035,
