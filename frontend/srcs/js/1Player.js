@@ -13,10 +13,19 @@ import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
-
     const startGameMessage = document.getElementById('startGameMessage');
 
     let gameStarted = false;
+
+    let player1Score = 0;
+    let player2Score = 0;
+
+    function updateScore() {
+        const winningScore = gameSettings.winningScore;
+        document.getElementById('player1Score').textContent = `${player1Score} / ${winningScore}`;
+        document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;
+    }
+    updateScore();
 
     initializeButton();
 
@@ -65,14 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         dy: 0
     };
 
-    let player1Score = 0;
-    let player2Score = 0;
     let ballOutOfBounds = false;
-
-    function updateScore() {
-        document.getElementById('player1Score').textContent = player1Score;
-        document.getElementById('player2Score').textContent = player2Score;
-    }
 
     function showWinMessage(winner) {
         const winnerMessage = document.querySelector('.message');
