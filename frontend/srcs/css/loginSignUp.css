@@ -224,7 +224,7 @@ form .btn input[type="submit"] {
 .option-button::before {
   content: '';
   position: absolute;
-  left: -calc(1.5vw + 1.5vh);
+  left: calc(-0.8vw);;
   top: 50%;
   transform: translateY(-50%);
   width: 0;

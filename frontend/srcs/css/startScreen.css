@@ -72,14 +72,14 @@ body {
 .option-button::before {
     content: '';
     position: absolute;
-    left: -25px;
+    left: calc(-2vw);
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
-    border-top: calc(2vw + 2vh) solid transparent;
-    border-bottom: calc(2vw + 2vh) solid transparent;
-    border-left: calc(2vw + 2vh) solid #ffcc00;
+    border-top: calc(1.2vw + 1.2vh) solid transparent;
+    border-bottom: calc(1.2vw + 1.2vh) solid transparent;
+    border-left: calc(1.2vw + 1.2vh) solid #ffcc00;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
