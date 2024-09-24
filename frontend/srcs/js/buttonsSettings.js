@@ -167,7 +167,7 @@ export function resetGame() {
 // Fonction pour ajouter l'écouteur de démarrage du jeu avec les touches
 export function initializeGameStartListener(startGameMessage, settingsIcon) {
     document.addEventListener('keydown', (e) => {
-        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
+        if (!gameStarted && !isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
             startGame(startGameMessage, settingsIcon);
             console.log('Game started with keyboard.');
         }
