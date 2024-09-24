@@ -1,4 +1,4 @@
-// buttonsSettings.js
+// frontend/srcs/js/buttonsSettings.js
 
 import { gameSettings } from './gameSettings.js';
 import { updateScore } from './score.js';
@@ -99,8 +99,19 @@ export function initializeButton() {
     // Bouton "Play Again" redirige pour rejouer une partie
     againButton.addEventListener('click', function() {
         saveGameSettings();
-        window.location.href = '1Player.html';
+    
+        const gameMode = localStorage.getItem('gameMode');
+    
+        if (gameMode === '1 PLAYER')
+            window.location.href = '1Player.html';
+        else if (gameMode === '2 PLAYERS')
+            window.location.href = '2Players.html';
+        else if (gameMode === 'MULTI PLAYERS')
+            window.location.href = 'multiPlayers.html';
+        else
+            console.error('Error: Mode de jeu non défini');
     });
+     
 
     updateScore();
 

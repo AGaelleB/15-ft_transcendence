@@ -7,11 +7,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateSelection() {
         menuItems.forEach((item, index) => {
-            if (index === currentIndex) {
+            if (index === currentIndex)
                 item.parentElement.classList.add('selected');
-            } else {
+            else
                 item.parentElement.classList.remove('selected');
-            }
         });
     }
 
@@ -26,8 +25,13 @@ document.addEventListener("DOMContentLoaded", function() {
             keyboardNavigationEnabled = true;
         });
 
-        item.addEventListener('click', function() {
-            item.click();
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const mode = item.innerText.trim();  // "1 PLAYER", "2 PLAYERS", "MULTI PLAYERS"
+            localStorage.setItem('gameMode', mode);
+
+            window.location.href = item.getAttribute('href');
         });
     });
 
@@ -41,7 +45,12 @@ document.addEventListener("DOMContentLoaded", function() {
             currentIndex--;
             updateSelection();
         } else if (event.key === 'Enter') {
-            menuItems[currentIndex].click();
+            const selectedItem = menuItems[currentIndex];
+
+            const mode = selectedItem.innerText.trim();
+            localStorage.setItem('gameMode', mode);
+
+            window.location.href = selectedItem.getAttribute('href');
         }
     });
 
