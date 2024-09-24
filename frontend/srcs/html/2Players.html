@@ -51,13 +51,18 @@
                 </div>                             
                 <div class="slider-container">
                     <label for="ballSpeed" class="slider-label">Ball Speed</label>
-                    <input type="range" id="ballSpeed" name="ballSpeed" min="1" max="10" value="5">
+                    <div class="slider-wrapper">
+                        <input type="range" id="ballSpeed" name="ballSpeed" min="1" max="10" value="5">
+                        <span id="ballSpeedValue" class="slider-value">5</span>
+                    </div>
                 </div>
-
                 <div class="slider-container">
                     <label for="paddleSpeed" class="slider-label">Paddle Speed</label>
-                    <input type="range" id="paddleSpeed" name="paddleSpeed" min="1" max="10" value="5">
-                </div>                          
+                    <div class="slider-wrapper">
+                        <input type="range" id="paddleSpeed" name="paddleSpeed" min="1" max="10" value="5">
+                        <span id="paddleSpeedValue" class="slider-value">5</span>
+                    </div>
+                </div>                                        
                 <div class="checkbox-container">
                     <input type="checkbox" id="resetPaddlePosition" name="resetPaddlePosition">
                     <label for="resetPaddlePosition">Reset paddles after each point</label>
