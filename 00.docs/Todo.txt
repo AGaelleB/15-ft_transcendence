@@ -5,6 +5,7 @@
 
 - refaire le bot en lisant bien le sujet
 
+- faire un mini chrono 3, 2, 1 GO et la nouvelle balle se lance
 
 ************************************ PAGES A CREER ************************************
 
