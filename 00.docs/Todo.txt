@@ -1,6 +1,6 @@
 **************************************** TO DO ****************************************
 
- -dans l'affichage mettre les point en mode 1/X =?
+ - dans l'affichage mettre les point en mode 1/X =?
     -> bug si j augmente le score la partie continue en arriere plan
 
 - refaire le bot en lisant bien le sujet
@@ -30,6 +30,6 @@ Minor module: Use a front-end framework or toolkit.
 Minor module: Game Customization Options.
 Minor module: User and Game Stats Dashboards
 
-Major module: Use of advanced 3D techniques.
 Major module: Implement Two-Factor Authentication (2FA) and JWT.
+Major module: Use of advanced 3D techniques.
 Major module: Introduce an AI Opponent 
