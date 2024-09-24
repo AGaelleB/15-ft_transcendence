@@ -5,6 +5,7 @@ import { resizeCanvas } from './resizeCanvas.js';
 import { moveComputerPaddle } from './computerIA.js';
 import { gameSettings } from './gameSettings.js';
 import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
+import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from './ballCollision.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -14,6 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let player1Score = 0;
     let player2Score = 0;
+
+    const setPlayer1Score = (value) => {
+        player1Score = value;
+        updateScore();
+    };
+
+    const setPlayer2Score = (value) => {
+        player2Score = value;
+        updateScore();
+    };
 
     function updateScore() {
         const winningScore = gameSettings.winningScore;
@@ -95,23 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ballOutOfBounds = false;
     }
     
-    function handlePaddleCollision(ball, paddle) {
-        const paddleCenter = paddle.y + paddle.height / 2;
-        const ballDistanceFromCenter = ball.y - paddleCenter;
-    
-        // Calculate the ratio of how far from the center the ball hit
-        const impactRatio = ballDistanceFromCenter / (paddle.height / 2);
-    
-        // Adjust the ball's vertical speed based on the impact ratio
-        const maxBounceAngle = Math.PI / 4;
-        const bounceAngle = impactRatio * maxBounceAngle;
-    
-        // Adjust the ball's dx and dy based on the new bounce angle
-        const speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy); 
-        ball.dx = speed * Math.cos(bounceAngle) * Math.sign(ball.dx); 
-        ball.dy = speed * Math.sin(bounceAngle);
-    }
-
     function update() {
         const gameEnded = checkGameEnd(player1Score, player2Score);
         if (gameEnded)
@@ -120,46 +114,14 @@ document.addEventListener('DOMContentLoaded', function() {
         ball.x += ball.dx;
         ball.y += ball.dy;
     
-        // Ball collision with top wall
-        if (ball.y - ball.size < 0) {
-            ball.dy = -ball.dy;
-            ball.y = ball.size;
-        }
-
-        // Ball collision with bottom wall
-        if (ball.y + ball.size > canvas.height) {
-            ball.dy = -ball.dy;
-            ball.y = canvas.height - ball.size;
-        }
-
-        // Ball collision with left paddle (Player 1)
-        if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
-            ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
-            ball.dx = -ball.dx;
-            ball.x = paddleLeft.x + paddleLeft.width + ball.size;
-            handlePaddleCollision(ball, paddleLeft);
-        }
-
-        // Ball collision with right paddle (AI or Player 2)
-        if (ball.x + ball.size > paddleRight.x &&
-            ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
-            ball.dx = -ball.dx;
-            ball.x = paddleRight.x - ball.size;
-            handlePaddleCollision(ball, paddleRight);
-        }
-
-        // Ball out of bounds and scoring logic
-        if (ball.x - ball.size < 0 && !ballOutOfBounds) {
-            player2Score++;
-            updateScore();
-            ballOutOfBounds = true;
-            resetBall();
-        }
-        else if (ball.x + ball.size > gameSettings.canvasWidth && !ballOutOfBounds) {
-            player1Score++;
-            updateScore();
-            ballOutOfBounds = true;
-            resetBall();
+        // collisions logic
+        handleWallCollision(ball, canvas);
+        checkPaddleCollision(ball, paddleLeft, paddleRight, () => { ballOutOfBounds = false; });
+        // incrementation des scores
+        if (checkBallOutOfBounds(ball, canvas, 
+            () => setPlayer1Score(player1Score + 1), 
+            () => setPlayer2Score(player2Score + 1))) {
+        resetBall();
         }
     
         ctx.clearRect(0, 0, canvas.width, canvas.height);
