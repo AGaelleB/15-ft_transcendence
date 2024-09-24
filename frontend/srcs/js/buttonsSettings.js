@@ -19,6 +19,16 @@ function loadGameSettings() {
     }
 }
 
+function updateSliderValuePosition(sliderId, spanId, multiplier, offset) {
+    const slider = document.getElementById(sliderId);
+    const sliderValue = document.getElementById(spanId);
+    const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+
+    // Met à jour la position et le texte de la valeur
+    sliderValue.textContent = slider.value * multiplier;
+    sliderValue.style.left = `calc(${value}% + (${offset - value * 0.3}px))`;
+}
+
 // Mettre à jour l'affichage des curseurs et des paramètres à l'ouverture de la page
 function updateUIWithGameSettings() {
     document.getElementById('ballSpeed').value = gameSettings.ballSpeedX * 4;
@@ -37,6 +47,10 @@ function updateUIWithGameSettings() {
         document.getElementById('intermediate').checked = true;
     else if (gameSettings.aiSpeedFactor === 1.2)
         document.getElementById('expert').checked = true;
+
+    // Mettre à jour la position des valeurs des curseurs
+    updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
+    updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
 }
 
 loadSettingsOnPageLoad();  // Charger les paramètres depuis localStorage au démarrage
@@ -50,55 +64,35 @@ export function initializeButton() {
 
     settingsModal.style.display = 'none';
 
-    // Ouvre le modal des paramètres
     settingsIcon.addEventListener('click', () => {
         document.querySelector('.settings-modal-container').classList.add('active');
         settingsModal.style.display = 'flex';
         updateUIWithGameSettings();
         isSettingsOpen = true;
-        console.log("Settings opened: isSettingsOpen =", isSettingsOpen);
     });
 
-    // Ferme le modal des paramètres et sauvegarde les nouveaux paramètres
     closeSettingsButton.addEventListener('click', () => {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings();
         isSettingsOpen = false;
-        console.log("Settings closed: isSettingsOpen =", isSettingsOpen);
     });
 
     updateScore();
-
-    // Empêche la propagation de l'événement Enter/Space lorsque les paramètres sont ouverts
-    settingsModal.addEventListener('keydown', (e) => {
-        if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
-            console.log("Preventing Enter/Space key press in settings modal");
-            e.stopPropagation();
-            e.preventDefault();
-        }
-    });
-
-    // Bouton "Home" redirige vers l'écran d'accueil
-    homeButton.addEventListener('click', function() {
-        window.location.href = 'homeScreen.html';
-    });
-
-    // Bouton "Play Again" redirige pour rejouer une partie
-    againButton.addEventListener('click', function() {
-        saveGameSettings();
-        window.location.href = '1Player.html';
-    });
 
     document.getElementById('ballSpeed').addEventListener('input', function (event) {
         const ballSpeed = Number(event.target.value);
         gameSettings.ballSpeedX = ballSpeed / 4;
         gameSettings.ballSpeedY = ballSpeed / 4;
+        
+        updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
     });
-
+    
     document.getElementById('paddleSpeed').addEventListener('input', function (event) {
         const paddleSpeed = Number(event.target.value);
         gameSettings.paddleSpeedFactor = paddleSpeed / 200;
+    
+        updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
     });
 
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
@@ -140,6 +134,7 @@ export function initializeButton() {
         }
     });
 }
+
 
 // Charger les paramètres lors de l'initialisation de la page
 export function loadSettingsOnPageLoad() {
