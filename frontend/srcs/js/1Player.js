@@ -6,6 +6,7 @@ import { moveComputerPaddle } from './computerIA.js';
 import { gameSettings } from './gameSettings.js';
 import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
 import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from './ballCollision.js';
+import { checkGameEnd } from './score.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -70,21 +71,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let ballOutOfBounds = false;
 
-    function checkGameEnd(player1Score, player2Score) {
-        const winningScore = gameSettings.winningScore;
+    // function checkGameEnd(player1Score, player2Score) {
+    //     const winningScore = gameSettings.winningScore;
     
-        if (player1Score >= winningScore) {
-            showWinMessage(1);
-            settingsIcon.classList.remove('hidden');
-            return true;
-        }
-        else if (player2Score >= winningScore) {
-            showWinMessage(2);
-            settingsIcon.classList.remove('hidden');
-            return true;
-        }
-        return false;
-    }
+    //     if (player1Score >= winningScore) {
+    //         showWinMessage(1);
+    //         settingsIcon.classList.remove('hidden');
+    //         return true;
+    //     }
+    //     else if (player2Score >= winningScore) {
+    //         showWinMessage(2);
+    //         settingsIcon.classList.remove('hidden');
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     function resetBall() {
         ball.x = canvas.width / 2;

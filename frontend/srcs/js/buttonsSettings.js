@@ -1,4 +1,4 @@
-// buttonsSettings.js
+// frontend/srcs/js/buttonsSettings.js
 
 import { gameSettings } from './gameSettings.js';
 
