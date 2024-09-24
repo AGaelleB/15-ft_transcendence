@@ -5,9 +5,6 @@
 
 - refaire le bot en lisant bien le sujet
 
-- voir pour buttonsSettings.js pour que ca redirige vers IA ou 2 players en fonction
-
-
 
 ************************************ PAGES A CREER ************************************
 
