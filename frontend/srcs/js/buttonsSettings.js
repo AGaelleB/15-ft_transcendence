@@ -1,4 +1,4 @@
-// frontend/srcs/js/buttonsSettings.js
+// buttonsSettings.js
 
 import { gameSettings } from './gameSettings.js';
 
@@ -51,6 +51,7 @@ export function initializeButton() {
 
     // Ouvre le modal des paramètres
     settingsIcon.addEventListener('click', () => {
+        document.querySelector('.settings-modal-container').classList.add('active');
         settingsModal.style.display = 'flex';
         updateUIWithGameSettings();
         isSettingsOpen = true;
@@ -59,6 +60,7 @@ export function initializeButton() {
 
     // Ferme le modal des paramètres et sauvegarde les nouveaux paramètres
     closeSettingsButton.addEventListener('click', () => {
+        document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings();
         isSettingsOpen = false;

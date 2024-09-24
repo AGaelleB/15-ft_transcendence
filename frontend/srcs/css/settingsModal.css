@@ -1,353 +1,371 @@
 ::selection {
-    background: #302a66;
-    color: #a16935;
+  background: #302a66;
+  color: #a16935;
 }
 
+/* Conteneur pour centrer la modale sans effet flou */
+.settings-modal-container {
+display: flex;
+justify-content: center;
+align-items: center;
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+padding: calc(5vh); /* Marge dynamique en fonction de la hauteur de l'écran */
+}
+
+.settings-modal-container.active {
+display: flex; /* Montre la modale lorsque la classe "active" est ajoutée */
+background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+z-index: 2000; /* Assurer que le conteneur est visible au-dessus de tout */
+}
+
+/* Assurer que la modale est visible au-dessus du flou */
 .settings-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: calc(60vw + 10vh);
-    height: auto;
-    max-width: 2400px;
-    z-index: 2001;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: calc(2vw + 2vh);
-    border-radius: calc(1vw + 1vh);
-    color: #a16935;
-    text-align: center;
-    font-family: 'Jersey', sans-serif;
-    box-sizing: border-box;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    background-color: rgba(47, 33, 58, 1);
+z-index: 2001;
+width: calc(50vw + 5vh);
+height: auto;
+max-height: 80vh;
+max-width: 1200px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
+padding: calc(0.1vw + 0.1vh);
+border-radius: calc(1vw + 1vh);
+color: #a16935;
+text-align: center;
+font-family: 'Jersey', sans-serif;
+box-sizing: border-box;
+box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+background-color: rgba(47, 33, 58, 1);
 }
 
 .settings-content {
-    background-color: #2f213a;
-    padding: 20px;
-    border-radius: 10px;
-    color: #a16935;
-    text-align: center;
-    font-family: 'Jersey', sans-serif;
-    height: auto;
-    width: 100%;
+background-color: #2f213a;
+padding: calc(0.1vw + 0.1vh); /* Réduction du padding interne */
+border-radius: 10px;
+color: #a16935;
+text-align: center;
+font-family: 'Jersey', sans-serif;
+width: 90%;
+flex-grow: 1;
+overflow-y: auto;
 }
 
-
 .settings-icon {
-    position: fixed;
-    top: calc(5vw + 5vh);
-    right: calc(8vw + 8vh);
-    font-size: calc(2vw + 2vh);
-    color: #ffcc00;
-    cursor: pointer;
-    z-index: 1000;
+  position: fixed;
+  top: calc(5vw + 5vh);
+  right: calc(8vw + 8vh);
+  font-size: calc(2vw + 2vh);
+  color: #ffcc00;
+  cursor: pointer;
+  z-index: 3000;
 }
 
 /* Style général des boutons */
 .btn {
-    background-color: #2f213a;
-    color: #a16935;
-    border: none;
-    outline: none;
-    font-family: 'Jersey', sans-serif;
-    padding: 10px 20px;
-    transition: all 0.2s ease;
+  background-color: #2f213a;
+  color: #a16935;
+  border: none;
+  outline: none;
+  font-family: 'Jersey', sans-serif;
+  margin: calc(0.2vw + 0.2vh); /* Réduction de l'espace entre les boutons */
+  padding: calc(0.4vw + 0.4vh); /* Réduction du padding du bouton */
+  transition: all 0.2s ease;
 }
 
 /* Supprime l'outline au survol et au focus */
 .btn:hover, .btn:focus {
-    background-color: #2f213a;
-    color: #a16935;
-    box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
-    transform: translate(calc(-0.4vw), calc(-0.4vh));
-    outline: none;
-    border: none;
+  background-color: #2f213a;
+  color: #a16935;
+  box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+  transform: translate(calc(-0.4vw), calc(-0.4vh));
+  outline: none;
+  border: none;
 }
 
 .btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
-    background-color: #2f213a !important;
-    color: #a16935 !important;
+  background-color: #2f213a !important;
+  color: #a16935 !important;
 }
 
 /* Effet lorsque le bouton est pressé */
 .btn:active {
-    background-color: #2f213a;
-    color: #a16935;
-    box-shadow: none;
-    transform: translate(0, 0);
-    outline: none;
-    border: none;
+  background-color: #2f213a;
+  color: #a16935;
+  box-shadow: none;
+  transform: translate(0, 0);
+  outline: none;
+  border: none;
 }
-  
+
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 .wrapper {
-  overflow: hidden;
-  max-width: 100%;
-  border-radius: 0;
-  box-shadow: none;
+overflow: hidden;
+max-width: 100%;
+border-radius: 0;
+box-shadow: none;
 }
 
 /* Slide controls for 2D/3D */
 .slide-controls-2d-3d {
-  position: relative;
-  display: flex;
-  height: 5vh;
-  width: 100%;
-  overflow: hidden;
-  margin: calc(3vw + 3vh) 0 calc(1vw + 1vh) 0;
-  justify-content: space-between;
-  border-radius: 0;
+position: relative;
+display: flex;
+height: 5vh;
+width: 100%;
+overflow: hidden;
+margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
+justify-content: space-between;
+border-radius: 0;
 }
 
 .slide-controls-2d-3d .slide {
-  height: 100%;
-  width: 100%;
-  color: #a16935;
-  font-size: calc(1vw + 2vh);
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
-  z-index: 1;
-  transition: all 0.6s ease;
+height: 100%;
+width: 100%;
+color: #a16935;
+font-size: calc(1vw + 2vh);
+font-weight: 500;
+text-align: center;
+cursor: pointer;
+z-index: 1;
+transition: all 0.6s ease;
 }
 
 .slide-controls-2d-3d .slider-tab {
-  position: absolute;
-  height: 100%;
-  width: 50%;
-  left: 0;
-  z-index: 0;
-  border-radius: 0;
-  background: #a16935;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+position: absolute;
+height: 100%;
+width: 50%;
+left: 0;
+z-index: 0;
+border-radius: 0;
+background: #a16935;
+transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 #game3d:checked ~ .slider-tab {
-  left: 50%;
+left: 50%;
 }
 
 #game3d:checked ~ label[for="game3d"],
 #game2d:checked ~ label[for="game2d"] {
-  color: #302a66;
-  cursor: default;
-  user-select: none;
+color: #302a66;
+cursor: default;
+user-select: none;
 }
 
 #game3d:checked ~ label[for="game2d"],
 #game2d:checked ~ label[for="game3d"] {
-  color: #a16935;
+color: #a16935;
 }
 
 input[type="radio"] {
-  display: none;
+display: none;
 }
 
 /* Slide controls for Bot Level */
 .slide-controls-bot-level {
-  position: relative;
-  display: flex;
-  height: 5vh;
-  width: 100%;
-  overflow: hidden;
-  margin: calc(3vw + 3vh) 0 calc(1vw + 1vh) 0;
-  justify-content: space-between;
-  border-radius: 0;
+position: relative;
+display: flex;
+height: 5vh;
+width: 100%;
+overflow: hidden;
+margin: calc(1vw + 1vh) 0 calc(0.5vw + 0.5vh) 0;
+justify-content: space-between;
+border-radius: 0;
 }
 
 .slide-controls-bot-level .slide {
-  height: 100%;
-  width: 100%;
-  color: #a16935;
-  font-size: calc(1vw + 2vh);
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
-  z-index: 1;
-  transition: all 0.6s ease;
+height: 100%;
+width: 100%;
+color: #a16935;
+font-size: calc(1vw + 2vh);
+font-weight: 500;
+text-align: center;
+cursor: pointer;
+z-index: 1;
+transition: all 0.6s ease;
 }
 
 .slide-controls-bot-level .slider-tab {
-  position: absolute;
-  height: 100%;
-  width: 33.33%;
-  left: 0;
-  z-index: 0;
-  border-radius: 0;
-  background: #a16935;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+position: absolute;
+height: 100%;
+width: 33.33%;
+left: 0;
+z-index: 0;
+border-radius: 0;
+background: #a16935;
+transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 #intermediate:checked ~ .slider-tab {
-  left: 33.33%;
+left: 33.33%;
 }
 
 #expert:checked ~ .slider-tab {
-  left: 66.66%;
+left: 66.66%;
 }
 
 #expert:checked ~ label[for="expert"],
 #intermediate:checked ~ label[for="intermediate"],
 #novice:checked ~ label[for="novice"] {
-  color: #302a66;
-  cursor: default;
-  user-select: none;
+color: #302a66;
+cursor: default;
+user-select: none;
 }
 
 #expert:checked ~ label[for="novice"],
 #intermediate:checked ~ label[for="novice"],
 #novice:checked ~ label[for="intermediate"],
 #expert:checked ~ label[for="intermediate"] {
-  color: #a16935;
+color: #a16935;
 }
 
 /* Curseur pour ajuster la vitesse */
 /* Conteneur général pour chaque curseur */
 .slider-container {
-    display: flex; /* Utilisation de flexbox */
-    align-items: center; /* Aligne verticalement le curseur et le label */
-    justify-content: space-between; /* Assure un espacement égal entre le label et le curseur */
-    margin: calc(1vw + 1vh) 0;
-    color: #a16935;
-    font-family: 'Jersey', sans-serif;
+  display: flex; /* Utilisation de flexbox */
+  align-items: center; /* Aligne verticalement le curseur et le label */
+  justify-content: space-between; /* Assure un espacement égal entre le label et le curseur */
+  margin: calc(0.5vw + 0.5vh) 0;
+  color: #a16935;
+  font-family: 'Jersey', sans-serif;
 }
 
 /* Conteneur pour le label du curseur */
 .slider-label {
-    flex: 0 0 25%; /* Largeur fixe pour aligner les labels à gauche */
-    text-align: right; /* Aligne le texte à droite pour que les labels soient proches du curseur */
-    padding-right: 20px; /* Espacement entre le label et le curseur */
+  flex: 0 0 25%; /* Largeur fixe pour aligner les labels à gauche */
+  text-align: right; /* Aligne le texte à droite pour que les labels soient proches du curseur */
+  padding-right: 20px; /* Espacement entre le label et le curseur */
 }
 
 /* Curseur */
 /* Style du curseur avec la valeur à l'intérieur */
 input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 80%;
-    background: #302a66;
-    height: calc(0.8vw + 0.8vh);
-    border-radius: 10px;
-    cursor: pointer;
-    margin-left: 20px;
-    position: relative; /* Nécessaire pour le positionnement du texte */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80%;
+  background: #302a66;
+  height: calc(0.8vw + 0.8vh);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 20px;
+  position: relative; /* Nécessaire pour le positionnement du texte */
 }
 
 input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: calc(1vw + 3vh); /* Augmente la taille du curseur */
-    height: calc(1vw + 3vh);
-    background-color: #a16935;
-    border: 2px solid #302a66;
-    border-radius: 50%;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  width: calc(1vw + 3vh); /* Augmente la taille du curseur */
+  height: calc(1vw + 3vh);
+  background-color: #a16935;
+  border: 2px solid #302a66;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb::after {
-    content: attr(data-value); /* Insère la valeur actuelle */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff; /* Couleur du texte */
-    font-size: calc(1vw + 0.5vh); /* Taille du texte proportionnelle */
-    font-family: 'Jersey', sans-serif;
+  content: attr(data-value); /* Insère la valeur actuelle */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff; /* Couleur du texte */
+  font-size: calc(1vw + 0.5vh); /* Taille du texte proportionnelle */
+  font-family: 'Jersey', sans-serif;
 }
 
 /* Style pour Firefox */
 input[type="range"]::-moz-range-thumb {
-    width: calc(2vw + 2vh);
-    height: calc(2vw + 2vh);
-    background-color: #a16935;
-    border: 2px solid #302a66;
-    border-radius: 50%;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  width: calc(2vw + 2vh);
+  height: calc(2vw + 2vh);
+  background-color: #a16935;
+  border: 2px solid #302a66;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 input[type="range"]::-moz-range-thumb::after {
-    content: attr(data-value);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: calc(1vw + 0.5vh);
-    font-family: 'Jersey', sans-serif;
+  content: attr(data-value);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: calc(1vw + 0.5vh);
+  font-family: 'Jersey', sans-serif;
 }
 
 
 /* Apparence de la barre du curseur dans Firefox */
 input[type="range"] {
-    background: #302a66; /* Couleur de la barre */
-    height: calc(0.8vw + 0.8vh); /* Hauteur de la barre */
-    border-radius: 10px;
+  background: #302a66; /* Couleur de la barre */
+  height: calc(0.8vw + 0.8vh); /* Hauteur de la barre */
+  border-radius: 10px;
 }
 
 /* Case à cocher pour la réinitialisation des raquettes */
 .checkbox-container {
-    position: relative;
-    display: inline-block;
-    margin: calc(1vw + 1vh) 0;
-    text-align: center;
-    color: #a16935;
-    font-family: 'Jersey', sans-serif;
+  position: relative;
+  display: inline-block;
+  margin: calc(0.5vw + 1vh) 0;
+  text-align: center;
+  color: #a16935;
+  font-family: 'Jersey', sans-serif;
 }
 
 input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    position: relative;
-    cursor: pointer;
-    width: calc(1vw + 1vh);
-    height: calc(1vw + 1vh);
-    background-color: #302a66;
-    border: 2px solid #a16935;
-    border-radius: 5px;
-    transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  cursor: pointer;
+  width: calc(1vw + 1vh);
+  height: calc(1vw + 1vh);
+  background-color: #302a66;
+  border: 2px solid #a16935;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 input[type="checkbox"]:checked {
-    background-color: #a16935;
-    border-color: #302a66;
+  background-color: #a16935;
+  border-color: #302a66;
 }
 
 input[type="checkbox"]:checked::after {
-    content: '\2714';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffffff;
-    font-size: calc(1.5vw + 1.5vh);
+  content: '\2714';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: calc(1.5vw + 1.5vh);
 }
 
 
 /* Incrémentation des points pour gagner */
 .increment-container {
-    margin: calc(1vw + 1vh) 0;
-    text-align: center;
-    color: #a16935;
-    font-family: 'Jersey', sans-serif;
+  margin: calc(0.5vw + 0.5vh) 0;
+  text-align: center;
+  color: #a16935;
+  font-family: 'Jersey', sans-serif;
 }
 
 input[type="number"] {
-    width: calc(2vw + 4vh);
-    padding: calc(0.5vw + 0.5vh);
-    text-align: center;
-    background-color: #302a66;
-    color: #a16935;
-    border: none;
-    outline: none;
-    font-size: calc(1vw + 1vh);
+  width: calc(2vw + 4vh);
+  padding: calc(0.5vw + 0.5vh);
+  text-align: center;
+  background-color: #302a66;
+  color: #a16935;
+  border: none;
+  outline: none;
+  font-size: calc(1vw + 1vh);
 }
