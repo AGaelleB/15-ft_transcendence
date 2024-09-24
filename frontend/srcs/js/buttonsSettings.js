@@ -1,6 +1,7 @@
 // buttonsSettings.js
 
 import { gameSettings } from './gameSettings.js';
+import { updateScore } from './score.js';
 
 // Variable globale pour indiquer si les paramètres sont ouverts
 let isSettingsOpen = false;
@@ -67,6 +68,8 @@ export function initializeButton() {
         console.log("Settings closed: isSettingsOpen =", isSettingsOpen);
     });
 
+    updateScore();
+
     // Empêche la propagation de l'événement Enter/Space lorsque les paramètres sont ouverts
     settingsModal.addEventListener('keydown', (e) => {
         if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
@@ -100,6 +103,7 @@ export function initializeButton() {
 
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         gameSettings.winningScore = Number(event.target.value);
+        updateScore();
     });
 
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
