@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function update() {
         updateScore(); 
         const gameEnded = checkGameEnd(player1Score, player2Score);
-        if (gameEnded) return;
+        if (gameEnded)
+            return;
     
         ball.x += ball.dx;
         ball.y += ball.dy;
