@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePaddleDirection() {
-        // Player 1 controls (left paddle)
+        // player 1
         if (keys['w'])
             paddleLeft.dy = -window.paddleSpeed;
         else if (keys['s'])
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else
             paddleLeft.dy = 0;
     
-        // Player 2 controls (right paddle)
+        // player 2
         if (keys['ArrowUp'])
             paddleRight.dy = -window.paddleSpeed;
         else if (keys['ArrowDown'])
@@ -129,14 +129,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function movePaddles() {
-        // player 1's paddle (left)
+        // player 1
         paddleLeft.y += paddleLeft.dy;
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
         if (paddleLeft.y > canvas.height - paddleLeft.height)
             paddleLeft.y = canvas.height - paddleLeft.height; 
     
-        // player 2's paddle (right)
+        // player 2
         paddleRight.y += paddleRight.dy;
         if (paddleRight.y < 0)
             paddleRight.y = 0;
