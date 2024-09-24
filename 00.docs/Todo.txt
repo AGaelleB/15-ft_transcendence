@@ -1,0 +1,7 @@
+TO DO
+
+ -dans l'affichage mettre les point en mode 1/X =?
+    -> bug si j augmente le score la partie continue en arriere plan
+- refaire le bot en lisant bien le sujet
+- voir pour buttonsSettings.js pour que ca redirige vers IA ou 2 players en fonction
+
