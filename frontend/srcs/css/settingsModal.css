@@ -28,7 +28,7 @@ z-index: 2001;
 width: calc(50vw + 5vh);
 height: auto;
 max-height: 80vh;
-max-width: 1200px;
+max-width: 2400px;
 display: flex;
 flex-direction: column;
 justify-content: space-between;

@@ -64,18 +64,42 @@ export function initializeButton() {
 
     settingsModal.style.display = 'none';
 
+    // Ouvre le modal des paramètres
     settingsIcon.addEventListener('click', () => {
         document.querySelector('.settings-modal-container').classList.add('active');
         settingsModal.style.display = 'flex';
         updateUIWithGameSettings();
         isSettingsOpen = true;
+        console.log("Settings opened: isSettingsOpen =", isSettingsOpen);
     });
 
+    // Ferme le modal des paramètres et sauvegarde les nouveaux paramètres
     closeSettingsButton.addEventListener('click', () => {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings();
         isSettingsOpen = false;
+        console.log("Settings closed: isSettingsOpen =", isSettingsOpen);
+    });
+
+    // Empêche la propagation de l'événement Enter/Space lorsque les paramètres sont ouverts
+    settingsModal.addEventListener('keydown', (e) => {
+        if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
+            console.log("Preventing Enter/Space key press in settings modal");
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    });
+
+    // Bouton "Home" redirige vers l'écran d'accueil
+    homeButton.addEventListener('click', function() {
+        window.location.href = 'homeScreen.html';
+    });
+
+    // Bouton "Play Again" redirige pour rejouer une partie
+    againButton.addEventListener('click', function() {
+        saveGameSettings();
+        window.location.href = '1Player.html';
     });
 
     updateScore();
