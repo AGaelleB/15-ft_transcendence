@@ -1,6 +1,6 @@
 // frontend/srcs/js/1Player.js
 
-import { initializeButton, initializeGameStartListener, showWinMessage, isGameStarted } from './buttonsSettings.js';
+import { initializeButton, initializeGameStartListener, isGameStarted } from './buttonsSettings.js';
 import { resizeCanvas } from './resizeCanvas.js';
 import { moveComputerPaddle } from './computerIA.js';
 import { gameSettings } from './gameSettings.js';

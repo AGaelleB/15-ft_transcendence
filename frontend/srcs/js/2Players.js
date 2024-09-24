@@ -1,161 +1,103 @@
 // frontend/srcs/js/2Players.js
 
+import { initializeButton, initializeGameStartListener, isGameStarted } from './buttonsSettings.js';
+import { resizeCanvas } from './resizeCanvas.js';
+import { gameSettings } from './gameSettings.js';
+import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
+import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from './ballCollision.js';
+import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from './score.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
+    const startGameMessage = document.getElementById('startGameMessage');
+    const settingsIcon = document.getElementById('settingsIcon');
+    
+    initializeButton();
+    initializeGameStartListener(startGameMessage, settingsIcon);
 
-    const paddleWidth = 25;
-    const paddleHeight = 100;
-    const ballSize = 12;
-
-    let paddleSpeed = 6;
-    let ballSpeedX = 3;
-    let ballSpeedY = 3;
-
+    let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
+    let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
+    let ballSize = canvas.width * gameSettings.ballSizeFactor;
+    
+    let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
+    let ballSpeedX = gameSettings.ballSpeedX;
+    let ballSpeedY = gameSettings.ballSpeedY;
+  
     const paddleLeft = {
         x: 0,
-        y: canvas.height / 2 - paddleHeight / 2,
-        width: paddleWidth,
-        height: paddleHeight,
+        y: 0,
+        width: 0,
+        height: 0,
         dy: 0
     };
 
     const paddleRight = {
         x: canvas.width - paddleWidth,
-        y: canvas.height / 2 - paddleHeight / 2,
-        width: paddleWidth,
-        height: paddleHeight,
+        y: 0,
+        width: 0,
+        height: 0,
         dy: 0
     };
 
     const ball = {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        size: ballSize,
-        dx: ballSpeedX,
-        dy: ballSpeedY
+        x: 0,
+        y: 0,
+        size: 0,
+        dx: 0,
+        dy: 0
     };
 
-    let player1Score = 0;
-    let player2Score = 0;
     let ballOutOfBounds = false;
-
-    function drawPaddle(paddle) {
-        ctx.fillStyle = '#ffcc00';
-        ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-    }
-
-    function drawBall() {
-        ctx.beginPath();
-        ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffcc00';
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    function drawDottedLine() {
-        const lineWidth = 12;
-        const gap = 15;
-
-        ctx.strokeStyle = '#a16935';
-        ctx.lineWidth = lineWidth;
-        ctx.setLineDash([lineWidth, gap]);
-
-        ctx.beginPath();
-        ctx.moveTo(canvas.width / 2, 0);
-        ctx.lineTo(canvas.width / 2, canvas.height);
-        ctx.stroke();
-        ctx.closePath();
-
-        ctx.setLineDash([]);
-    }
-
-    function updateScore() {
-        document.getElementById('player1Score').textContent = player1Score;
-        document.getElementById('player2Score').textContent = player2Score;
-    }
-
-    function showWinMessage(winner) {
-        const winMessage = document.getElementById('winMessage');
-        winMessage.querySelector('h1').innerHTML = `Player ${winner} Wins!<br>Congrats!`;
-        winMessage.style.display = 'block';
-    }
 
     function resetBall() {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
-        ball.dx = ballSpeedX;
-        ball.dy = ballSpeedY;
+    
+        const direction = Math.floor(Math.random() * 2);
+    
+        if (direction === 0)
+            ball.dx = -window.ballSpeedX;
+        else
+            ball.dx = window.ballSpeedX;
+    
+        const verticalDirection = Math.floor(Math.random() * 2);
+        if (verticalDirection === 0)
+            ball.dy = window.ballSpeedY;
+        else
+            ball.dy = -window.ballSpeedY;
+    
         ballOutOfBounds = false;
     }
-
+    
     function update() {
-        // Check if game is over
-        if (player1Score >= 3) {
-            showWinMessage(1);
+        updateScore(); 
+        const gameEnded = checkGameEnd(player1Score, player2Score);
+        if (gameEnded)
             return;
-        }
-        else if (player2Score >= 3) {
-            showWinMessage(2);
-            return;
-        }
-
-        // Move paddles
-        paddleLeft.y += paddleLeft.dy;
-        paddleRight.y += paddleRight.dy;
-
-        // Ensure paddles stay within canvas
-        if (paddleLeft.y < 0)
-            paddleLeft.y = 0;
-        if (paddleLeft.y > canvas.height - paddleHeight)
-            paddleLeft.y = canvas.height - paddleHeight;
-        if (paddleRight.y < 0)
-            paddleRight.y = 0;
-        if (paddleRight.y > canvas.height - paddleHeight)
-            paddleRight.y = canvas.height - paddleHeight;
-
-        // Move the ball
+    
         ball.x += ball.dx;
         ball.y += ball.dy;
-
-        // Ball collision with top and bottom
-        if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height)
-            ball.dy = -ball.dy;
-
-        // Ball collision with paddles
-        if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
-            ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
-            ball.dx = -ball.dx;
-        }
-
-        if (ball.x + ball.size > paddleRight.x &&
-            ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
-            ball.dx = -ball.dx;
-        }
-
-        // Ball out of bounds and scoring
-        if (ball.x - ball.size < 0 && !ballOutOfBounds) { // Player 2 scores
-            player2Score++;
-            updateScore();
-            ballOutOfBounds = true;
+    
+        // Collisions logic
+        handleWallCollision(ball, canvas);
+        checkPaddleCollision(ball, paddleLeft, paddleRight, () => { ballOutOfBounds = false; });
+        
+        // Increment scores
+        if (checkBallOutOfBounds(ball, canvas, 
+            () => setPlayer1Score(player1Score + 1), 
+            () => setPlayer2Score(player2Score + 1))) {
             resetBall();
         }
-        else if (ball.x + ball.size > canvas.width && !ballOutOfBounds) { // Player 1 scores
-            player1Score++;
-            updateScore();
-            ballOutOfBounds = true;
-            resetBall();
-        }
-
-        // Clear the canvas and redraw everything
+    
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawPaddle(paddleLeft);
-        drawDottedLine();
-        drawPaddle(paddleRight);
-        drawBall();
+
+        drawPaddle(ctx, paddleLeft);
+        drawDottedLine(ctx, canvas);
+        drawPaddle(ctx, paddleRight);
+        drawBall(ctx, ball);
     }
 
-    // Variables to track key states
     const keys = {};
 
     function handleKeydown(e) {
@@ -169,26 +111,53 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePaddleDirection() {
-        // Handle paddle movement for both players based on key states
+        // Player 1 controls (left paddle)
         if (keys['w'])
-            paddleLeft.dy = -paddleSpeed;
+            paddleLeft.dy = -window.paddleSpeed;
         else if (keys['s'])
-            paddleLeft.dy = paddleSpeed;
+            paddleLeft.dy = window.paddleSpeed;
         else
             paddleLeft.dy = 0;
-
+    
+        // Player 2 controls (right paddle)
         if (keys['ArrowUp'])
-            paddleRight.dy = -paddleSpeed;
+            paddleRight.dy = -window.paddleSpeed;
         else if (keys['ArrowDown'])
-            paddleRight.dy = paddleSpeed;
+            paddleRight.dy = window.paddleSpeed;
         else
             paddleRight.dy = 0;
     }
+    
+    function movePaddles() {
+        // player 1's paddle (left)
+        paddleLeft.y += paddleLeft.dy;
+        if (paddleLeft.y < 0)
+            paddleLeft.y = 0;
+        if (paddleLeft.y > canvas.height - paddleLeft.height)
+            paddleLeft.y = canvas.height - paddleLeft.height; 
+    
+        // player 2's paddle (right)
+        paddleRight.y += paddleRight.dy;
+        if (paddleRight.y < 0)
+            paddleRight.y = 0;
+        if (paddleRight.y > canvas.height - paddleRight.height)
+            paddleRight.y = canvas.height - paddleRight.height;
+    }
+        
+    // resize canvas and adjust elements
+    window.onResizeCanvas = () => resizeCanvas(paddleLeft, paddleRight, ball);
+    window.addEventListener('resize', onResizeCanvas);
+    onResizeCanvas();
 
-    // Listen to keyboard input
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    // Start the game loop
-    setInterval(update, 1000 / 90); // speed game
+    function gameLoop() {
+        if (isGameStarted()) {
+            update();
+            movePaddles();
+        }
+        requestAnimationFrame(gameLoop);
+    }
+    gameLoop();
 });
