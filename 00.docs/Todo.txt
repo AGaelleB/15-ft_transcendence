@@ -1,7 +1,35 @@
-TO DO
+**************************************** TO DO ****************************************
 
  -dans l'affichage mettre les point en mode 1/X =?
     -> bug si j augmente le score la partie continue en arriere plan
+
 - refaire le bot en lisant bien le sujet
+
 - voir pour buttonsSettings.js pour que ca redirige vers IA ou 2 players en fonction
 
+
+
+************************************ PAGES A CREER ************************************
+
+- creer la trame de la page lorsque l on clique sur la pacman
+    -> User name / possibilite de changer 
+    -> activer ou desactiver la doucle authentifiation
+    -> statistiques victoires/pertes
+    -> historique des parties
+    -> photo user (pouvoir choisir maybe enter plusieurs pacman)
+
+- multiplayer avec des tournois
+
+- creer un modal pour confirmer la deconnection
+
+
+
+**************************************** MODULES *************************************** 
+
+Minor module: Use a front-end framework or toolkit.
+Minor module: Game Customization Options.
+Minor module: User and Game Stats Dashboards
+
+Major module: Use of advanced 3D techniques.
+Major module: Implement Two-Factor Authentication (2FA) and JWT.
+Major module: Introduce an AI Opponent 
