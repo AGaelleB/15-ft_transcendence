@@ -70,7 +70,6 @@ export function initializeButton() {
         settingsModal.style.display = 'flex';
         updateUIWithGameSettings();
         isSettingsOpen = true;
-        console.log("Settings opened: isSettingsOpen =", isSettingsOpen);
     });
 
     // Ferme le modal des paramètres et sauvegarde les nouveaux paramètres
@@ -78,14 +77,13 @@ export function initializeButton() {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings();
+        resetGame();
         isSettingsOpen = false;
-        console.log("Settings closed: isSettingsOpen =", isSettingsOpen);
     });
 
     // Empêche la propagation de l'événement Enter/Space lorsque les paramètres sont ouverts
     settingsModal.addEventListener('keydown', (e) => {
         if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
-            console.log("Preventing Enter/Space key press in settings modal");
             e.stopPropagation();
             e.preventDefault();
         }
@@ -111,7 +109,6 @@ export function initializeButton() {
         else
             console.error('Error: Mode de jeu non défini');
     });
-     
 
     updateScore();
 
@@ -132,6 +129,7 @@ export function initializeButton() {
 
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         gameSettings.winningScore = Number(event.target.value);
+        resetGame();   
         updateScore();
     });
 
@@ -196,17 +194,18 @@ export function startGame(startGameMessage, settingsIcon) {
 
 // Réinitialiser l'état du jeu si nécessaire
 export function resetGame() {
-    gameStarted = false; // Réinitialiser le statut
-    console.log('Game reset: gameStarted =', gameStarted);
+    gameStarted = false; 
+    setPlayer1Score(0);
+    setPlayer2Score(0);
+    updateScore();
 }
+
 
 // Fonction pour ajouter l'écouteur de démarrage du jeu avec les touches
 export function initializeGameStartListener(startGameMessage, settingsIcon) {
     document.addEventListener('keydown', (e) => {
-        if (!gameStarted && !isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
+        if (!gameStarted && !isSettingsOpen && (e.code === 'Space' || e.code === 'Enter'))
             startGame(startGameMessage, settingsIcon);
-            console.log('Game started with keyboard.');
-        }
     });
 }
 
