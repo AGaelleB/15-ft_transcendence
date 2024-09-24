@@ -28,8 +28,8 @@
 
 Minor module: Use a front-end framework or toolkit.
 Minor module: Game Customization Options.
-Minor module: User and Game Stats Dashboards
+Minor module: User and Game Stats Dashboards.
 
 Major module: Implement Two-Factor Authentication (2FA) and JWT.
 Major module: Use of advanced 3D techniques.
-Major module: Introduce an AI Opponent 
+Major module: Introduce an AI Opponent.
