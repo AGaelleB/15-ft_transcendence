@@ -2,6 +2,9 @@
 
 import { gameSettings } from './gameSettings.js';
 
+// Variable globale pour indiquer si les paramètres sont ouverts
+let isSettingsOpen = false;
+
 // Sauvegarder les paramètres dans localStorage
 function saveGameSettings() {
     localStorage.setItem('gameSettings', JSON.stringify(gameSettings));
@@ -17,12 +20,11 @@ function loadGameSettings() {
 
 // Mettre à jour l'affichage des curseurs et des paramètres à l'ouverture de la page
 function updateUIWithGameSettings() {
-    // Ajustement des valeurs pour l'affichage du curseur de la vitesse de la balle
-    document.getElementById('ballSpeed').value = gameSettings.ballSpeedX * 4;  // Multiplier par 4 pour l'affichage correct
-    document.getElementById('paddleSpeed').value = gameSettings.paddleSpeedFactor * 200;  // Multiplier par 200 pour l'affichage correct
+    document.getElementById('ballSpeed').value = gameSettings.ballSpeedX * 4;
+    document.getElementById('paddleSpeed').value = gameSettings.paddleSpeedFactor * 200;
     document.getElementById('pointsToWin').value = gameSettings.winningScore;
     document.getElementById('resetPaddlePosition').checked = gameSettings.resetPaddlePosition;
-    
+
     if (gameSettings.is3D)
         document.getElementById('game3d').checked = true;
     else
@@ -50,13 +52,26 @@ export function initializeButton() {
     // Ouvre le modal des paramètres
     settingsIcon.addEventListener('click', () => {
         settingsModal.style.display = 'flex';
-        updateUIWithGameSettings();  // Mettre à jour l'interface utilisateur lorsque le modal est ouvert
+        updateUIWithGameSettings();
+        isSettingsOpen = true;
+        console.log("Settings opened: isSettingsOpen =", isSettingsOpen);
     });
 
     // Ferme le modal des paramètres et sauvegarde les nouveaux paramètres
     closeSettingsButton.addEventListener('click', () => {
         settingsModal.style.display = 'none';
-        saveGameSettings();  // Sauvegarde les paramètres après fermeture du modal
+        saveGameSettings();
+        isSettingsOpen = false;
+        console.log("Settings closed: isSettingsOpen =", isSettingsOpen);
+    });
+
+    // Empêche la propagation de l'événement Enter/Space lorsque les paramètres sont ouverts
+    settingsModal.addEventListener('keydown', (e) => {
+        if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
+            console.log("Preventing Enter/Space key press in settings modal");
+            e.stopPropagation();
+            e.preventDefault();
+        }
     });
 
     // Bouton "Home" redirige vers l'écran d'accueil
@@ -66,20 +81,19 @@ export function initializeButton() {
 
     // Bouton "Play Again" redirige pour rejouer une partie
     againButton.addEventListener('click', function() {
-        saveGameSettings();  // Sauvegarde les paramètres avant de redémarrer
-        window.location.href = '1Player.html';  // Recharge la page en utilisant les nouveaux paramètres
+        saveGameSettings();
+        window.location.href = '1Player.html';
     });
 
-    // Écoute les modifications des paramètres et met à jour gameSettings
     document.getElementById('ballSpeed').addEventListener('input', function (event) {
         const ballSpeed = Number(event.target.value);
-        gameSettings.ballSpeedX = ballSpeed / 4;  // Reconvertir en interne (diviser par 4)
-        gameSettings.ballSpeedY = ballSpeed / 4;  // Appliquer à la balle
+        gameSettings.ballSpeedX = ballSpeed / 4;
+        gameSettings.ballSpeedY = ballSpeed / 4;
     });
 
     document.getElementById('paddleSpeed').addEventListener('input', function (event) {
         const paddleSpeed = Number(event.target.value);
-        gameSettings.paddleSpeedFactor = paddleSpeed / 200;  // Reconvertir en interne (diviser par 200)
+        gameSettings.paddleSpeedFactor = paddleSpeed / 200;
     });
 
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
@@ -123,8 +137,8 @@ export function initializeButton() {
 
 // Charger les paramètres lors de l'initialisation de la page
 export function loadSettingsOnPageLoad() {
-    loadGameSettings();  // Charge les paramètres sauvegardés au chargement de la page
-    updateUIWithGameSettings();  // Mettre à jour l'interface utilisateur avec les paramètres chargés
+    loadGameSettings();
+    updateUIWithGameSettings();
 }
 
 export function showWinMessage(winner) {
@@ -135,18 +149,31 @@ export function showWinMessage(winner) {
     modal.style.display = 'block';
 }
 
-export function startGame(settingsIcon, startGameMessage) {
+let gameStarted = false; // Variable globale pour le statut du jeu
+
+// Fonction pour démarrer le jeu
+export function startGame(startGameMessage, settingsIcon) {
     startGameMessage.style.display = 'none';
     settingsIcon.classList.add('hidden');
-    return true;
+    gameStarted = true; // Mettre à jour l'état global
 }
 
-// Ajoute un écouteur d'événement pour démarrer le jeu
-export function initializeGameStartListener(startGame) {
-    let gameStarted = false;
+// Réinitialiser l'état du jeu si nécessaire
+export function resetGame() {
+    gameStarted = false; // Réinitialiser le statut
+    console.log('Game reset: gameStarted =', gameStarted);
+}
+
+// Fonction pour ajouter l'écouteur de démarrage du jeu avec les touches
+export function initializeGameStartListener(startGameMessage, settingsIcon) {
     document.addEventListener('keydown', (e) => {
         if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
-            gameStarted = startGame();
+            startGame(startGameMessage, settingsIcon);
+            console.log('Game started with keyboard.');
         }
     });
+}
+
+export function isGameStarted() {
+    return gameStarted;
 }

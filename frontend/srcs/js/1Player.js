@@ -1,17 +1,16 @@
 // frontend/srcs/js/1Player.js
 
-import { gameSettings } from './gameSettings.js';
+import { initializeButton, initializeGameStartListener, showWinMessage, isGameStarted } from './buttonsSettings.js';
 import { resizeCanvas } from './resizeCanvas.js';
 import { moveComputerPaddle } from './computerIA.js';
-import { initializeButton } from './buttonsSettings.js';
+import { gameSettings } from './gameSettings.js';
 import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const startGameMessage = document.getElementById('startGameMessage');
-
-    let gameStarted = false;
+    const settingsIcon = document.getElementById('settingsIcon');
 
     let player1Score = 0;
     let player2Score = 0;
@@ -24,20 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     updateScore();
 
     initializeButton();
+    initializeGameStartListener(startGameMessage, settingsIcon);
 
-    function startGame() {
-        startGameMessage.style.display = 'none';
-        settingsIcon.classList.add('hidden');
-        gameStarted = true;
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (!gameStarted && (e.code === 'Space' || e.code === 'Enter')) {
-            startGame();
-        }
-    });
-    
-    // Initialize game objects using gameSettings
     let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
     let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
     let ballSize = canvas.width * gameSettings.ballSizeFactor;
@@ -71,14 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     let ballOutOfBounds = false;
-
-    function showWinMessage(winner) {
-        const winnerMessage = document.querySelector('.message');
-        winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
-
-        const modal = document.querySelector('.modal');
-        modal.style.display = 'block';
-    }
 
     function checkGameEnd(player1Score, player2Score) {
         const winningScore = gameSettings.winningScore;
@@ -233,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keyup', handleKeyup);
 
     function gameLoop() {
-        if (gameStarted) {
+        if (isGameStarted()) {
             update();
             movePaddles();
         }
