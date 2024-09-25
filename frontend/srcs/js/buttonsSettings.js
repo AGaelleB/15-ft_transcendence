@@ -1,7 +1,7 @@
 // frontend/srcs/js/buttonsSettings.js
 
 import { gameSettings } from './gameSettings.js';
-import { updateScore } from './score.js';
+import { setPlayer1Score, setPlayer2Score, updateScore } from './score.js';
 
 // Variable globale pour indiquer si les paramètres sont ouverts
 let isSettingsOpen = false;
@@ -19,7 +19,7 @@ function loadGameSettings() {
     }
 }
 
-function updateSliderValuePosition(sliderId, spanId, multiplier, offset) {
+function updateSliderValuePosition(sliderId, spanId, multiplier, offset) { 
     const slider = document.getElementById(sliderId);
     const sliderValue = document.getElementById(spanId);
     const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
