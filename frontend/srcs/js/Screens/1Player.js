@@ -1,9 +1,10 @@
-// frontend/srcs/js/Screens/1Player.js
+// frontend/srcs/js/1Player.js
 
 import { initializeButton, initializeGameStartListener, isGameStarted } from '../Buttons/buttonsSettings.js';
 import { resizeCanvas } from '../PongGame/resizeCanvas.js';
 import { moveComputerPaddle } from '../PongGame/computerIA.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
+import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
 import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
@@ -21,78 +22,83 @@ document.addEventListener('DOMContentLoaded', function() {
     let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
     let ballSize = canvas.width * gameSettings.ballSizeFactor;
     
-    let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
+    let paddleSpeed = canvas.height * gameSettings.paddleSpeedFactor;
     let ballSpeedX = gameSettings.ballSpeedX;
     let ballSpeedY = gameSettings.ballSpeedY;
-  
+
     const paddleLeft = {
         x: 0,
         y: 0,
-        width: 0,
-        height: 0,
+        width: paddleWidth,
+        height: paddleHeight,
         dy: 0
     };
 
     const paddleRight = {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
+        x: canvas.width - paddleWidth,
+        y: canvas.height / 2 - paddleHeight / 2,
+        width: paddleWidth,
+        height: paddleHeight,
         dy: 0
     };
 
     const ball = {
-        x: 0,
-        y: 0,
-        size: 0,
-        dx: 0,
-        dy: 0
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        size: ballSize,
+        dx: ballSpeedX,
+        dy: ballSpeedY
     };
 
     let ballOutOfBounds = false;
 
+    // Fonction pour réinitialiser la balle et démarrer le décompte avant de la lancer
     function resetBall() {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
     
-        const direction = Math.floor(Math.random() * 2);
+        const savedDx = ball.dx;
+        const savedDy = ball.dy;
     
-        if (direction === 0)
-            ball.dx = -window.ballSpeedX;
-        else
-            ball.dx = window.ballSpeedX;
-    
-        const verticalDirection = Math.floor(Math.random() * 2);
-        if (verticalDirection === 0)
-            ball.dy = window.ballSpeedY;
-        else
-            ball.dy = -window.ballSpeedY;
-    
-        ballOutOfBounds = false;
+        ball.dx = 0;
+        ball.dy = 0;
+        startCountdown(() => {
+            const direction = Math.floor(Math.random() * 2);
+            if (direction === 0)
+                ball.dx = -savedDx;
+            else
+                ball.dx = savedDx;
+            const verticalDirection = Math.floor(Math.random() * 2);
+            if (verticalDirection === 0)
+                ball.dy = savedDy;
+            else
+                ball.dy = -savedDy;
+            ballOutOfBounds = false;
+        });
     }
-    
+
     function update() {
         updateScore(); 
         const gameEnded = checkGameEnd(player1Score, player2Score);
         if (gameEnded)
             return;
-    
+
+        // Déplacement de la balle
         ball.x += ball.dx;
         ball.y += ball.dy;
-    
-        // Collisions logic
+
+        // Gestion des collisions
         handleWallCollision(ball, canvas);
         checkPaddleCollision(ball, paddleLeft, paddleRight, () => { ballOutOfBounds = false; });
         
-        // Increment scores
+        // Vérifie si la balle est hors des limites
         if (checkBallOutOfBounds(ball, canvas, 
             () => setPlayer1Score(player1Score + 1), 
             () => setPlayer2Score(player2Score + 1))) {
+            const gameEnded = checkGameEnd(player1Score, player2Score);
             resetBall();
         }
-    
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         drawPaddle(ctx, paddleLeft);
         drawDottedLine(ctx, canvas);
         drawPaddle(ctx, paddleRight);
@@ -114,21 +120,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePaddleDirection() {
-        if (keys['ArrowUp'])
-            paddleLeft.dy = -window.paddleSpeed;
-        else if (keys['ArrowDown'])
-            paddleLeft.dy = window.paddleSpeed;
-        else
-            paddleLeft.dy = 0;
+        if (keys['ArrowUp']) paddleLeft.dy = -paddleSpeed;
+        else if (keys['ArrowDown']) paddleLeft.dy = paddleSpeed;
+        else paddleLeft.dy = 0;
     }
 
     function movePaddles() {
         paddleLeft.y += paddleLeft.dy;
     
-        if (paddleLeft.y < 0)
-            paddleLeft.y = 0;
-        if (paddleLeft.y > canvas.height - paddleLeft.height)
-            paddleLeft.y = canvas.height - paddleLeft.height; 
+        // Empêche la raquette de sortir des limites
+        if (paddleLeft.y < 0) paddleLeft.y = 0;
+        if (paddleLeft.y > canvas.height - paddleLeft.height) paddleLeft.y = canvas.height - paddleLeft.height; 
     }
 
     // resize canvas and adjust elements
