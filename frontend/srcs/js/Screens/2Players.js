@@ -1,6 +1,7 @@
 // frontend/srcs/js/Screens/2Players.js
 
-import { initializeButton, initializeGameStartListener, isGameStarted } from '../Modals/settingsModal.js';
+import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
+import { initializeButton } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/resizeCanvas.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';

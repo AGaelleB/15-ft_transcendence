@@ -1,6 +1,7 @@
 // frontend/srcs/js/Screens/1Player.js
 
-import { initializeButton, initializeGameStartListener, isGameStarted } from '../Modals/settingsModal.js';
+import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
+import { initializeButton } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/resizeCanvas.js';
 import { moveComputerPaddle } from '../PongGame/computerIA.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
