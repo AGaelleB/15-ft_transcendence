@@ -5,54 +5,54 @@
 
 /* Conteneur pour centrer la modale sans effet flou */
 .settings-modal-container {
-display: flex;
-justify-content: center;
-align-items: center;
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-padding: calc(5vh); /* Marge dynamique en fonction de la hauteur de l'écran */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: calc(5vh);
 }
 
 .settings-modal-container.active {
-display: flex; /* Montre la modale lorsque la classe "active" est ajoutée */
-background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-z-index: 2000; /* Assurer que le conteneur est visible au-dessus de tout */
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
 }
 
 /* Assurer que la modale est visible au-dessus du flou */
 .settings-modal {
-z-index: 2001;
-width: calc(50vw + 5vh);
-height: auto;
-max-height: 80vh;
-max-width: 2400px;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-align-items: center;
-padding: calc(0.1vw + 0.1vh);
-border-radius: calc(1vw + 1vh);
-color: #a16935;
-text-align: center;
-font-family: 'Jersey', sans-serif;
-box-sizing: border-box;
-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-background-color: rgba(47, 33, 58, 1);
+  z-index: 2001;
+  width: calc(50vw + 5vh);
+  height: auto;
+  max-height: 80vh;
+  max-width: 2400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(0.1vw + 0.1vh);
+  border-radius: calc(1vw + 1vh);
+  color: #a16935;
+  text-align: center;
+  font-family: 'Jersey', sans-serif;
+  box-sizing: border-box;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  background-color: rgba(47, 33, 58, 1);
 }
 
 .settings-content {
-background-color: #2f213a;
-padding: calc(0.1vw + 0.1vh); /* Réduction du padding interne */
-border-radius: 10px;
-color: #a16935;
-text-align: center;
-font-family: 'Jersey', sans-serif;
-width: 90%;
-flex-grow: 1;
-overflow-y: auto;
+  background-color: #2f213a;
+  padding: calc(0.1vw + 0.1vh);
+  border-radius: 10px;
+  color: #a16935;
+  text-align: center;
+  font-family: 'Jersey', sans-serif;
+  width: 90%;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .settings-icon {
@@ -72,8 +72,8 @@ overflow-y: auto;
   border: none;
   outline: none;
   font-family: 'Jersey', sans-serif;
-  margin: calc(0.2vw + 0.2vh); /* Réduction de l'espace entre les boutons */
-  padding: calc(0.4vw + 0.4vh); /* Réduction du padding du bouton */
+  margin: calc(0.2vw + 0.2vh);
+  padding: calc(0.4vw + 0.4vh);
   transition: all 0.2s ease;
 }
 
@@ -107,45 +107,45 @@ overflow-y: auto;
 }
 
 .wrapper {
-overflow: hidden;
-max-width: 100%;
-border-radius: 0;
-box-shadow: none;
+  overflow: hidden;
+  max-width: 100%;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* Slide controls for 2D/3D */
 .slide-controls-2d-3d {
-position: relative;
-display: flex;
-height: 5vh;
-width: 100%;
-overflow: hidden;
-margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
-justify-content: space-between;
-border-radius: 0;
+  position: relative;
+  display: flex;
+  height: 5vh;
+  width: 100%;
+  overflow: hidden;
+  margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
+  justify-content: space-between;
+  border-radius: 0;
 }
 
 .slide-controls-2d-3d .slide {
-height: 100%;
-width: 100%;
-color: #a16935;
-font-size: calc(1vw + 2vh);
-font-weight: 500;
-text-align: center;
-cursor: pointer;
-z-index: 1;
-transition: all 0.6s ease;
+  height: 100%;
+  width: 100%;
+  color: #a16935;
+  font-size: calc(1vw + 2vh);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.6s ease;
 }
 
 .slide-controls-2d-3d .slider-tab {
-position: absolute;
-height: 100%;
-width: 50%;
-left: 0;
-z-index: 0;
-border-radius: 0;
-background: #a16935;
-transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  left: 0;
+  z-index: 0;
+  border-radius: 0;
+  background: #a16935;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 #game3d:checked ~ .slider-tab {
 left: 50%;
@@ -169,45 +169,45 @@ display: none;
 
 /* Slide controls for Bot Level */
 .slide-controls-bot-level {
-position: relative;
-display: flex;
-height: 5vh;
-width: 100%;
-overflow: hidden;
-margin: calc(1vw + 1vh) 0 calc(0.5vw + 0.5vh) 0;
-justify-content: space-between;
-border-radius: 0;
+  position: relative;
+  display: flex;
+  height: 5vh;
+  width: 100%;
+  overflow: hidden;
+  margin: calc(1vw + 1vh) 0 calc(0.5vw + 0.5vh) 0;
+  justify-content: space-between;
+  border-radius: 0;
 }
 
 .slide-controls-bot-level .slide {
-height: 100%;
-width: 100%;
-color: #a16935;
-font-size: calc(1vw + 2vh);
-font-weight: 500;
-text-align: center;
-cursor: pointer;
-z-index: 1;
-transition: all 0.6s ease;
+  height: 100%;
+  width: 100%;
+  color: #a16935;
+  font-size: calc(1vw + 2vh);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.6s ease;
 }
 
 .slide-controls-bot-level .slider-tab {
-position: absolute;
-height: 100%;
-width: 33.33%;
-left: 0;
-z-index: 0;
-border-radius: 0;
-background: #a16935;
-transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: absolute;
+  height: 100%;
+  width: 33.33%;
+  left: 0;
+  z-index: 0;
+  border-radius: 0;
+  background: #a16935;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 #intermediate:checked ~ .slider-tab {
-left: 33.33%;
+  left: 33.33%;
 }
 
 #expert:checked ~ .slider-tab {
-left: 66.66%;
+  left: 66.66%;
 }
 
 #expert:checked ~ label[for="expert"],
@@ -225,25 +225,21 @@ user-select: none;
 color: #a16935;
 }
 
-/* Curseur pour ajuster la vitesse */
 /* Conteneur général pour chaque curseur */
 .slider-container {
-  display: flex; /* Utilisation de flexbox */
-  align-items: center; /* Aligne verticalement le curseur et le label */
-  justify-content: space-between; /* Assure un espacement égal entre le label et le curseur */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: calc(0.5vw + 0.5vh) 0;
   color: #a16935;
   font-family: 'Jersey', sans-serif;
 }
 
-
-
-
 /* Conteneur pour le label du curseur */
 .slider-label {
-  flex: 0 0 25%; /* Largeur fixe pour aligner les labels à gauche */
-  text-align: right; /* Aligne le texte à droite pour que les labels soient proches du curseur */
-  padding-right: 20px; /* Espacement entre le label et le curseur */
+  flex: 0 0 25%; 
+  text-align: right;
+  padding-right: 20px;
 }
 
 .slider-wrapper {
@@ -282,15 +278,11 @@ input[type="range"]::-webkit-slider-thumb {
   transform: translate(-50%, -50%);
   top: 40%;
   color: #302a66;
-  font-size: calc(2vw + 2vh); /* Adjust size for readability */
+  font-size: calc(2vw + 2vh);
   font-family: 'Jersey', sans-serif;
-  pointer-events: none; /* Prevent interaction */
-  white-space: nowrap; /* Prevent line breaks */
+  pointer-events: none;
+  white-space: nowrap;
 }
-
-
-
-
 
 /* Case à cocher pour la réinitialisation des raquettes */
 .checkbox-container {
@@ -329,7 +321,6 @@ input[type="checkbox"]:checked::after {
   color: #ffffff;
   font-size: calc(1.5vw + 1.5vh);
 }
-
 
 /* Incrémentation des points pour gagner */
 .increment-container {
