@@ -14,12 +14,12 @@ export const gameSettings = {
     ballSizeFactor: 0.015,
 
     // Speed of the game
-    paddleSpeedFactor: 0.05,
-    ballSpeedX: 1,
-    ballSpeedY: 1,
+    paddleSpeedFactor: 0,
+    ballSpeedX: 0,
+    ballSpeedY: 0,
 
     // IA speed
-    aiSpeedFactor: 0.9,
+    aiSpeedFactor: 0,
 
     // Border
     borderFactor: 0.025,
@@ -27,5 +27,5 @@ export const gameSettings = {
     borderColor: '#a16935',
 
     // Score
-    winningScore: 3,
+    winningScore: 0,
 };
