@@ -1,4 +1,4 @@
-// frontend/srcs/js/loginSignUp.js
+// frontend/srcs/js/Screens/loginSignUp.js
 
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.querySelector("form.login");
@@ -41,10 +41,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // Redirection vers gameScreen.html après le clic sur "Login"
     loginSubmitButton.addEventListener('click', function(event) {
         event.preventDefault(); // Empêche le comportement par défaut
-        window.location.href = './homeScreen.html'; // Redirige vers la page gameScreen.html
+        window.location.href = './homeScreen.html';
     });
 
   });

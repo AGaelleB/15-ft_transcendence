@@ -1,6 +1,6 @@
-// frontend/srcs/js/computerIA.js
+// frontend/srcs/js/PongGame/computerIA.js
 
-import { gameSettings } from './gameSettings.js';
+import { gameSettings } from './gameSettings';
 
 export function moveComputerPaddle(ball, paddleRight, canvas) {
     const aiSpeed = window.paddleSpeed * gameSettings.aiSpeedFactor;

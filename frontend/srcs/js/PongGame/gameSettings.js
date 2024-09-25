@@ -1,4 +1,4 @@
-// frontend/srcs/js/gameSettings.js
+// frontend/srcs/js/PongGame/gameSettings.js
 
 export const gameSettings = {
 

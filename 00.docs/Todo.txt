@@ -4,6 +4,10 @@
 
 - faire un mini chrono 3, 2, 1 GO et la nouvelle balle se lance
 
+- petit probleme de size sur la modale settings chez Gaga
+
+
+
 ************************************ PAGES A CREER ************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman

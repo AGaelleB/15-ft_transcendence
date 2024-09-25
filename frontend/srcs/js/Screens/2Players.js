@@ -1,11 +1,11 @@
-// frontend/srcs/js/2Players.js
+// frontend/srcs/js/Screens/2Players.js
 
-import { initializeButton, initializeGameStartListener, isGameStarted } from './buttonsSettings.js';
-import { resizeCanvas } from './resizeCanvas.js';
-import { gameSettings } from './gameSettings.js';
-import { drawDottedLine, drawBall, drawPaddle } from './draw.js';
-import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from './ballCollision.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from './score.js';
+import { initializeButton, initializeGameStartListener, isGameStarted } from '../Buttons/buttonsSettings.js';
+import { resizeCanvas } from '../PongGame/resizeCanvas.js';
+import { gameSettings } from '../PongGame/gameSettings.js';
+import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
+import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
+import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');

@@ -1,4 +1,4 @@
-// frontend/srcs/js/draw.js
+// frontend/srcs/js/PongGame/draw.js
 
 export function drawPaddle(ctx, paddle) {
     ctx.fillStyle = '#ffcc00';

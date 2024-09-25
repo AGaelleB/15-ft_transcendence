@@ -1,7 +1,7 @@
-// frontend/srcs/js/score.js
+// frontend/srcs/js/PongGame/score.js
 
 import { gameSettings } from './gameSettings.js';
-import { showWinMessage } from './buttonsSettings.js';
+import { showWinMessage } from '../Buttons/buttonsSettings.js';
 
 export let player1Score = 0;
 export let player2Score = 0;

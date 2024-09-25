@@ -1,4 +1,4 @@
-// frontend/srcs/js/startScreen.js
+// frontend/srcs/js/Screens/startScreen.js
 
 document.addEventListener("DOMContentLoaded", function() {
     const loginButton = document.getElementById('login-button');
@@ -7,10 +7,11 @@ document.addEventListener("DOMContentLoaded", function() {
     loginButton.addEventListener("click", function() {
         window.location.href = "./html/loginSignUp.html#login";
     });
-
+    
     signupButton.addEventListener("click", function() {
         window.location.href = "./html/loginSignUp.html#signup";
     });
+    
 
     let keyboardNavigationEnabled = true;
 

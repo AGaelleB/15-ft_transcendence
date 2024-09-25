@@ -1,4 +1,4 @@
-// frontend/srcs/js/homeScreen.js
+// frontend/srcs/js/Screens/homeScreen.js
 
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll('.menu-item a');

@@ -1,7 +1,7 @@
-// frontend/srcs/js/buttonsSettings.js
+// frontend/srcs/js/Buttons/buttonsSettings.js
 
-import { gameSettings } from './gameSettings.js';
-import { setPlayer1Score, setPlayer2Score, updateScore } from './score.js';
+import { gameSettings } from '../PongGame/gameSettings.js';
+import { setPlayer1Score, setPlayer2Score, updateScore } from '../PongGame/score.js';
 
 // Variable globale pour indiquer si les paramètres sont ouverts
 let isSettingsOpen = false;

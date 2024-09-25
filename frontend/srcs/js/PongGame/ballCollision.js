@@ -1,4 +1,4 @@
-// frontend/srcs/js/ballCollision.js
+// frontend/srcs/js/PongGame/ballCollision.js
 
 export function handlePaddleCollision(ball, paddle) {
     const paddleCenter = paddle.y + paddle.height / 2;
