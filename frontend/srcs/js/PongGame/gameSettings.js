@@ -7,6 +7,7 @@ export const gameSettings = {
     aspectRatio: 16 / 9, 
 
     // Paddle 
+    resetPaddlePosition: 0,
     paddleWidthFactor: 0.035,
     paddleHeightFactor: 0.25,
 

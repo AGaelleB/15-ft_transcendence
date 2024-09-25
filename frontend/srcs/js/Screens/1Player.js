@@ -95,6 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
             () => setPlayer1Score(player1Score + 1), 
             () => setPlayer2Score(player2Score + 1))) {
                 const gameEnded = checkGameEnd(player1Score, player2Score);
+                if (gameSettings.resetPaddlePosition && !gameEnded) {
+                    paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
+                    paddleRight.y = (canvas.height - paddleRight.height) / 2;
+                }
                 resetBall();
         }
     

@@ -135,7 +135,7 @@ export function initializeButton() {
 
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
         gameSettings.resetPaddlePosition = event.target.checked;
-    });
+    });    
 
     document.getElementById('game2d').addEventListener('change', function () {
         if (this.checked) {
@@ -168,7 +168,6 @@ export function initializeButton() {
     });
 }
 
-
 // Charger les paramètres lors de l'initialisation de la page
 export function loadSettingsOnPageLoad() {
     loadGameSettings();
@@ -199,7 +198,6 @@ export function resetGame() {
     setPlayer2Score(0);
     updateScore();
 }
-
 
 // Fonction pour ajouter l'écouteur de démarrage du jeu avec les touches
 export function initializeGameStartListener(startGameMessage, settingsIcon) {
