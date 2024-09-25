@@ -8,6 +8,8 @@
 
 - utiliser un bootsrtap pour le l icone logout 
 
+- test ?
+
 ************************************ PAGES A CREER ************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
