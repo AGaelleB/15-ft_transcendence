@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/resizeCanvas.js
 
-import { gameSettings } from './gameSettings';
+import { gameSettings } from './gameSettings.js';
 
 function resizeCanvas(paddleLeft, paddleRight, ball) {
     const canvas = document.getElementById('pongCanvas');

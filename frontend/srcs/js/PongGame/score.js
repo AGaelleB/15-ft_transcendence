@@ -1,4 +1,4 @@
-// frontend/srcs/js/PongGame/score.js
+// frontend/srcs/js/score.js
 
 import { gameSettings } from './gameSettings.js';
 import { showWinMessage } from '../Buttons/buttonsSettings.js';
@@ -22,15 +22,23 @@ export function updateScore() {
     document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;
 }
 
+export let gameOver = false;
+
+export function isGameOver() {
+    return gameOver;
+}
+
 export function checkGameEnd() {
     const winningScore = gameSettings.winningScore;
     
     if (player1Score >= winningScore) {
+        gameOver = true;
         showWinMessage(1);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
     else if (player2Score >= winningScore) {
+        gameOver = true;
         showWinMessage(2);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;

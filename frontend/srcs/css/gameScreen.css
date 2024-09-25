@@ -96,3 +96,14 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+
+.countdown {
+    position: absolute;
+    top: calc(10vw + 15vh);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: calc(3vw + 3vh);
+    color: #ffcc00;
+    z-index: 10;
+    display: none;
+}
