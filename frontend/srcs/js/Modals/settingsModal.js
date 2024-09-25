@@ -174,14 +174,6 @@ export function loadSettingsOnPageLoad() {
     updateUIWithGameSettings();
 }
 
-export function showWinMessage(winner) {
-    const winnerMessage = document.querySelector('.message');
-    winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
-
-    const modal = document.querySelector('.modal');
-    modal.style.display = 'block';
-}
-
 let gameStarted = false; // Variable globale pour le statut du jeu
 
 // Fonction pour démarrer le jeu
