@@ -1,7 +1,7 @@
 // frontend/srcs/js/score.js
 
 import { gameSettings } from './gameSettings.js';
-import { showWinMessage } from '../Buttons/buttonsSettings.js';
+import { showWinMessage } from '../Modals/settingsModal.js';
 
 export let player1Score = 0;
 export let player2Score = 0;

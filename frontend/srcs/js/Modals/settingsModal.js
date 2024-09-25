@@ -1,4 +1,4 @@
-// frontend/srcs/js/Buttons/buttonsSettings.js
+// frontend/srcs/js/Modals/settingsModal.js
 
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { setPlayer1Score, setPlayer2Score, updateScore } from '../PongGame/score.js';
