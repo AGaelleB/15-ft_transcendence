@@ -4,6 +4,9 @@
 
 - petit probleme de size sur la modale settings chez Gaga
 
+- mettre un petit bouton home pour quitter le jeu avant de l avoir commence 
+
+- utiliser un bootsrtap pour le l icone logout 
 
 ************************************ PAGES A CREER ************************************
 
@@ -18,8 +21,6 @@
 
 - creer un modal pour confirmer la deconnection
 
-
-
 **************************************** MODULES *************************************** 
 
 Minor module: Use a front-end framework or toolkit.
@@ -29,5 +30,3 @@ Minor module: User and Game Stats Dashboards.
 Major module: Implement Two-Factor Authentication (2FA) and JWT.
 Major module: Use of advanced 3D techniques.
 Major module: Introduce an AI Opponent.
-
-
