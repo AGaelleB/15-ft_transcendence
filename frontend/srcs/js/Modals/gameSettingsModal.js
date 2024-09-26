@@ -47,13 +47,6 @@ export function updateUIWithGameSettings() {
     else
         document.getElementById('game2d').checked = true;
 
-    if (gameSettings.aiSpeedFactor === 0.7)
-        document.getElementById('novice').checked = true;
-    else if (gameSettings.aiSpeedFactor === 0.9)
-        document.getElementById('intermediate').checked = true;
-    else if (gameSettings.aiSpeedFactor === 1.2)
-        document.getElementById('expert').checked = true;
-
     // Mettre à jour la position des valeurs des curseurs
     updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
     updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
@@ -136,19 +129,19 @@ export function initializeGameSettings() {
 
     document.getElementById('novice').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.aiSpeedFactor = 0.7;
+            gameSettings.errorMargin = Math.random() * 200 - 100;
         }
     });
 
     document.getElementById('intermediate').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.aiSpeedFactor = 0.9;
+            gameSettings.errorMargin = Math.random() * 150 - 75;
         }
     });
 
     document.getElementById('expert').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.aiSpeedFactor = 1.2;
+            gameSettings.errorMargin = Math.random() * 50 - 25;
         }
     });
 }

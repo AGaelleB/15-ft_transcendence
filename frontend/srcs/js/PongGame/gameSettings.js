@@ -21,6 +21,7 @@ export const gameSettings = {
 
     // IA speed
     aiSpeedFactor: 5,
+    errorMargin: 0,
 
     // Border
     borderFactor: 0.025,
