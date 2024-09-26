@@ -8,6 +8,9 @@
 
 - utiliser un bootsrtap pour le l icone logout 
 
+- dans les games settings, permettre d'Augmenter/Réduire la taille de la balle, de la raquette
+
+
 ************************************ PAGES A CREER ************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
