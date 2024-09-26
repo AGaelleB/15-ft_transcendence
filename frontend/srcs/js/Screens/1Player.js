@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         ball.dx = 0;
         ball.dy = 0;
-        // startCountdown(() => {
+        startCountdown(() => {
             const direction = Math.floor(Math.random() * 2);
             if (direction === 0)
                 ball.dx = -savedDx;
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             else
                 ball.dy = -savedDy;
             ballOutOfBounds = false;
-        // });
+        });
     }
 
     function update() {
