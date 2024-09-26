@@ -34,25 +34,76 @@
 
 */
 
-
 import { gameSettings } from './gameSettings.js';
 
-export function moveComputerPaddle(ball, paddleRight, canvas) {
-    const aiSpeed = window.paddleSpeed * gameSettings.aiSpeedFactor;
+let lastUpdateTime = 0;
+const updateInterval = 1000; // 1 seconde 
+let targetPositionY = 0;
 
-    if (ball.x > canvas.width / 2) {
-        const centerOfPaddle = paddleRight.y + paddleRight.height / 2;
-
-        // AI paddle moves at a percentage of the player's speed
-        if (ball.y > centerOfPaddle)
-            paddleRight.y += aiSpeed;
-        else
-            paddleRight.y -= aiSpeed;
-
-        // Prevent the AI paddle from going out of bounds
-        if (paddleRight.y < 0)
-            paddleRight.y = 0;
-        else if (paddleRight.y > canvas.height - paddleRight.height)
-            paddleRight.y = canvas.height - paddleRight.height;
+// Fonction qui vérifie si l'IA doit se mettre à jour toutes les secondes
+function shouldUpdateAI() {
+    const currentTime = Date.now();
+    if (currentTime - lastUpdateTime >= updateInterval) {
+        lastUpdateTime = currentTime;
+        return true;
     }
+    return false;
+}
+
+// Fonction qui prédit où sera la balle dans une seconde (en tenant compte des rebonds)
+function predictBallPosition(ball, canvas, timeToPaddle) {
+    let predictedBallY = ball.y;
+    let predictedBallDy = ball.dy;
+
+    // Simule la trajectoire de la balle jusqu'à ce qu'elle atteigne la raquette
+    for (let i = 0; i < timeToPaddle; i++) {
+        predictedBallY += predictedBallDy;
+
+        // Gérer les rebonds sur les murs
+        if (predictedBallY <= 0 || predictedBallY >= canvas.height)
+            predictedBallDy *= -1;
+    }
+    return predictedBallY;
+}
+
+// Fonction pour déplacer la raquette IA de manière fluide vers la position prédite
+function movePaddleIA(paddle, targetPosition, speed, canvas) {
+    const centerOfPaddle = paddle.y + paddle.height / 2;
+
+    // Calculer la différence entre la position actuelle et la position cible
+    const distance = targetPosition - centerOfPaddle;
+
+    // Ajuster la vitesse en fonction de la distance pour un mouvement fluide
+    if (Math.abs(distance) > speed) {
+        paddle.y += Math.sign(distance) * speed;
+    }
+    else {
+        paddle.y = targetPosition - paddle.height / 2;
+    }
+
+    // Empêche le paddle de sortir du canvas
+    if (paddle.y < 0)
+        paddle.y = 0;
+    else if (paddle.y > canvas.height - paddle.height)
+        paddle.y = canvas.height - paddle.height;
+}
+
+// Fonction principale qui met à jour l'IA
+export function updateAI(ball, paddleRight, canvas) {
+    // Prédit la position de la balle toutes les secondes
+    if (shouldUpdateAI()) {
+        // Calcule le temps pour que la balle atteigne la raquette
+        let timeToPaddle = (paddleRight.x - ball.x) / ball.dx;
+        if (!isFinite(timeToPaddle) || timeToPaddle < 0)
+            return; // Évite de bouger l'IA si la balle ne va pas vers elle
+
+        // Prédit la position de la balle dans une seconde
+        targetPositionY = predictBallPosition(ball, canvas, timeToPaddle);
+    }
+
+    // Calcule la vitesse de la raquette (ajustée pour le mouvement fluide)
+    const aiSpeed = gameSettings.paddleSpeedFactor * 420; // Ajuster ce facteur selon le besoin
+
+    // Déplacer la raquette de l'IA à chaque frame de manière fluide
+    movePaddleIA(paddleRight, targetPositionY, aiSpeed, canvas);
 }

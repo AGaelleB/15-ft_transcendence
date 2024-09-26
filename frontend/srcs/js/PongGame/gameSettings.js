@@ -15,12 +15,12 @@ export const gameSettings = {
     ballSizeFactor: 0.015,
 
     // Speed of the game
-    paddleSpeedFactor: 0,
-    ballSpeedX: 0,
-    ballSpeedY: 0,
+    paddleSpeedFactor: 5,
+    ballSpeedX: 5,
+    ballSpeedY: 5,
 
     // IA speed
-    aiSpeedFactor: 0,
+    aiSpeedFactor: 5,
 
     // Border
     borderFactor: 0.025,

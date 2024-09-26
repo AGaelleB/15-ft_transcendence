@@ -3,7 +3,7 @@
 import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/resizeCanvas.js';
-import { moveComputerPaddle } from '../PongGame/computerIA.js';
+import { updateAI } from '../PongGame/computerIA.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         ball.dx = 0;
         ball.dy = 0;
-        startCountdown(() => {
+        // startCountdown(() => {
             const direction = Math.floor(Math.random() * 2);
             if (direction === 0)
                 ball.dx = -savedDx;
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             else
                 ball.dy = -savedDy;
             ballOutOfBounds = false;
-        });
+        // });
     }
 
     function update() {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         drawPaddle(ctx, paddleRight);
         drawBall(ctx, ball);
     
-        moveComputerPaddle(ball, paddleRight, canvas);
+        updateAI(ball, paddleRight, canvas);
     }
 
     const keys = {};

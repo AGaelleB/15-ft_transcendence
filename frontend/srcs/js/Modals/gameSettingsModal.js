@@ -106,9 +106,12 @@ export function initializeGameSettings() {
         const paddleSpeed = Number(event.target.value);
         gameSettings.paddleSpeedFactor = paddleSpeed / 200;
     
+        // // Synchronize AI paddle speed with player paddle speed
+        // gameSettings.aiSpeedFactor = gameSettings.paddleSpeedFactor;
+    
         updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
     });
-
+    
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         gameSettings.winningScore = Number(event.target.value);
         resetGame();   
