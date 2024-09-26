@@ -66,6 +66,17 @@ function predictBallPosition(ball, canvas, timeToPaddle) {
     return predictedBallY;
 }
 
+// Fonction pour prédire la position avec une marge d'erreur aléatoire
+function predictBallPositionWithError(ball, canvas, timeToPaddle) {
+    let predictedBallY = predictBallPosition(ball, canvas, timeToPaddle);
+
+    // Ajoute une marge d'erreur aléatoire
+    const errorMargin = Math.random() * 50 - 25; // Crée un décalage entre -25 et +25 pixels
+    predictedBallY += errorMargin;
+
+    return predictedBallY;
+}
+
 // Fonction pour déplacer la raquette IA de manière fluide vers la position prédite
 function movePaddleIA(paddle, targetPosition, speed, canvas) {
     const centerOfPaddle = paddle.y + paddle.height / 2;
@@ -99,7 +110,7 @@ export function updateAI(ball, paddleRight, canvas) {
                 return; // Évite de bouger l'IA si la balle ne va pas vers elle
 
             // Prédit la position de la balle dans une seconde
-            targetPositionY = predictBallPosition(ball, canvas, timeToPaddle);
+            targetPositionY = predictBallPositionWithError(ball, canvas, timeToPaddle);
         }
 
         // Calcule la vitesse de la raquette (ajustée pour le mouvement fluide)
