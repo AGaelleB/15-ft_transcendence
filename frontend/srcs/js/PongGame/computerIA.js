@@ -71,7 +71,10 @@ function predictBallPositionWithError(ball, canvas, timeToPaddle) {
     let predictedBallY = predictBallPosition(ball, canvas, timeToPaddle);
 
     // Ajoute une marge d'erreur aléatoire
-    const errorMargin = Math.random() * 50 - 25; // Crée un décalage entre -25 et +25 pixels
+    // const errorMargin = Math.random() * 50 - 25; // Crée un décalage entre -25 et +25 pixels
+    // const errorMargin = Math.random() * 100 - 50; // Crée un décalage entre -50 et +50 pixels   
+    // const errorMargin = Math.random() * 150 - 75; // Déviation entre -75 et +75 pixels
+    const errorMargin = Math.random() * 200 - 100; // Déviation entre -75 et +75 pixels
     predictedBallY += errorMargin;
 
     return predictedBallY;
