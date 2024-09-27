@@ -9,13 +9,15 @@ import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
 import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
+import { createPowerUpImageElement, generatePowerUp, hidePowerUp} from '../PongGame/power-ups.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const startGameMessage = document.getElementById('startGameMessage');
     const settingsIcon = document.getElementById('settingsIcon');
-    
+    const powerUpImageElement = createPowerUpImageElement();
+
     initializeButton();
     initializeGameStartListener(startGameMessage, settingsIcon);
 
@@ -81,8 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function update() {
         updateScore(); 
         const gameEnded = checkGameEnd(player1Score, player2Score);
-        if (gameEnded)
+        if (gameEnded) {
+            hidePowerUp(powerUpImageElement);
             return;
+        }
     
         ball.x += ball.dx;
         ball.y += ball.dy;
@@ -165,7 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isGameStarted()) {
             update();
             movePaddles();
+            generatePowerUp(powerUpImageElement, canvas);
         }
+
         requestAnimationFrame(gameLoop);
     }
     gameLoop();

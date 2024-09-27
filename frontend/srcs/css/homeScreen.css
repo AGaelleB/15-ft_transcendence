@@ -128,3 +128,16 @@ html, body {
     text-align: center;
     z-index: 20;
 }
+
+.icon-container {
+    display: inline-block;
+    transform: scaleX(-1); /* Miroir horizontal */
+}
+
+.custom-icon {
+    font-size: calc(3vw + 3vh); /* Taille */
+    color: #a16935; /* Orange */
+    position: relative;
+    top: calc(2vw + 3vh); /* Positionnement vertical */
+}
+
