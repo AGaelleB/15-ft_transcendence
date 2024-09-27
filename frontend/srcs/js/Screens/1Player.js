@@ -70,6 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
         ball.dx = 0;
         ball.dy = 0;
+
+        // Cacher le power-up dès que le décompte commence
+        hidePowerUp(powerUpImageElement);
+
         startCountdown(() => {
             const direction = Math.floor(Math.random() * 2);
             if (direction === 0)

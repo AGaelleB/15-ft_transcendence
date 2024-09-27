@@ -90,13 +90,12 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
     };
 }
 
-
 export function generatePowerUp(powerUpImageElement, canvas) {
     const now = Date.now();
     
     if (isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
-        nextPowerUpTime = now + getRandomInterval(18000, 25000); // entre 2 affichages
+        nextPowerUpTime = now + getRandomInterval(18000, 25000); // temps entre 2 affichages
     }
     else if (!isGameStarted()) {
         hidePowerUp(powerUpImageElement);
