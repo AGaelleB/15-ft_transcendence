@@ -29,11 +29,9 @@ export const powerUpsImages = [
 ];
 
 export function hidePowerUp(powerUpImageElement) {
-    console.log("Hiding power-up");
     powerUpImageElement.style.display = 'none';
 
     if (powerUpTimeoutId) {
-        console.log("Clearing timeout");
         clearTimeout(powerUpTimeoutId);
         powerUpTimeoutId = null;
     }
