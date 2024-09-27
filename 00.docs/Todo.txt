@@ -1,15 +1,16 @@
 **************************************** TO DO ****************************************
 
-- refaire le bot en lisant bien le sujet
-
 - petit probleme de size sur la modale settings chez Gaga
 
-- mettre un petit bouton home pour quitter le jeu avant de l avoir commence 
+- mettre un petit bouton home pour quitter le jeu avant de l avoir commence
 
-- utiliser un bootsrtap pour le l icone logout 
+- utiliser un bootsrtap pour l'icone logout
 
-- dans les games settings, permettre d'Augmenter/Réduire la taille de la balle, de la raquette
+- mettre en place les powers ups
 
+- changer les chemins pour les icons
+
+- changer les chemins pour les backgrounds
 
 ************************************ PAGES A CREER ************************************
 
