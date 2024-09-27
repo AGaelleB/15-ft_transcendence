@@ -324,19 +324,94 @@ input[type="checkbox"]:checked::after {
 
 /* Incrémentation des points pour gagner */
 .increment-container {
-  margin: calc(0.5vw + 0.5vh) 0;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: calc(0.5vw + 0.5vh);
   color: #a16935;
   font-family: 'Jersey', sans-serif;
+  justify-content: center;
+  margin: calc(0.5vw + 0.5vh) 0;
 }
 
-input[type="number"] {
-  width: calc(2vw + 4vh);
-  padding: calc(0.5vw + 0.5vh);
-  text-align: center;
-  background-color: #302a66;
+.increment-label {
+  font-size: calc(1.5vw + 1.5vh);
+  color: #a16935;
+}
+
+.increment-btn {
+  background-color: #2f213a;
   color: #a16935;
   border: none;
   outline: none;
-  font-size: calc(1vw + 1vh);
+  font-family: 'Jersey', sans-serif;
+  padding: calc(0.4vw + 0.4vh);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.increment-btn:active {
+  background-color: #ffcc00;
+  color: #302a66;
+  transform: scale(0.95);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.increment-value {
+  font-size: calc(2vw + 2vh);
+  color: #302a66;
+  text-shadow: 
+      1px 1px 2px #ffcc00, 
+      -1px -1px 2px #ffcc00, 
+      1px -1px 2px #ffcc00, 
+      -1px 1px 2px #ffcc00; /* Contour jaune autour du chiffre */
+}
+
+/* taille pour raquette et balle */
+.size-control-container {
+  display: flex;
+  align-items: center;
+  gap: calc(0.5vw + 0.5vh);
+  color: #a16935;
+  font-family: 'Jersey', sans-serif;
+  justify-content: center;
+}
+
+.size-label {
+  font-size: calc(1.5vw + 1.5vh);
+  color: #a16935;
+}
+
+.size-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.size-btn {
+  background-color: #2f213a;
+  color: #a16935;
+  border: none;
+  outline: none;
+  font-family: 'Jersey', sans-serif;
+  padding: calc(0.4vw + 0.4vh);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.size-btn:active {
+  background-color: #ffcc00;
+  color: #302a66;
+  transform: scale(0.95);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.size-value {
+  font-size: calc(2vw + 2vh);
+  color: #302a66;
+  text-shadow: 
+      1px 1px 2px #ffcc00, 
+      -1px -1px 2px #ffcc00, 
+      1px -1px 2px #ffcc00, 
+      -1px 1px 2px #ffcc00; /* Contour jaune autour du chiffre */
 }

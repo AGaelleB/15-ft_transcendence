@@ -111,9 +111,19 @@ document.addEventListener('DOMContentLoaded', function() {
         drawBall(ctx, ball);
     
         updateAI(ball, paddleRight, canvas);
+
     }
 
     const keys = {};
+
+    function updatePaddleDirection() {
+        if (keys['ArrowUp'])
+            paddleLeft.dy = -window.paddleSpeed;
+        else if (keys['ArrowDown'])
+            paddleLeft.dy = window.paddleSpeed;
+        else
+            paddleLeft.dy = 0;
+    }
 
     function handleKeydown(e) {
         keys[e.key] = true;
@@ -125,24 +135,24 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePaddleDirection();
     }
 
-    function updatePaddleDirection() {
-        if (keys['ArrowUp'])
-            paddleLeft.dy = -window.paddleSpeed;
-        else if (keys['ArrowDown'])
-            paddleLeft.dy = window.paddleSpeed;
-        else
-            paddleLeft.dy = 0;
-    }
-
     function movePaddles() {
+        // Mouvement du joueur (gauche)
         paddleLeft.y += paddleLeft.dy;
     
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
         if (paddleLeft.y > canvas.height - paddleLeft.height)
-            paddleLeft.y = canvas.height - paddleLeft.height; 
+            paddleLeft.y = canvas.height - paddleLeft.height;
+    
+        // Mouvement de l'IA (droite)
+        paddleRight.y += paddleRight.dy;
+    
+        if (paddleRight.y < 0)
+            paddleRight.y = 0;
+        if (paddleRight.y > canvas.height - paddleRight.height)
+            paddleRight.y = canvas.height - paddleRight.height;
     }
-
+    
     // resize canvas and adjust elements
     window.onResizeCanvas = () => resizeCanvas(paddleLeft, paddleRight, ball);
     window.addEventListener('resize', onResizeCanvas);

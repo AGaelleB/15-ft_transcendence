@@ -19,9 +19,10 @@ export const gameSettings = {
     ballSpeedX: 5,
     ballSpeedY: 5,
 
-    // IA speed
+    // IA
     aiSpeedFactor: 5,
     errorMargin: 0,
+    difficultyLevel: "novice",
 
     // Border
     borderFactor: 0.025,

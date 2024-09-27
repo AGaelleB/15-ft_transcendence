@@ -6,6 +6,9 @@ import { resetGame } from './startGameModal.js';
 
 // Variable globale pour indiquer si les paramètres sont ouverts
 export let isSettingsOpen = false;
+let ballSizeValue = 3;
+let paddleSizeValue = 3;
+let pointsToWinValue = 0;
 
 // Getter pour isSettingsOpen
 export function getIsSettingsOpen() {
@@ -21,8 +24,39 @@ export function saveGameSettings() {
 export function loadGameSettings() {
     const savedSettings = localStorage.getItem('gameSettings');
     if (savedSettings) {
-        Object.assign(gameSettings, JSON.parse(savedSettings));  // Fusionne les paramètres sauvegardés avec ceux actuels
+        Object.assign(gameSettings, JSON.parse(savedSettings));
     }
+
+    pointsToWinValue = gameSettings.winningScore;
+    ballSizeValue = gameSettings.ballSizeFactor / 0.015 * 3; // Reconvertir à l'échelle 1-5
+    paddleSizeValue = gameSettings.paddleHeightFactor / 0.25 * 3; // Reconvertir à l'échelle 1-5
+
+    switch (gameSettings.difficultyLevel) {
+        case "novice":
+            document.getElementById('novice').checked = true;
+            break;
+        case "intermediate":
+            document.getElementById('intermediate').checked = true;
+            break;
+        case "expert":
+            document.getElementById('expert').checked = true;
+            break;
+    }
+}
+
+
+// Met à jour la taille de la balle en fonction de la valeur ballSizeValue
+function updateBallSize() {
+    gameSettings.ballSizeFactor = 0.015 * (ballSizeValue / 3); // 3 est la valeur par défaut
+    document.getElementById('ballSizeValue').textContent = ballSizeValue;
+    // Applique les changements sur la balle (si besoin dans ton jeu)
+}
+
+// Met à jour la taille de la raquette en fonction de la valeur paddleSizeValue
+function updatePaddleSize() {
+    gameSettings.paddleHeightFactor = 0.25 * (paddleSizeValue / 3); // 3 est la valeur par défaut
+    document.getElementById('paddleSizeValue').textContent = paddleSizeValue;
+    // Applique les changements sur la raquette (si besoin dans ton jeu)
 }
 
 export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) { 
@@ -39,8 +73,13 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
 export function updateUIWithGameSettings() {
     document.getElementById('ballSpeed').value = gameSettings.ballSpeedX * 4;
     document.getElementById('paddleSpeed').value = gameSettings.paddleSpeedFactor * 200;
-    document.getElementById('pointsToWin').value = gameSettings.winningScore;
+    document.getElementById('pointsToWinValue').textContent = gameSettings.winningScore; // Correction ici
+    pointsToWinValue = gameSettings.winningScore; // Assurer la synchronisation
     document.getElementById('resetPaddlePosition').checked = gameSettings.resetPaddlePosition;
+
+    // Met à jour l'affichage des tailles de balle et de raquette
+    document.getElementById('ballSizeValue').textContent = ballSizeValue;
+    document.getElementById('paddleSizeValue').textContent = paddleSizeValue;
 
     if (gameSettings.is3D)
         document.getElementById('game3d').checked = true;
@@ -51,6 +90,12 @@ export function updateUIWithGameSettings() {
     updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
     updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
 }
+
+function updatePointsToWin() {
+    document.getElementById('pointsToWinValue').textContent = pointsToWinValue;
+    gameSettings.winningScore = pointsToWinValue;
+}
+
 
 export function initializeGameSettings() {
     const settingsIcon = document.getElementById('settingsIcon');
@@ -105,11 +150,27 @@ export function initializeGameSettings() {
         updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
     });
     
-    document.getElementById('pointsToWin').addEventListener('input', function (event) {
-        gameSettings.winningScore = Number(event.target.value);
-        resetGame();   
-        updateScore();
+    // Écouteur pour décrémenter les points à gagner
+    document.getElementById('decreasePoints').addEventListener('click', function () {
+        console.log('Decrease clicked'); // Pour vérifier si le clic fonctionne
+        if (pointsToWinValue > 1) {
+            pointsToWinValue--;
+            updatePointsToWin();
+            resetGame();
+            updateScore();
+        }
     });
+    
+    document.getElementById('increasePoints').addEventListener('click', function () {
+        console.log('Increase clicked'); // Pour vérifier si le clic fonctionne
+        if (pointsToWinValue < 10) {
+            pointsToWinValue++;
+            updatePointsToWin();
+            resetGame();
+            updateScore();
+        }
+    });
+    
 
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
         gameSettings.resetPaddlePosition = event.target.checked;
@@ -142,6 +203,35 @@ export function initializeGameSettings() {
     document.getElementById('expert').addEventListener('change', function () {
         if (this.checked) {
             gameSettings.errorMargin = Math.random() * 50 - 25;
+        }
+    });
+
+    document.getElementById('decreaseBallSize').addEventListener('click', function () {
+        if (ballSizeValue > 1) {
+            ballSizeValue--;
+            updateBallSize();
+        }
+    });
+
+    document.getElementById('increaseBallSize').addEventListener('click', function () {
+        if (ballSizeValue < 5) {
+            ballSizeValue++;
+            updateBallSize();
+        }
+    });
+
+    // Ajuster la taille de la raquette
+    document.getElementById('decreasePaddleSize').addEventListener('click', function () {
+        if (paddleSizeValue > 1) {
+            paddleSizeValue--;
+            updatePaddleSize();
+        }
+    });
+
+    document.getElementById('increasePaddleSize').addEventListener('click', function () {
+        if (paddleSizeValue < 5) {
+            paddleSizeValue++;
+            updatePaddleSize();
         }
     });
 }

@@ -63,14 +63,30 @@
                         <span id="paddleSpeedValue" class="slider-value">5</span>
                     </div>
                 </div>                                        
+                <div class="size-control-container">
+                    <label for="ballSizeControl" class="size-label">Ball Size:</label>
+                    <button id="decreaseBallSize" class="size-btn">▼</button>
+                    <span id="ballSizeValue" class="size-value">3</span>
+                    <button id="increaseBallSize" class="size-btn">▲</button>
+                    
+                    <label for="paddleSizeControl" class="size-label">Paddle Size:</label>
+                    <button id="decreasePaddleSize" class="size-btn">▼</button>
+                    <span id="paddleSizeValue" class="size-value">3</span>
+                    <button id="increasePaddleSize" class="size-btn">▲</button>
+                </div>
+                          
+                
+                <div class="increment-container">
+                    <label for="pointsToWinControl" class="increment-label">Points to Win:</label>
+                    <button id="decreasePoints" class="increment-btn">▼</button>
+                    <span id="pointsToWinValue" class="increment-value">5</span>
+                    <button id="increasePoints" class="increment-btn">▲</button>
+                </div>                
+                
                 <div class="checkbox-container">
                     <input type="checkbox" id="resetPaddlePosition" name="resetPaddlePosition">
                     <label for="resetPaddlePosition">Reset paddles after each point</label>
                 </div>                
-                <div class="increment-container">
-                    <label for="pointsToWin">Points to Win</label>
-                    <input type="number" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
-                </div>                                
             </div>            
             <button id="closeSettings" class="btn btn-primary">Close</button>
         </div>
