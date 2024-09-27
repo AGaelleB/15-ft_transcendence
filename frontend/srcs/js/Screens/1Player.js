@@ -16,10 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctx = canvas.getContext('2d');
     const startGameMessage = document.getElementById('startGameMessage');
     const settingsIcon = document.getElementById('settingsIcon');
+    const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement();
 
+    homeIcon.addEventListener('click', () => {
+        window.location.href = '/frontend/srcs/html/homeScreen.html';
+    });
+
     initializeButton();
-    initializeGameStartListener(startGameMessage, settingsIcon);
+    initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
 
     let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
     let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;

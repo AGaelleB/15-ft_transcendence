@@ -107,3 +107,14 @@ body {
     z-index: 10;
     display: none;
 }
+
+/* Styles for home icon on the right */
+.home-icon {
+    position: absolute;
+    top: calc(4vw + 6vh);
+    left: calc(5vw + 5vh);
+    font-size: calc(2vw + 2vh);
+    color: #ffcc00;
+    cursor: pointer;
+    z-index: 10000;
+}

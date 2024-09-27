@@ -6,9 +6,10 @@ import { setPlayer1Score, setPlayer2Score, updateScore } from '../PongGame/score
 let gameStarted = false; // Variable globale pour le statut du jeu
 
 // Fonction pour démarrer le jeu
-export function startGame(startGameMessage, settingsIcon) {
+export function startGame(startGameMessage, settingsIcon, homeIcon) {
     startGameMessage.style.display = 'none';
     settingsIcon.classList.add('hidden');
+    homeIcon.classList.add('hidden'); // Cacher l'icône de maison
     gameStarted = true; // Mettre à jour l'état global
 }
 
@@ -21,10 +22,10 @@ export function resetGame() {
 }
 
 // Fonction pour ajouter l'écouteur de démarrage du jeu avec les touches
-export function initializeGameStartListener(startGameMessage, settingsIcon) {
+export function initializeGameStartListener(startGameMessage, settingsIcon, homeIcon) {
     document.addEventListener('keydown', (e) => {
         if (!gameStarted && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter'))
-            startGame(startGameMessage, settingsIcon);
+            startGame(startGameMessage, settingsIcon, homeIcon);
     });
 }
 
