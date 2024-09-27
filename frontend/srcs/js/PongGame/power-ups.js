@@ -86,14 +86,14 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
 }
 
 // Exécutez le power-up à intervalle régulier
-let nextPowerUpTime = Date.now() + getRandomInterval(8000, 12000); // Délai entre 8 et 12sec
+let nextPowerUpTime = Date.now() + getRandomInterval(12000, 17000); // Délai entre 8 et 12sec
 
 export function generatePowerUp(powerUpImageElement, canvas) {
     const now = Date.now();
     
     if (isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
-        nextPowerUpTime = now + getRandomInterval(8000, 12000); // Délai aléatoire entre 8 et 12 sec
+        nextPowerUpTime = now + getRandomInterval(12000, 17000); // Délai aléatoire entre 8 et 12 sec
     }
     else if (!isGameStarted()) {
         hidePowerUp(powerUpImageElement);
