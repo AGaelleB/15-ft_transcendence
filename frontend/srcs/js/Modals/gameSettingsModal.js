@@ -31,7 +31,7 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
     const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
 
     // Met à jour la position et le texte de la valeur
-    sliderValue.textContent = slider.value * multiplier;
+    sliderValue.textContent = (slider.value * multiplier) - 2; // Affichage de la valeur décalée
     sliderValue.style.left = `calc(${value}% + (${offset - value * 0.3}px))`;
 }
 
@@ -91,7 +91,7 @@ export function initializeGameSettings() {
         const ballSpeed = Number(event.target.value);
         gameSettings.ballSpeedX = ballSpeed / 4;
         gameSettings.ballSpeedY = ballSpeed / 4;
-        
+
         updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
     });
     
