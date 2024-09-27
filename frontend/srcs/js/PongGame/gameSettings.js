@@ -23,6 +23,7 @@ export const gameSettings = {
     aiSpeedFactor: 5,
     errorMargin: 0,
     difficultyLevel: "novice",
+    setPowerUps: 0,
 
     // Border
     borderFactor: 0.025,

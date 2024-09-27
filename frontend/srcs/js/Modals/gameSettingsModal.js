@@ -210,6 +210,12 @@ export function initializeGameSettings() {
         saveGameSettings();
     });
     
+    document.getElementById('setPowerUps').addEventListener('change', function (event) {
+        gameSettings.setPowerUps = event.target.checked;
+        // a relier aux appels de Power-UPS
+        saveGameSettings();
+    });
+    
     loadSettingsOnPageLoad();
     console.log("Settings after load:", gameSettings);
     resetGame();

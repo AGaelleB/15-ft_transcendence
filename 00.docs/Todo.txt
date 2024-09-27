@@ -8,10 +8,6 @@
 
 - mettre en place les powers ups
 
-- changer les chemins pour les icons
-
-- changer les chemins pour les backgrounds
-
 ************************************ PAGES A CREER ************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
