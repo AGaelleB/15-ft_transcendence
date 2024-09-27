@@ -9,7 +9,7 @@ import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
 import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
-import { createPowerUpImageElement, generatePowerUp, hidePowerUp} from '../PongGame/power-ups.js';
+import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer} from '../PongGame/power-ups.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ball.dx = 0;
         ball.dy = 0;
 
-        // Cacher le power-up dès que le décompte commence
         hidePowerUp(powerUpImageElement);
-
+        resetPowerUpTimer();
+    
         startCountdown(() => {
             const direction = Math.floor(Math.random() * 2);
             if (direction === 0)

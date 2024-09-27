@@ -26,6 +26,10 @@ export const powerUpsImages = [
     '../images/power-ups/slowPaddle.png'
 ];
 
+export function resetPowerUpTimer() {
+    nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
+}
+
 export function hidePowerUp(powerUpImageElement) {
     powerUpImageElement.style.display = 'none';
 
@@ -88,7 +92,7 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
 
 export function generatePowerUp(powerUpImageElement, canvas) {
     const now = Date.now();
-    
+
     if (isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
         nextPowerUpTime = now + getRandomInterval(18000, 25000); // temps entre 2 affichages
