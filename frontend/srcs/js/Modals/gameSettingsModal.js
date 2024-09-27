@@ -60,10 +60,41 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
     sliderValue.style.left = `calc(${value}% + (${offset - value * 0.3}px))`;
 }
 
+function mapPaddleSpeed(paddleSpeed) {
+    // Attribuer directement les valeurs de vitesse à chaque cran
+    switch (paddleSpeed) {
+        case 1:
+            return 0.015;
+        case 2:
+            return 0.025;
+        case 3:
+            return 0.035;
+        case 4:
+            return 0.045;
+        case 5:
+            return 0.055;
+        default:
+            return 0.035; // Valeur par défaut au cas où
+    }
+}
+
+function reverseMapPaddleSpeed(paddleSpeedFactor) {
+    if (paddleSpeedFactor === 0.015) return 1;
+    else if (paddleSpeedFactor === 0.025) return 2;
+    else if (paddleSpeedFactor === 0.035) return 3;
+    else if (paddleSpeedFactor === 0.045) return 4;
+    else if (paddleSpeedFactor === 0.055) return 5;
+    else return 3; // Valeur par défaut si rien ne correspond
+}
+
+
 export function updateUIWithGameSettings() {
     // Met à jour les sliders avec les valeurs récupérées
     document.getElementById('ballSpeed').value = gameSettings.ballSpeedX * 4;
-    document.getElementById('paddleSpeed').value = gameSettings.paddleSpeedFactor * 200;
+
+    // Utilise la fonction inversée pour récupérer la position du slider
+    document.getElementById('paddleSpeed').value = reverseMapPaddleSpeed(gameSettings.paddleSpeedFactor);
+    
     document.getElementById('pointsToWin').value = pointsToWinValue;
     document.getElementById('ballSize').value = ballSizeValue;
     document.getElementById('paddleSize').value = paddleSizeValue;
@@ -84,11 +115,12 @@ export function updateUIWithGameSettings() {
 
     // Mettre à jour l'affichage des valeurs des sliders
     updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
-    updateSliderValuePositionSpeed('paddleSpeed', 'paddleSpeedValue', 1, 16);
+    updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
     updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
     updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
 }
+
 
 export function initializeGameSettings() {
     const settingsIcon = document.getElementById('settingsIcon');
@@ -168,7 +200,7 @@ export function initializeGameSettings() {
         }
     });    
 
-        document.getElementById('ballSpeed').addEventListener('input', function (event) {
+    document.getElementById('ballSpeed').addEventListener('input', function (event) {
         const ballSpeed = Number(event.target.value);
         gameSettings.ballSpeedX = ballSpeed / 4;
         gameSettings.ballSpeedY = ballSpeed / 4;
@@ -178,10 +210,14 @@ export function initializeGameSettings() {
     
     document.getElementById('paddleSpeed').addEventListener('input', function (event) {
         const paddleSpeed = Number(event.target.value);
-        gameSettings.paddleSpeedFactor = paddleSpeed / 200;    
-        updateSliderValuePositionSpeed('paddleSpeed', 'paddleSpeedValue', 1, 16);
+        
+        // Utiliser la fonction de mappage simple
+        gameSettings.paddleSpeedFactor = mapPaddleSpeed(paddleSpeed);
+        
+        updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
         saveGameSettings();
     });
+    
 
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
