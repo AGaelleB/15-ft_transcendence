@@ -176,6 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
             movePaddles();
             generatePowerUp(powerUpImageElement, canvas);
         }
+        else
+            hidePowerUp(powerUpImageElement);
 
         requestAnimationFrame(gameLoop);
     }
