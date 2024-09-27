@@ -14,8 +14,6 @@
 
 */
 
-// frontend/srcs/js/PongGame/power-ups.js
-
 import { isGameStarted } from '../Modals/startGameModal.js';
 
 let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
