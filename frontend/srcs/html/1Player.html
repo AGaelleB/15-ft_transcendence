@@ -52,37 +52,44 @@
                 <div class="slider-container">
                     <label for="ballSpeed" class="slider-label">Ball Speed</label>
                     <div class="slider-wrapper">
-                        <input type="range" id="ballSpeed" name="ballSpeed" min="3" max="8" value="5">
+                        <input type="range" id="ballSpeed" name="ballSpeed" min="3" max="7" value="5">
                         <span id="ballSpeedValue" class="slider-value">5</span>
                     </div>
                 </div>
                 <div class="slider-container">
                     <label for="paddleSpeed" class="slider-label">Paddle Speed</label>
                     <div class="slider-wrapper">
-                        <input type="range" id="paddleSpeed" name="paddleSpeed" min="3" max="8" value="5">
+                        <input type="range" id="paddleSpeed" name="paddleSpeed" min="3" max="7" value="5">
                         <span id="paddleSpeedValue" class="slider-value">5</span>
                     </div>
                 </div>                                        
-                <div class="size-control-container">
-                    <label for="ballSizeControl" class="size-label">Ball Size:</label>
-                    <button id="decreaseBallSize" class="size-btn">▼</button>
-                    <span id="ballSizeValue" class="size-value">3</span>
-                    <button id="increaseBallSize" class="size-btn">▲</button>
-                    
-                    <label for="paddleSizeControl" class="size-label">Paddle Size:</label>
-                    <button id="decreasePaddleSize" class="size-btn">▼</button>
-                    <span id="paddleSizeValue" class="size-value">3</span>
-                    <button id="increasePaddleSize" class="size-btn">▲</button>
+                <!-- Slider pour la taille de la balle -->
+                <div class="slider-container">
+                    <label for="ballSize" class="slider-label">Ball Size</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="ballSize" name="ballSize" min="1" max="5" value="3">
+                        <span id="ballSizeValue" class="slider-value">3</span>
+                    </div>
                 </div>
-                          
-                
-                <div class="increment-container">
-                    <label for="pointsToWinControl" class="increment-label">Points to Win:</label>
-                    <button id="decreasePoints" class="increment-btn">▼</button>
-                    <span id="pointsToWinValue" class="increment-value">5</span>
-                    <button id="increasePoints" class="increment-btn">▲</button>
-                </div>                
-                
+
+                <!-- Slider pour la taille de la raquette -->
+                <div class="slider-container">
+                    <label for="paddleSize" class="slider-label">Paddle Size</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="paddleSize" name="paddleSize" min="1" max="5" value="3">
+                        <span id="paddleSizeValue" class="slider-value">3</span>
+                    </div>
+                </div>
+
+                <!-- Slider pour les points à gagner -->
+                <div class="slider-container">
+                    <label for="pointsToWin" class="slider-label">Points to Win</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
+                        <span id="pointsToWinValue" class="slider-value">5</span>
+                    </div>
+                </div>
+
                 <div class="checkbox-container">
                     <input type="checkbox" id="resetPaddlePosition" name="resetPaddlePosition">
                     <label for="resetPaddlePosition">Reset paddles after each point</label>
