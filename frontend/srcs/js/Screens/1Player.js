@@ -109,9 +109,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Vérification de la collision avec le power-up
-        if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
-            applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
-            hidePowerUp(powerUpImageElement);
+        if (gameSettings.setPowerUps) {
+            if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
+                applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
+                hidePowerUp(powerUpImageElement);
+            }
         }
 
         // Increment scores

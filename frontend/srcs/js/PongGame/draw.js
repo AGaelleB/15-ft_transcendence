@@ -100,10 +100,8 @@ export function drawBall(ctx, ball) {
         drawPsychedelicBall(ctx, ball);
     }
     else {
-        // Draw smoke trail with consistent and proportional size before 25 exchanges
         drawSmokeTrail(ctx, ball);
-
-        if (rallyCount >= maxRallyBeforeSmoke && rallyCount <= 17)
+        if (rallyCount >= maxRallyBeforeSmoke)
             addSmokeTrail(ball.x, ball.y);
 
         // Draw normal yellow ball

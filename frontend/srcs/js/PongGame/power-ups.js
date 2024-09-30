@@ -134,12 +134,15 @@ export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
 export function resetPowerUpEffects(paddleLeft, paddleRight) {
+    // Remettre la taille et la vitesse des raquettes à leurs valeurs d'origine
     const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
 
-    paddleLeft.height = gameSettings.paddleHeightFactor * canvasHeight;
+    // Utilisez la hauteur initiale définie dans `gameSettings`
+    paddleLeft.height = gameSettings.paddleHeightFactor * canvasHeight; 
     paddleRight.height = gameSettings.paddleHeightFactor * canvasHeight;
 
-    paddleLeft.speedFactor = gameSettings.paddleSpeedFactor * 25;
+    // Réinitialiser les facteurs de vitesse à leur valeur d'origine
+    paddleLeft.speedFactor = gameSettings.paddleSpeedFactor * 25; // ou une autre valeur adaptée
     paddleRight.speedFactor = gameSettings.paddleSpeedFactor * 25;
 }
 
