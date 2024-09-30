@@ -23,7 +23,8 @@ import { isGameStarted } from '../Modals/startGameModal.js';
 import { gameSettings } from './gameSettings.js';
 import { getLastTouchedPaddle } from './ballCollision.js';
 
-let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
+// let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
+let nextPowerUpTime = Date.now() + getRandomInterval(1000, 1000); // Délai pour le 1er affichage
 let powerUpTimeoutId; // stocke l'ID du timeout
 
 export const powerUpsImages = [
@@ -34,7 +35,8 @@ export const powerUpsImages = [
 ];
 
 export function resetPowerUpTimer() {
-    nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
+    // nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
+    nextPowerUpTime = Date.now() + getRandomInterval(15000, 15000);
 }
 
 export function hidePowerUp(powerUpImageElement) {
@@ -93,7 +95,7 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
         // affiche durant 5 secondes
         powerUpTimeoutId = setTimeout(() => {
             powerUpImageElement.style.display = 'none';
-        }, 15000);
+        }, 15000); ////////////////////////////////////////////////////////////////////////////// 5000
     };
 }
 
@@ -102,7 +104,8 @@ export function generatePowerUp(powerUpImageElement, canvas) {
 
     if (isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
-        nextPowerUpTime = now + getRandomInterval(18000, 25000); // temps entre 2 affichages
+        // nextPowerUpTime = now + getRandomInterval(18000, 25000); // temps entre 2 affichages
+        nextPowerUpTime = now + getRandomInterval(15000, 15000); // temps entre 2 affichages
     }
     else if (!isGameStarted()) {
         hidePowerUp(powerUpImageElement);
@@ -128,10 +131,9 @@ export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
         ball.x - ball.size < powerUpX + powerUpWidth &&
         ball.y + ball.size > powerUpY &&
         ball.y - ball.size < powerUpY + powerUpHeight) {
-        console.log("Collision detected between ball and power-up!");
-        return true;
+        return (true);
     }
-    return false;
+    return (false);
 }
 
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
