@@ -1,5 +1,18 @@
 // frontend/srcs/js/PongGame/ballCollision.js
 
+let lastTouchedPaddle = null;
+
+export function getLastTouchedPaddle() {
+    return lastTouchedPaddle;
+}
+
+export function setLastTouchedPaddle(paddle) {
+    if (paddle === 'left' || paddle === 'right' || paddle === null)
+        lastTouchedPaddle = paddle;
+    else
+        console.warn("Invalid paddle value. Use 'left', 'right', or null.");
+}
+
 export function handlePaddleCollision(ball, paddle) {
     const paddleCenter = paddle.y + paddle.height / 2;
     const ballDistanceFromCenter = ball.y - paddleCenter;
@@ -27,6 +40,7 @@ export function handleWallCollision(ball, canvas) {
     }
 }
 
+// Fonction pour vérifier les collisions avec les raquettes et mettre à jour le drapeau
 export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBoundsFlag) {
     // Ball collision with left paddle (Player 1)
     if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
@@ -35,6 +49,7 @@ export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBo
         ball.x = paddleLeft.x + paddleLeft.width + ball.size;
         handlePaddleCollision(ball, paddleLeft);
         resetOutOfBoundsFlag();
+        setLastTouchedPaddle('left'); // Mise à jour du drapeau avec le setter
     }
 
     // Ball collision with right paddle (Player 2 or AI)
@@ -44,6 +59,7 @@ export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBo
         ball.x = paddleRight.x - ball.size; 
         handlePaddleCollision(ball, paddleRight);
         resetOutOfBoundsFlag();
+        setLastTouchedPaddle('right'); // Mise à jour du drapeau avec le setter
     }
 }
 

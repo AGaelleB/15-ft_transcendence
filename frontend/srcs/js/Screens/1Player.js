@@ -7,9 +7,10 @@ import { updateAI } from '../PongGame/computerIA.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
-import { handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
+import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
-import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer} from '../PongGame/power-ups.js';
+import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer } from '../PongGame/power-ups.js';
+import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -68,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const savedDx = ball.dx;
         const savedDy = ball.dy;
     
+        setLastTouchedPaddle(null);
+
         ball.dx = 0;
         ball.dy = 0;
 
@@ -102,12 +105,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Collisions logic
         handleWallCollision(ball, canvas);
-        checkPaddleCollision(ball, paddleLeft, paddleRight, () => { ballOutOfBounds = false; });
+        checkPaddleCollision(ball, paddleLeft, paddleRight, () => {
+            ballOutOfBounds = false;
+            incrementRallyCount(); // Increment rally count on each paddle collision
+        });
         
         // Increment scores
         if (checkBallOutOfBounds(ball, canvas, 
             () => setPlayer1Score(player1Score + 1), 
             () => setPlayer2Score(player2Score + 1))) {
+                resetRallyCount(); // Reset rally count when ball goes out of bounds
                 const gameEnded = checkGameEnd(player1Score, player2Score);
                 if (gameSettings.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
@@ -117,15 +124,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
         drawPaddle(ctx, paddleLeft);
         drawDottedLine(ctx, canvas);
         drawPaddle(ctx, paddleRight);
         drawBall(ctx, ball);
-    
+        
         updateAI(ball, paddleRight, canvas);
-
-    }
+    }    
 
     const keys = {};
 
