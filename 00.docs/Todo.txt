@@ -2,13 +2,9 @@
 
 - petit probleme de size sur la modale settings chez Gaga
 
-- mettre un petit bouton home pour quitter le jeu avant de l avoir commence
+- petit coche no rally
 
-- utiliser un bootsrtap pour l'icone logout
-
-- mettre en place les powers ups
-
-- boutton reset settings
+- mettre a jour le 2Players.js
 
 ************************************ PAGES A CREER ************************************
 
