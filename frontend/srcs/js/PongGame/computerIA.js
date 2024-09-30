@@ -22,7 +22,7 @@ const keys = {};
 let lastUpdateTime = 0;
 const updateInterval = 1000; // 1 seconde 
 let targetPositionY = 0;
-const tolerance = 30; // tolerence pour éviter les micro-mouvements
+const tolerance = 42; // tolerence pour éviter les micro-mouvements
 
 // Simule l'appui sur les touches 'w' et 's'
 function simulateKeyPress(direction) {
