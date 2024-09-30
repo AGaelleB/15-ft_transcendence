@@ -96,18 +96,15 @@ function drawExplosionParticles(ctx) {
 
 export function drawBall(ctx, ball) {
     // Stop drawing smoke trail and switch to psychedelic effect after 25 exchanges
-    // if (rallyCount >= 15 && rallyCount <= 18) {
-    //     drawPsychedelicBall(ctx, ball);
-    // }
-    // else {
+    if (rallyCount >= 15 && rallyCount <= 18) {
+        drawPsychedelicBall(ctx, ball);
+    }
+    else {
         // Draw smoke trail with consistent and proportional size before 25 exchanges
         drawSmokeTrail(ctx, ball);
 
-        // if (rallyCount >= maxRallyBeforeSmoke && rallyCount <= 17)
-            // addSmokeTrail(ball.x, ball.y);
-        // else if (rallyCount >= 18)
-        if (rallyCount >= 3)
-            addExplosionParticles(ball.x, ball.y);
+        if (rallyCount >= maxRallyBeforeSmoke && rallyCount <= 17)
+            addSmokeTrail(ball.x, ball.y);
 
         // Draw normal yellow ball
         ctx.beginPath();
@@ -115,7 +112,7 @@ export function drawBall(ctx, ball) {
         ctx.fillStyle = '#ffcc00';
         ctx.fill();
         ctx.closePath();
-    // }
+    }
 }
 
 // Function to draw the psychedelic ball effect
