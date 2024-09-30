@@ -25,30 +25,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initializeButton();
     initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
-
-    let paddleWidth = canvas.width * gameSettings.paddleWidthFactor;
-    let paddleHeight = canvas.height * gameSettings.paddleHeightFactor;
-    let ballSize = canvas.width * gameSettings.ballSizeFactor;
     
     let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
-    let ballSpeedX = gameSettings.ballSpeedX;
-    let ballSpeedY = gameSettings.ballSpeedY;
-  
+
     const paddleLeft = {
         x: 0,
         y: 0,
         width: 0,
         height: 0,
-        dy: 0
+        dy: 0,
+        speedFactor: gameSettings.paddleSpeedFactor * 25
     };
-
+    
     const paddleRight = {
         x: 0,
         y: 0,
         width: 0,
         height: 0,
-        dy: 0
+        dy: 0,
+        speedFactor: gameSettings.paddleSpeedFactor * 25
     };
+    
 
     const ball = {
         x: 0,
@@ -111,9 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Vérification de la collision avec le power-up
         if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
-            console.log('**** Collision avec le power-up détectée !****' );
             applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
-            console.log("applyPowerUpEffect paddleSpeedFactor = ", gameSettings.paddleSpeedFactor);
             hidePowerUp(powerUpImageElement);
         }
 
@@ -163,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePaddles() {
         // Mouvement du joueur (gauche)
-        paddleLeft.y += paddleLeft.dy;
+        paddleLeft.y += paddleLeft.dy * paddleLeft.speedFactor;
     
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
@@ -171,14 +166,14 @@ document.addEventListener('DOMContentLoaded', function() {
             paddleLeft.y = canvas.height - paddleLeft.height;
     
         // Mouvement de l'IA (droite)
-        paddleRight.y += paddleRight.dy;
+        paddleRight.y += paddleRight.dy * paddleRight.speedFactor;
     
         if (paddleRight.y < 0)
             paddleRight.y = 0;
         if (paddleRight.y > canvas.height - paddleRight.height)
             paddleRight.y = canvas.height - paddleRight.height;
     }
-    
+
     // resize canvas and adjust elements
     window.onResizeCanvas = () => resizeCanvas(paddleLeft, paddleRight, ball);
     window.addEventListener('resize', onResizeCanvas);

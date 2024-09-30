@@ -21,22 +21,20 @@
 
 import { isGameStarted } from '../Modals/startGameModal.js';
 import { gameSettings } from './gameSettings.js';
-import { getLastTouchedPaddle } from './ballCollision.js'; // Importer la fonction qui renvoie le dernier paddle qui a touché la balle
+import { getLastTouchedPaddle } from './ballCollision.js';
 
-// let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
-let nextPowerUpTime = Date.now() + getRandomInterval(1000, 2000); // Délai pour le 1er affichage
+let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
 let powerUpTimeoutId; // stocke l'ID du timeout
 
 export const powerUpsImages = [
-    // '..//images/power-ups/sizeUpPaddle.png',
-    // '../images/power-ups/sizeDownPaddle.png',
+    '..//images/power-ups/sizeUpPaddle.png',
+    '../images/power-ups/sizeDownPaddle.png',
     '../images/power-ups/speedPaddle.png',
     '../images/power-ups/slowPaddle.png'
 ];
 
 export function resetPowerUpTimer() {
-    // nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
-    nextPowerUpTime = Date.now() + getRandomInterval(1000, 2000);
+    nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
 }
 
 export function hidePowerUp(powerUpImageElement) {
@@ -104,8 +102,7 @@ export function generatePowerUp(powerUpImageElement, canvas) {
 
     if (isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
-        // nextPowerUpTime = now + getRandomInterval(18000, 25000); // temps entre 2 affichages
-        nextPowerUpTime = now + getRandomInterval(15000, 25000); // temps entre 2 affichages
+        nextPowerUpTime = now + getRandomInterval(18000, 25000); // temps entre 2 affichages
     }
     else if (!isGameStarted()) {
         hidePowerUp(powerUpImageElement);
@@ -117,7 +114,6 @@ export function generatePowerUp(powerUpImageElement, canvas) {
 
 // Fonction pour vérifier la collision entre la balle et un power-up
 export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
-    // Obtenir la position du power-up relative au canvas
     const canvasRect = canvas.getBoundingClientRect();
     const powerUpRect = powerUpImageElement.getBoundingClientRect();
 
@@ -138,54 +134,35 @@ export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
     return false;
 }
 
-
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
 export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle();
-
     let affectedPaddle;
-    let originalPaddleSpeedFactor = gameSettings.paddleSpeedFactor;
 
-    if (lastTouchedPaddle === 'left') {
+    if (lastTouchedPaddle === 'left')
         affectedPaddle = paddleLeft;
-    }
-    else if (lastTouchedPaddle === 'right') {
+    else if (lastTouchedPaddle === 'right')
         affectedPaddle = paddleRight;
-    }
     else {
         console.warn('Invalid paddle detected');
         return;
     }
 
     let originalHeight = affectedPaddle.height;
+    let originalSpeedFactor = affectedPaddle.speedFactor;
 
-    // Appliquer l'effet en fonction du type de power-up
-    if (powerUpSrc.includes('sizeUpPaddle.png')) {
+    if (powerUpSrc.includes('sizeUpPaddle.png'))
         affectedPaddle.height *= 1.75; // Agrandir le paddle
-    } 
-    else if (powerUpSrc.includes('sizeDownPaddle.png')) {
+    else if (powerUpSrc.includes('sizeDownPaddle.png'))
         affectedPaddle.height *= 0.5; // Réduire la taille du paddle
-    } 
-    else if (powerUpSrc.includes('speedPaddle.png')) {
-        gameSettings.paddleSpeedFactor *= 5; // Augmenter la vitesse du paddle
-        console.log("power-up speedPaddle++ ", gameSettings.paddleSpeedFactor);
+    else if (powerUpSrc.includes('speedPaddle.png'))
+        affectedPaddle.speedFactor *= 5; // Augmenter la vitesse du paddle
+    else if (powerUpSrc.includes('slowPaddle.png'))
+        affectedPaddle.speedFactor *= 0.25; // Réduire la vitesse du paddle
 
-    } 
-    else if (powerUpSrc.includes('slowPaddle.png')) {
-        gameSettings.paddleSpeedFactor *= 0.25; // Réduire la vitesse du paddle
-        console.log("power-up speedPaddle-- ", gameSettings.paddleSpeedFactor);
-    }
-
-    // Réinitialiser les effets après une durée spécifique
     setTimeout(() => {
         affectedPaddle.height = originalHeight;
-        gameSettings.paddleSpeedFactor = originalPaddleSpeedFactor; // Réinit la vitesse
-        
-        console.log(" *** Effet du power-up terminé *** ");
-        console.log("originalPaddleSpeedFactor = ", originalPaddleSpeedFactor);
-        console.log("gameSettings.paddleSpeedFactor = ", gameSettings.paddleSpeedFactor);
-        console.log(" *** *** *** *** *** *** ");
-
+        affectedPaddle.speedFactor = originalSpeedFactor;
     }, gameSettings.powerUpEffectDuration);
 }
