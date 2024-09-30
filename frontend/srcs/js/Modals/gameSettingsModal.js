@@ -20,6 +20,28 @@ export function saveGameSettings() {
     localStorage.setItem('gameSettings', JSON.stringify(gameSettings));
 }
 
+// Default game settings for reset
+const defaultGameSettings = {
+    is3D: false,
+    difficultyLevel: "novice",
+    ballSpeedX: 1.25,
+    ballSpeedY: 1.25,
+    paddleSpeedFactor: 0.035,
+    ballSizeFactor: 0.015,
+    paddleHeightFactor: 0.25,
+    winningScore: 5,
+    resetPaddlePosition: true,
+    setPowerUps: false,
+};
+
+function resetToDefaultSettings() {
+    Object.assign(gameSettings, defaultGameSettings);
+    saveGameSettings();
+
+    loadGameSettings();
+    updateUIWithGameSettings();
+}
+
 export function loadGameSettings() {
     const savedSettings = localStorage.getItem('gameSettings');
     if (savedSettings)
@@ -38,8 +60,9 @@ export function loadGameSettings() {
     else if (gameSettings.difficultyLevel === "expert")
         document.getElementById('expert').checked = true;
 
-    // Mettre à jour la case à cocher pour resetPaddlePosition
+    // Mettre à jour la case à cocher pour resetPaddlePosition, setPowerUps
     document.getElementById('resetPaddlePosition').checked = gameSettings.resetPaddlePosition;
+    document.getElementById('setPowerUps').checked = gameSettings.setPowerUps;
 }
 
 export function updateSliderValuePositionSpeed(sliderId, spanId, multiplier, offset) { 
@@ -86,7 +109,6 @@ function reverseMapPaddleSpeed(paddleSpeedFactor) {
     else if (paddleSpeedFactor === 0.055) return 5;
     else return 3; // Valeur par défaut si rien ne correspond
 }
-
 
 export function updateUIWithGameSettings() {
     // Met à jour les sliders avec les valeurs récupérées
@@ -161,6 +183,10 @@ export function initializeGameSettings() {
     });
 
     updateScore();
+
+    document.getElementById('resetSettings').addEventListener('click', () => {
+        resetToDefaultSettings();
+    });
 
     document.getElementById('game2d').addEventListener('change', function () {
         if (this.checked) {
@@ -248,7 +274,6 @@ export function initializeGameSettings() {
     
     document.getElementById('setPowerUps').addEventListener('change', function (event) {
         gameSettings.setPowerUps = event.target.checked;
-        // a relier aux appels de Power-UPS
         saveGameSettings();
     });
     

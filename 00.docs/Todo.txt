@@ -2,13 +2,8 @@
 
 - petit probleme de size sur la modale settings chez Gaga
 
-- mettre un petit bouton home pour quitter le jeu avant de l avoir commence
-
-- utiliser un bootsrtap pour l'icone logout
-
 - mettre en place les powers ups
 
-- boutton reset settings
 
 ************************************ PAGES A CREER ************************************
 
@@ -23,12 +18,28 @@
 
 - creer un modal pour confirmer la deconnection
 
-**************************************** MODULES *************************************** 
+****************************** MODULES *******************************
 
-Minor module: Use a front-end framework or toolkit.
-Minor module: Game Customization Options.
-Minor module: User and Game Stats Dashboards.
+[X] Minor module: Use a front-end framework or toolkit.
+[X] Minor module: Game Customization Options.
+[] Minor module: Multiple language supports
 
-Major module: Implement Two-Factor Authentication (2FA) and JWT.
-Major module: Use of advanced 3D techniques.
-Major module: Introduce an AI Opponent.
+[] Major module: Implement Two-Factor Authentication (2FA) and JWT.
+[] Major module: Use of advanced 3D techniques.
+[X] Major module: Introduce an AI Opponent.
+
+[4,5 pts]
+
+**************************************************************v*******
+
+pour eux ? : 
+
+[] Minor module: Use a database for the backend
+[] Minor module: Expanding Browser Compatibility
+[] Minor module: Add accessibility for Visually Impaired Users
+[] Minor module: User and Game Stats Dashboards.
+
+[] Major module: Use a Framework as backend
+[] Major module: Standard user management, authentication, users across tournaments
+
+[4 pts]

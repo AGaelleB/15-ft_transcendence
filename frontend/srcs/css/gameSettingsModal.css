@@ -321,3 +321,32 @@ input[type="checkbox"]:checked::after {
   color: #302a66;
   font-size: calc(1.5vw + 1.5vh);
 }
+
+/* Flex container for the title and reset button */
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: calc(1vw + 1vh);
+}
+
+.settings-header h2 {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.reset-button {
+  margin-left: calc(1vw + 1vh);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: calc(2vw + 2vh);
+  color: #a16935;
+  transition: color 0.3s ease;
+}
+
+.reset-button:active {
+  color: #ffff00;
+}
