@@ -181,8 +181,11 @@ export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     setTimeout(() => {
         affectedPaddle.height = originalHeight;
         gameSettings.paddleSpeedFactor = originalPaddleSpeedFactor; // Réinit la vitesse
-        console.log("Effet du power-up terminé");
+        
+        console.log(" *** Effet du power-up terminé *** ");
         console.log("originalPaddleSpeedFactor = ", originalPaddleSpeedFactor);
         console.log("gameSettings.paddleSpeedFactor = ", gameSettings.paddleSpeedFactor);
+        console.log(" *** *** *** *** *** *** ");
+
     }, gameSettings.powerUpEffectDuration);
 }
