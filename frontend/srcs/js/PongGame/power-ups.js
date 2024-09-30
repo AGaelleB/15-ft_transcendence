@@ -28,8 +28,8 @@ let nextPowerUpTime = Date.now() + getRandomInterval(1000, 2000); // Délai pour
 let powerUpTimeoutId; // stocke l'ID du timeout
 
 export const powerUpsImages = [
-    '..//images/power-ups/sizeUpPaddle.png',
-    '../images/power-ups/sizeDownPaddle.png',
+    // '..//images/power-ups/sizeUpPaddle.png',
+    // '../images/power-ups/sizeDownPaddle.png',
     '../images/power-ups/speedPaddle.png',
     '../images/power-ups/slowPaddle.png'
 ];
@@ -145,6 +145,7 @@ export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle();
 
     let affectedPaddle;
+    let originalPaddleSpeedFactor = gameSettings.paddleSpeedFactor;
 
     if (lastTouchedPaddle === 'left') {
         affectedPaddle = paddleLeft;
@@ -158,26 +159,30 @@ export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     }
 
     let originalHeight = affectedPaddle.height;
-    let originalPaddleSpeed = window.paddleSpeed;
 
     // Appliquer l'effet en fonction du type de power-up
     if (powerUpSrc.includes('sizeUpPaddle.png')) {
         affectedPaddle.height *= 1.75; // Agrandir le paddle
     } 
     else if (powerUpSrc.includes('sizeDownPaddle.png')) {
-        affectedPaddle.height *= 0.25; // Réduire la taille du paddle
+        affectedPaddle.height *= 0.5; // Réduire la taille du paddle
     } 
     else if (powerUpSrc.includes('speedPaddle.png')) {
-        window.paddleSpeed *= 3; // Augmenter la vitesse du paddle
+        gameSettings.paddleSpeedFactor *= 5; // Augmenter la vitesse du paddle
+        console.log("power-up speedPaddle++ ", gameSettings.paddleSpeedFactor);
+
     } 
     else if (powerUpSrc.includes('slowPaddle.png')) {
-        window.paddleSpeed *= 0.25; // Réduire la vitesse du paddle
+        gameSettings.paddleSpeedFactor *= 0.25; // Réduire la vitesse du paddle
+        console.log("power-up speedPaddle-- ", gameSettings.paddleSpeedFactor);
     }
 
-    // Réinitialiser les effets
+    // Réinitialiser les effets après une durée spécifique
     setTimeout(() => {
         affectedPaddle.height = originalHeight;
-        window.paddleSpeed = originalPaddleSpeed;
+        gameSettings.paddleSpeedFactor = originalPaddleSpeedFactor; // Réinit la vitesse
         console.log("Effet du power-up terminé");
+        console.log("originalPaddleSpeedFactor = ", originalPaddleSpeedFactor);
+        console.log("gameSettings.paddleSpeedFactor = ", gameSettings.paddleSpeedFactor);
     }, gameSettings.powerUpEffectDuration);
 }

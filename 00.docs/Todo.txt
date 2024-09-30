@@ -2,8 +2,13 @@
 
 - petit probleme de size sur la modale settings chez Gaga
 
+- mettre un petit bouton home pour quitter le jeu avant de l avoir commence
+
+- utiliser un bootsrtap pour l'icone logout
+
 - mettre en place les powers ups
 
+- boutton reset settings
 
 ************************************ PAGES A CREER ************************************
 
@@ -18,7 +23,7 @@
 
 - creer un modal pour confirmer la deconnection
 
-****************************** MODULES *******************************
+**************************************** MODULES *************************************** 
 
 [X] Minor module: Use a front-end framework or toolkit.
 [X] Minor module: Game Customization Options.
@@ -30,7 +35,7 @@
 
 [4,5 pts]
 
-**************************************************************v*******
+****************************************
 
 pour eux ? : 
 

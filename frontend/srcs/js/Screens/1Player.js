@@ -111,8 +111,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Vérification de la collision avec le power-up
         if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
-            console.log('Collision avec le power-up détectée !');
+            console.log('**** Collision avec le power-up détectée !****' );
             applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
+            console.log("applyPowerUpEffect paddleSpeedFactor = ", gameSettings.paddleSpeedFactor);
             hidePowerUp(powerUpImageElement);
         }
 
