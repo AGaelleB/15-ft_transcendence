@@ -9,7 +9,8 @@ import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
 import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
-import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision} from '../PongGame/power-ups.js';import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
+import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/power-ups.js';
+import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ball.dx = 0;
         ball.dy = 0;
 
+        resetPowerUpEffects(paddleLeft, paddleRight);
         hidePowerUp(powerUpImageElement);
         resetPowerUpTimer();
     

@@ -173,7 +173,6 @@ export function initializeGameSettings() {
         isSettingsOpen = false;
     });
     
-
     // Empêche la propagation de l'événement Enter/Space lorsque les paramètres sont ouverts
     settingsModal.addEventListener('keydown', (e) => {
         if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
