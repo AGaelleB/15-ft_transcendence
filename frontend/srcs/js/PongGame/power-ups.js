@@ -142,8 +142,8 @@ export function resetPowerUpEffects(paddleLeft, paddleRight) {
     paddleRight.height = gameSettings.paddleHeightFactor * canvasHeight;
 
     // Réinitialiser les facteurs de vitesse à leur valeur d'origine
-    paddleLeft.speedFactor = gameSettings.paddleSpeedFactor;
-    paddleRight.speedFactor = gameSettings.paddleSpeedFactor;
+    paddleLeft.speedFactor = gameSettings.paddleSpeedFactor * 25; // ou une autre valeur adaptée
+    paddleRight.speedFactor = gameSettings.paddleSpeedFactor * 25;
 }
 
 export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
