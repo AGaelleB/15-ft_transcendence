@@ -1,17 +1,12 @@
 // frontend/srcs/js/PongGame/power-ups.js
 
 /* 
-    Durée des effets : les powers ups vont durer entre 5 à 10 secondes
-    Apparition aléatoire : Les power-ups peuvent apparaître aléatoirement sur le terrain à intervalles réguliers
-    Indicateur visuel : Ajoute un indicateur visuel lorsque les power-ups sont actifs (couleur, taille, effet lumineux, etc.
-
     Bonus :
         - va augmenter temporairement la taille de notre paddle (champi)
         - va augmenter temporairement la vitessse de notre paddle (eclair)
     Malus : 
         - va reduire temporairement la taille de notre paddle (champi dead)
         - va reduire temporairement la vitessse de notre paddle (tortue)
-
 */
 
 
