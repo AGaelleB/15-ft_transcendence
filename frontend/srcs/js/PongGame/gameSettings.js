@@ -32,4 +32,8 @@ export const gameSettings = {
 
     // Score
     winningScore: 0,
+
+    // Power-ups
+    powerUpEffectDuration: 5000 // 5 sec
+
 };

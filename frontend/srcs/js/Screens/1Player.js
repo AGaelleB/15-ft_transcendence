@@ -9,8 +9,7 @@ import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
 import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
-import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer } from '../PongGame/power-ups.js';
-import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
+import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision} from '../PongGame/power-ups.js';import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -110,6 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
             incrementRallyCount(); // Increment rally count on each paddle collision
         });
         
+        // Vérification de la collision avec le power-up
+        if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
+            console.log('Collision avec le power-up détectée !');
+            applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
+            hidePowerUp(powerUpImageElement);
+        }
+
         // Increment scores
         if (checkBallOutOfBounds(ball, canvas, 
             () => setPlayer1Score(player1Score + 1), 
