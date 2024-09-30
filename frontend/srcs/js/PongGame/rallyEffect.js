@@ -8,7 +8,7 @@ export const maxRallyBeforeSmoke = 10;
 
 export function resetRallyCount() {
     rallyCount = 0;
-    setSmokeTrail([]); // Clear smoke trail when rally count resets
+    setSmokeTrail([]);
 }
 
 export function incrementRallyCount() {
