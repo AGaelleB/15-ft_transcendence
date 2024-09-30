@@ -98,11 +98,11 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
 export function generatePowerUp(powerUpImageElement, canvas) {
     const now = Date.now();
 
-    if (isGameStarted() && now >= nextPowerUpTime) {
+    if (gameSettings.setPowerUps && isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
         nextPowerUpTime = now + getRandomInterval(12000, 25000); // temps entre 2 affichages
     }
-    else if (!isGameStarted()) {
+    else if (!isGameStarted() || !gameSettings.setPowerUps) {
         hidePowerUp(powerUpImageElement);
     }
 }
