@@ -8,6 +8,8 @@
 
 - mettre en place les powers ups
 
+- boutton reset settings
+
 ************************************ PAGES A CREER ************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
