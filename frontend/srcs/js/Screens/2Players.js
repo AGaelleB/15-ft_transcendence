@@ -10,6 +10,7 @@ import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkP
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
 import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/power-ups.js';
 import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
+import { loadLanguages } from '../Modals/switchLanguages.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('pongCanvas');
@@ -18,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement();
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
 
     homeIcon.addEventListener('click', () => {
         window.location.href = '/frontend/srcs/html/homeScreen.html';

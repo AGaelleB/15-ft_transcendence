@@ -8,5 +8,33 @@
     "login_signup_now": "Signup now",
 
     "start_game": "Start Game",
-    "settings": "Settings"
+    "1_player": "1 PLAYER",
+    "2_players": "2 PLAYERS",
+    "multi": "MULTI PLAYERS",
+
+    "game_settings": "Game Settings",
+    "novice": "novice",
+    "intermediate": "intermediate",
+    "expert": "expert",
+    "ball_speed": "Ball Speed",
+    "paddle_speed": "Paddle Speed",
+    "ball_size": "Ball Size",
+    "paddle_size": "Paddle Size",
+    "points_win": "Points to win",
+    "reset": "Reset paddles after each point",
+    "power_ups": "Active Power-ups",
+    "rally": "Active Rally",
+    "close": "Close",
+
+    "press_start": "Press Space/Enter to begin the game",
+
+    "mode_1": "1 Player mode",
+    "mode_2": "2 Players mode",
+    "mode_multi": "Multi Players mode",
+
+    "robot": "Mr Robot",
+
+    "winner": "Player ${winner} Wins!",
+    "home": "Home",
+    "play_again": "Play Again"
 }

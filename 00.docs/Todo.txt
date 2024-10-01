@@ -20,6 +20,8 @@
 
 - creer un modal pour confirmer la deconnection
 
+- mettre un GIF du jeu
+
 **************************************** MODULES *************************************** 
 
 [X] Minor module: Use a front-end framework or toolkit

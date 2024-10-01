@@ -3,8 +3,8 @@
 import { saveGameSettings } from './gameSettingsModal.js';
 
 export function showWinMessage(winner) {
-    const winnerMessage = document.querySelector('.message');
-    winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
+    // const winnerMessage = document.querySelector('.message');
+    // winnerMessage.innerHTML = `Player ${winner} Wins! <i class="bi bi-emoji-sunglasses"></i>`;
 
     const modal = document.querySelector('.modal');
     modal.style.display = 'block';
@@ -27,11 +27,11 @@ export function initializeWinMsg() {
     
         const gameMode = localStorage.getItem('gameMode');
     
-        if (gameMode === '1 PLAYER')
+        if (gameMode === '1 PLAYER' || gameMode === '1 joueur' || gameMode === '1 jugador')
             window.location.href = '1Player.html';
-        else if (gameMode === '2 PLAYERS')
+        else if (gameMode === '2 PLAYERS' || gameMode === '2 joueurs' || gameMode === '2 jugadores')
             window.location.href = '2Players.html';
-        else if (gameMode === 'MULTI PLAYERS')
+        else if (gameMode === 'MULTI PLAYERS' || gameMode === 'Multijoueur' || gameMode === 'multijugadores')
             window.location.href = 'multiPlayers.html';
         else
             console.error('Error: Mode de jeu non défini');
