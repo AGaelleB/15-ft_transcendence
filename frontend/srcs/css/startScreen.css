@@ -35,7 +35,7 @@ body {
 }
 
 .welcome-text h1 {
-    font-size: calc(6vw + 6vh);
+    font-size: calc(5vw + 5vh);
     color: #a16935;
     margin-bottom: calc(1vw + 1vh);
 }
@@ -53,7 +53,7 @@ body {
     background: none;
     border: none;
     color: #a16935;
-    font-size: calc(5vw + 5vh);
+    font-size: calc(3vw + 3vh);
     margin: 0 calc(4vw + 4vh);
     cursor: pointer;
     padding: calc(1vw + 1vh) calc(2vw + 2vh);
