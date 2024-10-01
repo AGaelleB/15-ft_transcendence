@@ -1,4 +1,4 @@
-**************************************** TO DO ****************************************
+**************************************** TO DO *****************************************
 
 - petit probleme de size sur la modale settings chez Gaga
 
@@ -7,7 +7,11 @@
 - lors de la registration, demander la choix de la langue pour l enregistrer
     et le sav pour les prochaines connections
 
-************************************ PAGES A CREER ************************************
+- mettre un GIF du jeu
+
+- traduire les cases de registrations
+
+************************************ PAGES A CREER *************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
     -> User name / possibilite de changer 
@@ -19,8 +23,6 @@
 - multiplayer avec des tournois
 
 - creer un modal pour confirmer la deconnection
-
-- mettre un GIF du jeu
 
 **************************************** MODULES *************************************** 
 
