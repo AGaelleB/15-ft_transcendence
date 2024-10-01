@@ -1,7 +1,12 @@
 // frontend/srcs/js/Screens/homeScreen.js
 
+import { loadLanguages } from '../Modals/switchLanguages.js';
+
 document.addEventListener("DOMContentLoaded", function() {
     const menuItems = document.querySelectorAll('.menu-item a');
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
+
     let currentIndex = 0;
     let keyboardNavigationEnabled = true;
 

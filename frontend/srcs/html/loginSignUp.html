@@ -2,24 +2,26 @@
 
 <!doctype html>
 <html lang="en">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>ft_transcendence</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/loginSignUp.css" rel="stylesheet">
     </head>
+    
     <body>
         <div class="wrapper">
             <div class="title-text">
-                <div class="title login">Login to Play PONG</div>
+                <div data-lang-key="login_title" class="title login">Login to Play PONG</div>
             </div>
             <div class="form-container">
                 <div class="slide-controls">
                     <input type="radio" name="slide" id="login" checked>
                     <input type="radio" name="slide" id="signup">
-                    <label for="login" class="slide login">Login</label>
-                    <label for="signup" class="slide signup">Signup</label>
+                    <label data-lang-key="login" for="login" class="slide login">Login</label>
+                    <label data-lang-key="signup" for="signup" class="slide signup">Signup</label>
                     <div class="slider-tab"></div>
                 </div>
                 <div class="form-inner">
@@ -33,8 +35,8 @@
                         <div class="button-container">
                             <button class="option-button" type="submit">Login</button>
                         </div>
-                        <div class="signup-link-bottom">
-                            Never played before? <a href="#" class="orange-link" id="signup-link">Signup now</a>
+                        <div data-lang-key="login_never_played_before" class="signup-link-bottom">
+                            Never played before? <a href="#" data-lang-key="login_signup_now" class="orange-link" id="signup-link">Signup now</a>
                         </div>
                     </form>
                     <form action="#" class="signup" id="signup">
@@ -54,6 +56,6 @@
                 </div>
             </div>
         </div>
-        <script src="../js/Screens/loginSignUp.js" defer></script>
+        <script type="module" src="../js/Screens/loginSignUp.js"></script>
     </body>
 </html>

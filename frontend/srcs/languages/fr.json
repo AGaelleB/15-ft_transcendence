@@ -1,9 +1,12 @@
 {
-    "welcome_message": "Bienvenue sur notre site!",
+    "welcome_message": "Bienvenue sur notre site !",
     "login": "Connexion",
-    "logout": "Déconnexion",
-    "signup": "Inscription",
+    "signup": "S'inscrire",
+
+    "login_title": "Connectez-vous pour jouer à PONG",
+    "login_never_played_before": "Jamais joué avant ?",
+    "login_signup_now": "Inscrivez-vous maintenant",
+
     "start_game": "Commencer le jeu",
     "settings": "Paramètres"
-  }
-  
+}

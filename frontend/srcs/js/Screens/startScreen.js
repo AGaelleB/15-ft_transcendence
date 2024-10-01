@@ -58,17 +58,15 @@ document.addEventListener("DOMContentLoaded", function() {
         keyboardNavigationEnabled = true;
     });
 
-    const defaultLang = 'en';
-    loadLanguages(defaultLang);
+    // Charger la langue stockée
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
 
-    // document.getElementById("lang-switcher").addEventListener("change", (event) => {
-    //     loadLanguages(event.target.value);
-    // });
+    document.getElementById("lang-switcher").addEventListener("change", (event) => {
+        const selectedLang = event.target.value;
+        localStorage.setItem('preferredLanguage', selectedLang);
+        loadLanguages(selectedLang);
+    });
+    
 
-    const langSwitcher = document.getElementById("lang-switcher");
-    if (langSwitcher) {
-        langSwitcher.addEventListener("change", (event) => {
-            loadLanguages(event.target.value);
-        });
-    }
 });

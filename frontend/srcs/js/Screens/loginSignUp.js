@@ -1,5 +1,7 @@
 // frontend/srcs/js/Screens/loginSignUp.js
 
+import { loadLanguages } from '../Modals/switchLanguages.js';
+
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.querySelector("form.login");
     const signupForm = document.querySelector("form.signup");
@@ -7,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const signupBtn = document.querySelector("label.signup");
     const signupLink = document.getElementById("signup-link");
     const loginSubmitButton = document.querySelector("form.login button[type='submit']");
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
 
     signupLink.addEventListener("click", (event) => {
         event.preventDefault();
