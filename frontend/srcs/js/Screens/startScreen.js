@@ -1,5 +1,7 @@
 // frontend/srcs/js/Screens/startScreen.js
 
+import { loadLanguages } from '../Modals/switchLanguages.js';
+
 document.addEventListener("DOMContentLoaded", function() {
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
@@ -11,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
     signupButton.addEventListener("click", function() {
         window.location.href = "./html/loginSignUp.html#signup";
     });
-    
 
     let keyboardNavigationEnabled = true;
 
@@ -56,4 +57,18 @@ document.addEventListener("DOMContentLoaded", function() {
         clearFocus();
         keyboardNavigationEnabled = true;
     });
+
+    const defaultLang = 'en';
+    loadLanguages(defaultLang);
+
+    // document.getElementById("lang-switcher").addEventListener("change", (event) => {
+    //     loadLanguages(event.target.value);
+    // });
+
+    const langSwitcher = document.getElementById("lang-switcher");
+    if (langSwitcher) {
+        langSwitcher.addEventListener("change", (event) => {
+            loadLanguages(event.target.value);
+        });
+    }
 });
