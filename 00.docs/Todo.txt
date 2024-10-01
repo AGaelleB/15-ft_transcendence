@@ -39,7 +39,7 @@ pour eux ? :
 [] Minor module: Use a database for the backend
 [] Minor module: Expanding Browser Compatibility
 [] Minor module: Add accessibility for Visually Impaired Users
-[] Minor module: User and Game Stats Dashboards.
+[] Minor module: User and Game Stats Dashboards
 
 [] Major module: Use a Framework as backend
 [] Major module: Standard user management, authentication, users across tournaments
