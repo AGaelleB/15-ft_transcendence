@@ -4,6 +4,9 @@
 
 - ajouter une petite image dans l onglet URL
 
+- lors de la registration, demander la choix de la langue pour l enregistrer
+    et le sav pour les prochaines connections
+
 ************************************ PAGES A CREER ************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
