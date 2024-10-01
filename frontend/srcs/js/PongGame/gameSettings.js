@@ -34,6 +34,8 @@ export const gameSettings = {
     winningScore: 0,
 
     // Power-ups
-    powerUpEffectDuration: 7000 // 7 sec
+    powerUpEffectDuration: 7000, // 7 sec
 
+    // Rally
+    setRally: 0
 };

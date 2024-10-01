@@ -23,7 +23,7 @@ export function saveGameSettings() {
 // Default game settings for reset
 const defaultGameSettings = {
     is3D: false,
-    difficultyLevel: "novice",
+    difficultyLevel: "intermediate",
     ballSpeedX: 1.25,
     ballSpeedY: 1.25,
     paddleSpeedFactor: 0.035,
@@ -32,6 +32,7 @@ const defaultGameSettings = {
     winningScore: 5,
     resetPaddlePosition: true,
     setPowerUps: false,
+    setRally: false,
 };
 
 function resetToDefaultSettings() {
@@ -63,6 +64,7 @@ export function loadGameSettings() {
     // Mettre à jour la case à cocher pour resetPaddlePosition, setPowerUps
     document.getElementById('resetPaddlePosition').checked = gameSettings.resetPaddlePosition;
     document.getElementById('setPowerUps').checked = gameSettings.setPowerUps;
+    document.getElementById('setRally').checked = gameSettings.setRally;
 }
 
 export function updateSliderValuePositionSpeed(sliderId, spanId, multiplier, offset) { 
@@ -152,11 +154,28 @@ export function initializeGameSettings() {
     settingsModal.style.display = 'none';
 
     // Ouvre le modal des paramètres
+    // Ouvre ou ferme le modal des paramètres
     settingsIcon.addEventListener('click', () => {
-        document.querySelector('.settings-modal-container').classList.add('active');
-        settingsModal.style.display = 'flex';
-        updateUIWithGameSettings(); // Met à jour l'UI lors de l'ouverture du modal
-        isSettingsOpen = true;
+        if (!isSettingsOpen) {
+            // Ouvrir le modal
+            document.querySelector('.settings-modal-container').classList.add('active');
+            settingsModal.style.display = 'flex';
+            updateUIWithGameSettings(); // Met à jour l'UI lors de l'ouverture du modal
+            isSettingsOpen = true;
+        }
+        else {
+            // Fermer le modal (comme le bouton 'Close')
+            document.querySelector('.settings-modal-container').classList.remove('active');
+            settingsModal.style.display = 'none';
+            
+            saveGameSettings();
+            loadGameSettings();
+
+            // Recharger la page pour forcer l'application des nouveaux paramètres
+            window.location.reload();
+            
+            isSettingsOpen = false;
+        }
     });
 
     // Ferme le modal des paramètres et sauvegarde les nouveaux paramètres
@@ -276,6 +295,11 @@ export function initializeGameSettings() {
         saveGameSettings();
     });
     
+    document.getElementById('setRally').addEventListener('change', function (event) {
+        gameSettings.setRally = event.target.checked;
+        saveGameSettings();
+    });
+
     loadSettingsOnPageLoad();
     console.log("Settings after load:", gameSettings);
     resetGame();

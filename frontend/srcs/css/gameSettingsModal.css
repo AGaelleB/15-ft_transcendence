@@ -3,6 +3,10 @@
   color: #a16935;
 }
 
+body {
+  user-select: none;
+}
+
 /* Conteneur pour centrer la modale sans effet flou */
 .settings-modal-container {
   display: flex;

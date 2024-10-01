@@ -13,5 +13,4 @@ export function resetRallyCount() {
 
 export function incrementRallyCount() {
     rallyCount++;
-    // console.log(`Rally count: ${rallyCount}`);
 }
