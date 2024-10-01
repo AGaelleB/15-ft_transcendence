@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
         speedFactor: gameSettings.paddleSpeedFactor * 25
     };
     
-
     const ball = {
         x: 0,
         y: 0,
@@ -58,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let ballOutOfBounds = false;
 
-    // Fonction pour réinitialiser la balle et démarrer le décompte avant de la lancer
     function resetBall() {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
@@ -105,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         handleWallCollision(ball, canvas);
         checkPaddleCollision(ball, paddleLeft, paddleRight, () => {
             ballOutOfBounds = false;
-            incrementRallyCount(); // Increment rally count on each paddle collision
+            incrementRallyCount();
         });
         
         // Vérification de la collision avec le power-up
@@ -120,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (checkBallOutOfBounds(ball, canvas, 
             () => setPlayer1Score(player1Score + 1), 
             () => setPlayer2Score(player2Score + 1))) {
-                resetRallyCount(); // Reset rally count when ball goes out of bounds
+                resetRallyCount(); 
                 const gameEnded = checkGameEnd(player1Score, player2Score);
                 if (gameSettings.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
@@ -163,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePaddles() {
         // Mouvement du joueur (gauche)
         paddleLeft.y += paddleLeft.dy * paddleLeft.speedFactor;
-    
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
         if (paddleLeft.y > canvas.height - paddleLeft.height)
@@ -171,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Mouvement de l'IA (droite)
         paddleRight.y += paddleRight.dy * paddleRight.speedFactor;
-    
         if (paddleRight.y < 0)
             paddleRight.y = 0;
         if (paddleRight.y > canvas.height - paddleRight.height)

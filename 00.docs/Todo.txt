@@ -2,9 +2,7 @@
 
 - petit probleme de size sur la modale settings chez Gaga
 
-- petit coche no rally
-
-- mettre a jour le 2Players.js
+- ajouter une petite image dans l onglet URL
 
 ************************************ PAGES A CREER ************************************
 
@@ -21,13 +19,13 @@
 
 **************************************** MODULES *************************************** 
 
-[X] Minor module: Use a front-end framework or toolkit.
-[X] Minor module: Game Customization Options.
+[X] Minor module: Use a front-end framework or toolkit
+[X] Minor module: Game Customization Options
 [] Minor module: Multiple language supports
 
-[] Major module: Implement Two-Factor Authentication (2FA) and JWT.
-[] Major module: Use of advanced 3D techniques.
-[X] Major module: Introduce an AI Opponent.
+[] Major module: Implement Two-Factor Authentication (2FA) and JWT
+[] Major module: Use of advanced 3D techniques
+[X] Major module: Introduce an AI Opponent
 
 [4,5 pts]
 
@@ -44,5 +42,3 @@ pour eux ? :
 [] Major module: Standard user management, authentication, users across tournaments
 
 [4 pts]
-
-

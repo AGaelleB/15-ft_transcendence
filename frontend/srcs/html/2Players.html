@@ -1,5 +1,3 @@
-<!-- frontend/srcs/html/2Players.html -->
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,12 +21,21 @@
     <div id="settingsIcon" class="settings-icon">
         <i class="bi bi-gear-fill"></i>
     </div>
+    <div id="homeIcon" class="home-icon">
+        <i class="bi bi-house"></i>
+    </div>    
 
     <!-- Conteneur pour centrer la modale avec flexbox -->
     <div class="settings-modal-container">
         <div id="settingsModal" class="settings-modal">
             <div class="settings-content">
-                <h2>Game Settings</h2>
+                <!-- Title and Reset Button Container -->
+                <div class="settings-header">
+                    <h2>Game Settings</h2>
+                    <button id="resetSettings" class="reset-button">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                </div>
                 <div class="wrapper">
                     <!-- Slider pour Game: 2D / 3D -->
                     <div class="slide-controls-2d-3d">
@@ -53,26 +60,55 @@
                 <div class="slider-container">
                     <label for="ballSpeed" class="slider-label">Ball Speed</label>
                     <div class="slider-wrapper">
-                        <input type="range" id="ballSpeed" name="ballSpeed" min="1" max="10" value="5">
+                        <input type="range" id="ballSpeed" name="ballSpeed" min="3" max="7" value="5">
                         <span id="ballSpeedValue" class="slider-value">5</span>
                     </div>
                 </div>
                 <div class="slider-container">
                     <label for="paddleSpeed" class="slider-label">Paddle Speed</label>
                     <div class="slider-wrapper">
-                        <input type="range" id="paddleSpeed" name="paddleSpeed" min="1" max="10" value="5">
-                        <span id="paddleSpeedValue" class="slider-value">5</span>
+                        <input type="range" id="paddleSpeed" name="paddleSpeed" min="1" max="5" value="3">
+                        <span id="paddleSpeedValue" class="slider-value">3</span>
                     </div>
                 </div>                                        
+                <!-- Slider pour la taille de la balle -->
+                <div class="slider-container">
+                    <label for="ballSize" class="slider-label">Ball Size</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="ballSize" name="ballSize" min="1" max="5" value="3">
+                        <span id="ballSizeValue" class="slider-value">3</span>
+                    </div>
+                </div>
+
+                <!-- Slider pour la taille de la raquette -->
+                <div class="slider-container">
+                    <label for="paddleSize" class="slider-label">Paddle Size</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="paddleSize" name="paddleSize" min="1" max="5" value="3">
+                        <span id="paddleSizeValue" class="slider-value">3</span>
+                    </div>
+                </div>
+
+                <!-- Slider pour les points à gagner -->
+                <div class="slider-container">
+                    <label for="pointsToWin" class="slider-label">Points to Win</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
+                        <span id="pointsToWinValue" class="slider-value">5</span>
+                    </div>
+                </div>
+
                 <div class="checkbox-container">
                     <input type="checkbox" id="resetPaddlePosition" name="resetPaddlePosition">
                     <label for="resetPaddlePosition">Reset paddles after each point</label>
+                </div>
+                <div>    
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="setPowerUps" name="setPowerUps">
+                    <label for="setPowerUps">Active Power-ups</label>
                 </div>                
-                <div class="increment-container">
-                    <label for="pointsToWin">Points to Win</label>
-                    <input type="number" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
-                </div>                                
-            </div>            
+            </div>          
             <button id="closeSettings" class="btn btn-primary">Close</button>
         </div>
     </div>
@@ -86,7 +122,7 @@
                 <h2>2 Players mode</h2>
             </div>
         </div>
-
+        
         <section class="score-section">
             <div class="score-container left">
                 <h2 id="player1Score" class="score">0 / 3</h2>
@@ -98,6 +134,8 @@
             </div>
         </section>
         
+        <div id="countdown" class="countdown"></div>
+
         <section class="game-container">
             <canvas id="pongCanvas" width="850" height="450"></canvas>
             <div id="winMessage" class="win-message">
@@ -114,7 +152,6 @@
             <button id="againButton" class="btn">Play Again</button>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

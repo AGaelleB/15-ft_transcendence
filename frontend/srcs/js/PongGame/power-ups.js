@@ -20,10 +20,10 @@ let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai po
 let powerUpTimeoutId; // stocke l'ID du timeout
 
 export const powerUpsImages = [
-    '..//images/power-ups/sizeUpPaddle.png',
+    // '..//images/power-ups/sizeUpPaddle.png',
     '../images/power-ups/sizeDownPaddle.png',
-    '../images/power-ups/speedPaddle.png',
-    '../images/power-ups/slowPaddle.png'
+    // '../images/power-ups/speedPaddle.png',
+    // '../images/power-ups/slowPaddle.png'
 ];
 
 export function resetPowerUpTimer() {
