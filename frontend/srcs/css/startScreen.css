@@ -37,7 +37,7 @@ body {
 .welcome-text h1 {
     font-size: calc(5vw + 5vh);
     color: #a16935;
-    margin-bottom: calc(1vw + 1vh);
+    margin-bottom: calc(5vw + 5vh);
 }
 
 .button-container {
@@ -59,6 +59,7 @@ body {
     padding: calc(1vw + 1vh) calc(2vw + 2vh);
     outline: none;
     transition: color 0.3s ease, transform 0.3s ease;
+    margin-top: calc(5vw + 5vh);
 }
 
 /* Effet de survol */
@@ -169,6 +170,6 @@ body {
     display: block;
     width: 30vw;
     height: auto;
-    max-width: calc(15vw + 15vh);
-    max-height: calc(10vw + 10vh);
+    max-width: calc(20vw + 20vh);
+    max-height: calc(15vw + 15vh);
 }
