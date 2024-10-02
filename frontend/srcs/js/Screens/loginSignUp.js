@@ -4,10 +4,10 @@ import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js'
 
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.querySelector("form.login");
-    const signupForm = document.querySelector("form.signup");
     const loginBtn = document.querySelector("label.login");
     const signupBtn = document.querySelector("label.signup");
     const signupLink = document.getElementById("signup-link");
+    const togglePasswordIcons = document.querySelectorAll(".toggle-password-icon");
     const loginSubmitButton = document.querySelector("form.login button[type='submit']");
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
@@ -45,11 +45,19 @@ document.addEventListener("DOMContentLoaded", function() {
             loginBtn.click();
     });
 
-
     loginSubmitButton.addEventListener('click', function(event) {
         event.preventDefault();
         window.location.href = './homeScreen.html';
     });
 
-  });
+    togglePasswordIcons.forEach(icon => {
+        icon.addEventListener("click", function () {
+            const passwordInput = this.parentElement.previousElementSibling;
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+            this.classList.toggle("bi-eye");
+            this.classList.toggle("bi-eye-slash");
+        });
+    });
+});
   
