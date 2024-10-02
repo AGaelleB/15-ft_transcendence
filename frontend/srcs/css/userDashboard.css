@@ -38,26 +38,3 @@ h1 {
     font-weight: normal;
     margin-top: calc(2.5vw + 2vh);
 }
-
-.logout-link {
-    position: absolute;
-    top: calc(9vh);
-    left: calc(12vw);
-}
-
-.logout-link img {
-    width: calc(14vw);
-    height: calc(24vh);
-}
-
-.icon-container {
-    display: inline-block;
-    transform: scaleX(-1);
-}
-
-.custom-icon {
-    font-size: calc(3vw + 3vh);
-    color: #a16935;
-    position: relative;
-    top: calc(2vw + 3vh);
-}
