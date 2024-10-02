@@ -229,9 +229,9 @@ form .btn input[type="submit"] {
   transform: translateY(-50%);
   width: 0;
   height: 0;
-  border-top: calc(0.8vh) solid transparent;
-  border-bottom: calc(0.8vh) solid transparent;
-  border-left: calc(0.8vh) solid #ffcc00;
+  border-top: calc(1vh) solid transparent;
+  border-bottom: calc(1vh) solid transparent;
+  border-left: calc(1vh) solid #ffcc00;
   opacity: 0;
   transition: opacity 0.3s ease;
 }

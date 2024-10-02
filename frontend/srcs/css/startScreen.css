@@ -88,3 +88,71 @@ body {
 .option-button:focus::before {
     opacity: 1;
 }
+
+
+/* //////////////////////////////// */
+
+.language-menu {
+    position: absolute;
+    top: calc(8vw + 8vh);
+    right: calc(15vw);
+    display: inline-block;
+}
+
+#language-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+#language-button::after {
+    display: none;
+}
+
+#language-dropdown {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    left: 0;
+}
+
+#language-dropdown li {
+    padding: 0;
+    margin: 0;
+}
+
+#language-dropdown li a {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-bottom: calc(0.5vw + 0.5vh);
+    margin-top: calc(0.5vw + 0.5vh);
+    background: transparent;
+    outline: none;
+    justify-content: flex-start;
+}
+
+#language-dropdown li a:hover {
+    background: transparent;
+    outline: none;
+}
+
+.language-menu:hover #language-dropdown {
+    display: block;
+}
+
+.flag-icon {
+    width: calc(3vw + 3vh);
+    height: auto;
+    margin: 0;
+    border: none;
+}
