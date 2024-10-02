@@ -16,8 +16,6 @@
 
 - multiplayer avec des tournois
 
-- creer un modal pour confirmer la deconnection
-
 **************************************** MODULES *************************************** 
 
 [X] Minor module: Use a front-end framework or toolkit
