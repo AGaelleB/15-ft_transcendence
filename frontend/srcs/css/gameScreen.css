@@ -112,7 +112,7 @@ body {
 .home-icon {
     position: absolute;
     top: calc(4vw + 6vh);
-    left: calc(5vw + 5vh);
+    left: calc(9vw + 5vh);
     font-size: calc(2vw + 2vh);
     color: #ffcc00;
     cursor: pointer;
