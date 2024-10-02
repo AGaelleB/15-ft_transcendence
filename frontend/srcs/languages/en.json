@@ -1,11 +1,13 @@
 {
-    "welcome_message": "Welcome to our site!",
+    "welcome_message": "Welcome!",
     "login": "Login",
     "signup": "Sign Up",
 
     "login_title": "Login to Play PONG",
     "login_never_played_before": "Never played before?",
     "login_signup_now": "Signup now",
+    "email": "Email Address",
+    "password": "Password",
 
     "start_game": "Start Game",
     "1_player": "1 PLAYER",

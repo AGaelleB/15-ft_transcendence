@@ -1,11 +1,13 @@
 {
-    "welcome_message": "Bienvenue sur notre site !",
+    "welcome_message": "Bienvenue !",
     "login": "Connexion",
     "signup": "S'inscrire",
 
     "login_title": "Connectez-vous",
     "login_never_played_before": "Jamais joué avant ?",
     "login_signup_now": "S'inscrire",
+    "email": "Adresse mail",
+    "password": "Mot de passe",
 
     "start_game": "Commencer",
     "1_player": "1 joueur",

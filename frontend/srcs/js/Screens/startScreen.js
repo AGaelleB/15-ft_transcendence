@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/startScreen.js
 
-import { loadLanguages } from '../Modals/switchLanguages.js';
+import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     const loginButton = document.getElementById('login-button');
@@ -61,12 +61,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // Charger la langue stockée
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
+    updatePlaceholders(storedLang);
 
     document.getElementById("lang-switcher").addEventListener("change", (event) => {
         const selectedLang = event.target.value;
         localStorage.setItem('preferredLanguage', selectedLang);
         loadLanguages(selectedLang);
+        updatePlaceholders(selectedLang);
     });
-    
 
 });

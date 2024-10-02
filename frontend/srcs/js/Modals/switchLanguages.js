@@ -39,3 +39,40 @@ function applyLanguages(languages) {
       element.textContent = languages[key] || key;
     });
 }
+
+
+// Objet de traduction pour les placeholders
+const translations = {
+  en: {
+    emailPlaceholder: "Email Address",
+    passwordPlaceholder: "Password",
+    confirmPasswordPlaceholder: "Confirm password"
+  },
+  fr: {
+    emailPlaceholder: "Adresse e-mail",
+    passwordPlaceholder: "Mot de passe",
+    confirmPasswordPlaceholder: "Confirmez le mot de passe"
+  },
+  es: {
+    emailPlaceholder: "Correo electrónico",
+    passwordPlaceholder: "Contraseña",
+    confirmPasswordPlaceholder: "Confirmar contraseña"
+  }
+};
+
+// placeholders en fonction de la langue
+export function updatePlaceholders(selectedLang) {
+  document.querySelectorAll('input[type="text"]').forEach(input => {
+    input.placeholder = translations[selectedLang].emailPlaceholder;
+  });
+
+  document.querySelectorAll('input[type="password"]').forEach((input, index) => {
+    if (index === 0)
+      input.placeholder = translations[selectedLang].passwordPlaceholder;
+    if (index === 1)
+        input.placeholder = translations[selectedLang].passwordPlaceholder;
+    if (index === 2)
+      input.placeholder = translations[selectedLang].confirmPasswordPlaceholder;
+  });
+}
+
