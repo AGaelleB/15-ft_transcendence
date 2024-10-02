@@ -13,6 +13,10 @@
     "1_player": "1 joueur",
     "2_players": "2 joueurs",
     "multi": "Multijoueur",
+    "confirmation": "Confirmer la déconnexion",
+    "confirmation_text": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "yes": "Oui",
+    "no": "Non",
 
     "game_settings": "Paramètres",
     "novice": "novice",

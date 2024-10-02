@@ -13,6 +13,10 @@
     "1_player": "1 PLAYER",
     "2_players": "2 PLAYERS",
     "multi": "MULTI PLAYERS",
+    "confirmation": "Confirm Logout",
+    "confirmation_text": "Are you sure you want to log out?",
+    "yes": "Yes",
+    "no": "No",
 
     "game_settings": "Game Settings",
     "novice": "novice",

@@ -59,5 +59,34 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Obtenir les éléments pour le modal
+    const logoutLink = document.querySelector('.logout-link');
+    const logoutModal = document.getElementById('logout-modal');
+    const confirmLogoutButton = document.getElementById('confirm-logout');
+    const cancelLogoutButton = document.getElementById('cancel-logout');
+
+    // Lorsque l'icône de déconnexion est cliquée, afficher le modal
+    logoutLink.addEventListener('click', function(event) {
+        event.preventDefault(); // Empêcher la redirection immédiate
+        logoutModal.style.display = 'flex';
+    });
+
+    // Si l'utilisateur confirme la déconnexion
+    confirmLogoutButton.addEventListener('click', function() {
+        window.location.href = "../index.html"; // Rediriger vers la page d'accueil
+    });
+
+    // Si l'utilisateur annule la déconnexion
+    cancelLogoutButton.addEventListener('click', function() {
+        logoutModal.style.display = 'none'; // Cacher le modal
+    });
+
+    // Si on clique en dehors du modal, on le ferme
+    window.addEventListener('click', function(event) {
+        if (event.target === logoutModal) {
+            logoutModal.style.display = 'none';
+        }
+    });
+
     updateSelection();
 });

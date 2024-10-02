@@ -13,6 +13,10 @@
     "1_player": "1 jugador",
     "2_players": "2 jugadores",
     "multi": "multijugadores",
+    "confirmation": "Confirmar Cierre de Sesión",
+    "confirmation_text": "¿Estás seguro de que quieres cerrar sesión?",
+    "yes": "Sí",
+    "no": "No",
 
     "game_settings": "Configuración del juego",
     "novice": "novato",
