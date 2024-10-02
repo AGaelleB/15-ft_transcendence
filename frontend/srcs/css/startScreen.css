@@ -94,8 +94,8 @@ body {
 
 .language-menu {
     position: absolute;
-    top: calc(8vw + 8vh);
-    right: calc(15vw);
+    top: calc(6vw + 6vh);
+    right: calc(12vw);
     display: inline-block;
 }
 
@@ -151,10 +151,11 @@ body {
 }
 
 .flag-icon {
-    width: calc(3vw + 3vh);
+    width: calc(2vw + 2vh);
     height: auto;
     margin: 0;
-    border: none;
+    border: calc(0.1vw + 0.2vh) solid #a16935;
+    border-radius: calc(0.3vw + 0.3vh);
 }
 
 
