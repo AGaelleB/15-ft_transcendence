@@ -2,16 +2,8 @@
 
 - petit probleme de size sur la modale settings chez Gaga
 
-- ajouter une petite image dans l onglet URL
-
 - lors de la registration, demander la choix de la langue pour l enregistrer
     et le sav pour les prochaines connections
-
-- mettre un GIF du jeu
-
-- traduire les cases de registrations
-
-- trouver un beau bouton pour les langues
 
 - mettre un petit oeil pour afficher/cacher le mdp
 
