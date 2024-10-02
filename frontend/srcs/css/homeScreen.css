@@ -73,14 +73,14 @@ html, body {
 .menu-item.selected::before {
     content: '';
     position: absolute;
-    left: calc(-3vw); /* Positionnement proportionnel à la largeur de la fenêtre */
+    left: calc(-3vw); 
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
-    border-top: calc(0.8vw + 0.8vh) solid transparent; /* Taille proportionnelle du triangle */
+    border-top: calc(0.8vw + 0.8vh) solid transparent;
     border-bottom: calc(0.8vw + 0.8vh) solid transparent;
-    border-left: calc(0.8vw + 0.8vh) solid #ffcc00; /* Largeur proportionnelle */
+    border-left: calc(0.8vw + 0.8vh) solid #ffcc00;
     opacity: 1;
     transition: opacity 0.3s ease;
 }
@@ -89,38 +89,43 @@ html, body {
 .menu-item.selected::after {
     content: '';
     position: absolute;
-    right: calc(-3vw); /* Positionnement proportionnel à la largeur de la fenêtre */
+    right: calc(-3vw);
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
-    border-top: calc(0.8vw + 0.8vh) solid transparent; /* Taille proportionnelle du triangle */
+    border-top: calc(0.8vw + 0.8vh) solid transparent;
     border-bottom: calc(0.8vw + 0.8vh) solid transparent;
-    border-right: calc(0.8vw + 0.8vh) solid #ffcc00; /* Largeur proportionnelle */
+    border-right: calc(0.8vw + 0.8vh) solid #ffcc00;
     opacity: 1;
     transition: opacity 0.3s ease;
 }
 
 .logout-link {
     position: absolute;
-    top: calc(5vh);
-    left: calc(10vw);
+    top: calc(9vh);
+    left: calc(12vw);
 }
 
 .profile-link {
     position: absolute;
-    top: calc(5vh);
-    right: calc(10vw);
+    top: calc(14vh);
+    right: calc(12vw);
 }
 
-.logout-link img, .profile-link img {
+.logout-link img {
     width: calc(14vw);
     height: calc(24vh);
 }
 
+.profile-link img {
+    width: calc(6vw);
+    height: calc(6vw);
+}
+
 .start-game-text {
     position: absolute;
-    top: 25%; /* Ajustement de la position pour éviter le chevauchement */
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -10%);
     font-size: calc(7vw + 7vh);
@@ -131,13 +136,13 @@ html, body {
 
 .icon-container {
     display: inline-block;
-    transform: scaleX(-1); /* Miroir horizontal */
+    transform: scaleX(-1);
 }
 
 .custom-icon {
-    font-size: calc(3vw + 3vh); /* Taille */
-    color: #a16935; /* Orange */
+    font-size: calc(3vw + 3vh);
+    color: #a16935;
     position: relative;
-    top: calc(2vw + 3vh); /* Positionnement vertical */
+    top: calc(2vw + 3vh);
 }
 
