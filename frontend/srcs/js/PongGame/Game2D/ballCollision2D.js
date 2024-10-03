@@ -1,4 +1,4 @@
-// frontend/srcs/js/PongGame/ballCollision.js
+// frontend/srcs/js/PongGame/Game2D/ballCollision2D.js
 
 let lastTouchedPaddle = null;
 
@@ -49,7 +49,7 @@ export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBo
         ball.x = paddleLeft.x + paddleLeft.width + ball.size;
         handlePaddleCollision(ball, paddleLeft);
         resetOutOfBoundsFlag();
-        setLastTouchedPaddle('left'); // Mise à jour du drapeau avec le setter
+        setLastTouchedPaddle('left');
     }
 
     // Ball collision with right paddle (Player 2 or AI)
@@ -59,7 +59,7 @@ export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBo
         ball.x = paddleRight.x - ball.size; 
         handlePaddleCollision(ball, paddleRight);
         resetOutOfBoundsFlag();
-        setLastTouchedPaddle('right'); // Mise à jour du drapeau avec le setter
+        setLastTouchedPaddle('right');
     }
 }
 

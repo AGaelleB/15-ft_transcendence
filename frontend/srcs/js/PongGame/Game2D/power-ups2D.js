@@ -1,4 +1,4 @@
-// frontend/srcs/js/PongGame/power-ups.js
+// frontend/srcs/js/PongGame/Game2D/power-ups2D.js
 
 /* 
     Bonus :
@@ -12,18 +12,18 @@
 
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
-import { isGameStarted } from '../Modals/startGameModal.js';
-import { gameSettings } from './gameSettings.js';
-import { getLastTouchedPaddle } from './ballCollision.js';
+import { isGameStarted } from '../../Modals/startGameModal.js';
+import { gameSettings } from '../gameSettings.js';
+import { getLastTouchedPaddle } from './ballCollision2D.js';
 
 let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
 let powerUpTimeoutId; // stocke l'ID du timeout
 
 export const powerUpsImages = [
-    // '..//images/power-ups/sizeUpPaddle.png',
+    '../images/power-ups/sizeUpPaddle.png',
     '../images/power-ups/sizeDownPaddle.png',
-    // '../images/power-ups/speedPaddle.png',
-    // '../images/power-ups/slowPaddle.png'
+    '../images/power-ups/speedPaddle.png',
+    '../images/power-ups/slowPaddle.png'
 ];
 
 export function resetPowerUpTimer() {

@@ -1,6 +1,6 @@
-// frontend/srcs/js/PongGame/draw.js
+// frontend/srcs/js/PongGame/Game2D/draw2D.js
 
-import { rallyCount, maxRallyBeforeSmoke } from './rallyEffect.js';
+import { rallyCount, maxRallyBeforeSmoke } from './rallyEffect2D.js';
 
 let smokeTrail = [];
 let explosionParticles = [];

@@ -1,4 +1,4 @@
-// frontend/srcs/js/PongGame/computerIA.js
+// frontend/srcs/js/PongGame/Game2D/computerAI2D.js
 
 /*  
     ************************************ OBLIGATIONS DU SUJET ******************************
@@ -16,7 +16,7 @@
     3- Déplacer la Raquette
 */
 
-import { gameSettings } from './gameSettings.js';
+import { gameSettings } from '../gameSettings.js';
 
 const keys = {};
 let lastUpdateTime = 0;

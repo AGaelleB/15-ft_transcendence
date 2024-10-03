@@ -2,15 +2,15 @@
 
 import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton } from '../Modals/settingsModal.js';
-import { resizeCanvas } from '../PongGame/resizeCanvas.js';
-import { updateAI } from '../PongGame/computerIA.js';
+import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
+import { updateAI } from '../PongGame/Game2D/computerAI2D.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
-import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/draw.js';
-import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/ballCollision.js';
+import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
+import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/Game2D/ballCollision2D.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
-import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/power-ups.js';
-import { incrementRallyCount, resetRallyCount } from '../PongGame/rallyEffect.js';
+import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/Game2D/power-ups2D.js';
+import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 document.addEventListener('DOMContentLoaded', function() {

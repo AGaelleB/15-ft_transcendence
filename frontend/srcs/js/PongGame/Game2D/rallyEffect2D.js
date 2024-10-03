@@ -1,6 +1,6 @@
-// frontend/srcs/js/PongGame/rallyEffect.js
+// frontend/srcs/js/PongGame/Game2D/rallyEffect2D.js
 
-import { setSmokeTrail } from './draw.js';
+import { setSmokeTrail } from './draw2D.js';
 
 export let rallyCount = 0;
 

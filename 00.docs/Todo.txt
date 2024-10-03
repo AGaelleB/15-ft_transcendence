@@ -5,6 +5,12 @@
 - lors de la registration, demander la choix de la langue pour l enregistrer
     et le sav pour les prochaines connections
 
+- mettre a jour le rallye au bnout de X touche
+
+- voir le reset manquant car les points si on augmente ne se reinit pas direct bien
+
+- voir si on peut arranger plus proprement le chemin des langues pour le log (chemin de index different)
+
 ************************************ PAGES A CREER *************************************
 
 - creer la trame de la page lorsque l on clique sur la pacman
