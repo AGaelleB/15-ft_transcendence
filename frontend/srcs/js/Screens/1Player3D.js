@@ -173,6 +173,31 @@ const rightBorder = new THREE.Mesh(rightBorderGeometry, rightBorderMaterial);
 rightBorder.position.set(29, 0, 0); // Positionner la bordure à droite du terrain
 scene.add(rightBorder);
 
+/* *************************** Paramètres de la ligne centrale ******************************** */
+
+// Paramètres pour la ligne pointillée
+const lineLength = 0.5; // Longueur de chaque segment
+const gapLength = 0.5; // Espace entre les segments
+const totalHeight = ground.geometry.parameters.height; // Hauteur totale de la ligne
+const lineWidth = 0.5; // Largeur de la ligne
+
+// Matériau pour la ligne pointillée
+const lineMaterial = new THREE.MeshBasicMaterial({ color: '#a16935' });
+
+// Boucle pour créer et ajouter chaque segment
+for (let z = -totalHeight / 2; z < totalHeight / 2; z += lineLength + gapLength) {
+    // Crée un segment de la ligne
+    const segmentGeometry = new THREE.BoxGeometry(lineWidth, 0.01, lineLength); // Largeur et longueur des segments
+    const segment = new THREE.Mesh(segmentGeometry, lineMaterial);
+    
+    // Positionner chaque segment au centre du `ground`
+    segment.position.set(0, -0.99, z + lineLength / 2); // Centrer les segments sur l'axe X et positionner sur Z
+    
+    // Ajouter le segment à la scène
+    scene.add(segment);
+}
+
+
 
 /* *************************** Mouvement de la balle ******************************** */
 
