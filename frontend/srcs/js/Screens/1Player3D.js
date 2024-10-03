@@ -30,15 +30,21 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('pongCanvas').appendChild(renderer.domElement);
 
 // Position de la caméra
-camera.position.z = 10;
-camera.position.set(0, 7, 7); // Place la caméra plus haut et en arrière
+camera.position.set(0, 12, 10); // Place la caméra plus haut et en arrière
 camera.lookAt(0, 0, 0); // Oriente la caméra vers le centre de la scène
 
+// Ajustement dynamique de la size windows
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+});
+
 //  sol
-const groundGeometry = new THREE.PlaneGeometry(10, 10);
+const groundGeometry = new THREE.PlaneGeometry(30, 10);
 const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x555555 });
 const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-ground.rotation.x = -Math.PI / 1.75; // Rotation pour que le plan soit à plat
+ground.rotation.x = -Math.PI / 2; // Rotation pour que le plan soit à plat
 ground.position.y = -1; // Positionner le sol sous les paddles et la balle
 scene.add(ground);
 
@@ -48,27 +54,47 @@ light.position.set(5, 10, 5); // Positionner la lumière en hauteur et sur le c�
 scene.add(light);
 
 // Création de la balle (sphère)
-const ballGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+const ballGeometry = new THREE.SphereGeometry(0.5, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const ball = new THREE.Mesh(ballGeometry, ballMaterial);
 ball.position.set(0, 0, 0);  // Centre de la scène
 scene.add(ball);
 
 // Création des raquettes (cubes)
-const paddleGeometry = new THREE.BoxGeometry(0.2, 1, 0.2);
+const paddleGeometry = new THREE.BoxGeometry(0.5, 0.5, 3);
 const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
 const paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
-paddleLeft.position.set(-3, 0, 0);  // À gauche de la scène
+paddleLeft.position.set(-14, 0, 0);  // À gauche de la scène
 scene.add(paddleLeft);
 
 const paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
-paddleRight.position.set(3, 0, 0);  // À droite de la scène
+paddleRight.position.set(14, 0, 0);  // À droite de la scène
 scene.add(paddleRight);
+
+
+// Mouvement des paddles
+const keys = {}; // Suivre l'état des touches pressées
+
+// Gestion des événements clavier
+document.addEventListener('keydown', (e) => { keys[e.key] = true; });
+document.addEventListener('keyup', (e) => { keys[e.key] = false; });
+
+// Déplacer les raquettes
+function movePaddles() {
+    if (keys['ArrowUp']) {
+        paddleLeft.position.z -= 0.1;
+    }
+    if (keys['ArrowDown']) {
+        paddleLeft.position.z += 0.1;
+    }
+    // Ajoute un déplacement pour la raquette droite si nécessaire (IA)
+}
 
 // boucle d'animation
 function animate() {
     requestAnimationFrame(animate);
+    movePaddles();
     renderer.render(scene, camera);
 }
 
