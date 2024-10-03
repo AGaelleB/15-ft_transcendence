@@ -22,12 +22,12 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 // creation d un scene avec un rendu (render) transparent
 const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0); // Transparence du fond
 document.body.appendChild(renderer.domElement);
 
 
 /* ***************************** resizeCanevas3D.js ***************************** */
+
 // Ajuster la taille du renderer
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('pongCanvas').appendChild(renderer.domElement);
@@ -42,13 +42,6 @@ camera.lookAt(0, 0, 0); // Oriente la caméra vers le centre de la scène
 // camera.rotation.order = "YXZ"; // Ajuste l'ordre de rotation pour qu'il n'y ait pas de décalage
 
 
-// // Ajustement dynamique de la size windows
-// window.addEventListener('resize', () => {
-//     renderer.setSize(window.innerWidth, window.innerHeight);
-//     camera.aspect = window.innerWidth / window.innerHeight;
-//     camera.updateProjectionMatrix();
-// });
-
 // Fonction pour ajuster la taille du renderer
 function adjustRendererSize() {
     const gameContainer = document.querySelector('.game-container');
@@ -59,7 +52,8 @@ function adjustRendererSize() {
     if (containerWidth / containerHeight < gameSettings.aspectRatio) {
         width = containerWidth * gameSettings.canvasWidthFactor;
         height = width / gameSettings.aspectRatio;
-    } else {
+    }
+    else {
         height = containerHeight * gameSettings.canvasWidthFactor;
         width = height * gameSettings.aspectRatio;
     }
@@ -74,6 +68,9 @@ window.addEventListener('resize', adjustRendererSize);
 
 // Appeler la fonction une première fois au démarrage
 adjustRendererSize();
+
+
+
 
 
 
@@ -117,18 +114,17 @@ scene.add(paddleRight);
 
 
 // Mouvement des paddles
-const keys = {}; // Suivre l'état des touches pressées
+const keys = {};
 
 // Gestion des événements clavier
 document.addEventListener('keydown', (e) => { keys[e.key] = true; });
 document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
-// Calcule les limites du mouvement des paddles sur le ground
+// limites du mouvement des paddles
 const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleGeometry.parameters.depth / 2.30);
 
 // Déplacer les raquettes avec limites
 function movePaddles() {
-    // Mouvement paddle gauche
     if (keys['ArrowUp']) {
         if (paddleLeft.position.z > -paddleMovementLimit)  // Limite arrière
             paddleLeft.position.z -= 0.1;
