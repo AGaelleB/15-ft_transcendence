@@ -4,7 +4,7 @@
 // import { initializeButton } from '../Modals/settingsModal.js';
 // import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 // import { updateAI } from '../PongGame/Game2D/computerAI2D.js';
-// import { gameSettings } from '../PongGame/gameSettings.js';
+import { gameSettings } from '../PongGame/gameSettings.js';
 // import { startCountdown } from '../PongGame/chrono.js';
 // import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 // import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/Game2D/ballCollision2D.js';
@@ -14,6 +14,7 @@
 // import { loadLanguages } from '../Modals/switchLanguages.js';
 
 // frontend/srcs/js/Screens/1Player3D.js
+
 
 // Init la scène, la caméra, 
 const scene = new THREE.Scene();
@@ -25,20 +26,59 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0); // Transparence du fond
 document.body.appendChild(renderer.domElement);
 
+
+/* ***************************** resizeCanevas3D.js ***************************** */
 // Ajuster la taille du renderer
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('pongCanvas').appendChild(renderer.domElement);
 
-// Position de la caméra
+// Position de la caméra angle de jeu
 camera.position.set(0, 12, 10); // Place la caméra plus haut et en arrière
 camera.lookAt(0, 0, 0); // Oriente la caméra vers le centre de la scène
 
-// Ajustement dynamique de la size windows
-window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
+// // Position de la caméra du dessus
+// camera.position.set(0, 10, 0); // Place la caméra à une hauteur de 20 (ajuster la hauteur selon besoin)
+// camera.lookAt(0, 0, 0); // Oriente la caméra vers le centre de la scène
+// camera.rotation.order = "YXZ"; // Ajuste l'ordre de rotation pour qu'il n'y ait pas de décalage
+
+
+// // Ajustement dynamique de la size windows
+// window.addEventListener('resize', () => {
+//     renderer.setSize(window.innerWidth, window.innerHeight);
+//     camera.aspect = window.innerWidth / window.innerHeight;
+//     camera.updateProjectionMatrix();
+// });
+
+// Fonction pour ajuster la taille du renderer
+function adjustRendererSize() {
+    const gameContainer = document.querySelector('.game-container');
+    const containerWidth = gameContainer.offsetWidth;
+    const containerHeight = window.innerHeight * 0.45;
+
+    let width, height;
+    if (containerWidth / containerHeight < gameSettings.aspectRatio) {
+        width = containerWidth * gameSettings.canvasWidthFactor;
+        height = width / gameSettings.aspectRatio;
+    } else {
+        height = containerHeight * gameSettings.canvasWidthFactor;
+        width = height * gameSettings.aspectRatio;
+    }
+
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-});
+}
+
+// Ajustement dynamique de la taille lors du redimensionnement de la fenêtre
+window.addEventListener('resize', adjustRendererSize);
+
+// Appeler la fonction une première fois au démarrage
+adjustRendererSize();
+
+
+
+/* ***************************************************************************** */
+
 
 //  sol
 const groundGeometry = new THREE.PlaneGeometry(30, 10);
@@ -73,6 +113,9 @@ paddleRight.position.set(14, 0, 0);  // À droite de la scène
 scene.add(paddleRight);
 
 
+/* *************************** Mouvement du paddle ******************************** */
+
+
 // Mouvement des paddles
 const keys = {}; // Suivre l'état des touches pressées
 
@@ -80,21 +123,121 @@ const keys = {}; // Suivre l'état des touches pressées
 document.addEventListener('keydown', (e) => { keys[e.key] = true; });
 document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
-// Déplacer les raquettes
+// Calcule les limites du mouvement des paddles sur le ground
+const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleGeometry.parameters.depth / 2.30);
+
+// Déplacer les raquettes avec limites
 function movePaddles() {
+    // Mouvement paddle gauche
     if (keys['ArrowUp']) {
-        paddleLeft.position.z -= 0.1;
+        if (paddleLeft.position.z > -paddleMovementLimit)  // Limite arrière
+            paddleLeft.position.z -= 0.1;
     }
     if (keys['ArrowDown']) {
-        paddleLeft.position.z += 0.1;
+        if (paddleLeft.position.z < paddleMovementLimit)  // Limite avant
+            paddleLeft.position.z += 0.1;
     }
-    // Ajoute un déplacement pour la raquette droite si nécessaire (IA)
+
+    // Mouvement paddle droite (ajouter selon la logique de l'IA ou du joueur 2)
+    // Exemple pour le paddle droit si besoin (utiliser d'autres touches si c'est un joueur humain)
+    if (keys['w']) {
+        if (paddleRight.position.z > -paddleMovementLimit)  // Limite arrière
+            paddleRight.position.z -= 0.1;
+    }
+    if (keys['s']) {
+        if (paddleRight.position.z < paddleMovementLimit)  // Limite avant
+            paddleRight.position.z += 0.1;
+    }
 }
+
+/* *************************** Mouvement de la balle ******************************** */
+
+// // Ajout d'une vitesse en 3D (dx, dy, dz) -> gamesettings
+// let ballSpeed = { dx: 0.1, dy: 0.05, dz: 0.1 };
+
+
+// let lastTouchedPaddle = null;
+
+// export function getLastTouchedPaddle() {
+//     return lastTouchedPaddle;
+// }
+
+// export function setLastTouchedPaddle(paddle) {
+//     if (paddle === 'left' || paddle === 'right' || paddle === null)
+//         lastTouchedPaddle = paddle;
+//     else
+//         console.warn("Invalid paddle value. Use 'left', 'right', or null.");
+// }
+
+// export function handlePaddleCollision(ball, paddle) {
+//     const paddleCenter = paddle.y + paddle.height / 2;
+//     const ballDistanceFromCenter = ball.y - paddleCenter;
+
+//     const impactRatio = ballDistanceFromCenter / (paddle.height / 2);
+//     const maxBounceAngle = Math.PI / 4;
+//     const bounceAngle = impactRatio * maxBounceAngle;
+
+//     const speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy); 
+//     ball.dx = speed * Math.cos(bounceAngle) * Math.sign(ball.dx); 
+//     ball.dy = speed * Math.sin(bounceAngle);
+// }
+
+// export function handleWallCollision(ball, canvas) {
+//     // Ball collision with top wall
+//     if (ball.y - ball.size < 0) {
+//         ball.dy = -ball.dy;
+//         ball.y = ball.size;
+//     }
+
+//     // Ball collision with bottom wall
+//     if (ball.y + ball.size > canvas.height) {
+//         ball.dy = -ball.dy;
+//         ball.y = canvas.height - ball.size;
+//     }
+// }
+
+// // Fonction pour vérifier les collisions avec les raquettes et mettre à jour le drapeau
+// export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBoundsFlag) {
+//     // Ball collision with left paddle (Player 1)
+//     if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
+//         ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
+//         ball.dx = -ball.dx;
+//         ball.x = paddleLeft.x + paddleLeft.width + ball.size;
+//         handlePaddleCollision(ball, paddleLeft);
+//         resetOutOfBoundsFlag();
+//         setLastTouchedPaddle('left');
+//     }
+
+//     // Ball collision with right paddle (Player 2 or AI)
+//     else if (ball.x + ball.size > paddleRight.x &&
+//         ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
+//         ball.dx = -ball.dx;
+//         ball.x = paddleRight.x - ball.size; 
+//         handlePaddleCollision(ball, paddleRight);
+//         resetOutOfBoundsFlag();
+//         setLastTouchedPaddle('right');
+//     }
+// }
+
+// export function checkBallOutOfBounds(ball, canvas, onPlayer1Score, onPlayer2Score) {
+//     if (ball.x - ball.size < 0) {
+//         onPlayer2Score();
+//         return true;
+//     }
+//     if (ball.x + ball.size > canvas.width) {
+//         onPlayer1Score();
+//         return true;
+//     }
+//     return false;
+// }
+
+/* ************************************************************* */
 
 // boucle d'animation
 function animate() {
     requestAnimationFrame(animate);
     movePaddles();
+    // moveBall();
     renderer.render(scene, camera);
 }
 
