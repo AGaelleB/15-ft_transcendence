@@ -1,4 +1,4 @@
-// frontend/srcs/js/Screens/1Player.js
+// frontend/srcs/js/Screens/1Player2D.js
 
 import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton } from '../Modals/settingsModal.js';

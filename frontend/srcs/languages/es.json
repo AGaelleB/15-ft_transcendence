@@ -10,7 +10,8 @@
     "password": "Contraseña",
 
     "start_game": "Comenzar",
-    "1_player": "1 jugador",
+    "1_player2D": "1 jugador 2D",
+    "1_player3D": "1 jugador 3D",
     "2_players": "2 jugadores",
     "multi": "multijugadores",
     "confirmation": "Confirmar Cierre de Sesión",

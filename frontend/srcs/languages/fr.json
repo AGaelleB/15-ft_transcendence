@@ -10,7 +10,8 @@
     "password": "Mot de passe",
 
     "start_game": "Commencer",
-    "1_player": "1 joueur",
+    "1_player2D": "1 joueur 2D",
+    "1_player3D": "1 joueur 3D",
     "2_players": "2 joueurs",
     "multi": "Multijoueur",
     "confirmation": "Confirmer la déconnexion",
