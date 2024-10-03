@@ -176,10 +176,10 @@ scene.add(rightBorder);
 /* *************************** Paramètres de la ligne centrale ******************************** */
 
 // Paramètres pour la ligne pointillée
-const lineLength = 0.5; // Longueur de chaque segment
-const gapLength = 0.5; // Espace entre les segments
+const lineLength = 1; // Longueur de chaque segment
+const gapLength = 1; // Espace entre les segments
 const totalHeight = ground.geometry.parameters.height; // Hauteur totale de la ligne
-const lineWidth = 0.5; // Largeur de la ligne
+const lineWidth = 1; // Largeur de la ligne
 
 // Matériau pour la ligne pointillée
 const lineMaterial = new THREE.MeshBasicMaterial({ color: '#a16935' });
