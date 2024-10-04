@@ -7,7 +7,7 @@ export const scene = new THREE.Scene();
 /* *************************** draw game elements ************************ */
 
 //  sol
-const groundGeometry = new THREE.PlaneGeometry(60, 20);
+export const groundGeometry = new THREE.PlaneGeometry(60, 20);
 const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x302a66 });
 export const ground = new THREE.Mesh(groundGeometry, groundMaterial);
 ground.rotation.x = -Math.PI / 2;
@@ -20,8 +20,8 @@ light.position.set(5, 10, 5);
 scene.add(light);
 
 // Création de la balle (sphère)
-const ballGeometry = new THREE.SphereGeometry(0.75, 32, 32);
-const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+export const ballGeometry = new THREE.SphereGeometry(0.75, 32, 32);
+const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 export const ball = new THREE.Mesh(ballGeometry, ballMaterial);
 ball.position.set(0, 0, 0);
 scene.add(ball);
@@ -62,7 +62,7 @@ scene.add(bottomBorder);
 const leftBorderGeometry = new THREE.BoxGeometry(borderThickness, borderHeight, 20);
 const leftBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
 const leftBorder = new THREE.Mesh(leftBorderGeometry, leftBorderMaterial);
-leftBorder.position.set(-29, 0, 0); // Positionner la bordure à gauche du terrain
+leftBorder.position.set(-29, 0, 0);
 scene.add(leftBorder);
 
 // Bordure droite

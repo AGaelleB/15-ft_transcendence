@@ -1,12 +1,11 @@
 // frontend/srcs/js/Screens/1Player3D.js
 
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, paddleGeometry } from '../PongGame/Game3D/draw3D.js';
-
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, paddleGeometry, ballGeometry } from '../PongGame/Game3D/draw3D.js';
 
 resizeRenderer3D();
 
-/* *************************** Mouvement du paddle ******************************** */
+/* ************************** Mouvement du paddle ******************************* */
 
 // Mouvement des paddles
 const keys = {};
@@ -41,16 +40,51 @@ function movePaddles() {
 }
 
 
-/* *************************** Mouvement de la balle ******************************** */
+/* ************************** Mouvement de la balle ******************************* */
 
+// Vitesse initiale de la balle
+let ballSpeedX = 0.2;
+let ballSpeedZ = 0.2;
 
-/* ********************************************************************************** */
+// Limites de mouvement de la balle
+const ballMovementLimitX = groundGeometry.parameters.width / 2 - ballGeometry.parameters.radius;
+const ballMovementLimitZ = groundGeometry.parameters.height / 2 - ballGeometry.parameters.radius;
+
+function moveBall() {
+    // Mise à jour de la position de la balle
+    ball.position.x += ballSpeedX;
+    ball.position.z += ballSpeedZ;
+
+    // Gestion des rebonds sur les bordures haut/bas (en Z)
+    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
+        ballSpeedZ = -ballSpeedZ;
+
+    // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
+    if (ball.position.x >= ballMovementLimitX || ball.position.x <= -ballMovementLimitX)
+        ballSpeedX = -ballSpeedX;
+
+    if (
+        ball.position.x <= paddleLeft.position.x + paddleGeometry.parameters.width / 2 &&
+        ball.position.z <= paddleLeft.position.z + paddleGeometry.parameters.depth / 2 &&
+        ball.position.z >= paddleLeft.position.z - paddleGeometry.parameters.depth / 2
+    )
+        ballSpeedX = -ballSpeedX;
+
+    if (
+        ball.position.x >= paddleRight.position.x - paddleGeometry.parameters.width / 2 &&
+        ball.position.z <= paddleRight.position.z + paddleGeometry.parameters.depth / 2 &&
+        ball.position.z >= paddleRight.position.z - paddleGeometry.parameters.depth / 2
+    )
+        ballSpeedX = -ballSpeedX;
+}
+
+/* ********************************************************************************* */
 
 // boucle d'animation
 function animate() {
     requestAnimationFrame(animate);
     movePaddles();
-    // moveBall();
+    moveBall();
     renderer.render(scene, camera);
 }
 
