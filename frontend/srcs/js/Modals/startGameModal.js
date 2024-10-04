@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/startGameModal.js
 
-import { getIsSettingsOpen } from './gameSettingsModal.js';
+import { getIsSettingsOpen } from './gameSettingsModal2D.js';
 import { setPlayer1Score, setPlayer2Score, updateScore } from '../PongGame/score.js';
 
 let gameStarted = false; // Variable globale pour le statut du jeu

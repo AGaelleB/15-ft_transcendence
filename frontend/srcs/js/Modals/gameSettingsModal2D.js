@@ -1,4 +1,4 @@
-// frontend/srcs/js/Modals/gameSettingsModal.js
+// frontend/srcs/js/Modals/gameSettingsModal2D.js
 
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { updateScore } from '../PongGame/score.js';

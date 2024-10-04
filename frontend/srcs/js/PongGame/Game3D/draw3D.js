@@ -27,7 +27,7 @@ ball.position.set(0, 0, 0);
 scene.add(ball);
 
 // Création des raquettes (cubes)
-export const paddleGeometry = new THREE.BoxGeometry(1, 1.5, 5);
+export const paddleGeometry = new THREE.BoxGeometry(1, 1.5, 3.5);
 const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
 
 export const paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
@@ -37,6 +37,11 @@ scene.add(paddleLeft);
 export const paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
 paddleRight.position.set(28, 0, 0);
 scene.add(paddleRight);
+
+export function resetPaddlePosition() {
+    paddleLeft.position.set(-28, 0, 0);
+    paddleRight.position.set(28, 0, 0);
+}
 
 /* *************************** Bordures du jeu ******************************** */
 

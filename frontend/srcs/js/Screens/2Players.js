@@ -1,7 +1,7 @@
 // frontend/srcs/js/Screens/2Players.js
 
 import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
-import { initializeButton } from '../Modals/settingsModal.js';
+import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { gameSettings } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '/frontend/srcs/html/homeScreen.html';
     });
 
-    initializeButton();
+    initializeButton2D();
     initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
     
     let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;

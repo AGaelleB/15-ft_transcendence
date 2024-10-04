@@ -37,6 +37,100 @@
         </div>
     </a>
 
+    <!-- Conteneur pour centrer la modale avec flexbox -->
+    <div class="settings-modal-container">
+        <div id="settingsModal" class="settings-modal">
+            <div class="settings-content">
+                <!-- Title and Reset Button Container -->
+                <div class="settings-header">
+                    <h2 data-lang-key="game_settings">Game Settings</h2>
+                    <button id="resetSettings" class="reset-button">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                </div>
+                <div class="wrapper">
+                    <!-- Slider pour Game: 2D / 3D -->
+                    <div class="slide-controls-2d-3d">
+                        <input type="radio" name="game-mode" id="game2d" checked>
+                        <input type="radio" name="game-mode" id="game3d">
+                        <label for="game2d" class="slide">2D</label>
+                        <label for="game3d" class="slide">3D</label>
+                        <div class="slider-tab"></div>
+                    </div>
+
+                    <!-- Slider pour Bot Level: Novice / Intermediate / Expert -->
+                    <div class="slide-controls-bot-level">
+                        <input type="radio" name="bot-level" id="novice" checked>
+                        <input type="radio" name="bot-level" id="intermediate">
+                        <input type="radio" name="bot-level" id="expert">
+                        <label for="novice" data-lang-key="novice" class="slide">Novice</label>
+                        <label for="intermediate" data-lang-key="intermediate" class="slide">Intermediate</label>
+                        <label for="expert" data-lang-key="expert" class="slide">Expert</label>
+                        <div class="slider-tab"></div>
+                    </div>
+                </div>                             
+                <div class="slider-container">
+                    <label for="ballSpeed" data-lang-key="ball_speed" class="slider-label">Ball Speed</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="ballSpeed" name="ballSpeed" min="3" max="7" value="5">
+                        <span id="ballSpeedValue" class="slider-value">5</span>
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <label for="paddleSpeed" data-lang-key="paddle_speed" class="slider-label">Paddle Speed</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="paddleSpeed" name="paddleSpeed" min="1" max="5" value="3">
+                        <span id="paddleSpeedValue" class="slider-value">3</span>
+                    </div>
+                </div>                                        
+                <!-- Slider pour la taille de la balle -->
+                <div class="slider-container">
+                    <label for="ballSize" data-lang-key="ball_size" class="slider-label">Ball Size</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="ballSize" name="ballSize" min="1" max="5" value="3">
+                        <span id="ballSizeValue" class="slider-value">3</span>
+                    </div>
+                </div>
+
+                <!-- Slider pour la taille de la raquette -->
+                <div class="slider-container">
+                    <label for="paddleSize" data-lang-key="paddle_size" class="slider-label">Paddle Size</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="paddleSize" name="paddleSize" min="1" max="5" value="3">
+                        <span id="paddleSizeValue" class="slider-value">3</span>
+                    </div>
+                </div>
+
+                <!-- Slider pour les points à gagner -->
+                <div class="slider-container">
+                    <label for="pointsToWin" data-lang-key="points_win" class="slider-label">Point to win</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
+                        <span id="pointsToWinValue" class="slider-value">5</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="resetPaddlePosition" name="resetPaddlePosition">
+                    <label data-lang-key="reset" for="resetPaddlePosition">Reset paddles after each point</label>
+                </div>
+                <div>    
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="setPowerUps" name="setPowerUps">
+                    <label data-lang-key="power_ups" for="setPowerUps">Active Power-ups</label>
+                </div>
+                <div>    
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="setRally" name="setRally">
+                    <label data-lang-key="rally" for="setRally">Active Rally</label>
+                </div>               
+            </div>          
+            <button data-lang-key="close" id="closeSettings" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+
     <div class="game-screen">
         <div class="game-header">
             <div class="game-title">

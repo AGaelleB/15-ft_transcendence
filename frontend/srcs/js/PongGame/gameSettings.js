@@ -2,6 +2,18 @@
 
 export const gameSettings = {
 
+    /*************** 2D et 3D **************/
+    // Score
+    winningScore: 0,
+
+    // Power-ups
+    powerUpEffectDuration: 7000, // 7 sec
+
+    // Rally
+    setRally: 0,
+
+    /***************** 2D *****************/
+
     // Canvas dimensions
     canvasWidthFactor: 0.9,
     aspectRatio: 16 / 9, 
@@ -30,12 +42,11 @@ export const gameSettings = {
     minBorderSize: 1,
     borderColor: '#a16935',
 
-    // Score
-    winningScore: 0,
+    /***************** 3D *****************/
+    // Movement Limits
+    ballMovementLimitX: 0,
+    ballMovementLimitZ: 0,
+    paddleMovementLimit: 0,
 
-    // Power-ups
-    powerUpEffectDuration: 7000, // 7 sec
 
-    // Rally
-    setRally: 0
 };
