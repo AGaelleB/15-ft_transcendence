@@ -21,22 +21,21 @@ const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddle
 // Déplacer les raquettes avec limites
 function movePaddles() {
     if (keys['ArrowUp']) {
-        if (paddleLeft.position.z > -paddleMovementLimit)  // Limite arrière
+        if (paddleLeft.position.z > -paddleMovementLimit)
             paddleLeft.position.z -= 0.3;
     }
     if (keys['ArrowDown']) {
-        if (paddleLeft.position.z < paddleMovementLimit)  // Limite avant
+        if (paddleLeft.position.z < paddleMovementLimit)
             paddleLeft.position.z += 0.3;
     }
 
-    // Mouvement paddle droite (ajouter selon la logique de l'IA ou du joueur 2)
-    // Exemple pour le paddle droit si besoin (utiliser d'autres touches si c'est un joueur humain)
+    // Mouvement paddle droite (pour le moment sans IA et avec des touches 2players)
     if (keys['w']) {
-        if (paddleRight.position.z > -paddleMovementLimit)  // Limite arrière
+        if (paddleRight.position.z > -paddleMovementLimit)
             paddleRight.position.z -= 0.1;
     }
     if (keys['s']) {
-        if (paddleRight.position.z < paddleMovementLimit)  // Limite avant
+        if (paddleRight.position.z < paddleMovementLimit)
             paddleRight.position.z += 0.1;
     }
 }
