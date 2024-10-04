@@ -67,7 +67,7 @@ function checkBallOutOfBounds3D() {
         return true;
     }
     updateScore();
-    gameSettings.winningScore = 5;
+    gameSettings.winningScore = 3;
     const gameEnded = checkGameEnd(player1Score, player2Score);
     if (gameEnded)
         return;
