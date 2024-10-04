@@ -41,12 +41,16 @@ export const gameSettings = {
     borderFactor: 0.025,
     minBorderSize: 1,
     borderColor: '#a16935',
-
-    /***************** 3D *****************/
-    // Movement Limits
-    ballMovementLimitX: 0,
-    ballMovementLimitZ: 0,
-    paddleMovementLimit: 0,
+};
 
 
+export const gameSettings3D = {
+    ballRadius: 0.75, // Taille initiale de la balle
+    paddleWidth: 1,
+    paddleHeight: 1.5,
+    paddleDepth: 3.5,
+    ballSpeed: 0.2,
+    paddleSpeed: 0.3,
+    pointsToWin: 5,
+    resetPaddlePosition: false
 };

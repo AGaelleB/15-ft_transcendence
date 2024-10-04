@@ -9,7 +9,7 @@ import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 export let isSettingsOpen = false;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
-let pointsToWinValue = 0;
+let pointsToWinValue = 5;
 
 // Getter pour isSettingsOpen
 export function getIsSettingsOpen() {
@@ -114,7 +114,6 @@ export function initializeGameSettings3D() {
             document.querySelector('.settings-modal-container').classList.remove('active');
             settingsModal.style.display = 'none';
             saveGameSettings3D();
-            window.location.reload();
             isSettingsOpen = false;
         }
     });
@@ -123,7 +122,6 @@ export function initializeGameSettings3D() {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings3D();
-        window.location.reload();
         isSettingsOpen = false;
     });
 
@@ -196,6 +194,22 @@ export function initializeGameSettings3D() {
         paddleRight.geometry = newPaddleGeometry;
 
         updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
+        saveGameSettings3D();
+    });
+
+    loadSettingsOnPageLoad3D();
+    resetGame();
+
+    // Gestion des points nécessaires pour gagner
+    document.getElementById('pointsToWin').addEventListener('input', function (event) {
+        pointsToWinValue = Number(event.target.value);
+        gameSettings.winningScore = pointsToWinValue;
+        saveGameSettings3D();
+    });
+
+    // Réinitialiser la position des paddles à chaque point
+    document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
+        gameSettings.resetPaddlePosition = event.target.checked;
         saveGameSettings3D();
     });
 

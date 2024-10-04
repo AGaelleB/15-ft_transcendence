@@ -1,6 +1,7 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
 import { saveGameSettings } from './gameSettingsModal2D.js';
+import { saveGameSettings3D } from './gameSettingsModal3D.js';
 
 export function showWinMessage(winner) {
     // const winnerMessage = document.querySelector('.message');
@@ -23,7 +24,7 @@ export function initializeWinMsg() {
 
     // Bouton "Play Again" redirige pour rejouer une partie
     againButton.addEventListener('click', function() {
-        saveGameSettings();
+        // saveGameSettings3D();
     
         const gameMode = localStorage.getItem('gameMode');
     

@@ -1,5 +1,6 @@
 // frontend/srcs/js/PongGame/Game3D/draw3D.js
 
+import { gameSettings3D } from '../gameSettings.js'
 
 // Init la scène, la caméra, 
 export const scene = new THREE.Scene();
@@ -19,15 +20,15 @@ const light = new THREE.DirectionalLight(0xffcc00, 1);
 light.position.set(5, 10, 5);
 scene.add(light);
 
-// Création de la balle (sphère)
-export const ballGeometry = new THREE.SphereGeometry(0.75, 32, 32);
+// Création de la balle (sphère) basée sur gameSettings3D
+export const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 export const ball = new THREE.Mesh(ballGeometry, ballMaterial);
 ball.position.set(0, 0, 0);
 scene.add(ball);
 
-// Création des raquettes (cubes)
-export const paddleGeometry = new THREE.BoxGeometry(1, 1.5, 3.5);
+// Création des raquettes (cubes) basées sur gameSettings3D
+export const paddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth, gameSettings3D.paddleHeight, gameSettings3D.paddleDepth);
 const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
 
 export const paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
@@ -37,6 +38,7 @@ scene.add(paddleLeft);
 export const paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
 paddleRight.position.set(28, 0, 0);
 scene.add(paddleRight);
+
 
 export function resetPaddlePosition() {
     paddleLeft.position.set(-28, 0, 0);

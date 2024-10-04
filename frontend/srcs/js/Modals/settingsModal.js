@@ -17,6 +17,6 @@ export function initializeButton3D() {
     loadSettingsOnPageLoad3D();  
     initializeGameSettings3D();
     saveGameSettings3D(); 
-    initializeWinMsg();
+    // initializeWinMsg();
     resetGame();
 }

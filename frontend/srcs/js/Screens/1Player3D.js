@@ -1,15 +1,14 @@
 // frontend/srcs/js/Screens/1Player3D.js
 
-import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, paddleGeometry, ballGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
-import { gameSettings } from '../PongGame/gameSettings.js';
+import { gameSettings3D } from '../PongGame/gameSettings.js';
 
-initializeButton3D();
 // initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
 resizeRenderer3D();
+initializeButton3D();
 
 /* ************************** Mouvement du paddle ******************************* */
 
@@ -23,33 +22,28 @@ document.addEventListener('keydown', (e) => { keys[e.key] = true; });
 document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
 // limites du mouvement des paddles
-gameSettings.paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleGeometry.parameters.depth / 2.30);
+const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleGeometry.parameters.depth / 2.30);
 
 // Déplacer les raquettes avec limites
 function movePaddles() {
     if (keys['ArrowUp']) {
-        if (paddleLeft.position.z > -gameSettings.paddleMovementLimit)
+        if (paddleLeft.position.z > -paddleMovementLimit)
             paddleLeft.position.z -= 0.3;
     }
     if (keys['ArrowDown']) {
-        if (paddleLeft.position.z < gameSettings.paddleMovementLimit)
+        if (paddleLeft.position.z < paddleMovementLimit)
             paddleLeft.position.z += 0.3;
     }
 
     // Mouvement paddle droite (pour le moment sans IA et avec des touches 2players)
     if (keys['w']) {
-        if (paddleRight.position.z > -gameSettings.paddleMovementLimit)
+        if (paddleRight.position.z > -paddleMovementLimit)
             paddleRight.position.z -= 0.1;
     }
     if (keys['s']) {
-        if (paddleRight.position.z < gameSettings.paddleMovementLimit)
+        if (paddleRight.position.z < paddleMovementLimit)
             paddleRight.position.z += 0.1;
     }
-}
-
-export function updatePaddleMovementLimits() {
-    // Calculer les nouvelles limites de mouvement basées sur la nouvelle taille des paddles
-    gameSettings.paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings.paddleDepth / 2.30);
 }
 
 /* ************************** Mouvement de la balle ******************************* */
@@ -59,21 +53,21 @@ let ballSpeedX = 0.2;
 let ballSpeedZ = 0.2;
 
 // Limites de mouvement de la balle
-gameSettings.ballMovementLimitX = groundGeometry.parameters.width / 2 - ballGeometry.parameters.radius;
-gameSettings.ballMovementLimitZ = groundGeometry.parameters.height / 2 - ballGeometry.parameters.radius;
+const ballMovementLimitX = groundGeometry.parameters.width / 2 - ballGeometry.parameters.radius;
+const ballMovementLimitZ = groundGeometry.parameters.height / 2 - ballGeometry.parameters.radius;
 
 function checkBallOutOfBounds3D() {
-    if (ball.position.x >= gameSettings.ballMovementLimitX) {
+    if (ball.position.x >= ballMovementLimitX) {
         ball.position.set(0, 0, 0);
         setPlayer1Score(player1Score + 1);
-        if (gameSettings.resetPaddlePosition)
+        if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
-    if (ball.position.x <= -gameSettings.ballMovementLimitX) {
+    if (ball.position.x <= -ballMovementLimitX) {
         ball.position.set(0, 0, 0);
         setPlayer2Score(player2Score + 1);
-        if (gameSettings.resetPaddlePosition)
+        if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
@@ -91,7 +85,7 @@ function moveBall() {
     ball.position.z += ballSpeedZ;
 
     // Gestion des rebonds sur les bordures haut/bas (en Z)
-    if (ball.position.z >= gameSettings.ballMovementLimitZ || ball.position.z <= -gameSettings.ballMovementLimitX)
+    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitX)
         ballSpeedZ = -ballSpeedZ;
 
     checkBallOutOfBounds3D();
@@ -111,12 +105,6 @@ function moveBall() {
         ball.position.z >= paddleRight.position.z - paddleGeometry.parameters.depth / 2
     )
         ballSpeedX = -ballSpeedX;
-}
-
-export function updateBallMovementLimits() {
-    // Calculer les nouvelles limites de mouvement basées sur la nouvelle taille de la balle
-    gameSettings.ballMovementLimitX = ground.geometry.parameters.width / 2 - gameSettings.ballRadius;
-    gameSettings.ballMovementLimitZ = ground.geometry.parameters.height / 2 - gameSettings.ballRadius;
 }
 
 /* ********************************************************************************* */
