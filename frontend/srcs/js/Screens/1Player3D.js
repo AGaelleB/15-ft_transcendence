@@ -13,6 +13,8 @@ resizeRenderer3D();
 
 /* ************************** Mouvement du paddle ******************************* */
 
+let isGameActive = true;
+
 // Mouvement des paddles
 const keys = {};
 
@@ -67,10 +69,12 @@ function checkBallOutOfBounds3D() {
         return true;
     }
     updateScore();
-    gameSettings.winningScore = 3;
+    gameSettings.winningScore = 1;
     const gameEnded = checkGameEnd(player1Score, player2Score);
-    if (gameEnded)
+    if (gameEnded) {
+        isGameActive = false;
         return;
+    }
 }
 
 function moveBall() {
@@ -106,8 +110,10 @@ function moveBall() {
 // boucle d'animation
 function animate() {
     requestAnimationFrame(animate);
-    movePaddles();
-    moveBall();
+    if (isGameActive) {
+        movePaddles();
+        moveBall();
+    }
     renderer.render(scene, camera);
 }
 

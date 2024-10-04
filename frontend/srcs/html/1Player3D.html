@@ -55,13 +55,28 @@
                 <p data-lang-key="robot" class="username">Mr Robot</p>
             </div>
         </section>
-    </div>
-    
-    
-    <div class="game-container">
-        <div id="pongCanvas"></div> <!-- Container pour Three.js -->
+        <div class="game-container">
+            <div id="pongCanvas"></div> <!-- Container pour Three.js -->
+        </div>
+        <section class="game-container">
+            <canvas id="pongCanvas"></canvas>
+            <div id="winMessage" class="win-message">
+                <h1></h1>
+            </div>
+        </section>
     </div>
 
+    <!-- Custom Bootstrap Modal -->
+    <div class="modal">
+        <p class="message"> 
+            <span data-lang-key="winner"> Player ${winner} Wins! </span>
+            <i class="bi bi-emoji-sunglasses"></i>
+        </p>
+        <div class="options">
+            <button data-lang-key="home" id="homeButton" class="btn">Home</button>
+            <button data-lang-key="play_again" id="againButton" class="btn">Play Again</button>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
