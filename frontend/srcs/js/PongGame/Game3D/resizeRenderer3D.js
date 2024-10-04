@@ -21,7 +21,6 @@ camera.lookAt(0, 0, 0);
 // camera.lookAt(0, 0, 0);
 // camera.rotation.order = "YXZ";
 
-
 // Fonction pour ajuster la taille du renderer
 export function resizeRenderer3D() {
     const gameContainer = document.querySelector('.game-container');
