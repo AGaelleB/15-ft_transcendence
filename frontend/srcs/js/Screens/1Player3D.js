@@ -38,11 +38,11 @@ function movePaddles() {
     // Mouvement paddle droite (pour le moment sans IA et avec des touches 2players)
     if (keys['w']) {
         if (paddleRight.position.z > -paddleMovementLimit)
-            paddleRight.position.z -= 0.1;
+            paddleRight.position.z -= 0.3;
     }
     if (keys['s']) {
         if (paddleRight.position.z < paddleMovementLimit)
-            paddleRight.position.z += 0.1;
+            paddleRight.position.z += 0.3;
     }
 }
 
@@ -85,12 +85,11 @@ function moveBall() {
     ball.position.z += ballSpeedZ;
 
     // Gestion des rebonds sur les bordures haut/bas (en Z)
-    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitX)
+    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
         ballSpeedZ = -ballSpeedZ;
 
     checkBallOutOfBounds3D();
     // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
-    
 
     if (
         ball.position.x <= paddleLeft.position.x + paddleGeometry.parameters.width / 2 &&
