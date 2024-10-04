@@ -45,7 +45,6 @@ function movePaddles() {
     }
 }
 
-
 /* ************************** Mouvement de la balle ******************************* */
 
 // Vitesse initiale de la balle
