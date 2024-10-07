@@ -29,21 +29,15 @@ const defaultGameSettings = {
 function resetToDefaultSettings3D() {
     Object.assign(gameSettings3D, defaultGameSettings);
     saveGameSettings3D();
-    loadGameSettings3D();
     updateUIWithGameSettings3D();
 }
 
-export function loadGameSettings3D() {
+export function loadGameSettingsFromStorage() {
     const savedSettings = localStorage.getItem('gameSettings3D');
     if (savedSettings) {
         Object.assign(gameSettings3D, JSON.parse(savedSettings));
+        console.log('Loaded game settings:', gameSettings3D);
     }
-
-    // Synchroniser les valeurs locales avec les paramètres chargés
-    pointsToWinValue = gameSettings3D.winningScore;
-
-    // Mise à jour des cases à cocher
-    document.getElementById('resetPaddlePosition').checked = gameSettings3D.resetPaddlePosition;
 }
 
 export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) {
@@ -101,31 +95,89 @@ export function initializeGameSettings3D() {
         resetToDefaultSettings3D();
     });
 
+    document.getElementById('ballSpeed').addEventListener('input', function (event) {
+        const ballSpeed = Number(event.target.value);
+
+        switch (ballSpeed) {
+            case 1:
+                gameSettings3D.ballSpeedX3D = 0.10;
+                gameSettings3D.ballSpeedZ3D = 0.10;
+                break;
+            case 2:
+                gameSettings3D.ballSpeedX3D = 0.20;
+                gameSettings3D.ballSpeedZ3D = 0.20;
+                break;
+            case 3:
+                gameSettings3D.ballSpeedX3D = 0.30;
+                gameSettings3D.ballSpeedZ3D = 0.30;
+                break;
+            case 4:
+                gameSettings3D.ballSpeedX3D = 0.40;
+                gameSettings3D.ballSpeedZ3D = 0.40;
+                break;
+            case 5:
+                gameSettings3D.ballSpeedX3D = 0.55;
+                gameSettings3D.ballSpeedZ3D = 0.55;
+                break;
+        }
+
+
+        updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
+        saveGameSettings3D();
+    });
+    
+    document.getElementById('paddleSpeed').addEventListener('input', function (event) {
+        const paddleSpeed = Number(event.target.value);
+        
+        switch (paddleSpeed) {
+            case 1:
+                gameSettings3D.paddleSpeed3D = 0.05;
+                break;
+            case 2:
+                gameSettings3D.paddleSpeed3D = 0.15;
+                break;
+            case 3:
+                gameSettings3D.paddleSpeed3D = 0.25;
+                break;
+            case 4:
+                gameSettings3D.paddleSpeed3D = 0.35;
+                break;
+            case 5:
+                gameSettings3D.paddleSpeed3D = 0.45;
+                break;
+        }
+
+        
+        updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
+        saveGameSettings3D();
+    });
+
+
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
     
         // Apply 3D changes for the ball size
         switch (ballSizeValue) {
             case 1:
-                gameSettings3D.ballRadius = 0.25;
+                gameSettings3D.ballRadius3D = 0.25;
                 break;
             case 2:
-                gameSettings3D.ballRadius = 0.5;
+                gameSettings3D.ballRadius3D = 0.5;
                 break;
             case 3:
-                gameSettings3D.ballRadius = 0.75;
+                gameSettings3D.ballRadius3D = 0.75;
                 break;
             case 4:
-                gameSettings3D.ballRadius = 1.2;
+                gameSettings3D.ballRadius3D = 1.2;
                 break;
             case 5:
-                gameSettings3D.ballRadius = 1.75;
+                gameSettings3D.ballRadius3D = 1.75;
                 break;
         }
         
         // Mise à jour de la géométrie de la balle
         ball.geometry.dispose(); // Supprime l'ancienne géométrie pour libérer la mémoire
-        ball.geometry = new THREE.SphereGeometry(gameSettings3D.ballRadius, 32, 32);
+        ball.geometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);
         
         updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
         saveGameSettings3D();
@@ -135,25 +187,25 @@ export function initializeGameSettings3D() {
     document.getElementById('paddleSize').addEventListener('input', function (event) {
         paddleSizeValue = Number(event.target.value);
     
-        gameSettings3D.paddleWidth = 1; // La largeur reste constante
-        gameSettings3D.paddleHeight = 1.5; // La hauteur reste constante
+        gameSettings3D.paddleWidth3D = 1; // La largeur reste constante
+        gameSettings3D.paddleHeight3D = 1.5; // La hauteur reste constante
     
         // Apply 3D changes for the paddle size
         switch (paddleSizeValue) {
             case 1:
-                gameSettings3D.paddleDepth = 2;
+                gameSettings3D.paddleDepth3D = 2;
                 break;
             case 2:
-                gameSettings3D.paddleDepth = 3.5;
+                gameSettings3D.paddleDepth3D = 3.5;
                 break;
             case 3:
-                gameSettings3D.paddleDepth = 5;
+                gameSettings3D.paddleDepth3D = 5;
                 break;
             case 4:
-                gameSettings3D.paddleDepth = 7.5;
+                gameSettings3D.paddleDepth3D = 7.5;
                 break;
             case 5:
-                gameSettings3D.paddleDepth = 10;
+                gameSettings3D.paddleDepth3D = 10;
                 break;
         }
         
@@ -161,7 +213,7 @@ export function initializeGameSettings3D() {
         paddleLeft.geometry.dispose();
         paddleRight.geometry.dispose();
         
-        const newPaddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth, gameSettings3D.paddleHeight, gameSettings3D.paddleDepth);
+        const newPaddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth3D, gameSettings3D.paddleHeight3D, gameSettings3D.paddleDepth3D);
         paddleLeft.geometry = newPaddleGeometry;
         paddleRight.geometry = newPaddleGeometry;
         
@@ -190,6 +242,5 @@ export function initializeGameSettings3D() {
 }
 
 export function loadSettingsOnPageLoad3D() {
-    loadGameSettings3D();
     updateUIWithGameSettings3D();
 }

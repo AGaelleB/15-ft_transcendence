@@ -133,8 +133,8 @@ export function resetPowerUpEffects(paddleLeft, paddleRight) {
     const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
 
     // Utilisez la hauteur initiale définie dans `gameSettings2D`
-    paddleLeft.height = gameSettings2D.paddleHeightFactor * canvasHeight; 
-    paddleRight.height = gameSettings2D.paddleHeightFactor * canvasHeight;
+    paddleLeft.height = gameSettings2D.paddleHeight2D * canvasHeight; 
+    paddleRight.height = gameSettings2D.paddleHeight2D * canvasHeight;
 
     // Réinitialiser les facteurs de vitesse à leur valeur d'origine
     paddleLeft.speedFactor = gameSettings2D.paddleSpeedFactor * 25; // ou une autre valeur adaptée
@@ -169,5 +169,5 @@ export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     setTimeout(() => {
         affectedPaddle.height = originalHeight;
         affectedPaddle.speedFactor = originalSpeedFactor;
-    }, gameSettings2D.powerUpEffectDuration);
+    }, gameSettings2D.powerUpEffectDuration2D);
 }

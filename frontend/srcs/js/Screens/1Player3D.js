@@ -22,7 +22,7 @@ document.addEventListener('keydown', (e) => { keys[e.key] = true; });
 document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
 // limites du mouvement des paddlesw
-const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth / 2.30);
+const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
 
 // Déplacer les raquettes avec limites
 function movePaddles() {
@@ -48,13 +48,9 @@ function movePaddles() {
 
 /* ************************** Mouvement de la balle ******************************* */
 
-// Vitesse initiale de la balle
-let ballSpeedX = 0.2;
-let ballSpeedZ = 0.2;
-
 // Limites de mouvement de la balle
-const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius;
-const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius;
+const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
+const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
 
 function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
@@ -81,31 +77,31 @@ function checkBallOutOfBounds3D() {
 
 function moveBall() {
     // Mise à jour de la position de la balle
-    ball.position.x += ballSpeedX;
-    ball.position.z += ballSpeedZ;
+    ball.position.x += gameSettings3D.ballSpeedX3D;
+    ball.position.z += gameSettings3D.ballSpeedZ3D;
 
     // Gestion des rebonds sur les bordures haut/bas (en Z)
     if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
-        ballSpeedZ = -ballSpeedZ;
+        gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
 
     checkBallOutOfBounds3D();
     // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
 
     // Collision avec le paddle gauche
     if (
-        ball.position.x - gameSettings3D.ballRadius <= paddleLeft.position.x + gameSettings3D.paddleWidth / 2 &&
-        ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth / 2 &&
-        ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth / 2
+        ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
+        ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
+        ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth3D / 2
     )
-        ballSpeedX = -ballSpeedX;
+        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
 
     // Collision avec le paddle droit
     if (
-        ball.position.x + gameSettings3D.ballRadius >= paddleRight.position.x - gameSettings3D.paddleWidth / 2 &&
-        ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth / 2 &&
-        ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth / 2
+        ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
+        ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
+        ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth3D / 2
     )
-        ballSpeedX = -ballSpeedX;
+        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
 
 }
 

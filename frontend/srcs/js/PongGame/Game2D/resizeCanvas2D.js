@@ -18,12 +18,12 @@ function resizeCanvas(paddleLeft, paddleRight, ball) {
     }
 
     // Ajustement des paddles et de la balle
-    paddleLeft.width = canvas.width * gameSettings2D.paddleWidthFactor;
-    paddleLeft.height = canvas.height * gameSettings2D.paddleHeightFactor;
+    paddleLeft.width = canvas.width * gameSettings2D.paddleWidth2D;
+    paddleLeft.height = canvas.height * gameSettings2D.paddleHeight2D;
     paddleRight.width = paddleLeft.width;
     paddleRight.height = paddleLeft.height;
 
-    ball.size = canvas.width * gameSettings2D.ballSizeFactor;
+    ball.size = canvas.width * gameSettings2D.ballSizeFactor2D;
 
     // Mise à jour des positions initiales
     paddleLeft.y = (canvas.height / 2) - (paddleLeft.height / 2);
@@ -35,12 +35,12 @@ function resizeCanvas(paddleLeft, paddleRight, ball) {
 
     // Mise à jour de la vitesse des éléments du jeu
     window.paddleSpeed = canvas.height * gameSettings2D.paddleSpeedFactor;
-    window.ballSpeedX = canvas.width * gameSettings2D.ballSpeedX / 100;
-    window.ballSpeedY = canvas.height * gameSettings2D.ballSpeedY / 100;
+    window.ballSpeedX2D = canvas.width * gameSettings2D.ballSpeedX2D / 100;
+    window.ballSpeedY2D = canvas.height * gameSettings2D.ballSpeedY2D / 100;
 
     // Application de la vitesse
-    ball.dx = window.ballSpeedX;
-    ball.dy = window.ballSpeedY;
+    ball.dx = window.ballSpeedX2D;
+    ball.dy = window.ballSpeedY2D;
 
     // Ajustement dynamique de la bordure selon gameSettings2D
     const borderSize = Math.max(canvas.width * gameSettings2D.borderFactor, gameSettings2D.minBorderSize);

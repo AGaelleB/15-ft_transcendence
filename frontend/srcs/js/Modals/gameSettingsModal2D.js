@@ -24,11 +24,11 @@ export function saveGameSettings() {
 const defaultGameSettings = {
     is3D: false,
     difficultyLevel: "intermediate",
-    ballSpeedX: 1.25,
-    ballSpeedY: 1.25,
+    ballSpeedX2D: 1.25,
+    ballSpeedY2D: 1.25,
     paddleSpeedFactor: 0.035,
-    ballSizeFactor: 0.015,
-    paddleHeightFactor: 0.25,
+    ballSizeFactor2D: 0.015,
+    paddleHeight2D: 0.25,
     winningScore: 5,
     resetPaddlePosition: true,
     setPowerUps: false,
@@ -50,8 +50,8 @@ export function loadGameSettings() {
 
     // Synchroniser les valeurs locales avec les paramètres chargés
     pointsToWinValue = gameSettings2D.winningScore;
-    ballSizeValue = (gameSettings2D.ballSizeFactor / 0.015) * 3;
-    paddleSizeValue = (gameSettings2D.paddleHeightFactor / 0.25) * 3;
+    ballSizeValue = (gameSettings2D.ballSizeFactor2D / 0.015) * 3;
+    paddleSizeValue = (gameSettings2D.paddleHeight2D / 0.25) * 3;
 
     // Mettre à jour les boutons radio pour la difficulté
     if (gameSettings2D.difficultyLevel === "novice")
@@ -114,7 +114,7 @@ function reverseMapPaddleSpeed(paddleSpeedFactor) {
 
 export function updateUIWithGameSettings() {
     // Met à jour les sliders avec les valeurs récupérées
-    document.getElementById('ballSpeed').value = gameSettings2D.ballSpeedX * 4;
+    document.getElementById('ballSpeed').value = gameSettings2D.ballSpeedX2D * 4;
 
     // Utilise la fonction inversée pour récupérer la position du slider
     document.getElementById('paddleSpeed').value = reverseMapPaddleSpeed(gameSettings2D.paddleSpeedFactor);
@@ -246,8 +246,8 @@ export function initializeGameSettings() {
 
     document.getElementById('ballSpeed').addEventListener('input', function (event) {
         const ballSpeed = Number(event.target.value);
-        gameSettings2D.ballSpeedX = ballSpeed / 4;
-        gameSettings2D.ballSpeedY = ballSpeed / 4;
+        gameSettings2D.ballSpeedX2D = ballSpeed / 4;
+        gameSettings2D.ballSpeedY2D = ballSpeed / 4;
         updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
         saveGameSettings();
     });
@@ -265,14 +265,14 @@ export function initializeGameSettings() {
 
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
-        gameSettings2D.ballSizeFactor = 0.015 * (ballSizeValue / 3); 
+        gameSettings2D.ballSizeFactor2D = 0.015 * (ballSizeValue / 3); 
         updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
         saveGameSettings();
     });
     
     document.getElementById('paddleSize').addEventListener('input', function (event) {
         paddleSizeValue = Number(event.target.value);
-        gameSettings2D.paddleHeightFactor = 0.25 * (paddleSizeValue / 3); 
+        gameSettings2D.paddleHeight2D = 0.25 * (paddleSizeValue / 3); 
         updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
         saveGameSettings();
     });
