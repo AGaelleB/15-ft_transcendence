@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/gameSettingsModal3D.js
 
-import { gameSettings3D, gameSettings } from '../PongGame/gameSettings.js';
+import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateScore } from '../PongGame/score.js';
 import { resetGame } from './startGameModal.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
@@ -36,11 +36,11 @@ function resetToDefaultSettings3D() {
 export function loadGameSettings3D() {
     const savedSettings = localStorage.getItem('gameSettings3D');
     if (savedSettings) {
-        Object.assign(gameSettings, JSON.parse(savedSettings));
+        Object.assign(gameSettings3D, JSON.parse(savedSettings));
     }
 
     // Synchroniser les valeurs locales avec les paramètres chargés
-    pointsToWinValue = gameSettings.winningScore;
+    pointsToWinValue = gameSettings3D.winningScore;
 
     // Mise à jour des cases à cocher
     document.getElementById('resetPaddlePosition').checked = gameSettings3D.resetPaddlePosition;
@@ -175,13 +175,13 @@ export function initializeGameSettings3D() {
     // Gestion des points nécessaires pour gagner
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
-        gameSettings.winningScore = pointsToWinValue;
+        gameSettings3D.winningScore = pointsToWinValue;
         saveGameSettings3D();
     });
 
     // Réinitialiser la position des paddles à chaque point
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
-        gameSettings.resetPaddlePosition = event.target.checked;
+        gameSettings3D.resetPaddlePosition = event.target.checked;
         saveGameSettings3D();
     });
 

@@ -1,6 +1,6 @@
 // frontend/srcs/js/score.js
 
-import { gameSettings } from './gameSettings.js';
+import { gameSettings3D } from './gameSettings.js';
 import { showWinMessage } from '../Modals/winMsgModal.js';
 
 export let player1Score = 0;
@@ -17,7 +17,7 @@ export const setPlayer2Score = (value) => {
 };
 
 export function updateScore() {
-    const winningScore = gameSettings.winningScore;
+    const winningScore = gameSettings3D.winningScore;
     document.getElementById('player1Score').textContent = `${player1Score} / ${winningScore}`;
     document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;
 }
@@ -29,7 +29,7 @@ export function isGameOver() {
 }
 
 export function checkGameEnd() {
-    const winningScore = gameSettings.winningScore;
+    const winningScore = gameSettings3D.winningScore;
     
     if (player1Score >= winningScore) {
         gameOver = true;
