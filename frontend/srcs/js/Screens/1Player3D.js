@@ -1,12 +1,26 @@
 // frontend/srcs/js/Screens/1Player3D.js
 
+import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game3D/score3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 
-// initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
+document.addEventListener('DOMContentLoaded', function() {
+    const startGameMessage = document.getElementById('startGameMessage');
+    const settingsIcon = document.getElementById('settingsIcon');
+    const homeIcon = document.getElementById('homeIcon');
+    // const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    // loadLanguages(storedLang);
+
+    homeIcon.addEventListener('click', () => {
+        window.location.href = '/frontend/srcs/html/homeScreen.html';
+    });
+
+    initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
+});
+
 resizeRenderer3D();
 initializeButton3D();
 
@@ -110,7 +124,7 @@ function moveBall() {
 // boucle d'animation
 function animate() {
     requestAnimationFrame(animate);
-    if (isGameActive) {
+    if (isGameActive && isGameStarted()) {
         movePaddles();
         moveBall();
     }

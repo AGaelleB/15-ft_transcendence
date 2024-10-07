@@ -131,12 +131,6 @@ export function updateUIWithGameSettings() {
     else if (gameSettings2D.difficultyLevel === "expert")
         document.getElementById('expert').checked = true;
 
-    // Synchronisation des autres paramètres
-    if (gameSettings2D.is3D)
-        document.getElementById('game3d').checked = true;
-    else
-        document.getElementById('game2d').checked = true;
-
     // Mettre à jour l'affichage des valeurs des sliders
     updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
     updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
@@ -205,21 +199,7 @@ export function initializeGameSettings() {
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings();
     });
-
-    document.getElementById('game2d').addEventListener('change', function () {
-        if (this.checked) {
-            gameSettings2D.is3D = false;
-        }
-        saveGameSettings();
-    });
-
-    document.getElementById('game3d').addEventListener('change', function () {
-        if (this.checked) {
-            gameSettings2D.is3D = true;
-        }
-        saveGameSettings();
-    });
-
+    
     document.getElementById('novice').addEventListener('change', function () {
         if (this.checked) {
             gameSettings2D.difficultyLevel = "novice"; 
