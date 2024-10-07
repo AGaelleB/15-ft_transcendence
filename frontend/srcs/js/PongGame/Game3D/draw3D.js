@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/Game3D/draw3D.js
 
-import { gameSettings3D } from '../gameSettings.js'
+import { gameSettings3D, loadGameSettingsFromStorage } from '../gameSettings.js'
 
 // Init la scène, la caméra, 
 export const scene = new THREE.Scene();
@@ -20,6 +20,9 @@ const light = new THREE.DirectionalLight(0xffcc00, 1);
 light.position.set(5, 10, 5);
 scene.add(light);
 
+// Charger les paramètres avant de créer les éléments
+loadGameSettingsFromStorage();
+
 // Création de la balle (sphère) basée sur gameSettings3D
 export const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -38,7 +41,6 @@ scene.add(paddleLeft);
 export const paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
 paddleRight.position.set(28, 0, 0);
 scene.add(paddleRight);
-
 
 export function resetPaddlePosition() {
     paddleLeft.position.set(-28, 0, 0);

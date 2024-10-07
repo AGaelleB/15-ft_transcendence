@@ -33,13 +33,13 @@ export function checkGameEnd() {
     
     if (player1Score >= winningScore) {
         gameOver = true;
-        // showWinMessage(1);
+        showWinMessage(1);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
     else if (player2Score >= winningScore) {
         gameOver = true;
-        // showWinMessage(2);
+        showWinMessage(2);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }

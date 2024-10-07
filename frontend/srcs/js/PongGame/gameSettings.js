@@ -43,14 +43,22 @@ export const gameSettings = {
     borderColor: '#a16935',
 };
 
-
 export const gameSettings3D = {
-    ballRadius: 0.75, // Taille initiale de la balle
+    ballRadius: 0.75,
     paddleWidth: 1,
     paddleHeight: 1.5,
     paddleDepth: 3.5,
     ballSpeed: 0.2,
     paddleSpeed: 0.3,
-    pointsToWin: 5,
+    pointsToWin: 5, // Assurez-vous que cette valeur par défaut est correcte
     resetPaddlePosition: false
 };
+
+// Nouvelle fonction pour charger les paramètres de localStorage
+export function loadGameSettingsFromStorage() {
+    const savedSettings = localStorage.getItem('gameSettings3D');
+    if (savedSettings) {
+        Object.assign(gameSettings3D, JSON.parse(savedSettings));
+        console.log('Loaded game settings:', gameSettings3D);
+    }
+}

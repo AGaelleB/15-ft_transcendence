@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/gameSettingsModal3D.js
 
-import { gameSettings } from '../PongGame/gameSettings.js';
+import { gameSettings3D, gameSettings } from '../PongGame/gameSettings.js';
 import { updateScore } from '../PongGame/score.js';
 import { resetGame } from './startGameModal.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
@@ -18,23 +18,16 @@ export function getIsSettingsOpen() {
 
 // Sauvegarder les paramètres dans localStorage
 export function saveGameSettings3D() {
-    localStorage.setItem('gameSettings3D', JSON.stringify(gameSettings));
+    localStorage.setItem('gameSettings3D', JSON.stringify(gameSettings3D));
 }
 
 // Default game settings for reset
 const defaultGameSettings = {
-    is3D: true,  // Ensure this is set to true for 3D game
-    difficultyLevel: "intermediate",
-    ballSizeFactor: 0.015,
-    paddleHeightFactor: 0.25,
     winningScore: 5,
-    resetPaddlePosition: true,
-    setPowerUps: false,
-    setRally: false,
 };
 
 function resetToDefaultSettings3D() {
-    Object.assign(gameSettings, defaultGameSettings);
+    Object.assign(gameSettings3D, defaultGameSettings);
     saveGameSettings3D();
     loadGameSettings3D();
     updateUIWithGameSettings3D();
@@ -48,21 +41,9 @@ export function loadGameSettings3D() {
 
     // Synchroniser les valeurs locales avec les paramètres chargés
     pointsToWinValue = gameSettings.winningScore;
-    ballSizeValue = (gameSettings.ballSizeFactor / 0.015) * 3;
-    paddleSizeValue = (gameSettings.paddleHeightFactor / 0.25) * 3;
-
-    // Mise à jour des boutons radio pour la difficulté
-    if (gameSettings.difficultyLevel === "novice")
-        document.getElementById('novice').checked = true;
-    else if (gameSettings.difficultyLevel === "intermediate")
-        document.getElementById('intermediate').checked = true;
-    else if (gameSettings.difficultyLevel === "expert")
-        document.getElementById('expert').checked = true;
 
     // Mise à jour des cases à cocher
-    document.getElementById('resetPaddlePosition').checked = gameSettings.resetPaddlePosition;
-    document.getElementById('setPowerUps').checked = gameSettings.setPowerUps;
-    document.getElementById('setRally').checked = gameSettings.setRally;
+    document.getElementById('resetPaddlePosition').checked = gameSettings3D.resetPaddlePosition;
 }
 
 export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) {
@@ -79,17 +60,6 @@ export function updateUIWithGameSettings3D() {
     document.getElementById('ballSize').value = ballSizeValue;
     document.getElementById('paddleSize').value = paddleSizeValue;
 
-    if (gameSettings.difficultyLevel === "novice")
-        document.getElementById('novice').checked = true;
-    else if (gameSettings.difficultyLevel === "intermediate")
-        document.getElementById('intermediate').checked = true;
-    else if (gameSettings.difficultyLevel === "expert")
-        document.getElementById('expert').checked = true;
-
-    if (gameSettings.is3D)
-        document.getElementById('game3d').checked = true;
-    else
-        document.getElementById('game2d').checked = true;
 
     updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
@@ -133,66 +103,68 @@ export function initializeGameSettings3D() {
 
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
-        gameSettings.ballSizeFactor = 0.015 * (ballSizeValue / 3);
     
         // Apply 3D changes for the ball size
-        let newBallGeometry;
         switch (ballSizeValue) {
             case 1:
-                newBallGeometry = new THREE.SphereGeometry(0.25, 32, 32);
+                gameSettings3D.ballRadius = 0.25;
                 break;
             case 2:
-                newBallGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+                gameSettings3D.ballRadius = 0.5;
                 break;
             case 3:
-                newBallGeometry = new THREE.SphereGeometry(0.75, 32, 32);
+                gameSettings3D.ballRadius = 0.75;
                 break;
             case 4:
-                newBallGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+                gameSettings3D.ballRadius = 1.2;
                 break;
             case 5:
-                newBallGeometry = new THREE.SphereGeometry(1.75, 32, 32);
+                gameSettings3D.ballRadius = 1.75;
                 break;
         }
-    
-        ball.geometry.dispose(); // Clear the previous geometry
-        ball.geometry = newBallGeometry; // Set new geometry
-    
+        
+        // Mise à jour de la géométrie de la balle
+        ball.geometry.dispose(); // Supprime l'ancienne géométrie pour libérer la mémoire
+        ball.geometry = new THREE.SphereGeometry(gameSettings3D.ballRadius, 32, 32);
+        
         updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
         saveGameSettings3D();
     });
+    
    
-
     document.getElementById('paddleSize').addEventListener('input', function (event) {
         paddleSizeValue = Number(event.target.value);
-        gameSettings.paddleHeightFactor = 0.25 * (paddleSizeValue / 3);
-
+    
+        gameSettings3D.paddleWidth = 1; // La largeur reste constante
+        gameSettings3D.paddleHeight = 1.5; // La hauteur reste constante
+    
         // Apply 3D changes for the paddle size
-        let newPaddleGeometry;
         switch (paddleSizeValue) {
             case 1:
-                newPaddleGeometry = new THREE.BoxGeometry(1, 1.5, 2);
+                gameSettings3D.paddleDepth = 2;
                 break;
             case 2:
-                newPaddleGeometry = new THREE.BoxGeometry(1, 1.5, 3.5);
+                gameSettings3D.paddleDepth = 3.5;
                 break;
             case 3:
-                newPaddleGeometry = new THREE.BoxGeometry(1, 1.5, 5);
+                gameSettings3D.paddleDepth = 5;
                 break;
             case 4:
-                newPaddleGeometry = new THREE.BoxGeometry(1, 1.5, 7.5);
+                gameSettings3D.paddleDepth = 7.5;
                 break;
             case 5:
-                newPaddleGeometry = new THREE.BoxGeometry(1, 1.5, 10);
+                gameSettings3D.paddleDepth = 10;
                 break;
         }
-
+        
+        // Mise à jour de la géométrie des raquettes
         paddleLeft.geometry.dispose();
         paddleRight.geometry.dispose();
-
+        
+        const newPaddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth, gameSettings3D.paddleHeight, gameSettings3D.paddleDepth);
         paddleLeft.geometry = newPaddleGeometry;
         paddleRight.geometry = newPaddleGeometry;
-
+        
         updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
         saveGameSettings3D();
     });
