@@ -1,6 +1,6 @@
 // frontend/srcs/js/chrono.js
 
-import { isGameOver } from './score.js';
+import { isGameOver } from './Game2D/score2D.js';
 
 // Fonction pour gérer le chrono avant le lancement de la balle
 export function startCountdown(callback) {

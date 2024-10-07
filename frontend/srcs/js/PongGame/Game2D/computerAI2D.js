@@ -16,7 +16,7 @@
     3- Déplacer la Raquette
 */
 
-import { gameSettings } from '../gameSettings.js';
+import { gameSettings2D } from '../gameSettings.js';
 
 const keys = {};
 let lastUpdateTime = 0;
@@ -77,7 +77,7 @@ function predictBallPosition(ball, canvas, timeToPaddle) {
 // Ajoute une marge d'erreur à la prédiction
 function predictBallPositionWithError(ball, canvas, timeToPaddle) {
     let predictedBallY = predictBallPosition(ball, canvas, timeToPaddle);
-    predictedBallY += gameSettings.errorMargin;
+    predictedBallY += gameSettings2D.errorMargin;
     return (predictedBallY);
 }
 

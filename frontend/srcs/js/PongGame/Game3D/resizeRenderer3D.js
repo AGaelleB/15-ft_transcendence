@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/Game3D/resizeRenderer3D.js
 
-import { gameSettings } from '../gameSettings.js';
+import { gameSettings3D } from '../gameSettings.js';
 
 export const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -28,13 +28,13 @@ export function resizeRenderer3D() {
     const containerHeight = window.innerHeight * 0.85;
 
     let width, height;
-    if (containerWidth / containerHeight < gameSettings.aspectRatio) {
-        width = containerWidth * gameSettings.canvasWidthFactor;
-        height = width / gameSettings.aspectRatio;
+    if (containerWidth / containerHeight < gameSettings3D.aspectRatio) {
+        width = containerWidth * gameSettings3D.canvasWidthFactor;
+        height = width / gameSettings3D.aspectRatio;
     }
     else {
-        height = containerHeight * gameSettings.canvasWidthFactor;
-        width = height * gameSettings.aspectRatio;
+        height = containerHeight * gameSettings3D.canvasWidthFactor;
+        width = height * gameSettings3D.aspectRatio;
     }
 
     renderer.setSize(width, height);

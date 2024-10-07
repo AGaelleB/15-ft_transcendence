@@ -1,7 +1,7 @@
-// frontend/srcs/js/score.js
+// frontend/srcs/js/score3D.js
 
-import { gameSettings3D } from './gameSettings.js';
-import { showWinMessage } from '../Modals/winMsgModal.js';
+import { gameSettings3D } from '../gameSettings.js';
+import { showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score = 0;
 export let player2Score = 0;

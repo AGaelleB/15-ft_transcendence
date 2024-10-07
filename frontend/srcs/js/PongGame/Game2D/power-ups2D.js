@@ -13,7 +13,7 @@
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
 import { isGameStarted } from '../../Modals/startGameModal.js';
-import { gameSettings } from '../gameSettings.js';
+import { gameSettings2D } from '../gameSettings.js';
 import { getLastTouchedPaddle } from './ballCollision2D.js';
 
 let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
@@ -93,11 +93,11 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
 export function generatePowerUp(powerUpImageElement, canvas) {
     const now = Date.now();
 
-    if (gameSettings.setPowerUps && isGameStarted() && now >= nextPowerUpTime) {
+    if (gameSettings2D.setPowerUps && isGameStarted() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
         nextPowerUpTime = now + getRandomInterval(12000, 25000); // temps entre 2 affichages
     }
-    else if (!isGameStarted() || !gameSettings.setPowerUps) {
+    else if (!isGameStarted() || !gameSettings2D.setPowerUps) {
         hidePowerUp(powerUpImageElement);
     }
 }
@@ -132,13 +132,13 @@ export function resetPowerUpEffects(paddleLeft, paddleRight) {
     // Remettre la taille et la vitesse des raquettes à leurs valeurs d'origine
     const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
 
-    // Utilisez la hauteur initiale définie dans `gameSettings`
-    paddleLeft.height = gameSettings.paddleHeightFactor * canvasHeight; 
-    paddleRight.height = gameSettings.paddleHeightFactor * canvasHeight;
+    // Utilisez la hauteur initiale définie dans `gameSettings2D`
+    paddleLeft.height = gameSettings2D.paddleHeightFactor * canvasHeight; 
+    paddleRight.height = gameSettings2D.paddleHeightFactor * canvasHeight;
 
     // Réinitialiser les facteurs de vitesse à leur valeur d'origine
-    paddleLeft.speedFactor = gameSettings.paddleSpeedFactor * 25; // ou une autre valeur adaptée
-    paddleRight.speedFactor = gameSettings.paddleSpeedFactor * 25;
+    paddleLeft.speedFactor = gameSettings2D.paddleSpeedFactor * 25; // ou une autre valeur adaptée
+    paddleRight.speedFactor = gameSettings2D.paddleSpeedFactor * 25;
 }
 
 export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
@@ -169,5 +169,5 @@ export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     setTimeout(() => {
         affectedPaddle.height = originalHeight;
         affectedPaddle.speedFactor = originalSpeedFactor;
-    }, gameSettings.powerUpEffectDuration);
+    }, gameSettings2D.powerUpEffectDuration);
 }

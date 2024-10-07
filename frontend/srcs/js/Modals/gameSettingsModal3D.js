@@ -1,7 +1,7 @@
 // frontend/srcs/js/Modals/gameSettingsModal3D.js
 
 import { gameSettings3D } from '../PongGame/gameSettings.js';
-import { updateScore } from '../PongGame/score.js';
+import { updateScore } from '../PongGame/Game3D/score3D.js';
 import { resetGame } from './startGameModal.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 

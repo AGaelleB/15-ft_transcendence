@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/gameSettings.js
 
-export const gameSettings = {
+export const gameSettings2D = {
 
     /*************** 2D et 3D **************/
     // Score
@@ -51,8 +51,13 @@ export const gameSettings3D = {
     ballSpeed: 0.2,
     paddleSpeed: 0.3,
     pointsToWin: 5, // Assurez-vous que cette valeur par défaut est correcte
-    resetPaddlePosition: false
+    resetPaddlePosition: false,
+
+    // Canvas dimensions
+    canvasWidthFactor: 0.9,
+    aspectRatio: 16 / 9
 };
+
 
 // Nouvelle fonction pour charger les paramètres de localStorage
 export function loadGameSettingsFromStorage() {

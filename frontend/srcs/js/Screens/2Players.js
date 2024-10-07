@@ -3,11 +3,11 @@
 import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
-import { gameSettings } from '../PongGame/gameSettings.js';
+import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
+import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeButton2D();
     initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
     
-    let paddleSpeed = gameSettings.canvasHeight * gameSettings.paddleSpeedFactor;
+    let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
   
     const paddleLeft = {
         x: 0,
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 0,
         height: 0,
         dy: 0,
-        speedFactor: gameSettings.paddleSpeedFactor * 25
+        speedFactor: gameSettings2D.paddleSpeedFactor * 25
     };
     
     const paddleRight = {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 0,
         height: 0,
         dy: 0,
-        speedFactor: gameSettings.paddleSpeedFactor * 25
+        speedFactor: gameSettings2D.paddleSpeedFactor * 25
     };
     
     const ball = {
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Vérification de la collision avec le power-up
-        if (gameSettings.setPowerUps) {
+        if (gameSettings2D.setPowerUps) {
             if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
                 applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
                 hidePowerUp(powerUpImageElement);
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             () => setPlayer2Score(player2Score + 1))) {
                 resetRallyCount();
                 const gameEnded = checkGameEnd(player1Score, player2Score);
-                if (gameSettings.resetPaddlePosition && !gameEnded) {
+                if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;
                 }

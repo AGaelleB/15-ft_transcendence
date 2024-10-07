@@ -2,8 +2,8 @@
 
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, paddleGeometry, ballGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/score.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
+import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game3D/score3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 
 // initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
@@ -21,8 +21,8 @@ const keys = {};
 document.addEventListener('keydown', (e) => { keys[e.key] = true; });
 document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
-// limites du mouvement des paddles
-const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleGeometry.parameters.depth / 2.30);
+// limites du mouvement des paddlesw
+const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth / 2.30);
 
 // Déplacer les raquettes avec limites
 function movePaddles() {
@@ -53,8 +53,8 @@ let ballSpeedX = 0.2;
 let ballSpeedZ = 0.2;
 
 // Limites de mouvement de la balle
-const ballMovementLimitX = groundGeometry.parameters.width / 2 - ballGeometry.parameters.radius;
-const ballMovementLimitZ = groundGeometry.parameters.height / 2 - ballGeometry.parameters.radius;
+const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius;
+const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius;
 
 function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
@@ -92,16 +92,16 @@ function moveBall() {
     // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
 
     if (
-        ball.position.x <= paddleLeft.position.x + paddleGeometry.parameters.width / 2 &&
-        ball.position.z <= paddleLeft.position.z + paddleGeometry.parameters.depth / 2 &&
-        ball.position.z >= paddleLeft.position.z - paddleGeometry.parameters.depth / 2
+        ball.position.x <= paddleLeft.position.x + gameSettings3D.paddleWidth / 2 &&
+        ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth / 2 &&
+        ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth / 2
     )
         ballSpeedX = -ballSpeedX;
 
     if (
-        ball.position.x >= paddleRight.position.x - paddleGeometry.parameters.width / 2 &&
-        ball.position.z <= paddleRight.position.z + paddleGeometry.parameters.depth / 2 &&
-        ball.position.z >= paddleRight.position.z - paddleGeometry.parameters.depth / 2
+        ball.position.x >= paddleRight.position.x - gameSettings3D.paddleWidth / 2 &&
+        ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth / 2 &&
+        ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth / 2
     )
         ballSpeedX = -ballSpeedX;
 }

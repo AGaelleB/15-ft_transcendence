@@ -1,7 +1,7 @@
 // frontend/srcs/js/Modals/gameSettingsModal2D.js
 
-import { gameSettings } from '../PongGame/gameSettings.js';
-import { updateScore } from '../PongGame/score.js';
+import { gameSettings2D } from '../PongGame/gameSettings.js';
+import { updateScore } from '../PongGame/Game2D/score2D.js';
 import { resetGame } from './startGameModal.js';
 
 // Variable globale pour indiquer si les paramètres sont ouverts
@@ -17,7 +17,7 @@ export function getIsSettingsOpen() {
 
 // Sauvegarder les paramètres dans localStorage
 export function saveGameSettings() {
-    localStorage.setItem('gameSettings', JSON.stringify(gameSettings));
+    localStorage.setItem('gameSettings2D', JSON.stringify(gameSettings2D));
 }
 
 // Default game settings for reset
@@ -36,7 +36,7 @@ const defaultGameSettings = {
 };
 
 function resetToDefaultSettings() {
-    Object.assign(gameSettings, defaultGameSettings);
+    Object.assign(gameSettings2D, defaultGameSettings);
     saveGameSettings();
 
     loadGameSettings();
@@ -44,27 +44,27 @@ function resetToDefaultSettings() {
 }
 
 export function loadGameSettings() {
-    const savedSettings = localStorage.getItem('gameSettings');
+    const savedSettings = localStorage.getItem('gameSettings2D');
     if (savedSettings)
-        Object.assign(gameSettings, JSON.parse(savedSettings));
+        Object.assign(gameSettings2D, JSON.parse(savedSettings));
 
     // Synchroniser les valeurs locales avec les paramètres chargés
-    pointsToWinValue = gameSettings.winningScore;
-    ballSizeValue = (gameSettings.ballSizeFactor / 0.015) * 3;
-    paddleSizeValue = (gameSettings.paddleHeightFactor / 0.25) * 3;
+    pointsToWinValue = gameSettings2D.winningScore;
+    ballSizeValue = (gameSettings2D.ballSizeFactor / 0.015) * 3;
+    paddleSizeValue = (gameSettings2D.paddleHeightFactor / 0.25) * 3;
 
     // Mettre à jour les boutons radio pour la difficulté
-    if (gameSettings.difficultyLevel === "novice")
+    if (gameSettings2D.difficultyLevel === "novice")
         document.getElementById('novice').checked = true;
-    else if (gameSettings.difficultyLevel === "intermediate")
+    else if (gameSettings2D.difficultyLevel === "intermediate")
         document.getElementById('intermediate').checked = true;
-    else if (gameSettings.difficultyLevel === "expert")
+    else if (gameSettings2D.difficultyLevel === "expert")
         document.getElementById('expert').checked = true;
 
     // Mettre à jour la case à cocher pour resetPaddlePosition, setPowerUps
-    document.getElementById('resetPaddlePosition').checked = gameSettings.resetPaddlePosition;
-    document.getElementById('setPowerUps').checked = gameSettings.setPowerUps;
-    document.getElementById('setRally').checked = gameSettings.setRally;
+    document.getElementById('resetPaddlePosition').checked = gameSettings2D.resetPaddlePosition;
+    document.getElementById('setPowerUps').checked = gameSettings2D.setPowerUps;
+    document.getElementById('setRally').checked = gameSettings2D.setRally;
 }
 
 export function updateSliderValuePositionSpeed(sliderId, spanId, multiplier, offset) { 
@@ -114,25 +114,25 @@ function reverseMapPaddleSpeed(paddleSpeedFactor) {
 
 export function updateUIWithGameSettings() {
     // Met à jour les sliders avec les valeurs récupérées
-    document.getElementById('ballSpeed').value = gameSettings.ballSpeedX * 4;
+    document.getElementById('ballSpeed').value = gameSettings2D.ballSpeedX * 4;
 
     // Utilise la fonction inversée pour récupérer la position du slider
-    document.getElementById('paddleSpeed').value = reverseMapPaddleSpeed(gameSettings.paddleSpeedFactor);
+    document.getElementById('paddleSpeed').value = reverseMapPaddleSpeed(gameSettings2D.paddleSpeedFactor);
     
     document.getElementById('pointsToWin').value = pointsToWinValue;
     document.getElementById('ballSize').value = ballSizeValue;
     document.getElementById('paddleSize').value = paddleSizeValue;
 
     // Mise à jour de la difficulté du bot
-    if (gameSettings.difficultyLevel === "novice")
+    if (gameSettings2D.difficultyLevel === "novice")
         document.getElementById('novice').checked = true;
-    else if (gameSettings.difficultyLevel === "intermediate")
+    else if (gameSettings2D.difficultyLevel === "intermediate")
         document.getElementById('intermediate').checked = true;
-    else if (gameSettings.difficultyLevel === "expert")
+    else if (gameSettings2D.difficultyLevel === "expert")
         document.getElementById('expert').checked = true;
 
     // Synchronisation des autres paramètres
-    if (gameSettings.is3D)
+    if (gameSettings2D.is3D)
         document.getElementById('game3d').checked = true;
     else
         document.getElementById('game2d').checked = true;
@@ -208,46 +208,46 @@ export function initializeGameSettings() {
 
     document.getElementById('game2d').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.is3D = false;
+            gameSettings2D.is3D = false;
         }
         saveGameSettings();
     });
 
     document.getElementById('game3d').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.is3D = true;
+            gameSettings2D.is3D = true;
         }
         saveGameSettings();
     });
 
     document.getElementById('novice').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.difficultyLevel = "novice"; 
-            gameSettings.errorMargin = Math.random() * 200 - 100;
+            gameSettings2D.difficultyLevel = "novice"; 
+            gameSettings2D.errorMargin = Math.random() * 200 - 100;
             saveGameSettings();
         }
     });
     
     document.getElementById('intermediate').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.difficultyLevel = "intermediate"; 
-            gameSettings.errorMargin = Math.random() * 150 - 75;
+            gameSettings2D.difficultyLevel = "intermediate"; 
+            gameSettings2D.errorMargin = Math.random() * 150 - 75;
             saveGameSettings();
         }
     });
     
     document.getElementById('expert').addEventListener('change', function () {
         if (this.checked) {
-            gameSettings.difficultyLevel = "expert"; 
-            gameSettings.errorMargin = Math.random() * 50 - 25;
+            gameSettings2D.difficultyLevel = "expert"; 
+            gameSettings2D.errorMargin = Math.random() * 50 - 25;
             saveGameSettings();
         }
     });    
 
     document.getElementById('ballSpeed').addEventListener('input', function (event) {
         const ballSpeed = Number(event.target.value);
-        gameSettings.ballSpeedX = ballSpeed / 4;
-        gameSettings.ballSpeedY = ballSpeed / 4;
+        gameSettings2D.ballSpeedX = ballSpeed / 4;
+        gameSettings2D.ballSpeedY = ballSpeed / 4;
         updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
         saveGameSettings();
     });
@@ -256,7 +256,7 @@ export function initializeGameSettings() {
         const paddleSpeed = Number(event.target.value);
         
         // Utiliser la fonction de mappage simple
-        gameSettings.paddleSpeedFactor = mapPaddleSpeed(paddleSpeed);
+        gameSettings2D.paddleSpeedFactor = mapPaddleSpeed(paddleSpeed);
         
         updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
         saveGameSettings();
@@ -265,43 +265,43 @@ export function initializeGameSettings() {
 
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
-        gameSettings.ballSizeFactor = 0.015 * (ballSizeValue / 3); 
+        gameSettings2D.ballSizeFactor = 0.015 * (ballSizeValue / 3); 
         updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
         saveGameSettings();
     });
     
     document.getElementById('paddleSize').addEventListener('input', function (event) {
         paddleSizeValue = Number(event.target.value);
-        gameSettings.paddleHeightFactor = 0.25 * (paddleSizeValue / 3); 
+        gameSettings2D.paddleHeightFactor = 0.25 * (paddleSizeValue / 3); 
         updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
         saveGameSettings();
     });
     
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
-        gameSettings.winningScore = pointsToWinValue;
+        gameSettings2D.winningScore = pointsToWinValue;
         updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
         updateScore();
         saveGameSettings();
     });
 
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
-        gameSettings.resetPaddlePosition = event.target.checked;
+        gameSettings2D.resetPaddlePosition = event.target.checked;
         saveGameSettings();
     });
     
     document.getElementById('setPowerUps').addEventListener('change', function (event) {
-        gameSettings.setPowerUps = event.target.checked;
+        gameSettings2D.setPowerUps = event.target.checked;
         saveGameSettings();
     });
     
     document.getElementById('setRally').addEventListener('change', function (event) {
-        gameSettings.setRally = event.target.checked;
+        gameSettings2D.setRally = event.target.checked;
         saveGameSettings();
     });
 
     loadSettingsOnPageLoad();
-    console.log("Settings after load:", gameSettings);
+    console.log("Settings after load:", gameSettings2D);
     resetGame();
 }
 
