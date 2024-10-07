@@ -59,6 +59,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+
+    // menus en fonction du mode 2D/3D
+    const game2dRadio = document.getElementById('game2d');
+    const game3dRadio = document.getElementById('game3d');
+    const menu2d = document.querySelector('.menu-2d');
+    const menu3d = document.querySelector('.menu-3d');
+
+    game2dRadio.addEventListener('change', function () {
+        if (this.checked) {
+            menu2d.style.display = 'block';
+            menu3d.style.display = 'none';
+        }
+    });
+
+    game3dRadio.addEventListener('change', function () {
+        if (this.checked) {
+            menu2d.style.display = 'none';
+            menu3d.style.display = 'block';
+        }
+    });
+
+
     // Obtenir les éléments pour le modal
     const overlay = document.getElementById('overlay'); // Ajout de l'élément overlay
     const logoutLink = document.querySelector('.logout-link');
