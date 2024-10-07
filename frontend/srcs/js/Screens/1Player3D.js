@@ -91,19 +91,22 @@ function moveBall() {
     checkBallOutOfBounds3D();
     // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
 
+    // Collision avec le paddle gauche
     if (
-        ball.position.x <= paddleLeft.position.x + gameSettings3D.paddleWidth / 2 &&
+        ball.position.x - gameSettings3D.ballRadius <= paddleLeft.position.x + gameSettings3D.paddleWidth / 2 &&
         ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth / 2 &&
         ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth / 2
     )
         ballSpeedX = -ballSpeedX;
 
+    // Collision avec le paddle droit
     if (
-        ball.position.x >= paddleRight.position.x - gameSettings3D.paddleWidth / 2 &&
+        ball.position.x + gameSettings3D.ballRadius >= paddleRight.position.x - gameSettings3D.paddleWidth / 2 &&
         ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth / 2 &&
         ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth / 2
     )
         ballSpeedX = -ballSpeedX;
+
 }
 
 /* ********************************************************************************* */
