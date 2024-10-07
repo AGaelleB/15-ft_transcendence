@@ -7,9 +7,10 @@ import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 
 // Variable globale pour indiquer si les paramètres sont ouverts
 export let isSettingsOpen = false;
+let ballSpeedValue = 3;
+let paddleSpeedValue = 3;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
-let ballSpeedValue = 3;
 let pointsToWinValue = 5;
 
 // Getter pour isSettingsOpen
@@ -52,12 +53,14 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
 
 export function updateUIWithGameSettings3D() {
     document.getElementById('ballSpeed').value = ballSpeedValue;
+    document.getElementById('paddleSpeed').value = paddleSpeedValue;
     document.getElementById('pointsToWin').value = pointsToWinValue;
     document.getElementById('ballSize').value = ballSizeValue;
     document.getElementById('paddleSize').value = paddleSizeValue;
 
 
     updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
+    updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
     updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
     updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
@@ -133,23 +136,22 @@ export function initializeGameSettings3D() {
         
         switch (paddleSpeed) {
             case 1:
-                gameSettings3D.paddleSpeed3D = 0.05;
+                gameSettings3D.paddleSpeed3D = 0.1;
                 break;
             case 2:
-                gameSettings3D.paddleSpeed3D = 0.15;
+                gameSettings3D.paddleSpeed3D = 0.2;
                 break;
             case 3:
-                gameSettings3D.paddleSpeed3D = 0.25;
+                gameSettings3D.paddleSpeed3D = 0.3;
                 break;
             case 4:
-                gameSettings3D.paddleSpeed3D = 0.35;
+                gameSettings3D.paddleSpeed3D = 0.4;
                 break;
             case 5:
-                gameSettings3D.paddleSpeed3D = 0.45;
+                gameSettings3D.paddleSpeed3D = 0.5;
                 break;
         }
 
-        
         updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
         saveGameSettings3D();
     });
@@ -158,7 +160,6 @@ export function initializeGameSettings3D() {
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
     
-        // Apply 3D changes for the ball size
         switch (ballSizeValue) {
             case 1:
                 gameSettings3D.ballRadius3D = 0.25;

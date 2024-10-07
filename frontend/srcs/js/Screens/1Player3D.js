@@ -28,21 +28,21 @@ const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSe
 function movePaddles() {
     if (keys['ArrowUp']) {
         if (paddleLeft.position.z > -paddleMovementLimit)
-            paddleLeft.position.z -= 0.3;
+            paddleLeft.position.z -= gameSettings3D.paddleSpeed3D;
     }
     if (keys['ArrowDown']) {
         if (paddleLeft.position.z < paddleMovementLimit)
-            paddleLeft.position.z += 0.3;
+            paddleLeft.position.z += gameSettings3D.paddleSpeed3D;
     }
 
     // Mouvement paddle droite (pour le moment sans IA et avec des touches 2players)
     if (keys['w']) {
         if (paddleRight.position.z > -paddleMovementLimit)
-            paddleRight.position.z -= 0.3;
+            paddleRight.position.z -= gameSettings3D.paddleSpeed3D;
     }
     if (keys['s']) {
         if (paddleRight.position.z < paddleMovementLimit)
-            paddleRight.position.z += 0.3;
+            paddleRight.position.z += gameSettings3D.paddleSpeed3D;
     }
 }
 
