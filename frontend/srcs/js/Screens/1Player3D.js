@@ -6,6 +6,7 @@ import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRen
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game3D/score3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
+import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -49,15 +50,7 @@ function movePaddles() {
             paddleLeft.position.z += gameSettings3D.paddleSpeed3D;
     }
 
-    // Mouvement paddle droite (pour le moment sans IA et avec des touches 2players)
-    if (keys['w']) {
-        if (paddleRight.position.z > -paddleMovementLimit)
-            paddleRight.position.z -= gameSettings3D.paddleSpeed3D;
-    }
-    if (keys['s']) {
-        if (paddleRight.position.z < paddleMovementLimit)
-            paddleRight.position.z += gameSettings3D.paddleSpeed3D;
-    }
+    updateAI3D(ball, paddleRight, ground);
 }
 
 /* ************************** Mouvement de la balle ******************************* */
@@ -127,6 +120,7 @@ function animate() {
     if (isGameActive && isGameStarted()) {
         movePaddles();
         moveBall();
+        updateAI3D(ball, paddleRight, ground);
     }
     renderer.render(scene, camera);
 }
