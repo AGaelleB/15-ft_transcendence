@@ -9,6 +9,7 @@ import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 export let isSettingsOpen = false;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
+let ballSpeedValue = 3;
 let pointsToWinValue = 5;
 
 // Getter pour isSettingsOpen
@@ -50,11 +51,13 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
 }
 
 export function updateUIWithGameSettings3D() {
+    document.getElementById('ballSpeed').value = ballSpeedValue;
     document.getElementById('pointsToWin').value = pointsToWinValue;
     document.getElementById('ballSize').value = ballSizeValue;
     document.getElementById('paddleSize').value = paddleSizeValue;
 
 
+    updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
     updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
     updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
@@ -121,8 +124,7 @@ export function initializeGameSettings3D() {
                 break;
         }
 
-
-        updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
+        updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
         saveGameSettings3D();
     });
     
