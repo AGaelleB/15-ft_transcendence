@@ -12,11 +12,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateSelection() {
         menuItems.forEach((item, index) => {
-            if (index === currentIndex)
+            if (index === currentIndex) {
                 item.parentElement.classList.add('selected');
-            else
+            } else {
                 item.parentElement.classList.remove('selected');
+            }
         });
+    }
+
+    // Toujours sélectionner la première option par défaut
+    function selectFirstOption() {
+        currentIndex = 0;
+        updateSelection();
     }
 
     menuItems.forEach((item, index) => {
@@ -59,27 +66,48 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-
     // menus en fonction du mode 2D/3D
     const game2dRadio = document.getElementById('game2d');
     const game3dRadio = document.getElementById('game3d');
     const menu2d = document.querySelector('.menu-2d');
     const menu3d = document.querySelector('.menu-3d');
 
+    // Charger le mode de jeu sélectionné à partir de localStorage
+    const selectedGameMode = localStorage.getItem('selectedGameMode');
+
+    // Si le mode sélectionné est '3D', coche le bouton correspondant et affiche le menu 3D
+    if (selectedGameMode === '3D') {
+        game3dRadio.checked = true;
+        menu2d.style.display = 'none';
+        menu3d.style.display = 'block';
+    } else {
+        // Sinon, afficher par défaut le menu 2D
+        game2dRadio.checked = true;
+        menu2d.style.display = 'block';
+        menu3d.style.display = 'none';
+    }
+
+    // Toujours sélectionner la première option par défaut au chargement de la page
+    selectFirstOption();
+
+    // Écouter les changements de mode et enregistrer dans localStorage
     game2dRadio.addEventListener('change', function () {
         if (this.checked) {
+            localStorage.setItem('selectedGameMode', '2D');
             menu2d.style.display = 'block';
             menu3d.style.display = 'none';
+            selectFirstOption(); // Réinitialiser la sélection lorsque le mode change
         }
     });
 
     game3dRadio.addEventListener('change', function () {
         if (this.checked) {
+            localStorage.setItem('selectedGameMode', '3D');
             menu2d.style.display = 'none';
             menu3d.style.display = 'block';
+            selectFirstOption(); // Réinitialiser la sélection lorsque le mode change
         }
     });
-
 
     // Obtenir les éléments pour le modal
     const overlay = document.getElementById('overlay'); // Ajout de l'élément overlay

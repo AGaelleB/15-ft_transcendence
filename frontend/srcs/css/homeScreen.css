@@ -26,71 +26,70 @@ html, body {
 }
 
 ::selection {
-    background: #302a66;
-    color: #a16935;
-  }
-
-  
+  background: #302a66;
+  color: #a16935;
+}
 
 /************ SLIDER 2D / 3D *************/
 
 .slide-controls-2d-3d {
-    position: absolute;
-    display: flex;
-    height: 5vh;
-    width: 42%;
-    overflow: hidden;
-    margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0;
-  }
-  
-  .slide-controls-2d-3d .slide {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    color: #a16935;
-    font-size: calc(1vw + 2vh);
-    font-weight: 500;
-    text-align: center;
-    cursor: pointer;
-    z-index: 1;
-    transition: all 0.6s ease;
-  }
-  
-  .slide-controls-2d-3d .slider-tab {
-    position: absolute;
-    height: 100%;
-    width: 50%;
-    left: 0;
-    z-index: 0;
-    border-radius: 0;
-    background: #a16935;
-    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-  #game3d:checked ~ .slider-tab {
+  position: absolute;
+  display: flex;
+  height: 5vh;
+  width: 42%;
+  overflow: hidden;
+  margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0;
+}
+
+.slide-controls-2d-3d .slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: #a16935;
+  font-size: calc(1vw + 2vh);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.6s ease;
+}
+
+.slide-controls-2d-3d .slider-tab {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  left: 0;
+  z-index: 0;
+  border-radius: 0;
+  background: #a16935;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#game3d:checked ~ .slider-tab {
   left: 50%;
-  }
-  
-  #game3d:checked ~ label[for="game3d"],
-  #game2d:checked ~ label[for="game2d"] {
+}
+
+#game3d:checked ~ label[for="game3d"],
+#game2d:checked ~ label[for="game2d"] {
   color: #302a66;
   cursor: default;
   user-select: none;
-  }
-  
-  #game3d:checked ~ label[for="game2d"],
-  #game2d:checked ~ label[for="game3d"] {
+}
+
+#game3d:checked ~ label[for="game2d"],
+#game2d:checked ~ label[for="game3d"] {
   color: #a16935;
-  }
-  
-  input[type="radio"] {
+}
+
+input[type="radio"] {
   display: none;
-  }
-  
+}
+
 /****************************************/
 
 .menu-container {
