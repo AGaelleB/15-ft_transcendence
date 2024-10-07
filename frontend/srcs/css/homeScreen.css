@@ -42,10 +42,14 @@ html, body {
     overflow: hidden;
     margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
     justify-content: space-between;
+    align-items: center;
     border-radius: 0;
   }
   
   .slide-controls-2d-3d .slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
     width: 100%;
     color: #a16935;
