@@ -102,14 +102,13 @@ document.addEventListener('DOMContentLoaded', function() {
         ball.x += ball.dx;
         ball.y += ball.dy;
     
-        // Collisions logic
         handleWallCollision(ball, canvas);
         checkPaddleCollision(ball, paddleLeft, paddleRight, () => {
             ballOutOfBounds = false;
             incrementRallyCount();
         });
         
-        // Vérification de la collision avec le power-up
+        // Check collision with power-up
         if (gameSettings2D.setPowerUps) {
             if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
                 applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
@@ -117,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Increment scores
         if (checkBallOutOfBounds(ball, canvas, 
             () => setPlayer1Score(player1Score + 1), 
             () => setPlayer2Score(player2Score + 1))) {

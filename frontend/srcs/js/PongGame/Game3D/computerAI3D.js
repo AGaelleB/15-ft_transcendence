@@ -1,28 +1,12 @@
 // frontend/srcs/js/PongGame/Game3D/computerAI3D.js
 
-/*  
-    ************************************ OBLIGATIONS DU SUJET ******************************
-    - A algorithm interdit* : Ne pas utiliser l'algorithme A*.
-    - Comportement humain : L'IA doit simuler des actions via des entrées clavier.
-    - Rafraîchissement toutes les secondes 
-    - Anticipation : L'IA doit anticiper les rebonds et les actions.
-    - Utilisation des power-ups : Si des power-ups sont implémentés, l'IA doit les utiliser.
-    - Victoire occasionnelle : L'IA doit être capable de gagner parfois.
-
-    *************** ALGO DE SUIVI PREDICTIF (Predictive Tracking Algorithm) ****************
-    Objectif : Prédire où la balle va se trouver à un moment futur et déplacer la raquette de l'IA en fonction
-    1- Observer la Balle
-    2- Prédire la Trajectoire
-    3- Déplacer la Raquette
-*/
-
 import { gameSettings3D } from '../gameSettings.js';
 
 const keys = {};
 let lastUpdateTime = 0;
-const updateInterval = 1000; // 1 second
+const updateInterval = 1000;
 let targetPositionZ = 0;
-const tolerance = 0.5; // Tolerance for avoiding micro-movements
+const tolerance = 0.42;
 
 // Simulate key press for paddle movement
 function simulateKeyPress(direction) {
@@ -40,22 +24,19 @@ function simulateKeyPress(direction) {
     }
 }
 
-// Apply simulated key presses to move the paddle
 function IAKeysPress(paddle, ground) {
     const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
 
     if (keys['w']) {
-        if (paddle.position.z > -paddleMovementLimit) {
+        if (paddle.position.z > -paddleMovementLimit)
             paddle.position.z -= gameSettings3D.paddleSpeed3D;
-        }
-    } else if (keys['s']) {
-        if (paddle.position.z < paddleMovementLimit) {
+    }
+    else if (keys['s']) {
+        if (paddle.position.z < paddleMovementLimit)
             paddle.position.z += gameSettings3D.paddleSpeed3D;
-        }
     }
 }
 
-// Check if the AI should update (every second)
 function shouldUpdateAI() {
     const currentTime = Date.now();
     if (currentTime - lastUpdateTime >= updateInterval) {
@@ -72,10 +53,9 @@ function predictBallPositionZ(ball, ground, timeToPaddle) {
     for (let i = 0; i < timeToPaddle; i++) {
         predictedBallZ += predictedBallDz;
 
-        // Check for collisions with the top and bottom borders of the ground (Z boundaries)
-        if (predictedBallZ >= ground.geometry.parameters.height / 2 || predictedBallZ <= -ground.geometry.parameters.height / 2) {
-            predictedBallDz *= -1;
-        }
+        if (predictedBallZ >= ground.geometry.parameters.height / 2
+            || predictedBallZ <= -ground.geometry.parameters.height / 2)
+                predictedBallDz *= -1;
     }
     return predictedBallZ;
 }
@@ -87,10 +67,8 @@ function predictBallPositionWithError(ball, ground, timeToPaddle) {
 }
 
 export function updateAI3D(ball, paddleRight, ground) {
-    // Only update AI when the ball is in the AI's half of the field
     if (ball.position.x > 0) {
         if (shouldUpdateAI()) {
-            // Time it will take for the ball to reach the AI paddle
             let timeToPaddle = (paddleRight.position.x - ball.position.x) / gameSettings3D.ballSpeedX3D;
             if (!isFinite(timeToPaddle) || timeToPaddle < 0)
                 return;
@@ -100,7 +78,7 @@ export function updateAI3D(ball, paddleRight, ground) {
         const centerOfPaddle = paddleRight.position.z;
         let direction = null;
 
-        // Move the paddle towards the predicted Z position with some tolerance
+        // tolérance pour éviter les micro-ajustements
         if (Math.abs(targetPositionZ - centerOfPaddle) > tolerance) {
             if
                 (targetPositionZ < centerOfPaddle) direction = 'up';
@@ -108,10 +86,7 @@ export function updateAI3D(ball, paddleRight, ground) {
                 (targetPositionZ > centerOfPaddle) direction = 'down';
         }
 
-        // Simulate key presses to move the paddle
         simulateKeyPress(direction);
-
-        // Apply the simulated key presses to move the paddle, with boundary checks
         IAKeysPress(paddleRight, ground);
     }
 }

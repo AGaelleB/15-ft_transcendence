@@ -40,7 +40,6 @@ export function handleWallCollision(ball, canvas) {
     }
 }
 
-// Fonction pour vérifier les collisions avec les raquettes et mettre à jour le drapeau
 export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBoundsFlag) {
     // Ball collision with left paddle (Player 1)
     if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&

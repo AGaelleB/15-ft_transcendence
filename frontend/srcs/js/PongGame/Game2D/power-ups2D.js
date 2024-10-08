@@ -1,23 +1,13 @@
 // frontend/srcs/js/PongGame/Game2D/power-ups2D.js
 
-/* 
-    Bonus :
-        - va augmenter temporairement la taille de notre paddle (champi)
-        - va augmenter temporairement la vitessse de notre paddle (eclair)
-    Malus : 
-        - va reduire temporairement la taille de notre paddle (champi dead)
-        - va reduire temporairement la vitessse de notre paddle (tortue)
-*/
-
-
-/*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
-
 import { isGameStarted } from '../../Modals/startGameModal.js';
 import { gameSettings2D } from '../gameSettings.js';
 import { getLastTouchedPaddle } from './ballCollision2D.js';
 
+/*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
+
 let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
-let powerUpTimeoutId; // stocke l'ID du timeout
+let powerUpTimeoutId;
 
 export const powerUpsImages = [
     '../images/power-ups/sizeUpPaddle.png',
@@ -105,7 +95,6 @@ export function generatePowerUp(powerUpImageElement, canvas) {
 
 /******************** DETECTION DES COLISSIONS ENTRE IMG ET POWERS-UPS ********************/
 
-// Fonction pour vérifier la collision entre la balle et un power-up
 export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
     const canvasRect = canvas.getBoundingClientRect();
     const powerUpRect = powerUpImageElement.getBoundingClientRect();
@@ -129,15 +118,12 @@ export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
 export function resetPowerUpEffects(paddleLeft, paddleRight) {
-    // Remettre la taille et la vitesse des raquettes à leurs valeurs d'origine
     const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
 
-    // Utilisez la hauteur initiale définie dans `gameSettings2D`
     paddleLeft.height = gameSettings2D.paddleHeight2D * canvasHeight; 
     paddleRight.height = gameSettings2D.paddleHeight2D * canvasHeight;
 
-    // Réinitialiser les facteurs de vitesse à leur valeur d'origine
-    paddleLeft.speedFactor = gameSettings2D.paddleSpeedFactor * 25; // ou une autre valeur adaptée
+    paddleLeft.speedFactor = gameSettings2D.paddleSpeedFactor * 25;
     paddleRight.speedFactor = gameSettings2D.paddleSpeedFactor * 25;
 }
 
@@ -158,13 +144,13 @@ export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
     let originalSpeedFactor = affectedPaddle.speedFactor;
 
     if (powerUpSrc.includes('sizeUpPaddle.png'))
-        affectedPaddle.height *= 1.75; // Agrandir le paddle
+        affectedPaddle.height *= 1.75;
     else if (powerUpSrc.includes('sizeDownPaddle.png'))
-        affectedPaddle.height *= 0.5; // Réduire la taille du paddle
+        affectedPaddle.height *= 0.5;
     else if (powerUpSrc.includes('speedPaddle.png'))
-        affectedPaddle.speedFactor *= 5; // Augmenter la vitesse du paddle
+        affectedPaddle.speedFactor *= 5;
     else if (powerUpSrc.includes('slowPaddle.png'))
-        affectedPaddle.speedFactor *= 0.25; // Réduire la vitesse du paddle
+        affectedPaddle.speedFactor *= 0.25;
 
     setTimeout(() => {
         affectedPaddle.height = originalHeight;

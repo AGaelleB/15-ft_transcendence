@@ -5,7 +5,6 @@ import { updateScore } from '../PongGame/Game3D/score3D.js';
 import { resetGame } from './startGameModal.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 
-// Variable globale pour indiquer si les paramètres sont ouverts
 export let isSettingsOpen = false;
 let ballSpeedValue = 3;
 let paddleSpeedValue = 3;
@@ -13,12 +12,10 @@ let ballSizeValue = 3;
 let paddleSizeValue = 3;
 let pointsToWinValue = 5;
 
-// Getter pour isSettingsOpen
 export function getIsSettingsOpen() {
     return isSettingsOpen;
 }
 
-// Sauvegarder les paramètres dans localStorage
 export function saveGameSettings3D() {
     localStorage.setItem('gameSettings3D', JSON.stringify(gameSettings3D));
 }
@@ -32,17 +29,15 @@ export function loadGameSettingsFromStorage() {
 }
 
 function resetToDefaultSettings3D() {
-    // Réinitialiser les valeurs des paramètres de jeu
-    gameSettings3D.ballSpeedX3D = 0.30; // Valeur par défaut pour ballSpeedValue 3
+    gameSettings3D.ballSpeedX3D = 0.30;
     gameSettings3D.ballSpeedZ3D = 0.30;
-    gameSettings3D.paddleSpeed3D = 0.3; // Valeur par défaut pour paddleSpeedValue 3
-    gameSettings3D.ballRadius3D = 0.75; // Valeur par défaut pour ballSizeValue 3
-    gameSettings3D.paddleWidth3D = 1; // La largeur reste constante
-    gameSettings3D.paddleHeight3D = 1.5; // La hauteur reste constante
-    gameSettings3D.paddleDepth3D = 5; // Valeur par défaut pour paddleSizeValue 3
-    gameSettings3D.winningScore = 5; // Valeur par défaut pour pointsToWinValue 5
+    gameSettings3D.paddleSpeed3D = 0.3;
+    gameSettings3D.ballRadius3D = 0.75;
+    gameSettings3D.paddleWidth3D = 1;
+    gameSettings3D.paddleHeight3D = 1.5;
+    gameSettings3D.paddleDepth3D = 5;
+    gameSettings3D.winningScore = 5;
 
-    // Mettre à jour les valeurs des variables locales
     ballSpeedValue = 3;
     paddleSpeedValue = 3;
     ballSizeValue = 3;
@@ -51,7 +46,7 @@ function resetToDefaultSettings3D() {
 
     saveGameSettings3D();
     loadGameSettingsFromStorage();
-    updateUIWithGameSettings3D();
+    updateSettingsModal3D();
 }
 
 
@@ -64,46 +59,39 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
     sliderValue.style.left = `calc(${value}% + (${offset - value * 0.3}px))`;
 }
 
-export function updateUIWithGameSettings3D() {
-    // Convertir la vitesse de la balle pour le slider
+export function updateSettingsModal3D() {
     if (gameSettings3D.ballSpeedX3D <= 0.10) ballSpeedValue = 1;
     else if (gameSettings3D.ballSpeedX3D <= 0.20) ballSpeedValue = 2;
     else if (gameSettings3D.ballSpeedX3D <= 0.30) ballSpeedValue = 3;
     else if (gameSettings3D.ballSpeedX3D <= 0.40) ballSpeedValue = 4;
     else ballSpeedValue = 5;
 
-    // Convertir la vitesse de la raquette pour le slider
     if (gameSettings3D.paddleSpeed3D <= 0.1) paddleSpeedValue = 1;
     else if (gameSettings3D.paddleSpeed3D <= 0.2) paddleSpeedValue = 2;
     else if (gameSettings3D.paddleSpeed3D <= 0.3) paddleSpeedValue = 3;
     else if (gameSettings3D.paddleSpeed3D <= 0.4) paddleSpeedValue = 4;
     else paddleSpeedValue = 5;
 
-    // Convertir la taille de la balle pour le slider
     if (gameSettings3D.ballRadius3D <= 0.25) ballSizeValue = 1;
     else if (gameSettings3D.ballRadius3D <= 0.5) ballSizeValue = 2;
     else if (gameSettings3D.ballRadius3D <= 0.75) ballSizeValue = 3;
     else if (gameSettings3D.ballRadius3D <= 1.2) ballSizeValue = 4;
     else ballSizeValue = 5;
 
-    // Convertir la taille de la raquette pour le slider
     if (gameSettings3D.paddleDepth3D <= 2) paddleSizeValue = 1;
     else if (gameSettings3D.paddleDepth3D <= 3.5) paddleSizeValue = 2;
     else if (gameSettings3D.paddleDepth3D <= 5) paddleSizeValue = 3;
     else if (gameSettings3D.paddleDepth3D <= 7.5) paddleSizeValue = 4;
     else paddleSizeValue = 5;
 
-    // Points nécessaires pour gagner
     pointsToWinValue = gameSettings3D.winningScore;
 
-    // Mise à jour des valeurs des sliders/input de l'UI
     document.getElementById('ballSpeed').value = ballSpeedValue;
     document.getElementById('paddleSpeed').value = paddleSpeedValue;
     document.getElementById('pointsToWin').value = pointsToWinValue;
     document.getElementById('ballSize').value = ballSizeValue;
     document.getElementById('paddleSize').value = paddleSizeValue;
 
-    // Mettre à jour les positions et valeurs affichées des sliders/input
     updateSliderValuePosition('ballSpeed', 'ballSpeedValue', 1, 16);
     updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
     updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
@@ -122,7 +110,7 @@ export function initializeGameSettings3D() {
         if (!isSettingsOpen) {
             document.querySelector('.settings-modal-container').classList.add('active');
             settingsModal.style.display = 'flex';
-            updateUIWithGameSettings3D();
+            updateSettingsModal3D();
             isSettingsOpen = true;
         }
         else {
@@ -254,7 +242,6 @@ export function initializeGameSettings3D() {
                 break;
         }
         
-        // Mise à jour de la géométrie des raquettes
         paddleLeft.geometry.dispose();
         paddleRight.geometry.dispose();
         
@@ -269,14 +256,12 @@ export function initializeGameSettings3D() {
     loadSettingsOnPageLoad3D();
     resetGame();
 
-    // Gestion des points nécessaires pour gagner
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
         gameSettings3D.winningScore = pointsToWinValue;
         saveGameSettings3D();
     });
 
-    // Réinitialiser la position des paddles à chaque point
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
         gameSettings3D.resetPaddlePosition = event.target.checked;
         saveGameSettings3D();
@@ -287,5 +272,5 @@ export function initializeGameSettings3D() {
 }
 
 export function loadSettingsOnPageLoad3D() {
-    updateUIWithGameSettings3D();
+    updateSettingsModal3D();
 }

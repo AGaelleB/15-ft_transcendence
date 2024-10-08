@@ -40,7 +40,6 @@ function applyLanguages(languages) {
     });
 }
 
-
 // Objet de traduction pour les placeholders
 const translations = {
   en: {

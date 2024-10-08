@@ -101,14 +101,13 @@ document.addEventListener('DOMContentLoaded', function() {
         ball.x += ball.dx;
         ball.y += ball.dy;
     
-        // Collisions logic
         handleWallCollision(ball, canvas);
         checkPaddleCollision(ball, paddleLeft, paddleRight, () => {
             ballOutOfBounds = false;
             incrementRallyCount();
         });
         
-        // Vérification de la collision avec le power-up
+        // Check collision with power-ups
         if (gameSettings2D.setPowerUps) {
             if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement, canvas)) {
                 applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
@@ -116,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Increment scores
         if (checkBallOutOfBounds(ball, canvas, 
             () => setPlayer1Score(player1Score + 1), 
             () => setPlayer2Score(player2Score + 1))) {
@@ -150,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePaddleDirection() {
-        // player 1
+        // Player 1
         if (keys['w'])
             paddleLeft.dy = -window.paddleSpeed;
         else if (keys['s'])
@@ -158,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else
             paddleLeft.dy = 0;
     
-        // player 2
+        // Player 2
         if (keys['ArrowUp'])
             paddleRight.dy = -window.paddleSpeed;
         else if (keys['ArrowDown'])
@@ -168,14 +166,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function movePaddles() {
-        // Mouvement du joueur de gauche
+        // Player 1
         paddleLeft.y += paddleLeft.dy;
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
         if (paddleLeft.y > canvas.height - paddleLeft.height)
             paddleLeft.y = canvas.height - paddleLeft.height; 
     
-        // Mouvement du joueur de droite
+        // Player 2
         paddleRight.y += paddleRight.dy;
         if (paddleRight.y < 0)
             paddleRight.y = 0;

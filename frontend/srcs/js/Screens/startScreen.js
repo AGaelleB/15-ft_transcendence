@@ -62,33 +62,26 @@ document.addEventListener("DOMContentLoaded", function() {
     const languageButton = document.getElementById("language-button");
     const dropdownItems = document.querySelectorAll('#language-dropdown .dropdown-item');
 
-    // Charger la langue stockée
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
     updatePlaceholders(storedLang);
 
-    // Fonction pour échanger les drapeaux
     function switchFlag(selectedItem) {
-        // Obtenir le drapeau et la langue actuellement affichés
-        const currentFlag = languageButton.innerHTML; // Le drapeau actuellement affiché
+        const currentFlag = languageButton.innerHTML;
         const currentLang = languageButton.getAttribute("data-lang");
 
-        // Mettre à jour le bouton principal avec le drapeau sélectionné
         languageButton.innerHTML = selectedItem.innerHTML;
         languageButton.setAttribute("data-lang", selectedItem.getAttribute("data-lang"));
 
-        // Mettre à jour l'option sélectionnée dans le menu déroulant
         selectedItem.innerHTML = currentFlag;
         selectedItem.setAttribute("data-lang", currentLang);
 
-        // Mettre à jour la langue
         const newLang = languageButton.getAttribute("data-lang");
         localStorage.setItem('preferredLanguage', newLang);
         loadLanguages(newLang);
         updatePlaceholders(newLang);
     }
 
-    // Écouter les clics sur les options du menu déroulant
     dropdownItems.forEach(item => {
         item.addEventListener('click', (event) => {
             event.preventDefault();

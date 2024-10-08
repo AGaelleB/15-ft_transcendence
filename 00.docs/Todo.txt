@@ -10,7 +10,7 @@
 
 - chrono + balle aleatoire sur la 3D a ajouter
 
-
+- remttre les lvl pour l'IA 3D
 
 
 ************************************** MODULES FAITS ************************************** 

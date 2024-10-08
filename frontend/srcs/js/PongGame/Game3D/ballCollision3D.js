@@ -10,12 +10,10 @@ const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.
 export let isGameActive = true;
 
 export function setIsGameActive(value) {
-    if (typeof value === 'boolean') {
+    if (typeof value === 'boolean')
         isGameActive = value;
-    }
-    else {
+    else
         console.warn("Invalid value. Please provide a boolean (true or false).");
-    }
 }
 
 export function getLastTouchedPaddle() {
@@ -57,9 +55,8 @@ export function handleWallCollision(ball, canvas) {
     }
 }
 
-// Vérification des collisions entre la balle et les raquettes
 export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
-    // Collision avec le paddle gauche
+    // Ball collision with left paddle (Player 1)
     if (
         ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
         ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
@@ -71,7 +68,7 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
         setLastTouchedPaddle('left');
     }
 
-    // Collision avec le paddle droit
+    // Ball collision with right paddle (Player 2 or AI)
     if (
         ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
         ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
@@ -84,7 +81,6 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
     }
 }
 
-// Vérification des sorties de la balle
 export function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
         ball.position.set(0, 0, 0);

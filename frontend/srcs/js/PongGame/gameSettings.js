@@ -6,7 +6,7 @@ export const gameSettings2D = {
     winningScore: 0,
 
     // Power-ups
-    powerUpEffectDuration2D: 7000, // 7 sec
+    powerUpEffectDuration2D: 7000,
 
     // Rally
     setRally: 0,
@@ -46,7 +46,7 @@ export const gameSettings3D = {
     pointsToWin: 5,
 
     // Power-ups
-    powerUpEffectDuration3D: 7000, // 7 sec
+    powerUpEffectDuration3D: 7000,
 
     // Rally
     setRally3D: 0,

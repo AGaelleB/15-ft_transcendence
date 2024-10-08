@@ -8,16 +8,13 @@ export function drawPaddle(ctx, paddle) {
 }
 
 export function drawBall(ctx, ball) {
-    // Stop drawing smoke trail and switch to psychedelic effect after 25 exchanges
-    if (rallyCount > 25) {
+    if (rallyCount > 25)
         drawPsychedelicBall(ctx, ball);
-    }
     else {
         drawSmokeTrail(ctx, ball);
         if (rallyCount >= maxRallyBeforeSmoke)
             addSmokeTrail(ball.x, ball.y);
 
-        // Draw normal yellow ball
         ctx.beginPath();
         ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
         ctx.fillStyle = '#ffcc00';
@@ -40,5 +37,5 @@ export function drawDottedLine(ctx, canvas) {
     ctx.stroke();
     ctx.closePath();
 
-    ctx.setLineDash([]); // Reset dash after drawing
+    ctx.setLineDash([]);
 }

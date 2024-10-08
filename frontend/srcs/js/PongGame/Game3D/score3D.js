@@ -1,4 +1,4 @@
-// frontend/srcs/js/score3D.js
+// frontend/srcs/js/PongGame/Game3D/score3D.js
 
 import { gameSettings3D } from '../gameSettings.js';
 import { showWinMessage } from '../../Modals/winMsgModal.js';

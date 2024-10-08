@@ -16,7 +16,7 @@ document.getElementById('pongCanvas').appendChild(renderer.domElement);
 camera.position.set(0, 20, 25);
 camera.lookAt(0, 0, 0);
 
-// Position de la caméra du dessus
+// // Position de la caméra du dessus
 // camera.position.set(0, 30, 0);
 // camera.lookAt(0, 0, 0);
 // camera.rotation.order = "YXZ";

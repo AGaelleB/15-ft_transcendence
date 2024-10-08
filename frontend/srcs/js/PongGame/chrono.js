@@ -1,8 +1,7 @@
-// frontend/srcs/js/chrono.js
+// frontend/srcs/js/PongGame/chrono.js
 
 import { isGameOver } from './Game2D/score2D.js';
 
-// Fonction pour gérer le chrono avant le lancement de la balle
 export function startCountdown(callback) {
     if (isGameOver())
         return;
@@ -14,12 +13,10 @@ export function startCountdown(callback) {
 
     const interval = setInterval(() => {
         count--;
-        if (count > 0) {
+        if (count > 0)
             countdownElement.innerHTML = count;
-        }
-        else if (count === 0) {
+        else if (count === 0)
             countdownElement.innerHTML = 'GO!';
-        }
         else {
             clearInterval(interval);
             countdownElement.style.display = 'none';

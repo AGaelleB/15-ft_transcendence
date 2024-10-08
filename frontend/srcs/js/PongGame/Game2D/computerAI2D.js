@@ -1,30 +1,13 @@
 // frontend/srcs/js/PongGame/Game2D/computerAI2D.js
 
-/*  
-    ************************************ OBLIGATIONS DU SUJET ******************************
-    - A algorithm interdit* : Ne pas utiliser l'algorithme A*.
-    - Comportement humain : L'IA doit simuler des actions via des entrées clavier.
-    - Rafraîchissement toutes les secondes 
-    - Anticipation : L'IA doit anticiper les rebonds et les actions.
-    - Utilisation des power-ups : Si des power-ups sont implémentés, l'IA doit les utiliser.
-    - Victoire occasionnelle : L'IA doit être capable de gagner parfois.
-
-    *************** ALGO DE SUIVI PREDICTIF (Predictive Tracking Algorithm) ****************
-    Objectif : Prédire où la balle va se trouver à un moment futur et déplacer la raquette de l'IA en fonction
-    1- Observer la Balle
-    2- Prédire la Trajectoire
-    3- Déplacer la Raquette
-*/
-
 import { gameSettings2D } from '../gameSettings.js';
 
 const keys = {};
 let lastUpdateTime = 0;
-const updateInterval = 1000; // 1 seconde 
+const updateInterval = 1000;
 let targetPositionY = 0;
-const tolerance = 42; // tolerence pour éviter les micro-mouvements
+const tolerance = 42;
 
-// Simule l'appui sur les touches 'w' et 's'
 function simulateKeyPress(direction) {
     if (direction === 'up') {
         keys['w'] = true;
@@ -40,7 +23,6 @@ function simulateKeyPress(direction) {
     }
 }
 
-// Applique les mouvements du paddle en fonction des touches pressées
 function IAKeysPress(paddle) {
     if (keys['w'])
         paddle.dy = -window.paddleSpeed;
@@ -50,7 +32,6 @@ function IAKeysPress(paddle) {
         paddle.dy = 0;
 }
 
-// Vérifie si l'IA doit se mettre à jour (toutes les secondes)
 function shouldUpdateAI() {
     const currentTime = Date.now();
     if (currentTime - lastUpdateTime >= updateInterval) {
@@ -60,7 +41,6 @@ function shouldUpdateAI() {
     return (false);
 }
 
-// Prédit où sera la balle en tenant compte des rebonds
 function predictBallPosition(ball, canvas, timeToPaddle) {
     let predictedBallY = ball.y;
     let predictedBallDy = ball.dy;
@@ -74,14 +54,12 @@ function predictBallPosition(ball, canvas, timeToPaddle) {
     return (predictedBallY);
 }
 
-// Ajoute une marge d'erreur à la prédiction
 function predictBallPositionWithError(ball, canvas, timeToPaddle) {
     let predictedBallY = predictBallPosition(ball, canvas, timeToPaddle);
     predictedBallY += gameSettings2D.errorMargin;
     return (predictedBallY);
 }
 
-// Fonction principale qui met à jour l'IA
 export function updateAI(ball, paddleRight, canvas) {
     if (ball.x > canvas.width / 2) {
         if (shouldUpdateAI()) {
@@ -103,10 +81,7 @@ export function updateAI(ball, paddleRight, canvas) {
                 direction = 'down';
         }
 
-        // Simule l'appui sur les touches
         simulateKeyPress(direction);
-
-        // Applique les mouvements simulés à la raquette
         IAKeysPress(paddleRight);
     }
 }

@@ -3,7 +3,6 @@
 import { gameSettings3D } from '../gameSettings.js'
 import { loadGameSettingsFromStorage } from '../../Modals/gameSettingsModal3D.js'
 
-// Init la scène, la caméra, 
 export const scene = new THREE.Scene();
 
 /* *************************** draw game elements ************************ */
@@ -21,17 +20,16 @@ const light = new THREE.DirectionalLight(0xffcc00, 1);
 light.position.set(5, 10, 5);
 scene.add(light);
 
-// Charger les paramètres avant de créer les éléments
 loadGameSettingsFromStorage();
 
-// Création de la balle (sphère) basée sur gameSettings3D
+// Création de la balle
 export const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);
 const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 export const ball = new THREE.Mesh(ballGeometry, ballMaterial);
 ball.position.set(0, 0, 0);
 scene.add(ball);
 
-// Création des raquettes (cubes) basées sur gameSettings3D
+// Création des raquettes
 export const paddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth3D, gameSettings3D.paddleHeight3D, gameSettings3D.paddleDepth3D);
 const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
 
@@ -82,18 +80,15 @@ const rightBorder = new THREE.Mesh(rightBorderGeometry, rightBorderMaterial);
 rightBorder.position.set(29, 0, 0);
 scene.add(rightBorder);
 
-/* *************************** Paramètres de la ligne centrale ******************************** */
+/* *************************** Ligne pointillée ******************************** */
 
-// Paramètres pour la ligne pointillée
 const lineLength = 1;
 const gapLength = 1;
 const totalHeight = ground.geometry.parameters.height;
 const lineWidth = 1;
 
-// Matériau pour la ligne pointillée
 const lineMaterial = new THREE.MeshBasicMaterial({ color: '#a16935' });
 
-// Boucle pour créer et ajouter chaque segment
 for (let z = -totalHeight / 2; z < totalHeight / 2; z += lineLength + gapLength) {
     const segmentGeometry = new THREE.BoxGeometry(lineWidth, 0.01, lineLength);
     const segment = new THREE.Mesh(segmentGeometry, lineMaterial);

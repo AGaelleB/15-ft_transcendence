@@ -27,19 +27,16 @@ initializeButton3D();
 
 /* ************************** Mouvement du paddle ******************************* */
 
-// Mouvement des paddles
 const keys = {};
 
-// Gestion des événements clavier
 document.addEventListener('keydown', (e) => { keys[e.key] = true; });
 document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
 // limites du mouvement des paddles
 const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
 
-// Déplacer les paddles
 function movePaddles2Players() {
-    // Mouvement du joueur 1 (paddleLeft)
+    // Player 1
     if (keys['s']) {
         if (paddleLeft.position.z < paddleMovementLimit)
             paddleLeft.position.z += gameSettings3D.paddleSpeed3D;
@@ -49,7 +46,7 @@ function movePaddles2Players() {
             paddleLeft.position.z -= gameSettings3D.paddleSpeed3D;
     }
 
-    // Mouvement du joueur 2 (paddleRight)
+    // Player 2
     if (keys['ArrowDown']) {
         if (paddleRight.position.z < paddleMovementLimit)
             paddleRight.position.z += gameSettings3D.paddleSpeed3D;
@@ -66,25 +63,19 @@ function movePaddles2Players() {
 const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
 
 export function moveBall() {
-    // Mise à jour de la position de la balle
     ball.position.x += gameSettings3D.ballSpeedX3D;
     ball.position.z += gameSettings3D.ballSpeedZ3D;
 
     // Gestion des rebonds sur les bordures haut/bas (en Z)
-    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ) {
+    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
         gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
-    }
 
-    // Vérification des sorties de la balle en X (buts)
     checkBallOutOfBounds3D();
-
-    // Collision avec les raquettes
     checkPaddleCollision3D(ball, paddleLeft, paddleRight);
 }
 
 /* ********************************************************************************* */
 
-// boucle d'animation
 function animate2Players() {
     if (isGameActive && isGameStarted()) {
         movePaddles2Players();
