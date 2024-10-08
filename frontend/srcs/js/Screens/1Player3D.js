@@ -7,6 +7,7 @@ import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPadd
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game3D/score3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
+import { handleWallCollision3D, checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -82,35 +83,57 @@ function checkBallOutOfBounds3D() {
     }
 }
 
+// function moveBall() {
+//     // Mise à jour de la position de la balle
+//     ball.position.x += gameSettings3D.ballSpeedX3D;
+//     ball.position.z += gameSettings3D.ballSpeedZ3D;
+
+//     // Gestion des rebonds sur les bordures haut/bas (en Z)
+//     if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
+//         gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
+
+//     checkBallOutOfBounds3D();
+//     // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
+
+//     // Collision avec le paddle gauche
+//     if (
+//         ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
+//         ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
+//         ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth3D / 2
+//     )
+//         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
+
+//     // Collision avec le paddle droit
+//     if (
+//         ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
+//         ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
+//         ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth3D / 2
+//     )
+//         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
+
+// }
+
+
 function moveBall() {
-    // Mise à jour de la position de la balle
     ball.position.x += gameSettings3D.ballSpeedX3D;
     ball.position.z += gameSettings3D.ballSpeedZ3D;
 
-    // Gestion des rebonds sur les bordures haut/bas (en Z)
-    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
-        gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
+    handleWallCollision3D(ball, groundGeometry);
+    checkPaddleCollision3D(ball, paddleLeft, paddleRight, () => {});
 
-    checkBallOutOfBounds3D();
-    // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
+    if (checkBallOutOfBounds3D(ball, groundGeometry, 
+        () => setPlayer1Score(player1Score + 1), 
+        () => setPlayer2Score(player2Score + 1))) {
+            resetPaddlePosition();
+            ball.position.set(0, 0, 0);
+    }
 
-    // Collision avec le paddle gauche
-    if (
-        ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
-        ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
-        ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth3D / 2
-    )
-        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
-
-    // Collision avec le paddle droit
-    if (
-        ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
-        ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
-        ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth3D / 2
-    )
-        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
-
+    updateScore();
+    if (checkGameEnd(player1Score, player2Score)) {
+        isGameActive = false;
+    }
 }
+
 
 /* ********************************************************************************* */
 

@@ -92,7 +92,8 @@ export function updateAI3D(ball, paddleRight, ground) {
         if (shouldUpdateAI()) {
             // Time it will take for the ball to reach the AI paddle
             let timeToPaddle = (paddleRight.position.x - ball.position.x) / gameSettings3D.ballSpeedX3D;
-            if (!isFinite(timeToPaddle) || timeToPaddle < 0) return;
+            if (!isFinite(timeToPaddle) || timeToPaddle < 0)
+                return;
             targetPositionZ = predictBallPositionWithError(ball, ground, timeToPaddle);
         }
 
@@ -101,8 +102,10 @@ export function updateAI3D(ball, paddleRight, ground) {
 
         // Move the paddle towards the predicted Z position with some tolerance
         if (Math.abs(targetPositionZ - centerOfPaddle) > tolerance) {
-            if (targetPositionZ < centerOfPaddle) direction = 'up';
-            else if (targetPositionZ > centerOfPaddle) direction = 'down';
+            if
+                (targetPositionZ < centerOfPaddle) direction = 'up';
+            else if
+                (targetPositionZ > centerOfPaddle) direction = 'down';
         }
 
         // Simulate key presses to move the paddle
