@@ -41,11 +41,18 @@ function simulateKeyPress(direction) {
 }
 
 // Apply simulated key presses to move the paddle
-function IAKeysPress(paddle) {
-    if (keys['w'])
-        paddle.position.z -= gameSettings3D.paddleSpeed3D;
-    else if (keys['s'])
-        paddle.position.z += gameSettings3D.paddleSpeed3D;
+function IAKeysPress(paddle, ground) {
+    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
+
+    if (keys['w']) {
+        if (paddle.position.z > -paddleMovementLimit) {
+            paddle.position.z -= gameSettings3D.paddleSpeed3D;
+        }
+    } else if (keys['s']) {
+        if (paddle.position.z < paddleMovementLimit) {
+            paddle.position.z += gameSettings3D.paddleSpeed3D;
+        }
+    }
 }
 
 // Check if the AI should update (every second)
@@ -79,37 +86,29 @@ function predictBallPositionWithError(ball, ground, timeToPaddle) {
     return predictedBallZ;
 }
 
-// Main function to update AI
 export function updateAI3D(ball, paddleRight, ground) {
     // Only update AI when the ball is in the AI's half of the field
     if (ball.position.x > 0) {
         if (shouldUpdateAI()) {
             // Time it will take for the ball to reach the AI paddle
             let timeToPaddle = (paddleRight.position.x - ball.position.x) / gameSettings3D.ballSpeedX3D;
-            if (!isFinite(timeToPaddle) || timeToPaddle < 0)
-                return;
-
-            // Predict the ball's future position on the Z-axis
+            if (!isFinite(timeToPaddle) || timeToPaddle < 0) return;
             targetPositionZ = predictBallPositionWithError(ball, ground, timeToPaddle);
         }
 
-        // Center of the AI paddle on the Z-axis
         const centerOfPaddle = paddleRight.position.z;
-
         let direction = null;
 
         // Move the paddle towards the predicted Z position with some tolerance
         if (Math.abs(targetPositionZ - centerOfPaddle) > tolerance) {
-            if (targetPositionZ < centerOfPaddle)
-                direction = 'up';
-            else if (targetPositionZ > centerOfPaddle)
-                direction = 'down';
+            if (targetPositionZ < centerOfPaddle) direction = 'up';
+            else if (targetPositionZ > centerOfPaddle) direction = 'down';
         }
 
         // Simulate key presses to move the paddle
         simulateKeyPress(direction);
 
-        // Apply the simulated key presses to move the paddle
-        IAKeysPress(paddleRight);
+        // Apply the simulated key presses to move the paddle, with boundary checks
+        IAKeysPress(paddleRight, ground);
     }
 }
