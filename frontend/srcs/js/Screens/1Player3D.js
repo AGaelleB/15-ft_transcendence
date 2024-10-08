@@ -7,6 +7,7 @@ import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPadd
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
+import { isGameActive } from '../PongGame/Game3D/ballCollision3D.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -26,16 +27,6 @@ resizeRenderer3D();
 initializeButton3D();
 
 /* ************************** Mouvement du paddle ******************************* */
-
-export let isGameActive = true;
-
-export function setIsGameActive(value) {
-    if (typeof value === 'boolean') {
-        isGameActive = value;
-    } else {
-        console.warn("Invalid value. Please provide a boolean (true or false).");
-    }
-}
 
 // Mouvement des paddles
 const keys = {};

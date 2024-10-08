@@ -2,11 +2,21 @@
 
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
-import { setIsGameActive } from '../../Screens/1Player3D.js';
 import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
 
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
+
+export let isGameActive = true;
+
+export function setIsGameActive(value) {
+    if (typeof value === 'boolean') {
+        isGameActive = value;
+    }
+    else {
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+    }
+}
 
 export function getLastTouchedPaddle() {
     return lastTouchedPaddle;

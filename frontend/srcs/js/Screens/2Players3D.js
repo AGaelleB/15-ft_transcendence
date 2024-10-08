@@ -5,8 +5,8 @@ import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
-import { moveBall } from './1Player3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
+import { isGameActive } from '../PongGame/Game3D/ballCollision3D.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -26,16 +26,6 @@ resizeRenderer3D();
 initializeButton3D();
 
 /* ************************** Mouvement du paddle ******************************* */
-
-export let isGameActive = true;
-
-export function setIsGameActive(value) {
-    if (typeof value === 'boolean') {
-        isGameActive = value;
-    } else {
-        console.warn("Invalid value. Please provide a boolean (true or false).");
-    }
-}
 
 // Mouvement des paddles
 const keys = {};
@@ -68,6 +58,28 @@ function movePaddles2Players() {
         if (paddleRight.position.z > -paddleMovementLimit)
             paddleRight.position.z -= gameSettings3D.paddleSpeed3D;
     }
+}
+
+/* ************************** Mouvement de la balle ******************************* */
+
+// Limites de mouvement de la balle
+const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
+
+export function moveBall() {
+    // Mise à jour de la position de la balle
+    ball.position.x += gameSettings3D.ballSpeedX3D;
+    ball.position.z += gameSettings3D.ballSpeedZ3D;
+
+    // Gestion des rebonds sur les bordures haut/bas (en Z)
+    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ) {
+        gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
+    }
+
+    // Vérification des sorties de la balle en X (buts)
+    checkBallOutOfBounds3D();
+
+    // Collision avec les raquettes
+    checkPaddleCollision3D(ball, paddleLeft, paddleRight);
 }
 
 /* ********************************************************************************* */
