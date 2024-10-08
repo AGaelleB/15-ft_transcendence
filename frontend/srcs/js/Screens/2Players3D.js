@@ -3,8 +3,7 @@
 import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game3D/score3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 
@@ -27,7 +26,15 @@ initializeButton3D();
 
 /* ************************** Mouvement du paddle ******************************* */
 
-let isGameActive = true;
+export let isGameActive = true;
+
+export function setIsGameActive(value) {
+    if (typeof value === 'boolean') {
+        isGameActive = value;
+    } else {
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+    }
+}
 
 // Mouvement des paddles
 const keys = {};
