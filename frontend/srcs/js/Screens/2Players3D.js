@@ -5,6 +5,7 @@ import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
+import { moveBall } from './1Player3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -47,7 +48,7 @@ document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
 
 // Déplacer les paddles
-function movePaddles() {
+function movePaddles2Players() {
     // Mouvement du joueur 1 (paddleLeft)
     if (keys['s']) {
         if (paddleLeft.position.z < paddleMovementLimit)
@@ -69,38 +70,16 @@ function movePaddles() {
     }
 }
 
-/* ************************** Mouvement de la balle ******************************* */
-
-// Limites de mouvement de la balle
-const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
-
-function moveBall() {
-    // Mise à jour de la position de la balle
-    ball.position.x += gameSettings3D.ballSpeedX3D;
-    ball.position.z += gameSettings3D.ballSpeedZ3D;
-
-    // Gestion des rebonds sur les bordures haut/bas (en Z)
-    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ) {
-        gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
-    }
-
-    // Vérification des sorties de la balle en X (buts)
-    checkBallOutOfBounds3D();
-
-    // Collision avec les raquettes
-    checkPaddleCollision3D(ball, paddleLeft, paddleRight);
-}
-
 /* ********************************************************************************* */
 
 // boucle d'animation
-function animate() {
-    requestAnimationFrame(animate);
+function animate2Players() {
     if (isGameActive && isGameStarted()) {
-        movePaddles();
+        movePaddles2Players();
         moveBall();
     }
     renderer.render(scene, camera);
+    requestAnimationFrame(animate2Players);
 }
 
-animate();
+animate2Players();

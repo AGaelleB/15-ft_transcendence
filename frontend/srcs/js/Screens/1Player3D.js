@@ -48,7 +48,7 @@ document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
 
 // Déplacer les raquettes avec limites
-function movePaddles() {
+function movePaddles1Player() {
     if (keys['ArrowUp']) {
         if (paddleLeft.position.z > -paddleMovementLimit)
             paddleLeft.position.z -= gameSettings3D.paddleSpeed3D;
@@ -66,7 +66,7 @@ function movePaddles() {
 // Limites de mouvement de la balle
 const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
 
-function moveBall() {
+export function moveBall() {
     // Mise à jour de la position de la balle
     ball.position.x += gameSettings3D.ballSpeedX3D;
     ball.position.z += gameSettings3D.ballSpeedZ3D;
@@ -86,14 +86,14 @@ function moveBall() {
 /* ********************************************************************************* */
 
 // boucle d'animation
-function animate() {
-    requestAnimationFrame(animate);
+function animate1Players() {
     if (isGameActive && isGameStarted()) {
-        movePaddles();
+        movePaddles1Player();
         moveBall();
         updateAI3D(ball, paddleRight, ground);
     }
     renderer.render(scene, camera);
+    requestAnimationFrame(animate1Players);
 }
 
-animate();
+animate1Players();
