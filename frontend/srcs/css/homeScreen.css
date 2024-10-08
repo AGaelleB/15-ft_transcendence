@@ -1,283 +1,286 @@
+/* frontend/srcs/css/homeScreen.css */
+
+/* ========== Font and Selection Styles ========== */
 @font-face {
-    font-family: 'Jersey';
-    src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Jersey';
+	src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Jersey', sans-serif;
-}
-
-html, body {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url('../images/backgrounds/backgroundEmpty.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-    overflow: hidden;
-    font-size: calc(1vw + 1vh);
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Jersey', sans-serif;
 }
 
 ::selection {
-  background: #302a66;
-  color: #a16935;
+	background: #302a66;
+	color: #a16935;
 }
 
-/************ SLIDER 2D / 3D *************/
+html, body {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: url('../images/backgrounds/backgroundEmpty.jpg') no-repeat center center fixed;
+	background-size: cover;
+	position: relative;
+	overflow: hidden;
+	font-size: calc(1vw + 1vh);
+}
 
+/* ========== Slider Container Styling ========== */
 .slide-controls-2d-3d {
-  position: absolute;
-  display: flex;
-  height: 5vh;
-  width: 42%;
-  overflow: hidden;
-  margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0;
+	position: absolute;
+	display: flex;
+	height: 5vh;
+	width: 42%;
+	overflow: hidden;
+	margin: calc(0.5vw + 0.5vh) 0 calc(1vw + 1vh) 0;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 0;
 }
 
 .slide-controls-2d-3d .slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  color: #a16935;
-  font-size: calc(1vw + 2vh);
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
-  z-index: 1;
-  transition: all 0.6s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	color: #a16935;
+	font-size: calc(1vw + 2vh);
+	font-weight: 500;
+	text-align: center;
+	cursor: pointer;
+	z-index: 1;
+	transition: all 0.6s ease;
 }
 
 .slide-controls-2d-3d .slider-tab {
-  position: absolute;
-  height: 100%;
-  width: 50%;
-  left: 0;
-  z-index: 0;
-  border-radius: 0;
-  background: #a16935;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	position: absolute;
+	height: 100%;
+	width: 50%;
+	left: 0;
+	z-index: 0;
+	border-radius: 0;
+	background: #a16935;
+	transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 #game3d:checked ~ .slider-tab {
-  left: 50%;
+	left: 50%;
 }
 
 #game3d:checked ~ label[for="game3d"],
 #game2d:checked ~ label[for="game2d"] {
-  color: #302a66;
-  cursor: default;
-  user-select: none;
+	color: #302a66;
+	cursor: default;
+	user-select: none;
 }
 
 #game3d:checked ~ label[for="game2d"],
 #game2d:checked ~ label[for="game3d"] {
-  color: #a16935;
+	color: #a16935;
 }
 
 input[type="radio"] {
-  display: none;
+	display: none;
 }
 
-/****************************************/
-
+/* ========== Menu Container ========== */
 .menu-container {
-    position: relative;
-    height: calc(30vh);
-    width: calc(40vw);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    margin-top: calc(45vh);
+	position: relative;
+	height: calc(30vh);
+	width: calc(40vw);
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+	margin-top: calc(45vh);
 }
 
 .menu-list {
-    position: relative;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+	position: relative;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 .menu-item {
-    font-size: calc(2vw + 2vh);
-    color: #a16935;
-    text-align: center;
-    position: relative;
-    padding: calc(0.5vh + 0.5vw) 0;
-    transition: color 0.3s ease, transform 0.3s ease;
+	font-size: calc(2vw + 2vh);
+	color: #a16935;
+	text-align: center;
+	position: relative;
+	padding: calc(0.5vh + 0.5vw) 0;
+	transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .menu-item a {
-    text-decoration: none;
-    color: inherit;
+	text-decoration: none;
+	color: inherit;
 }
 
 .menu-item.selected {
-    color: #ffcc00;
-    font-weight: bold;
-    transform: scale(1.1);
+	color: #ffcc00;
+	font-weight: bold;
+	transform: scale(1.1);
 }
 
 /* Triangle à gauche de l'option sélectionnée */
 .menu-item.selected::before {
-    content: '';
-    position: absolute;
-    left: calc(-3vw); 
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: calc(0.8vw + 0.8vh) solid transparent;
-    border-bottom: calc(0.8vw + 0.8vh) solid transparent;
-    border-left: calc(0.8vw + 0.8vh) solid #ffcc00;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+	content: '';
+	position: absolute;
+	left: calc(-3vw); 
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	border-top: calc(0.8vw + 0.8vh) solid transparent;
+	border-bottom: calc(0.8vw + 0.8vh) solid transparent;
+	border-left: calc(0.8vw + 0.8vh) solid #ffcc00;
+	opacity: 1;
+	transition: opacity 0.3s ease;
 }
 
 /* Triangle à droite de l'option sélectionnée */
 .menu-item.selected::after {
-    content: '';
-    position: absolute;
-    right: calc(-3vw);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: calc(0.8vw + 0.8vh) solid transparent;
-    border-bottom: calc(0.8vw + 0.8vh) solid transparent;
-    border-right: calc(0.8vw + 0.8vh) solid #ffcc00;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+	content: '';
+	position: absolute;
+	right: calc(-3vw);
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	border-top: calc(0.8vw + 0.8vh) solid transparent;
+	border-bottom: calc(0.8vw + 0.8vh) solid transparent;
+	border-right: calc(0.8vw + 0.8vh) solid #ffcc00;
+	opacity: 1;
+	transition: opacity 0.3s ease;
 }
 
+/* ========== Logout and Profile Icons ========== */
 .logout-link {
-    position: absolute;
-    top: calc(9vh);
-    left: calc(12vw);
+	position: absolute;
+	top: calc(9vh);
+	left: calc(12vw);
 }
 
 .profile-link {
-    position: absolute;
-    top: calc(14vh);
-    right: calc(12vw);
+	position: absolute;
+	top: calc(14vh);
+	right: calc(12vw);
 }
 
 .logout-link img {
-    width: calc(14vw);
-    height: calc(24vh);
+	width: calc(14vw);
+	height: calc(24vh);
 }
 
 .profile-link img {
-    width: calc(6vw);
-    height: calc(6vw);
+	width: calc(6vw);
+	height: calc(6vw);
 }
 
+/* ========== Start Game Text ========== */
 .start-game-text {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -10%);
-    font-size: calc(7vw + 7vh);
-    color: #a16935;
-    text-align: center;
-    z-index: 20;
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	transform: translate(-50%, -10%);
+	font-size: calc(7vw + 7vh);
+	color: #a16935;
+	text-align: center;
+	z-index: 20;
 }
 
+/* ========== Icon Customization ========== */
 .icon-container {
-    display: inline-block;
-    transform: scaleX(-1);
+	display: inline-block;
+	transform: scaleX(-1);
 }
 
 .custom-icon {
-    font-size: calc(3vw + 3vh);
-    color: #a16935;
-    position: relative;
-    top: calc(2vw + 3vh);
+	font-size: calc(3vw + 3vh);
+	color: #a16935;
+	position: relative;
+	top: calc(2vw + 3vh);
 }
 
-/* ///// Modal logout ////// */
-
+/* ========== Modal Logout Styling ========== */
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none; 
-    z-index: 999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none; 
+	z-index: 999;
 }
 
 .modal {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(30vw + 20vh);
-  height: auto;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding: calc(2vh + 2vw);
-  border: calc(0.3vh + 0.3vw) solid #a16935;
-  border-radius: calc(0.5vw);
-  background: #2f213a;
-  box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
-  z-index: 1000;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: calc(30vw + 20vh);
+	height: auto;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	padding: calc(2vh + 2vw);
+	border: calc(0.3vh + 0.3vw) solid #a16935;
+	border-radius: calc(0.5vw);
+	background: #2f213a;
+	box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+	z-index: 1000;
 }
 
+/* ========== Modal Text and Buttons ========== */
 .message {
-  font-size: calc(1.8vw + 1.8vh);
-  text-align: center;
-  margin-bottom: calc(2vh);
-  color: #a16935;
+	font-size: calc(1.8vw + 1.8vh);
+	text-align: center;
+	margin-bottom: calc(2vh);
+	color: #a16935;
 }
 
 .options {
-  display: flex;
-  justify-content: center;
-  gap: calc(2vw);
-  width: 100%;
+	display: flex;
+	justify-content: center;
+	gap: calc(2vw);
+	width: 100%;
 }
 
+/* ========== Button Styling ========== */
 .btn {
-  font-size: calc(1.3vw + 1.3vh);
-  background: #2f213a;
-  padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
-  border: calc(0.3vw + 0.3vh) solid #a16935;
-  border-radius: calc(0.5vw);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  color: #a16935;
+	font-size: calc(1.3vw + 1.3vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
 }
 
-/* Effet au survol */
 .btn:hover {
-  box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
-  transform: translate(calc(-0.4vw), calc(-0.4vh));
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
 }
 
-/* Effet lorsque le bouton est pressé */
 .btn:active {
-  box-shadow: none;
-  transform: translate(0, 0);
+	box-shadow: none;
+	transform: translate(0, 0);
 }
 
 .btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
-  background-color: #2f213a !important;
-  color: #a16935 !important;
+	background-color: #2f213a !important;
+	color: #a16935 !important;
 }
 
