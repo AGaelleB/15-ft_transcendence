@@ -1,42 +1,35 @@
-**************************************** TO DO *****************************************
+****************************************** TO DO ******************************************
 
 - petit probleme de size sur la modale settings chez Gaga
 
 - lors de la registration, demander la choix de la langue pour l enregistrer
     et le sav pour les prochaines connections
 
-- mettre a jour le rallye au bnout de X touche
+- voir si on peut arranger plus proprement le chemin des langues pour le log
+    (chemin de index different)
 
-- voir le reset manquant car les points si on augmente ne se reinit pas direct bien
+- chrono + balle aleatoire sur la 3D a ajouter
 
-- voir si on peut arranger plus proprement le chemin des langues pour le log (chemin de index different)
 
-************************************ PAGES A CREER *************************************
 
-- creer la trame de la page lorsque l on clique sur la pacman
-    -> User name / possibilite de changer 
-    -> activer ou desactiver la doucle authentifiation
-    -> statistiques victoires/pertes
-    -> historique des parties
-    -> photo user (pouvoir choisir maybe enter plusieurs pacman)
 
-- multiplayer avec des tournois
-
-**************************************** MODULES *************************************** 
+************************************** MODULES FAITS ************************************** 
 
 [X] Minor module: Use a front-end framework or toolkit
 [X] Minor module: Game Customization Options
 [X] Minor module: Multiple language supports
 
-[] Major module: Implement Two-Factor Authentication (2FA) and JWT
-[] Major module: Use of advanced 3D techniques
 [X] Major module: Introduce an AI Opponent
 
-[4,5 pts]
+[2,5 pts]
 
-****************************************
+************************************* MODULES EN COURS ************************************ 
 
-pour eux ? : 
+[en cours] Major module: Use of advanced 3D techniques
+
+[1 pts]
+
+***************************************** A FAIRE ? *************************************** 
 
 [] Minor module: Use a database for the backend
 [] Minor module: Expanding Browser Compatibility
@@ -45,5 +38,6 @@ pour eux ? :
 
 [] Major module: Use a Framework as backend
 [] Major module: Standard user management, authentication, users across tournaments
+[] Major module: Implement Two-Factor Authentication (2FA) and JWT
 
-[4 pts]
+[5 pts]
