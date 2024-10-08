@@ -4,10 +4,9 @@ import { initializeGameStartListener, isGameStarted } from '../Modals/startGameM
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game3D/score3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
-import { handleWallCollision3D, checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
+import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -28,7 +27,15 @@ initializeButton3D();
 
 /* ************************** Mouvement du paddle ******************************* */
 
-let isGameActive = true;
+export let isGameActive = true;
+
+export function setIsGameActive(value) {
+    if (typeof value === 'boolean') {
+        isGameActive = value;
+    } else {
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+    }
+}
 
 // Mouvement des paddles
 const keys = {};
@@ -57,83 +64,24 @@ function movePaddles() {
 /* ************************** Mouvement de la balle ******************************* */
 
 // Limites de mouvement de la balle
-const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
 const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
 
-function checkBallOutOfBounds3D() {
-    if (ball.position.x >= ballMovementLimitX) {
-        ball.position.set(0, 0, 0);
-        setPlayer1Score(player1Score + 1);
-        if (gameSettings3D.resetPaddlePosition)
-            resetPaddlePosition();
-        return true;
-    }
-    if (ball.position.x <= -ballMovementLimitX) {
-        ball.position.set(0, 0, 0);
-        setPlayer2Score(player2Score + 1);
-        if (gameSettings3D.resetPaddlePosition)
-            resetPaddlePosition();
-        return true;
-    }
-    updateScore();
-    const gameEnded = checkGameEnd(player1Score, player2Score);
-    if (gameEnded) {
-        isGameActive = false;
-        return;
-    }
-}
-
-// function moveBall() {
-//     // Mise à jour de la position de la balle
-//     ball.position.x += gameSettings3D.ballSpeedX3D;
-//     ball.position.z += gameSettings3D.ballSpeedZ3D;
-
-//     // Gestion des rebonds sur les bordures haut/bas (en Z)
-//     if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
-//         gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
-
-//     checkBallOutOfBounds3D();
-//     // Gestion des rebonds sur les bordures gauche/droite (en X) a mettre comme point marque apres 
-
-//     // Collision avec le paddle gauche
-//     if (
-//         ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
-//         ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
-//         ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth3D / 2
-//     )
-//         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
-
-//     // Collision avec le paddle droit
-//     if (
-//         ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
-//         ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
-//         ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth3D / 2
-//     )
-//         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
-
-// }
-
-
 function moveBall() {
+    // Mise à jour de la position de la balle
     ball.position.x += gameSettings3D.ballSpeedX3D;
     ball.position.z += gameSettings3D.ballSpeedZ3D;
 
-    handleWallCollision3D(ball, groundGeometry);
-    checkPaddleCollision3D(ball, paddleLeft, paddleRight, () => {});
-
-    if (checkBallOutOfBounds3D(ball, groundGeometry, 
-        () => setPlayer1Score(player1Score + 1), 
-        () => setPlayer2Score(player2Score + 1))) {
-            resetPaddlePosition();
-            ball.position.set(0, 0, 0);
+    // Gestion des rebonds sur les bordures haut/bas (en Z)
+    if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ) {
+        gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
     }
 
-    updateScore();
-    if (checkGameEnd(player1Score, player2Score)) {
-        isGameActive = false;
-    }
+    // Vérification des sorties de la balle en X (buts)
+    checkBallOutOfBounds3D();
+
+    // Collision avec les raquettes
+    checkPaddleCollision3D(ball, paddleLeft, paddleRight);
 }
-
 
 /* ********************************************************************************* */
 
