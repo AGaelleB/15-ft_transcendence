@@ -7,13 +7,14 @@ import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '..
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { isGameActive } from '../PongGame/Game3D/ballCollision3D.js';
+import { loadLanguages } from '../Modals/switchLanguages.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const startGameMessage = document.getElementById('startGameMessage');
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
-    // const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-    // loadLanguages(storedLang);
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
 
     homeIcon.addEventListener('click', () => {
         window.location.href = '/frontend/srcs/html/homeScreen.html';
