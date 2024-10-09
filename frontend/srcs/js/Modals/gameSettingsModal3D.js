@@ -296,6 +296,8 @@ export function initializeGameSettings3D() {
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
         gameSettings3D.winningScore = pointsToWinValue;
+        updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
+        updateScore();
         saveGameSettings3D();
     });
 

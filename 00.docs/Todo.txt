@@ -1,10 +1,8 @@
 ****************************************** TO DO ******************************************
 
-- comment fix le probleme du reset settings en debut, "undefined"
 - petit probleme de size sur la modale settings chez Gaga
 - lors de la registration, demander la choix de la langue pour l enregistrer  et le sav pour les prochaines connections
 - voir si on peut arranger plus proprement le chemin des langues pour le log(chemin de index different)
-- ajuster le point to win au centre du bouton
 - voir pour fix le probleme des trianges au moment du home
 - implementer les rallyes + power ups
 
