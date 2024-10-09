@@ -62,7 +62,7 @@ function predictBallPositionZ(ball, ground, timeToPaddle) {
 
 function predictBallPositionWithError(ball, ground, timeToPaddle) {
     let predictedBallZ = predictBallPositionZ(ball, ground, timeToPaddle);
-    predictedBallZ += gameSettings3D.errorMargin;
+    predictedBallZ += gameSettings3D.errorMargin3D;
     return predictedBallZ;
 }
 
