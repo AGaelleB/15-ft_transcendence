@@ -72,7 +72,7 @@ export const gameSettings3D = {
     // IA
     setPowerUps3D: 0,
     difficultyLevel3D: "novice",
-    errorMargin3D: 0,
+    errorMargin3D: 4200,
     aiSpeedFactor3D: 5,
 
 };

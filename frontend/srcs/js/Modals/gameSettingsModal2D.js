@@ -26,7 +26,7 @@ const defaultGameSettings = {
     ballSizeFactor2D: 0.015,
     paddleHeight2D: 0.25,
     winningScore: 5,
-    resetPaddlePosition: true,
+    resetPaddlePosition: false,
     setPowerUps: false,
     setRally: false,
 };

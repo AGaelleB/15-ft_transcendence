@@ -37,6 +37,8 @@ function resetToDefaultSettings3D() {
     gameSettings3D.paddleHeight3D = 1.5;
     gameSettings3D.paddleDepth3D = 5;
     gameSettings3D.winningScore = 5;
+    gameSettings3D.difficultyLevel3D = "intermediate";
+    gameSettings3D.resetPaddlePosition = false;
 
     ballSpeedValue = 3;
     paddleSpeedValue = 3;
@@ -86,6 +88,13 @@ export function updateSettingsModal3D() {
 
     pointsToWinValue = gameSettings3D.winningScore;
 
+    if (gameSettings3D.difficultyLevel3D === "novice")
+        document.getElementById('novice').checked = true;
+    else if (gameSettings3D.difficultyLevel3D === "intermediate")
+        document.getElementById('intermediate').checked = true;
+    else if (gameSettings3D.difficultyLevel3D === "expert")
+        document.getElementById('expert').checked = true;
+
     document.getElementById('ballSpeed').value = ballSpeedValue;
     document.getElementById('paddleSpeed').value = paddleSpeedValue;
     document.getElementById('pointsToWin').value = pointsToWinValue;
@@ -131,8 +140,33 @@ export function initializeGameSettings3D() {
 
     updateScore();
 
+    
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings3D();
+    });
+    
+    document.getElementById('novice').addEventListener('change', function () {
+        if (this.checked) {
+            gameSettings3D.difficultyLevel3D = "novice"; 
+            gameSettings3D.errorMargin3D = 3 + (Math.random() * 2);
+            saveGameSettings3D();
+        }
+    });
+    
+    document.getElementById('intermediate').addEventListener('change', function () {
+        if (this.checked) {
+            gameSettings3D.difficultyLevel3D = "intermediate"; 
+            gameSettings3D.errorMargin3D = 2 + (Math.random() * 1);
+            saveGameSettings3D();
+        }
+    });
+    
+    document.getElementById('expert').addEventListener('change', function () {
+        if (this.checked) {
+            gameSettings3D.difficultyLevel3D = "expert"; 
+            gameSettings3D.errorMargin3D = 1 + (Math.random() * 0.5);
+            saveGameSettings3D();
+        }
     });
 
     document.getElementById('ballSpeed').addEventListener('input', function (event) {
