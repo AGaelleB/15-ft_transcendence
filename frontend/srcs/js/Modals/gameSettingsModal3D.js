@@ -97,6 +97,7 @@ export function updateSettingsModal3D() {
     updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
     updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
+    document.getElementById('resetPaddlePosition').checked = gameSettings3D.resetPaddlePosition;
 }
 
 export function initializeGameSettings3D() {
