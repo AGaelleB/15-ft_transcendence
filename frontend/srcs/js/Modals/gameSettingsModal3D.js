@@ -145,6 +145,7 @@ export function initializeGameSettings3D() {
     
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings3D();
+        updateScore();
     });
     
     document.getElementById('novice').addEventListener('change', function () {

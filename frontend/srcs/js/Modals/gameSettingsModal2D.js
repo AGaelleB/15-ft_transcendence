@@ -175,6 +175,7 @@ export function initializeGameSettings() {
 
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings();
+        updateScore();
     });
     
     document.getElementById('novice').addEventListener('change', function () {
