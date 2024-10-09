@@ -127,6 +127,7 @@ export function initializeGameSettings3D() {
             document.querySelector('.settings-modal-container').classList.remove('active');
             settingsModal.style.display = 'none';
             saveGameSettings3D();
+            window.location.reload();
             isSettingsOpen = false;
         }
     });
@@ -135,6 +136,7 @@ export function initializeGameSettings3D() {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings3D();
+        window.location.reload();
         isSettingsOpen = false;
     });
 
