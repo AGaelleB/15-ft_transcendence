@@ -24,7 +24,7 @@ export function updateScore() {
 
 export let gameOver = false;
 
-export function isGameOver() {
+export function isGameOver3D() {
     return gameOver;
 }
 

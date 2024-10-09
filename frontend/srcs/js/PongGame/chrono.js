@@ -1,9 +1,10 @@
 // frontend/srcs/js/PongGame/chrono.js
 
 import { isGameOver } from './Game2D/score2D.js';
+import { isGameOver3D } from './Game3D/score3D.js';
 
 export function startCountdown(callback) {
-    if (isGameOver())
+    if (isGameOver() || isGameOver3D())
         return;
     const countdownElement = document.getElementById('countdown');
     let count = 3;

@@ -8,8 +8,6 @@
 - voir si on peut arranger plus proprement le chemin des langues pour le log
     (chemin de index different)
 
-- chrono + balle aleatoire sur la 3D a ajouter
-
 - remttre les lvl pour l'IA 3D
 
 

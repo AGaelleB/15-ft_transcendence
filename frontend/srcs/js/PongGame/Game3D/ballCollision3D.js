@@ -1,5 +1,6 @@
 // frontend/srcs/js/PongGame/Game3D/ballCollision3D.js
 
+import { startCountdown } from '../chrono.js';
 import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
 import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
@@ -81,16 +82,37 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
     }
 }
 
+function resetBall3D() {
+    ball.position.set(0, 0, 0);
+
+    const savedSpeedX = gameSettings3D.ballSpeedX3D;
+    const savedSpeedZ = gameSettings3D.ballSpeedZ3D;
+
+    gameSettings3D.ballSpeedX3D = 0;
+    gameSettings3D.ballSpeedZ3D = 0;
+
+    // setLastTouchedPaddle(null);
+    // resetPowerUpEffects(paddleLeft, paddleRight);
+    // hidePowerUp(powerUpImageElement);
+    // resetPowerUpTimer();
+
+    startCountdown(() => {
+        const direction = Math.random() < 0.5 ? -1 : 1;
+        gameSettings3D.ballSpeedX3D = direction * savedSpeedX;
+        gameSettings3D.ballSpeedZ3D = savedSpeedZ;
+    });
+}
+
 export function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
-        ball.position.set(0, 0, 0);
+        resetBall3D();
         setPlayer1Score(player1Score + 1);
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
     if (ball.position.x <= -ballMovementLimitX) {
-        ball.position.set(0, 0, 0);
+        resetBall3D();
         setPlayer2Score(player2Score + 1);
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
