@@ -97,10 +97,15 @@ function resetBall3D() {
     // resetPowerUpTimer();
 
     startCountdown(() => {
-        const direction = Math.random() < 0.5 ? -1 : 1;
+        let direction;
+        if (Math.random() < 0.5)
+            direction = -1;
+        else
+            direction = 1;
         gameSettings3D.ballSpeedX3D = direction * savedSpeedX;
         gameSettings3D.ballSpeedZ3D = savedSpeedZ;
     });
+
 }
 
 export function checkBallOutOfBounds3D() {
