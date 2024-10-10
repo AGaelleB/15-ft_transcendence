@@ -1,0 +1,76 @@
+/* frontend/srcs/css/logoutMsgModal.css */
+
+/* ========== Font and Selection Styles ========== */
+html {
+	font-size: calc(1vw + 1vh); /* Ajuste la taille globale du texte */
+}
+
+body {
+	color: #a16935;
+	background-size: 60px 60px;
+	animation: slide 4s infinite linear;
+}
+
+::selection {
+	background: #302a66;
+	color: #a16935;
+}
+
+/* ========== Modal Styling ========== */
+.modal {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: calc(40vw + 10vh);
+	height: auto;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	padding: calc(2vh + 2vw);
+	border: calc(0.3vh + 0.3vw) solid #a16935;
+	border-radius: calc(0.5vw);
+	background: #2f213a;
+	box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+	z-index: 1000;
+}
+
+.message {
+	font-size: calc(1.8vw + 1.8vh);
+	text-align: center;
+	margin-bottom: calc(2vh);
+}
+
+/* ========== Button Styling ========== */
+.options {
+	display: flex;
+	justify-content: center;
+	gap: calc(2vw);
+	width: 100%;
+}
+
+.btn {
+	font-size: calc(1.3vw + 1.3vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+}
+
+.btn:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.btn:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}

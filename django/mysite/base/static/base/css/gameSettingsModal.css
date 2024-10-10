@@ -1,0 +1,300 @@
+/* frontend/srcs/css/gameSettingsModal.css */
+
+/* ========== Font and Selection Styles ========== */
+::selection {
+	background: #302a66;
+	color: #a16935;
+}
+
+body {
+	user-select: none;
+}
+
+/* ========== Modal Container ========== */
+  .settings-modal-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	padding: calc(5vh);
+}
+
+.settings-modal-container.active {
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 2000;
+}
+
+/* ========== Modal Styling ========== */
+  .settings-modal {
+	z-index: 2001;
+	width: calc(50vw + 5vh);
+	height: auto;
+	max-height: 80vh;
+	max-width: 2400px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: calc(0.1vw + 0.1vh);
+	border-radius: calc(1vw + 1vh);
+	color: #a16935;
+	text-align: center;
+	font-family: 'Jersey', sans-serif;
+	box-sizing: border-box;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	background-color: rgba(47, 33, 58, 1);
+}
+
+/* ========== Modal Content ========== */
+.settings-content {
+	background-color: #2f213a;
+	padding: calc(0.1vw + 0.1vh);
+	border-radius: 10px;
+	color: #a16935;
+	text-align: center;
+	font-family: 'Jersey', sans-serif;
+	width: 90%;
+	flex-grow: 1;
+	overflow-y: auto;
+}
+
+/* ========== Icon Styles ========== */
+.settings-icon {
+	position: fixed;
+	top: calc(5vw + 5vh);
+	right: calc(8vw + 8vh);
+	font-size: calc(2vw + 2vh);
+	color: #ffcc00;
+	cursor: pointer;
+	z-index: 3000;
+}
+
+/* ========== Button Styles ========== */
+.btn {
+	background-color: #2f213a;
+	color: #a16935;
+	border: none;
+	outline: none;
+	font-family: 'Jersey', sans-serif;
+	margin: calc(0.2vw + 0.2vh);
+	padding: calc(0.4vw + 0.4vh);
+	transition: all 0.2s ease;
+}
+
+.btn:hover, .btn:focus {
+	background-color: #2f213a;
+	color: #a16935;
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+	outline: none;
+	border: none;
+}
+
+.btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+.btn:active {
+	background-color: #2f213a;
+	color: #a16935;
+	box-shadow: none;
+	transform: translate(0, 0);
+	outline: none;
+	border: none;
+}
+
+.hidden {
+	display: none !important;
+}
+
+/* ========== Bot Level Slider Controls ========== */
+input[type="radio"] {
+	display: none;
+}
+
+.slide-controls-bot-level {
+	position: relative;
+	display: flex;
+	height: 5vh;
+	width: 100%;
+	overflow: hidden;
+	margin: calc(1vw + 1vh) 0 calc(0.5vw + 0.5vh) 0;
+	justify-content: space-between;
+	border-radius: 0;
+}
+
+.slide-controls-bot-level .slide {
+	height: 100%;
+	width: 100%;
+	color: #a16935;
+	font-size: calc(1vw + 2vh);
+	font-weight: 500;
+	text-align: center;
+	cursor: pointer;
+	z-index: 1;
+	transition: all 0.6s ease;
+}
+
+.slide-controls-bot-level .slider-tab {
+	position: absolute;
+	height: 100%;
+	width: 33.33%;
+	left: 0;
+	z-index: 0;
+	border-radius: 0;
+	background: #a16935;
+	transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#intermediate:checked ~ .slider-tab {
+	left: 33.33%;
+}
+
+#expert:checked ~ .slider-tab {
+	left: 66.66%;
+}
+
+#expert:checked ~ label[for="expert"],
+#intermediate:checked ~ label[for="intermediate"],
+#novice:checked ~ label[for="novice"] {
+color: #302a66;
+cursor: default;
+user-select: none;
+}
+
+#expert:checked ~ label[for="novice"],
+#intermediate:checked ~ label[for="novice"],
+#novice:checked ~ label[for="intermediate"],
+#expert:checked ~ label[for="intermediate"] {
+color: #a16935;
+}
+
+/* ========== Slider Container General Styling ========== */
+.slider-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: calc(0.5vw + 0.5vh) 0;
+	color: #a16935;
+	font-family: 'Jersey', sans-serif;
+}
+
+.slider-label {
+	flex: 0 0 25%; 
+	text-align: right;
+	padding-right: 20px;
+}
+
+.slider-wrapper {
+	position: relative;
+	width: 80%;
+}
+
+input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	background: #302a66;
+	height: calc(0.8vw + 0.8vh);
+	border-radius: 10px;
+	cursor: pointer;
+	position: relative;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: calc(1vw + 3vh);
+	height: calc(1vw + 3vh);
+	background-color: #a16935;
+	border: 2px solid #302a66;
+	border-radius: 50%;
+	position: relative;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.slider-value {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 40%;
+	color: #302a66;
+	font-size: calc(2vw + 2vh);
+	font-family: 'Jersey', sans-serif;
+	pointer-events: none;
+	white-space: nowrap;
+}
+
+
+/* ========== Checkbox Styling ========== */
+.checkbox-container {
+	position: relative;
+	display: inline-block;
+	margin: calc(0.5vw + 0.5vh) 0;
+	text-align: center;
+	color: #a16935;
+	font-family: 'Jersey', sans-serif;
+}
+
+input[type="checkbox"] {
+	appearance: none;
+	-webkit-appearance: none;
+	position: relative;
+	cursor: pointer;
+	width: calc(1vw + 1vh);
+	height: calc(1vw + 1vh);
+	background-color: #302a66;
+	border: 2px solid #a16935;
+	border-radius: 5px;
+	transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+	background-color: #a16935;
+	border-color: #302a66;
+}
+
+input[type="checkbox"]:checked::after {
+	content: '\2714';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #302a66;
+	font-size: calc(1.5vw + 1.5vh);
+}
+
+.settings-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: calc(1vw + 1vh);
+}
+
+.settings-header h2 {
+	margin: 0;
+	flex-grow: 1;
+}
+
+/* ========== Reset button ========== */
+.reset-button {
+	margin-left: calc(1vw + 1vh);
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: calc(2vw + 2vh);
+	color: #a16935;
+	transition: color 0.3s ease;
+}
+
+.reset-button:active {
+	color: #ffff00;
+}

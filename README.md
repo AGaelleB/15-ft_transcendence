@@ -1,5 +1,14 @@
 # MODULES
 
+## branch bastien:  
+    django server to launch the front end (only index.html with no js/css/img)
+    in django repo, use `source script.sh` : create a virtual env and get python packages  
+    `cd mysite` : (repo with a file manage.py)  
+    `python manage.py makemigrations` : update migrations  
+    `python manage.py migrate` : migrate (create/update db)  
+    `python manage.py runserver` : launch server  
+    open a browser on 127.0.0.1:8000/ --> index page de pong (que le html pour l'instant)
+
 ## Web
 [] Major module: Use a Framework as backend.
 [X] Minor module: Use a front-end framework or toolkit.
