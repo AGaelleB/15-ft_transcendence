@@ -1,31 +1,5 @@
-<!-- frontend/srcs/html/1Player2D.html -->
+<!-- frontend/srcs/html/2Players2D.html -->
 
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PONG 2D - 1 Player</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/ico" href="../images/icons/pongIcon.ico">
-
-    <!-- CSS Dependencies -->
-    
-    
-
-    <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <!-- JavaScript Modules -->
-    <script type="module" src="../js/PongGame/gameSettings.js"></script>
-    <script type="module" src="../js/Screens/1Player2D.js"></script>
-    <script type="module" src="../js/PongGame/Game2D/resizeCanvas2D.js"></script>
-    <script type="module" src="../js/PongGame/Game2D/computerAI2D.js"></script>
-</head>
-
-<body>
     <!-- ========== Settings Button ========== -->
     <div id="settingsIcon" class="settings-icon">
         <i class="bi bi-gear-fill"></i>
@@ -36,11 +10,11 @@
         <i class="bi bi-house"></i>
     </div>
 
-    <!-- ========== Settings Modal Container ========== -->
+    <!-- ========== Settings Modal ========== -->
     <div class="settings-modal-container">
         <div id="settingsModal" class="settings-modal">
             <div class="settings-content">
-                <!-- ========== Settings Header ========== -->
+                <!-- ========== Modal Header with Title and Reset Button ========== -->
                 <div class="settings-header">
                     <h2 data-lang-key="game_settings">Game Settings</h2>
                     <button id="resetSettings" class="reset-button">
@@ -48,20 +22,18 @@
                     </button>
                 </div>
 
+                <!-- ========== Game Settings Controls ========== -->
                 <div class="wrapper">
-                    <!-- ========== Slider for Bot Level ========== -->
+                    <!-- Slider for Bot Level: Novice / Intermediate / Expert -->
                     <div class="slide-controls-bot-level">
                         <input type="radio" name="bot-level" id="novice" checked>
                         <input type="radio" name="bot-level" id="intermediate">
                         <input type="radio" name="bot-level" id="expert">
-                        <label for="novice" data-lang-key="novice" class="slide">Novice</label>
-                        <label for="intermediate" data-lang-key="intermediate" class="slide">Intermediate</label>
-                        <label for="expert" data-lang-key="expert" class="slide">Expert</label>
-                        <div class="slider-tab"></div>
                     </div>
                 </div>
 
-                <!-- ========== Slider for Ball Speed ========== -->
+                <!-- Sliders for Game Settings -->
+                <!-- Ball Speed Slider -->
                 <div class="slider-container">
                     <label for="ballSpeed" data-lang-key="ball_speed" class="slider-label">Ball Speed</label>
                     <div class="slider-wrapper">
@@ -70,7 +42,7 @@
                     </div>
                 </div>
 
-                <!-- ========== Slider for Paddle Speed ========== -->
+                <!-- Paddle Speed Slider -->
                 <div class="slider-container">
                     <label for="paddleSpeed" data-lang-key="paddle_speed" class="slider-label">Paddle Speed</label>
                     <div class="slider-wrapper">
@@ -79,7 +51,7 @@
                     </div>
                 </div>
 
-                <!-- ========== Slider for Ball Size ========== -->
+                <!-- Ball Size Slider -->
                 <div class="slider-container">
                     <label for="ballSize" data-lang-key="ball_size" class="slider-label">Ball Size</label>
                     <div class="slider-wrapper">
@@ -88,7 +60,7 @@
                     </div>
                 </div>
 
-                <!-- ========== Slider for Paddle Size ========== -->
+                <!-- Paddle Size Slider -->
                 <div class="slider-container">
                     <label for="paddleSize" data-lang-key="paddle_size" class="slider-label">Paddle Size</label>
                     <div class="slider-wrapper">
@@ -97,9 +69,9 @@
                     </div>
                 </div>
 
-                <!-- ========== Slider for Points to Win ========== -->
+                <!-- Points to Win Slider -->
                 <div class="slider-container">
-                    <label for="pointsToWin" data-lang-key="points_win" class="slider-label">Points to win</label>
+                    <label for="pointsToWin" data-lang-key="points_win" class="slider-label">Point to win</label>
                     <div class="slider-wrapper">
                         <input type="range" id="pointsToWin" name="pointsToWin" min="1" max="10" value="5">
                         <span id="pointsToWinValue" class="slider-value">5</span>
@@ -125,28 +97,27 @@
                 </div>
             </div>
 
-            <!-- ========== Close Button ========== -->
+            <!-- Close Button for Settings Modal -->
             <button data-lang-key="close" id="closeSettings" class="btn btn-primary">Close</button>
         </div>
     </div>
 
-    <!-- ========== Start Game Modal ========== -->
+    <!-- ========== Start Game Message Modal ========== -->
     <div id="startGameMessage" class="start-game-modal">
         <p data-lang-key="press_start">Press Space/Enter to begin the game</p>
     </div>
 
-    <!-- ========== Game Screen ========== -->
+    <!-- ========== Game Screen Section ========== -->
     <div class="game-screen">
-        <!-- ========== Game Header ========== -->
+        <!-- Game Header -->
         <div class="game-header">
             <div class="game-title">
                 <h1>PONG</h1>
-                <h2 data-lang-key="mode_1">1 Player mode</h2>
+                <h2 data-lang-key="mode_2">2 Players mode</h2>
             </div>
         </div>
-        <div></div>
 
-        <!-- ========== Score Section ========== -->
+        <!-- Score Section -->
         <section class="score-section">
             <div class="score-container left">
                 <h2 id="player1Score" class="score">0 / 3</h2>
@@ -154,26 +125,26 @@
             </div>
             <div class="score-container right">
                 <h2 id="player2Score" class="score">0 / 3</h2>
-                <p data-lang-key="robot" class="username">Mr Robot</p>
+                <p class="username">Player 2</p>
             </div>
         </section>
 
-        <!-- ========== Countdown Timer ========== -->
+        <!-- Countdown Timer -->
         <div id="countdown" class="countdown"></div>
 
-        <!-- ========== Game Container ========== -->
+        <!-- Game Container with Canvas -->
         <section class="game-container">
-            <canvas id="pongCanvas"></canvas>
+            <canvas id="pongCanvas" width="850" height="450"></canvas>
             <div id="winMessage" class="win-message">
                 <h1></h1>
             </div>
         </section>
     </div>
 
-    <!-- ========== Win Message Modal ========== -->
+    <!-- ========== Winner Message Modal ========== -->
     <div class="modal">
         <p class="message">
-            <span data-lang-key="winner">Player ${winner} Wins!</span>
+            <span data-lang-key="winner"> Player ${winner} Wins! </span>
             <i class="bi bi-emoji-sunglasses"></i>
         </p>
         <div class="options">
@@ -181,9 +152,3 @@
             <button data-lang-key="play_again" id="againButton" class="btn">Play Again</button>
         </div>
     </div>
-
-    <!-- Bootstrap JavaScript Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
