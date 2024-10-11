@@ -1,17 +1,22 @@
 // frontend/srcs/js/Screens/startScreen.js
 
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
+import { route } from '../js/main.js';  // Importer la fonction route
 
 document.addEventListener("DOMContentLoaded", function() {
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
-    loginButton.addEventListener("click", function() {
-        window.location.href = "./html/loginSignUp.html#login";
+    loginButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.history.pushState({}, "", "/login");
+        route(event);  // Utilisation de la fonction route pour gérer la navigation
     });
     
-    signupButton.addEventListener("click", function() {
-        window.location.href = "./html/loginSignUp.html#signup";
+    signupButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.history.pushState({}, "", "/login"); // Ou "/register" selon la structure
+        route(event);  // Utilisation de la fonction route pour gérer la navigation
     });
 
     let keyboardNavigationEnabled = true;
@@ -89,4 +94,3 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
-
