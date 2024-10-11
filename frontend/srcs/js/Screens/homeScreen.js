@@ -1,11 +1,11 @@
 // frontend/srcs/js/Screens/homeScreen.js
 
-import { loadLanguages } from '../Modals/switchLanguages.js';
+// import { loadLanguages } from '../Modals/switchLanguages.js';
 
-document.addEventListener("DOMContentLoaded", function() {
+export function initializeHome() {
     const menuItems = document.querySelectorAll('.menu-item a');
-    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-    loadLanguages(storedLang);
+    // const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    // loadLanguages(storedLang);
 
     let currentIndex = 0;
     let keyboardNavigationEnabled = true;
@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const logoutModal = document.getElementById('logout-modal');
     const confirmLogoutButton = document.getElementById('confirm-logout');
     const cancelLogoutButton = document.getElementById('cancel-logout');
+    const profileLink = document.querySelector('.profile-link');
 
     function openModal() {
         overlay.style.display = 'block';
@@ -125,13 +126,21 @@ document.addEventListener("DOMContentLoaded", function() {
         openModal();
     });
 
-    confirmLogoutButton.addEventListener('click', function() {
+    confirmLogoutButton.addEventListener('click', function(event) {
+        event.preventDefault();
         closeModal();
-        window.location.href = "../index.html";
+        window.history.pushState({}, "", "/start");
+        handleLocation();
+    });
+
+    profileLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        window.history.pushState({}, "", "/profil");
+        handleLocation();
     });
 
     cancelLogoutButton.addEventListener('click', closeModal);
     overlay.addEventListener('click', closeModal);
 
     updateSelection();
-});
+}

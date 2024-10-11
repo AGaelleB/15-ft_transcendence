@@ -1,32 +1,11 @@
 /* frontend/srcs/css/homeScreen.css */
 
-/* ========== Font and Selection Styles ========== */
-@font-face {
-	font-family: 'Jersey';
-	src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Jersey', sans-serif;
-}
-
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
-
-html, body {
+.content {
 	height: 100%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: url('../images/backgrounds/backgroundEmpty.jpg') no-repeat center center fixed;
 	background-size: cover;
 	position: relative;
 	overflow: hidden;

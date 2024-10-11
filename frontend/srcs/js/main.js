@@ -1,16 +1,17 @@
 const routes = {
-    404: "../templates/404.html",
-    "/": "../templates/homeScreen.html",
-    "/start": "../templates/startScreen.html",
-    "/home": "../templates/homeScreen.html",
-    "/login": "../templates/loginSignUp.html",
-    "/profile": "../templates/userDashboard.html",
-    "/1player-2d": "../templates/1Player2D.html",
-    "/1player-3d": "../templates/1Player3D.html",
-    "/2players-2d": "../templates/2Players2D.html",
-    "/2players-3d": "../templates/2Players3D.html",
-    "/multi-2d": "../templates/multiPlayers2D.html",
-    "/multi-3d": "../templates/multiPlayers3D.html"
+    404: "/frontend/srcs/templates/404.html",
+    "/": "/frontend/srcs/templates/startScreen.html",
+    "/start": "/frontend/srcs/templates/startScreen.html",
+    "/index.html": "/frontend/srcs/templates/startScreen.html",
+    "/home": "/frontend/srcs/templates/homeScreen.html",
+    "/login": "/frontend/srcs/templates/loginSignUp.html",
+    "/profil": "/frontend/srcs/templates/userDashboard.html",
+    "/1 player-2d": "/frontend/srcs/templates/1Player2D.html",
+    "/1player-3d": "/frontend/srcs/templates/1Player3D.html",
+    "/2players-2d": "/frontend/srcs/templates/2Players2D.html",
+    "/2players-3d": "/frontend/srcs/templates/2Players3D.html",
+    "/multi-2d": "/frontend/srcs/templates/multiPlayers2D.html",
+    "/multi-3d": "/frontend/srcs/templates/multiPlayers3D.html"
 };
 
 const route = (event) => {
@@ -22,30 +23,61 @@ const route = (event) => {
 
 const handleLocation = async () => {
     let path = window.location.pathname;
+
+    // Normaliser le chemin pour enlever le préfixe lorsque c'est ouvert localement
+    if (path.includes("/frontend/srcs/"))
+        path = path.replace("/frontend/srcs", "");
+
+    // Redirection par défaut vers '/start' si la route est "/"
+    if (path === "/" || path === "")
+        path = "/start";
+
+
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("app").innerHTML = html;
 
-    // Gestion des cas en fonction de la route actuelle
+    console.log("Path: ", path);
     switch (path) {
-        case '/home':
-            console.log("Home page loaded");
-            // Appeler ici les scripts spécifiques à la page homeScreen.html
-            break;
-
         case '/start':
             console.log("Start screen loaded");
-            // Appeler ici les scripts spécifiques à la page startScreen.html
+            import('./Screens/startScreen.js')
+                .then(module => {
+                    module.initializeStartScreen();
+                })
+                .catch(err => console.error('Failed to load startScreen.js:', err));
             break;
-
+        case '/index.html':
+            console.log("Start screen loaded");
+            import('./Screens/startScreen.js')
+                .then(module => {
+                    module.initializeStartScreen();
+                })
+                .catch(err => console.error('Failed to load startScreen.js:', err));
+            break;
         case '/login':
             console.log("Login page loaded");
-            // Appeler ici les scripts spécifiques à la page loginSignUp.html
+            import('./Screens/loginSignUp.js')
+            .then(module => {
+                module.initializeLogin();
+            })
+            .catch(err => console.error('Failed to load loginSignUp.js:', err));
             break;
-
-        case '/profile':
+        case '/home':
+            console.log("Home page loaded");
+            import('./Screens/homeScreen.js')
+            .then(module => {
+                module.initializeHome();
+            })
+            .catch(err => console.error('Failed to load homeScreen.js:', err));
+            break;
+        case '/profil':
             console.log("Profile page loaded");
-            // Appeler ici les scripts spécifiques à la page userDashboard.html
+            import('./Screens/userDashboard.js')
+            .then(module => {
+                module.initializeProfil();
+            })
+            .catch(err => console.error('Failed to load userDashboard.js:', err));
             break;
 
         case '/1player-2d':
@@ -80,7 +112,6 @@ const handleLocation = async () => {
 
         default:
             console.log("404 Page not found");
-            // Si c'est une route qui ne correspond à rien, le contenu de 404 est déjà chargé
             break;
     }
 };
@@ -88,7 +119,11 @@ const handleLocation = async () => {
 // Ecouteur d'événements pour détecter les changements de route
 window.onpopstate = handleLocation;
 
-// Charger la page actuelle lors du chargement initial
 window.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname === "/") {
+        window.history.pushState({}, "", "/start");
+    }
     handleLocation();
 });
+
+

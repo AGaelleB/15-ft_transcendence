@@ -1,9 +1,8 @@
 // frontend/srcs/js/Screens/startScreen.js
 
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
-import { route } from '../js/main.js';  // Importer la fonction route
 
-document.addEventListener("DOMContentLoaded", function() {
+export function initializeStartScreen() {
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
@@ -93,4 +92,4 @@ document.addEventListener("DOMContentLoaded", function() {
             switchFlag(item);
         });
     });
-});
+}

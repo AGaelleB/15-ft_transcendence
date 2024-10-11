@@ -1,21 +1,5 @@
 /* frontend/srcs/css/logoutMsgModal.css */
 
-/* ========== Font and Selection Styles ========== */
-html {
-	font-size: calc(1vw + 1vh); /* Ajuste la taille globale du texte */
-}
-
-body {
-	color: #a16935;
-	background-size: 60px 60px;
-	animation: slide 4s infinite linear;
-}
-
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
-
 /* ========== Modal Styling ========== */
 .modal {
 	position: absolute;

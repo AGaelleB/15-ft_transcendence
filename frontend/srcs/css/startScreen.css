@@ -1,29 +1,5 @@
 /* frontend/srcs/css/startScreen.css */
 
-/* ========== Font and Selection Styles ========== */
-@font-face {
-	font-family: 'Jersey';
-	src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
-
-/* ========== Body and Background Styling ========== */
-body {
-	background-image: url('../images/backgrounds/background.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-attachment: fixed;
-	font-family: 'Jersey', sans-serif;
-	font-size: calc(1vw + 1vh);
-}
-
 /* ========== Welcome Text Styling ========== */
 .welcome-text {
 	display: flex;
@@ -170,3 +146,4 @@ body {
 	max-width: calc(20vw + 20vh);
 	max-height: calc(15vw + 15vh);
 }
+
