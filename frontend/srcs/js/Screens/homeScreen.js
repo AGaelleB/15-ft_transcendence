@@ -1,11 +1,11 @@
 // frontend/srcs/js/Screens/homeScreen.js
 
-// import { loadLanguages } from '../Modals/switchLanguages.js';
+import { loadLanguages } from '../Modals/switchLanguages.js';
 
 export function initializeHome() {
     const menuItems = document.querySelectorAll('.menu-item a');
-    // const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-    // loadLanguages(storedLang);
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
 
     let currentIndex = 0;
     let keyboardNavigationEnabled = true;

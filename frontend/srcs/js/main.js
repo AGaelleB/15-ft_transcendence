@@ -24,11 +24,9 @@ const route = (event) => {
 const handleLocation = async () => {
     let path = window.location.pathname;
 
-    // Normaliser le chemin pour enlever le préfixe lorsque c'est ouvert localement
     if (path.includes("/frontend/srcs/"))
         path = path.replace("/frontend/srcs", "");
 
-    // Redirection par défaut vers '/start' si la route est "/"
     if (path === "/" || path === "")
         path = "/start";
 
@@ -82,32 +80,32 @@ const handleLocation = async () => {
 
         case '/1player-2d':
             console.log("1 Player 2D game loaded");
-            // Appeler ici les scripts spécifiques à la page 1Player2D.html
+            // scripts pour 1Player2D.html
             break;
 
         case '/1player-3d':
             console.log("1 Player 3D game loaded");
-            // Appeler ici les scripts spécifiques à la page 1Player3D.html
+            // scripts pour 1Player3D.html
             break;
 
         case '/2players-2d':
             console.log("2 Players 2D game loaded");
-            // Appeler ici les scripts spécifiques à la page 2Players2D.html
+            // scripts pour 2Players2D.html
             break;
 
         case '/2players-3d':
             console.log("2 Players 3D game loaded");
-            // Appeler ici les scripts spécifiques à la page 2Players3D.html
+            // scripts pour 2Players3D.html
             break;
 
         case '/multi-2d':
             console.log("Multiplayer 2D game loaded");
-            // Appeler ici les scripts spécifiques à la page multiPlayers2D.html
+            // scripts pour multiPlayers2D.html
             break;
 
         case '/multi-3d':
             console.log("Multiplayer 3D game loaded");
-            // Appeler ici les scripts spécifiques à la page multiPlayers3D.html
+            // scripts pour multiPlayers3D.html
             break;
 
         default:

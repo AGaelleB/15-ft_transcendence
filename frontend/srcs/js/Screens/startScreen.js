@@ -9,13 +9,13 @@ export function initializeStartScreen() {
     loginButton.addEventListener("click", function(event) {
         event.preventDefault();
         window.history.pushState({}, "", "/login");
-        route(event);  // Utilisation de la fonction route pour gérer la navigation
+        route(event);
     });
     
     signupButton.addEventListener("click", function(event) {
         event.preventDefault();
-        window.history.pushState({}, "", "/login"); // Ou "/register" selon la structure
-        route(event);  // Utilisation de la fonction route pour gérer la navigation
+        window.history.pushState({}, "", "/login");
+        route(event);
     });
 
     let keyboardNavigationEnabled = true;
