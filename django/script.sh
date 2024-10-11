@@ -9,7 +9,7 @@ deactivate > /dev/null 2>&1 && echo "venv deactivated"
 rm -rf .venv && echo ".venv removed"
 
 # create the virtual env (venv = command, .venv = repo, with .venv in .gitignore)
-python -m venv .venv && echo "venv .venv created"
+python3 -m venv .venv && echo "venv .venv created"
 
 # activate it (should see (.venv) at very left of prompt)
 source .venv/bin/activate && echo ".venv activated"
