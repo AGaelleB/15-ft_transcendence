@@ -1,0 +1,83 @@
+<!-- user_form.html -->
+
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ft_transcendence user form</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/ico" href="{% static 'base/images/icons/pongIcon.ico' %}">
+</head>
+
+<body>
+    <!-- ========== Welcome Text Section ========== -->
+    <div class="welcome-text">
+        <h1 data-lang-key="welcome_message">User Registration Page</h1>
+    </div>
+
+    <!-- ========== User form  ========== -->
+    <!-- note that form input validation must be done server side, so no check in here -->
+    <div>
+        <form id="user-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"><br>
+        
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name"><br>
+        
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name"><br>
+        
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" ><br>
+        
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div>
+        <p id="form_validity"></p>
+    </div>
+    
+
+    <!-- ========== JavaScript ========== -->
+     <script>
+
+        let socket = new WebSocket('ws://' + window.location.host + '/ws/user_creation/');
+        let form = document.getElementById('user-form');
+
+        // get form data to send to server ws
+        form.onsubmit = function(e) {
+            // Prevent traditional form submission (needed?)
+            e.preventDefault();
+            // Collect form data to json format
+            let formData = {
+                user_name: form.username.value,
+                first_name: form.first_name.value,
+                last_name: form.last_name.value,
+                email: form.email.value
+            };
+            // send it to server ws (nsp si json vraiment usefull)
+            socket.send(JSON.stringify({
+                action: 'submit_form',
+                form_data: formData
+            }));
+        };
+
+        // message from server to be displayed (ie bad input)
+        socket.onmessage = function(e) {
+            let data = JSON.parse(e.data);
+            let form_validity = document.getElementById('form_validity');
+            form_validity.innerHTML = data['status'];
+        };
+
+     </script>
+
+</body>
+
+</html>

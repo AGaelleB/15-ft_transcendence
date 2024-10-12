@@ -3,4 +3,14 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request, "base/index.html")
-#   return HttpResponse("Hello, transcendance. (index page of transcendance for now)")
+
+def user_form(request):
+    return render(request, "base/user_form.html")
+
+''' 
+second arg "path" needed because re_path (cf. urls.py) returns the match pattern (against the given regex)
+it permits to adapt the views code depending on the real pattern matched
+not needed for path() bc it matchs a fixed pattern
+'''
+def user_listing(request, path=None):
+    return render(request, "base/user_listing.html")
