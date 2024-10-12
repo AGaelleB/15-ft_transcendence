@@ -2,10 +2,11 @@
 
 ## branch bastien:   
 django server to launch the front end  
-12/05/2024 21:30 State:  
-    index.html served with static (except languages)
-    user_form.html: form data to server via a websocket, input validity and explicit succes/failure
-    structure.txt: how to implement the classes/db ; some rules to choose
+### 12/05/2024 21:30 State:  
+* index.html served with static (except languages)
+* user_form.html: form data to server via a websocket, input validity and explicit succes/failure
+* structure.txt: how to implement the classes/db ; some rules to choose  
+### How to use:
 in django repo, use `source script.sh` : create a virtual env and get python packages  
 ```cd mysite``` : (repo with a file manage.py)  
 ```python manage.py makemigrations``` : update migrations  
