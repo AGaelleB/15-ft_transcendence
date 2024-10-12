@@ -10,19 +10,21 @@ import { isGameActive } from '../PongGame/Game3D/ballCollision3D.js';
 import { updateScore } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+export function initialize2Players3D() {
     const startGameMessage = document.getElementById('startGameMessage');
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
 
-    homeIcon.addEventListener('click', () => {
-        window.location.href = '/frontend/srcs/html/homeScreen.html';
+    homeIcon.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.history.pushState({}, "", "/home");
+        handleLocation();
     });
 
     initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
-});
+}
 
 resizeRenderer3D();
 initializeButton3D();

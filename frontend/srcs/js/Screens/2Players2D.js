@@ -12,7 +12,7 @@ import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTi
 import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+export function initialize2Players2D() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const startGameMessage = document.getElementById('startGameMessage');
@@ -22,8 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
 
-    homeIcon.addEventListener('click', () => {
-        window.location.href = '/frontend/srcs/html/homeScreen.html';
+    homeIcon.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.history.pushState({}, "", "/home");
+        handleLocation();
     });
 
     initializeButton2D();
@@ -202,4 +204,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     gameLoop();
 
-});
+}

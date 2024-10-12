@@ -6,7 +6,7 @@ const routes = {
     "/home": "/frontend/srcs/templates/homeScreen.html",
     "/login": "/frontend/srcs/templates/loginSignUp.html",
     "/profil": "/frontend/srcs/templates/userDashboard.html",
-    "/1 player-2d": "/frontend/srcs/templates/1Player2D.html",
+    "/1player-2d": "/frontend/srcs/templates/1Player2D.html",
     "/1player-3d": "/frontend/srcs/templates/1Player3D.html",
     "/2players-2d": "/frontend/srcs/templates/2Players2D.html",
     "/2players-3d": "/frontend/srcs/templates/2Players3D.html",
@@ -45,6 +45,7 @@ const handleLocation = async () => {
                 })
                 .catch(err => console.error('Failed to load startScreen.js:', err));
             break;
+
         case '/index.html':
             console.log("Start screen loaded");
             import('./Screens/startScreen.js')
@@ -53,6 +54,7 @@ const handleLocation = async () => {
                 })
                 .catch(err => console.error('Failed to load startScreen.js:', err));
             break;
+
         case '/login':
             console.log("Login page loaded");
             import('./Screens/loginSignUp.js')
@@ -61,6 +63,7 @@ const handleLocation = async () => {
             })
             .catch(err => console.error('Failed to load loginSignUp.js:', err));
             break;
+
         case '/home':
             console.log("Home page loaded");
             import('./Screens/homeScreen.js')
@@ -69,6 +72,7 @@ const handleLocation = async () => {
             })
             .catch(err => console.error('Failed to load homeScreen.js:', err));
             break;
+
         case '/profil':
             console.log("Profile page loaded");
             import('./Screens/userDashboard.js')
@@ -80,22 +84,38 @@ const handleLocation = async () => {
 
         case '/1player-2d':
             console.log("1 Player 2D game loaded");
-            // scripts pour 1Player2D.html
+            import('./Screens/1Player2D.js')
+            .then(module => {
+                module.initialize1Player2D();
+            })
+            .catch(err => console.error('Failed to load 1Player2D.js:', err));
             break;
 
         case '/1player-3d':
             console.log("1 Player 3D game loaded");
-            // scripts pour 1Player3D.html
+            import('./Screens/1Player3D.js')
+            .then(module => {
+                module.initialize1Player3D();
+            })
+            .catch(err => console.error('Failed to load 1Player3D.js:', err));
             break;
 
         case '/2players-2d':
             console.log("2 Players 2D game loaded");
-            // scripts pour 2Players2D.html
+            import('./Screens/2Players2D.js')
+            .then(module => {
+                module.initialize2Players2D();
+            })
+            .catch(err => console.error('Failed to load 2Players2D.js:', err));
             break;
 
         case '/2players-3d':
             console.log("2 Players 3D game loaded");
-            // scripts pour 2Players3D.html
+            import('./Screens/2Players3D.js')
+            .then(module => {
+                module.initialize2Players3D();
+            })
+            .catch(err => console.error('Failed to load 2Players3D.js:', err));
             break;
 
         case '/multi-2d':

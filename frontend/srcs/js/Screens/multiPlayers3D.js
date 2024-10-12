@@ -15,7 +15,6 @@ menuItems.forEach((item, index) => {
         const mode = item.innerText.trim();  // "1 PLAYER", "2 PLAYERS", "MULTI PLAYERS"
         localStorage.setItem('gameMode', mode);
 
-        // Remplace l'utilisation de href par window.history.pushState()
         const targetPath = getTargetPath(mode); // Fonction qui retourne la route cible en fonction du mode
         window.history.pushState({}, "", targetPath);
 

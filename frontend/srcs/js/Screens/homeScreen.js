@@ -24,30 +24,52 @@ export function initializeHome() {
         updateSelection();
     }
 
+    function getTargetPath(mode) {
+        switch (mode) {
+            case '1 PLAYER 2D':
+                return '/1player-2d';
+            case '2 PLAYERS 2D':
+                return '/2players-2d';
+            case 'MULTI PLAYERS 2D':
+                return '/multi-2d';
+            case '1 PLAYER 3D':
+                return '/1player-3d';
+            case '2 PLAYERS 3D':
+                return '/2players-3d';
+            case 'MULTI PLAYERS 3D':
+                return '/multi-3d';
+            default:
+                return '/home';
+        }
+    }
+
     menuItems.forEach((item, index) => {
         item.addEventListener('mouseenter', function() {
             keyboardNavigationEnabled = false;
             currentIndex = index;
             updateSelection();
         });
-
+    
         item.addEventListener('mouseleave', function() {
             keyboardNavigationEnabled = true;
         });
-
+    
         item.addEventListener('click', function(event) {
             event.preventDefault();
-
+    
             const mode = item.innerText.trim();  // "1 PLAYER", "2 PLAYERS", "MULTI PLAYERS"
             localStorage.setItem('gameMode', mode);
-
-            window.location.href = item.getAttribute('href');
+    
+            const targetPath = getTargetPath(mode);
+            window.history.pushState({}, "", targetPath);
+    
+            handleLocation();
         });
     });
 
     document.addEventListener('keydown', function(event) {
         if (!keyboardNavigationEnabled) return;
-
+    
         if (event.key === 'ArrowDown' && currentIndex < menuItems.length - 1) {
             currentIndex++;
             updateSelection();
@@ -58,11 +80,16 @@ export function initializeHome() {
         }
         else if (event.key === 'Enter') {
             const selectedItem = menuItems[currentIndex];
-
+    
             const mode = selectedItem.innerText.trim();
             localStorage.setItem('gameMode', mode);
-
-            window.location.href = selectedItem.getAttribute('href');
+    
+            // Utilise également pushState pour la navigation par clavier
+            const targetPath = getTargetPath(mode);
+            window.history.pushState({}, "", targetPath);
+    
+            // Charge dynamiquement le contenu en fonction de l'URL
+            handleLocation();
         }
     });
 
