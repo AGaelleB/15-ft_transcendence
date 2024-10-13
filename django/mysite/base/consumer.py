@@ -1,5 +1,6 @@
 import json, re
 from channels.generic.websocket import WebsocketConsumer
+from .models import User
 
 '''
 Consumers are the websocket server side (client side ones are those declared in the js in the html served to user)
@@ -63,12 +64,13 @@ class UserCreationConsumer(WebsocketConsumer):
             print(form_data)
         else:
             self.send(text_data=json.dumps({'status': 'unrecognized action'}))
-
         
         # check form validity + stores a new user in the db
         # send a response back (note we can redefine the send function)
         if (check_user_form_validity(form_data) == "Succes" ):
             self.send(text_data=json.dumps({'status': 'Success, user created'}))
+            user = User(form_data['user_name'], form_data['first_name'], form_data['last_name'], form_data['email'])
+            user.save()
         else:
             reason = f"Failure: {check_user_form_validity(form_data)}"
             self.send(text_data=json.dumps({'status': reason}))

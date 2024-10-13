@@ -11,12 +11,16 @@ class User(models.Model):
     #friends         = models.ManyToManyField()
 
     # optional
-    birth_date      = models.DateTimeField()
-    last_login      = models.DateTimeField()
-    account_create  = models.DateTimeField()
+    #birth_date      = models.DateTimeField()
+    #last_login      = models.DateTimeField()
+    #account_create  = models.DateTimeField()
 
     def __str__(self):
         return self.username
+
+    def create(self, username, first_name, last_name, email):
+        self.create(username=username, first_name=first_name, last_name=last_name, email=email, is_2fa=False)
+		#self.save()
 
 
 class Tournament(models.Model):

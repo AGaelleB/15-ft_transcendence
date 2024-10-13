@@ -6,7 +6,9 @@ problem with User manaegement module with no Remote users:
 	--> what user to be shown when accessing user page ??
 	--> ask for authentification everytime we acces user page? (easiest for us)
 	--> each user must log in from a tab? see django.channel_layers and groups
-		--> best user experience
+		--> best user experience mais big pb for games
+	--> multiple users connected on same tab, with an active users
+		--> pb with JWT
 
 ========
 | USER |
