@@ -3,7 +3,8 @@
 import { saveGameSettings, loadSettingsOnPageLoad, initializeGameSettings } from './gameSettingsModal2D.js';
 import { loadSettingsOnPageLoad3D, initializeGameSettings3D, saveGameSettings3D } from './gameSettingsModal3D.js';
 import { initializeWinMsg } from './winMsgModal.js';
-import { resetGame } from './startGameModal.js';
+import { resetGame } from './startGameModal2D.js';
+import { resetGame3D } from './startGameModal3D.js';
 
 export function initializeButton2D() {
     loadSettingsOnPageLoad();  
@@ -18,5 +19,5 @@ export function initializeButton3D() {
     initializeGameSettings3D();
     saveGameSettings3D(); 
     initializeWinMsg();
-    resetGame();
+    resetGame3D();
 }

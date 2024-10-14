@@ -2,7 +2,7 @@
 
 import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { updateScore } from '../PongGame/Game2D/score2D.js';
-import { resetGame } from './startGameModal.js';
+import { resetGame } from './startGameModal2D.js';
 
 export let isSettingsOpen = false;
 let ballSizeValue = 3;

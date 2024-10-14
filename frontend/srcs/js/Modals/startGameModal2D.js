@@ -1,11 +1,11 @@
-// frontend/srcs/js/Modals/startGameModal.js
+// frontend/srcs/js/Modals/startGameModal2D.js
 
 import { getIsSettingsOpen } from './gameSettingsModal2D.js';
 import { setPlayer1Score, setPlayer2Score, updateScore } from '../PongGame/Game2D/score2D.js';
 
 let gameStarted = false;
 
-export function startGame(startGameMessage, settingsIcon, homeIcon) {
+function startGame(startGameMessage, settingsIcon, homeIcon) {
     startGameMessage.style.display = 'none';
     settingsIcon.classList.add('hidden');
     homeIcon.classList.add('hidden');

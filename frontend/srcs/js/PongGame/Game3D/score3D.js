@@ -8,15 +8,15 @@ export let player2Score = 0;
 
 export const setPlayer1Score = (value) => {
     player1Score = value;
-    updateScore();
+    updateScore3D();
 };
 
 export const setPlayer2Score = (value) => {
     player2Score = value;
-    updateScore();
+    updateScore3D();
 };
 
-export function updateScore() {
+export function updateScore3D() {
     const winningScore = gameSettings3D.winningScore;
     document.getElementById('player1Score').textContent = `${player1Score} / ${winningScore}`;
     document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;

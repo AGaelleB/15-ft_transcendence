@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player2D.js
 
-import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
+import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { updateAI } from '../PongGame/Game2D/computerAI2D.js';
