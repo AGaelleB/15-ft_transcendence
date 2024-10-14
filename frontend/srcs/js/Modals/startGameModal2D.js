@@ -7,6 +7,7 @@ let gameStarted = false;
 
 function startGame(startGameMessage, settingsIcon, homeIcon) {
     startGameMessage.style.display = 'none';
+    startGameMessage.classList.add('hidden');
     settingsIcon.classList.add('hidden');
     homeIcon.classList.add('hidden');
     gameStarted = true;
@@ -20,10 +21,13 @@ export function resetGame2D() {
 }
 
 export function initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon) {
-    document.addEventListener('keydown', (e) => {
-        if (!gameStarted && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter'))
+    function handleKeyPress(e) {
+        if (!gameStarted && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter')) {
             startGame(startGameMessage, settingsIcon, homeIcon);
-    });
+            document.removeEventListener('keypress', handleKeyPress);
+        }
+    }
+    document.addEventListener('keypress', handleKeyPress);
 }
 
 export function isGameStarted() {
