@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/2Players3D.js
 
-import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal2D.js';
+import { initializeGameStartListener3D, isGameStarted } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
@@ -23,7 +23,7 @@ export function initialize2Players3D() {
         handleLocation();
     });
 
-    initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
+    initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
 }
 
 resizeRenderer3D();

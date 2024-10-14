@@ -19,7 +19,7 @@ export function resetGame2D() {
     updateScore2D();
 }
 
-export function initializeGameStartListener(startGameMessage, settingsIcon, homeIcon) {
+export function initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon) {
     document.addEventListener('keydown', (e) => {
         if (!gameStarted && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter'))
             startGame(startGameMessage, settingsIcon, homeIcon);

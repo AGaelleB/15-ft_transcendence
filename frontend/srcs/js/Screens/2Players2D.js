@@ -1,13 +1,13 @@
 // frontend/srcs/js/Screens/2Players.js
 
-import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal2D.js';
+import { initializeGameStartListener2D, isGameStarted } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd, player1Score, player2Score } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
@@ -29,7 +29,7 @@ export function initialize2Players2D() {
     });
 
     initializeButton2D();
-    initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
+    initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
     
     let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
   
@@ -94,7 +94,7 @@ export function initialize2Players2D() {
     
     function update() {
         updateScore2D(); 
-        const gameEnded = checkGameEnd(player1Score, player2Score);
+        const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
         if (gameEnded) {
             hidePowerUp(powerUpImageElement);
             return;
@@ -118,10 +118,10 @@ export function initialize2Players2D() {
         }
 
         if (checkBallOutOfBounds(ball, canvas, 
-            () => setPlayer1Score2D(player1Score + 1), 
-            () => setPlayer2Score2D(player2Score + 1))) {
+            () => setPlayer1Score2D(player1Score2D + 1), 
+            () => setPlayer2Score2D(player2Score2D + 1))) {
                 resetRallyCount();
-                const gameEnded = checkGameEnd(player1Score, player2Score);
+                const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;

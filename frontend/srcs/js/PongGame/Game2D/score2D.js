@@ -3,23 +3,23 @@
 import { gameSettings2D } from '../gameSettings.js';
 import { showWinMessage } from '../../Modals/winMsgModal.js';
 
-export let player1Score = 0;
-export let player2Score = 0;
+export let player1Score2D = 0;
+export let player2Score2D = 0;
 
 export const setPlayer1Score2D = (value) => {
-    player1Score = value;
+    player1Score2D = value;
     updateScore2D();
 };
 
 export const setPlayer2Score2D = (value) => {
-    player2Score = value;
+    player2Score2D = value;
     updateScore2D();
 };
 
 export function updateScore2D() {
     const winningScore = gameSettings2D.winningScore;
-    document.getElementById('player1Score').textContent = `${player1Score} / ${winningScore}`;
-    document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;
+    document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
+    document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
 }
 
 export let gameOver = false;
@@ -28,16 +28,16 @@ export function isGameOver() {
     return gameOver;
 }
 
-export function checkGameEnd() {
+export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
     
-    if (player1Score >= winningScore) {
+    if (player1Score2D >= winningScore) {
         gameOver = true;
         showWinMessage(1);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
-    else if (player2Score >= winningScore) {
+    else if (player2Score2D >= winningScore) {
         gameOver = true;
         showWinMessage(2);
         document.getElementById('settingsIcon').classList.remove('hidden');
