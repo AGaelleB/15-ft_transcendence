@@ -14,15 +14,7 @@ import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEf
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 export function initialize1Player2D() {
-    let isGameActive2d = true;
-
-    function setIsGameActive2d(value) {
-        if (typeof value === 'boolean')
-            isGameActive2d = value;
-        else
-            console.warn("Invalid value. Please provide a boolean (true or false).");
-    }
-
+    
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const startGameMessage = document.getElementById('startGameMessage');
@@ -31,13 +23,22 @@ export function initialize1Player2D() {
     const powerUpImageElement = createPowerUpImageElement();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
-
+    
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
+    
+    let isGameActive2d = true;
 
+    function setIsGameActive2d(value) {
+        if (typeof value === 'boolean')
+            isGameActive2d = value;
+        else
+            console.warn("Invalid value. Please provide a boolean (true or false).");
+    }
+    
     initializeButton2D();
     initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
     

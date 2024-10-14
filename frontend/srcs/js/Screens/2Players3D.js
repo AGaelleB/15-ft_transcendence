@@ -67,7 +67,7 @@ function movePaddles2Players() {
 // Limites de mouvement de la balle
 const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
 
-export function moveBall() {
+function moveBall() {
     ball.position.x += gameSettings3D.ballSpeedX3D;
     ball.position.z += gameSettings3D.ballSpeedZ3D;
 

@@ -8,15 +8,6 @@ import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
 
-export let isGameActive = true;
-
-export function setIsGameActive(value) {
-    if (typeof value === 'boolean')
-        isGameActive = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
-}
-
 export function getLastTouchedPaddle() {
     return lastTouchedPaddle;
 }
@@ -126,8 +117,6 @@ export function checkBallOutOfBounds3D() {
     }
     updateScore3D();
     const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
-    if (gameEnded) {
-        setIsGameActive(false);
-        return;
-    }
+    if (gameEnded)
+        return false;
 }
