@@ -1,9 +1,9 @@
-// frontend/srcs/js/Screens/1Player3D.js
+// frontend/srcs/js/Screens/1Player3D.jsekir
 
-import { initializeGameStartListener3D, isGameStarted } from '../Modals/startGameModal3D.js';
+import { initializeGameStartListener3D, isGameStarted, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, resetPaddlePosition } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
@@ -20,6 +20,7 @@ export function initialize1Player3D() {
     loadLanguages(storedLang);
 
     homeIcon.addEventListener('click', (event) => {
+        setIsGameActive(false);
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
@@ -28,6 +29,7 @@ export function initialize1Player3D() {
     
     isGameActive3D = true;
     
+    resetGame3D();
     resizeRenderer3D();
     initializeButton3D();
     updateScore3D();
@@ -36,7 +38,7 @@ export function initialize1Player3D() {
         if (typeof value === 'boolean')
             isGameActive3D = value;
         else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
+            console.warn("Invalid value. Please provide a boolean (true or false).");
     }
     
     /* ************************** Mouvement du paddle ******************************* */
@@ -89,6 +91,8 @@ export function initialize1Player3D() {
             moveBall();
             updateAI3D(ball, paddleRight, ground);
         }
+        else if (!isGameActive3D)
+            return;
         renderer.render(scene, camera);
         requestAnimationFrame(animate1Players);
     }
