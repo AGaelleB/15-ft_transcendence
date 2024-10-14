@@ -24,23 +24,21 @@ export function initializeHome() {
         updateSelection();
     }
 
-    function getTargetPath(mode) {
-        switch (mode) {
-            case '1 PLAYER 2D':
-                return '/1player-2d';
-            case '2 PLAYERS 2D':
-                return '/2players-2d';
-            case 'MULTI PLAYERS 2D':
-                return '/multi-2d';
-            case '1 PLAYER 3D':
-                return '/1player-3d';
-            case '2 PLAYERS 3D':
-                return '/2players-3d';
-            case 'MULTI PLAYERS 3D':
-                return '/multi-3d';
-            default:
-                return '/home';
-        }
+    function getTargetPath(gameMode) {
+        if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
+            return '/1player-2d';
+        else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
+            return '/1player-3d';
+        else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
+            return '/2players-2d';
+        else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
+            return '/2players-3d';
+        else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
+            return '/multi-2d';
+        else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
+            return '/multi-3d';
+        else
+            console.error('Error: Mode de jeu non défini');
     }
 
     menuItems.forEach((item, index) => {
