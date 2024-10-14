@@ -134,7 +134,7 @@ const handleLocation = async () => {
     }
 };
 
-// Ecouteur d'événements pour détecter les changements de route
+// détecte les changements de route
 window.onpopstate = handleLocation;
 
 window.addEventListener('DOMContentLoaded', () => {
