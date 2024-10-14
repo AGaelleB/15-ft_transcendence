@@ -6,17 +6,17 @@ import { showWinMessage } from '../../Modals/winMsgModal.js';
 export let player1Score = 0;
 export let player2Score = 0;
 
-export const setPlayer1Score = (value) => {
+export const setPlayer1Score2D = (value) => {
     player1Score = value;
-    updateScore();
+    updateScore2D();
 };
 
-export const setPlayer2Score = (value) => {
+export const setPlayer2Score2D = (value) => {
     player2Score = value;
-    updateScore();
+    updateScore2D();
 };
 
-export function updateScore() {
+export function updateScore2D() {
     const winningScore = gameSettings2D.winningScore;
     document.getElementById('player1Score').textContent = `${player1Score} / ${winningScore}`;
     document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;

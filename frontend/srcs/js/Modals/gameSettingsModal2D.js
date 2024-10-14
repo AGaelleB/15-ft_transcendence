@@ -1,8 +1,8 @@
 // frontend/srcs/js/Modals/gameSettingsModal2D.js
 
 import { gameSettings2D } from '../PongGame/gameSettings.js';
-import { updateScore } from '../PongGame/Game2D/score2D.js';
-import { resetGame } from './startGameModal2D.js';
+import { updateScore2D } from '../PongGame/Game2D/score2D.js';
+import { resetGame2D } from './startGameModal2D.js';
 
 export let isSettingsOpen = false;
 let ballSizeValue = 3;
@@ -13,7 +13,7 @@ export function getIsSettingsOpen() {
     return isSettingsOpen;
 }
 
-export function saveGameSettings() {
+export function saveGameSettings2D() {
     localStorage.setItem('gameSettings2D', JSON.stringify(gameSettings2D));
 }
 
@@ -33,7 +33,7 @@ const defaultGameSettings = {
 
 function resetToDefaultSettings() {
     Object.assign(gameSettings2D, defaultGameSettings);
-    saveGameSettings();
+    saveGameSettings2D();
     loadGameSettings();
     updateSettingsModal2D();
 }
@@ -131,7 +131,7 @@ export function updateSettingsModal2D() {
 }
 
 
-export function initializeGameSettings() {
+export function initializeGameSettings2D() {
     const settingsIcon = document.getElementById('settingsIcon');
     const settingsModal = document.getElementById('settingsModal');
     const closeSettingsButton = document.getElementById('closeSettings');
@@ -148,7 +148,7 @@ export function initializeGameSettings() {
         else {
             document.querySelector('.settings-modal-container').classList.remove('active');
             settingsModal.style.display = 'none';
-            saveGameSettings();
+            saveGameSettings2D();
             loadGameSettings();
             window.location.reload();
             isSettingsOpen = false;
@@ -158,7 +158,7 @@ export function initializeGameSettings() {
     closeSettingsButton.addEventListener('click', () => {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
-        saveGameSettings();
+        saveGameSettings2D();
         loadGameSettings();
         window.location.reload();
         isSettingsOpen = false;
@@ -171,18 +171,18 @@ export function initializeGameSettings() {
         }
     });
 
-    updateScore();
+    updateScore2D();
 
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings();
-        updateScore();
+        updateScore2D();
     });
     
     document.getElementById('novice').addEventListener('change', function () {
         if (this.checked) {
             gameSettings2D.difficultyLevel = "novice"; 
             gameSettings2D.errorMargin = Math.random() * 200 - 100;
-            saveGameSettings();
+            saveGameSettings2D();
         }
     });
     
@@ -190,7 +190,7 @@ export function initializeGameSettings() {
         if (this.checked) {
             gameSettings2D.difficultyLevel = "intermediate"; 
             gameSettings2D.errorMargin = Math.random() * 150 - 75;
-            saveGameSettings();
+            saveGameSettings2D();
         }
     });
     
@@ -198,7 +198,7 @@ export function initializeGameSettings() {
         if (this.checked) {
             gameSettings2D.difficultyLevel = "expert"; 
             gameSettings2D.errorMargin = Math.random() * 50 - 25;
-            saveGameSettings();
+            saveGameSettings2D();
         }
     });    
 
@@ -207,59 +207,59 @@ export function initializeGameSettings() {
         gameSettings2D.ballSpeedX2D = ballSpeed / 4;
         gameSettings2D.ballSpeedY2D = ballSpeed / 4;
         updateSliderValuePositionSpeed('ballSpeed', 'ballSpeedValue', 1, 16);
-        saveGameSettings();
+        saveGameSettings2D();
     });
     
     document.getElementById('paddleSpeed').addEventListener('input', function (event) {
         const paddleSpeed = Number(event.target.value);
         gameSettings2D.paddleSpeedFactor = mapPaddleSpeed(paddleSpeed);
         updateSliderValuePosition('paddleSpeed', 'paddleSpeedValue', 1, 16);
-        saveGameSettings();
+        saveGameSettings2D();
     });
 
     document.getElementById('ballSize').addEventListener('input', function (event) {
         ballSizeValue = Number(event.target.value);
         gameSettings2D.ballSizeFactor2D = 0.015 * (ballSizeValue / 3); 
         updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
-        saveGameSettings();
+        saveGameSettings2D();
     });
     
     document.getElementById('paddleSize').addEventListener('input', function (event) {
         paddleSizeValue = Number(event.target.value);
         gameSettings2D.paddleHeight2D = 0.25 * (paddleSizeValue / 3); 
         updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
-        saveGameSettings();
+        saveGameSettings2D();
     });
     
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
         gameSettings2D.winningScore = pointsToWinValue;
         updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
-        updateScore();
-        saveGameSettings();
+        updateScore2D();
+        saveGameSettings2D();
     });
 
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
         gameSettings2D.resetPaddlePosition = event.target.checked;
-        saveGameSettings();
+        saveGameSettings2D();
     });
     
     document.getElementById('setPowerUps').addEventListener('change', function (event) {
         gameSettings2D.setPowerUps = event.target.checked;
-        saveGameSettings();
+        saveGameSettings2D();
     });
     
     document.getElementById('setRally').addEventListener('change', function (event) {
         gameSettings2D.setRally = event.target.checked;
-        saveGameSettings();
+        saveGameSettings2D();
     });
 
-    loadSettingsOnPageLoad();
+    loadSettingsOnPageLoad2D();
     console.log("Settings after load:", gameSettings2D);
-    resetGame();
+    resetGame2D();
 }
 
-export function loadSettingsOnPageLoad() {
+export function loadSettingsOnPageLoad2D() {
     loadGameSettings();
     updateSettingsModal2D();
 }

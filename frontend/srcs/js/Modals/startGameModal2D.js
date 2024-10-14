@@ -1,7 +1,7 @@
 // frontend/srcs/js/Modals/startGameModal2D.js
 
 import { getIsSettingsOpen } from './gameSettingsModal2D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
 
 let gameStarted = false;
 
@@ -12,11 +12,11 @@ function startGame(startGameMessage, settingsIcon, homeIcon) {
     gameStarted = true;
 }
 
-export function resetGame() {
+export function resetGame2D() {
     gameStarted = false; 
-    setPlayer1Score(0);
-    setPlayer2Score(0);
-    updateScore();
+    setPlayer1Score2D(0);
+    setPlayer2Score2D(0);
+    updateScore2D();
 }
 
 export function initializeGameStartListener(startGameMessage, settingsIcon, homeIcon) {

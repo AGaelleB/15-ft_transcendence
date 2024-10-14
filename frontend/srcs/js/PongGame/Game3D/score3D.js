@@ -6,12 +6,12 @@ import { showWinMessage } from '../../Modals/winMsgModal.js';
 export let player1Score = 0;
 export let player2Score = 0;
 
-export const setPlayer1Score = (value) => {
+export const setPlayer1Score3D = (value) => {
     player1Score = value;
     updateScore3D();
 };
 
-export const setPlayer2Score = (value) => {
+export const setPlayer2Score3D = (value) => {
     player2Score = value;
     updateScore3D();
 };

@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game3D/ballCollision3D.js
 
 import { startCountdown } from '../chrono.js';
-import { setPlayer1Score, setPlayer2Score, updateScore3D, checkGameEnd, player1Score, player2Score } from './score3D.js';
+import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D, checkGameEnd, player1Score, player2Score } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
 import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
 
@@ -111,14 +111,14 @@ function resetBall3D() {
 
 export function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
-        setPlayer1Score(player1Score + 1);
+        setPlayer1Score3D(player1Score + 1);
         resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
     if (ball.position.x <= -ballMovementLimitX) {
-        setPlayer2Score(player2Score + 1);
+        setPlayer2Score3D(player2Score + 1);
         resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();

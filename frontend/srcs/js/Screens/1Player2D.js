@@ -8,7 +8,7 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd, player1Score, player2Score } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
@@ -94,7 +94,7 @@ export function initialize1Player2D() {
     }
 
     function update() {
-        updateScore(); 
+        updateScore2D(); 
         const gameEnded = checkGameEnd(player1Score, player2Score);
         if (gameEnded) {
             hidePowerUp(powerUpImageElement);
@@ -119,8 +119,8 @@ export function initialize1Player2D() {
         }
 
         if (checkBallOutOfBounds(ball, canvas, 
-            () => setPlayer1Score(player1Score + 1), 
-            () => setPlayer2Score(player2Score + 1))) {
+            () => setPlayer1Score2D(player1Score + 1), 
+            () => setPlayer2Score2D(player2Score + 1))) {
                 resetRallyCount(); 
                 const gameEnded = checkGameEnd(player1Score, player2Score);
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
