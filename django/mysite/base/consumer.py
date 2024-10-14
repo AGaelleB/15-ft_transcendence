@@ -77,3 +77,50 @@ class UserCreationConsumer(WebsocketConsumer):
             
     def disconnect(self, close_code):
         pass
+
+
+class UserListingConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+        userlist = {}
+        users = User.objects.all()
+        for user in users:
+            userlist[str(user)] = f"Username:{str(user.username)}, email:{str(user.email)}, connected:{str(user.is_connected)}"
+            print(userlist[str(user)])
+
+        self.send(text_data=json.dumps({
+            'status': 'connection succes',
+            'user_list' : userlist
+        }))
+
+    def disconnect(self, close_code):
+        pass
+
+
+class UserInfoConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+    def disconnect(self, close_code):
+        pass
+
+
+
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        action = data.get('action')
+
+        if action == 'get_info':
+            print("get info")
+            self.send(text_data=json.dumps({'status': 'get_info sent'}))
+        elif action == 'change_info':
+            print("change_info")
+            self.send(text_data=json.dumps({'status': 'change_info sent'}))
+        elif action == 'delete_user':
+            print("delete_user")
+            self.send(text_data=json.dumps({'status': 'delete_user sent'}))
+        else:
+            print("unrecognized action")
+            self.send(text_data=json.dumps({'status': 'unrecognized action sent'}))
+

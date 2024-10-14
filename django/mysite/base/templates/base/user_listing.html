@@ -21,10 +21,40 @@
     </div>
 
 
-    <!-- ========== JavaScript ========== -->
-    <script type="module" src="{% static 'base/js/Screens/startScreen.js' %}" defer></script>
-
+    <div>
+        <p id="user_list"></p>
+    </div>
     
+
+    <!-- ========== JavaScript ========== -->
+     <script>
+
+        let socket = new WebSocket('ws://' + window.location.host + '/ws/user_listing/');
+        let display = document.getElementById('user_list');
+
+        socket.onmessage = function(e) {
+            let data = JSON.parse(e.data);
+            let user_list = data['user_list'];
+
+            display.innerHTML = '';
+
+            // Loop through the user_list object
+            for (let userKey in user_list) {
+                if (user_list.hasOwnProperty(userKey)) {
+                    let userData = user_list[userKey]; // e.g., 'Username:fgfdg, email:as@gmail.com, connected:False'
+                    
+                    // Create a new paragraph or div for each user
+                    let userElement = document.createElement('p');
+                    userElement.textContent = userData;
+                    
+                    // Append each user info to the user_list div
+                    display.appendChild(userElement);
+                }
+            }
+        };
+
+     </script>
+
 </body>
 
 </html>

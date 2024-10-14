@@ -7,6 +7,9 @@ def index(request):
 def user_form(request):
     return render(request, "base/user_form.html")
 
+def user_info(request):
+    return render(request, "base/user_info.html")
+
 ''' 
 second arg "path" needed because re_path (cf. urls.py) returns the match pattern (against the given regex)
 it permits to adapt the views code depending on the real pattern matched

@@ -1,0 +1,48 @@
+<!-- user_info.html -->
+
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ft_transcendence user info</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/ico" href="{% static 'base/images/icons/pongIcon.ico' %}">
+</head>
+
+<body>
+    <!-- ========== Welcome Text Section ========== -->
+    <div class="welcome-text">
+        <h1 data-lang-key="welcome_message">User Info Page</h1>
+    </div>
+
+
+    <div>
+        <p id="user_info"></p>
+    </div>
+    
+
+    <!-- ========== JavaScript ========== -->
+     <script>
+
+        let socket = new WebSocket('ws://' + window.location.host + '/ws/user_info/');
+        let display = document.getElementById('user_info');
+
+        socket.onopen = function(e) {socket.send(JSON.stringify({action: 'get_info'}));};
+
+        socket.onmessage = function(e) {
+            let data = JSON.parse(e.data);
+            let action = data['status'];
+
+            display.innerHTML = action;
+        };
+
+     </script>
+
+</body>
+
+</html>
