@@ -57,12 +57,26 @@ const handleLocation = async () => {
 
         case '/login':
             console.log("Login page loaded");
+            // Importer le module associé pour gérer la logique du formulaire login/signup
             import('./Screens/loginSignUp.js')
-            .then(module => {
-                module.initializeLogin();
-            })
-            .catch(err => console.error('Failed to load loginSignUp.js:', err));
+                .then(module => {
+                    module.initializeLogin();
+                    
+                    // Vérifier le hash dans l'URL pour déterminer quel formulaire afficher
+                    const hash = window.location.hash;
+                    if (hash === "#signup") {
+                        console.log("Switching to signup form");
+                        // Simuler un clic sur le bouton 'Signup' pour afficher le formulaire d'inscription
+                        document.querySelector("label.signup").click();
+                    } else {
+                        console.log("Displaying login form");
+                        // Simuler un clic sur le bouton 'Login' pour afficher le formulaire de connexion
+                        document.querySelector("label.login").click();
+                    }
+                })
+                .catch(err => console.error('Failed to load loginSignUp.js:', err));
             break;
+    
 
         case '/home':
             console.log("Home page loaded");

@@ -201,7 +201,7 @@ export function initialize2Players2D() {
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    function gameLoop() {
+    function gameLoop2Players2D() {
         if (isGameActive2d && isGameStarted()) {
             update();
             movePaddles();
@@ -210,8 +210,8 @@ export function initialize2Players2D() {
         else
             hidePowerUp(powerUpImageElement);
 
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(gameLoop2Players2D);
     }
-    gameLoop();
+    gameLoop2Players2D();
 
 }

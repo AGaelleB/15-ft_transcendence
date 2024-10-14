@@ -196,7 +196,7 @@ export function initialize1Player2D() {
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    function gameLoop() {
+    function gameLoop1Player2D() {
         if (isGameActive2d && isGameStarted()) {
             update();
             movePaddles();
@@ -205,7 +205,7 @@ export function initialize1Player2D() {
         else
             hidePowerUp(powerUpImageElement);
 
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(gameLoop1Player2D);
     }
-    gameLoop();
+    gameLoop1Player2D();
 }

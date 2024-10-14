@@ -1,51 +1,52 @@
 // frontend/srcs/js/PongGame/Game3D/draw3D.js
 
-import { gameSettings3D } from '../gameSettings.js';
-import { loadGameSettingsFromStorage } from '../../Modals/gameSettingsModal3D.js';
+import { gameSettings3D } from '../gameSettings.js'
+import { loadGameSettingsFromStorage } from '../../Modals/gameSettingsModal3D.js'
 
-export let scene, ground, ball, paddleLeft, paddleRight, groundGeometry;
+export const scene = new THREE.Scene();
+
+/* *************************** draw game elements ************************ */
+
+//  sol
+export const groundGeometry = new THREE.PlaneGeometry(60, 20);
+const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x302a66 });
+export const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = -1;
+scene.add(ground);
+
+// Éclairage
+const light = new THREE.DirectionalLight(0xffcc00, 1);
+light.position.set(5, 10, 5);
+scene.add(light);
+
+loadGameSettingsFromStorage();
+
+// Création de la balle
+export const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);
+const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+export const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+ball.position.set(0, 0, 0);
+scene.add(ball);
+
+// Création des raquettes
+export const paddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth3D, gameSettings3D.paddleHeight3D, gameSettings3D.paddleDepth3D);
+const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+
+export const paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
+paddleLeft.position.set(-28, 0, 0);
+scene.add(paddleLeft);
+
+export const paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
+paddleRight.position.set(28, 0, 0);
+scene.add(paddleRight);
+
+export function resetPaddlePosition() {
+    paddleLeft.position.set(-28, 0, 0);
+    paddleRight.position.set(28, 0, 0);
+}
 
 export function draw3D() {
-    // Initialiser la scène
-    scene = new THREE.Scene();
-
-    /* *************************** draw game elements ************************ */
-
-    // Sol
-    groundGeometry = new THREE.PlaneGeometry(60, 20);
-    const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x302a66 });
-    ground = new THREE.Mesh(groundGeometry, groundMaterial);
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -1;
-    scene.add(ground);
-
-    // Éclairage
-    const light = new THREE.DirectionalLight(0xffcc00, 1);
-    light.position.set(5, 10, 5);
-    scene.add(light);
-
-    // Charger les paramètres du jeu
-    loadGameSettingsFromStorage();
-
-    // Création de la balle
-    const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);
-    const ballMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-    ball = new THREE.Mesh(ballGeometry, ballMaterial);
-    ball.position.set(0, 0, 0);
-    scene.add(ball);
-
-    // Création des raquettes
-    const paddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth3D, gameSettings3D.paddleHeight3D, gameSettings3D.paddleDepth3D);
-    const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
-
-    paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
-    paddleLeft.position.set(-28, 0, 0);
-    scene.add(paddleLeft);
-
-    paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
-    paddleRight.position.set(28, 0, 0);
-    scene.add(paddleRight);
-
     /* *************************** Bordures du jeu ******************************** */
 
     // Créer les bordures autour du terrain de jeu
@@ -95,10 +96,4 @@ export function draw3D() {
         segment.position.set(0, -0.99, z + lineLength / 2);
         scene.add(segment);
     }
-}
-
-// Fonction pour réinitialiser les positions des raquettes
-export function resetPaddlePosition() {
-    paddleLeft.position.set(-28, 0, 0);
-    paddleRight.position.set(28, 0, 0);
 }

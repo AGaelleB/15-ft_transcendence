@@ -24,16 +24,19 @@ function applyLanguages(languages) {
 
 const translations = {
   en: {
-    emailPlaceholder: "Email Address",
+    userPlaceholder: "Username",
+    emailPlaceholder: "Email address",
     passwordPlaceholder: "Password",
     confirmPasswordPlaceholder: "Confirm password"
   },
   fr: {
+    userPlaceholder: "Nom d'utilisateur",
     emailPlaceholder: "Adresse e-mail",
     passwordPlaceholder: "Mot de passe",
     confirmPasswordPlaceholder: "Confirmez le mot de passe"
   },
   es: {
+    userPlaceholder: "Nombre de usuario",
     emailPlaceholder: "Correo electrónico",
     passwordPlaceholder: "Contraseña",
     confirmPasswordPlaceholder: "Confirmar contraseña"
@@ -41,17 +44,25 @@ const translations = {
 };
 
 export function updatePlaceholders(selectedLang) {
-  document.querySelectorAll('input[type="text"]').forEach(input => {
+  // Mettre à jour le placeholder pour le champ Username
+  document.querySelectorAll('.username-input').forEach(input => {
+    input.placeholder = translations[selectedLang].userPlaceholder;
+  });
+
+  // Mettre à jour le placeholder pour le champ Email
+  document.querySelectorAll('.email-input').forEach(input => {
     input.placeholder = translations[selectedLang].emailPlaceholder;
   });
 
+  // Mettre à jour les placeholders pour les champs Password et Confirm Password
   document.querySelectorAll('input[type="password"]').forEach((input, index) => {
-    if (index === 0)
+    if (index === 0) {
       input.placeholder = translations[selectedLang].passwordPlaceholder;
-    if (index === 1)
-        input.placeholder = translations[selectedLang].passwordPlaceholder;
-    if (index === 2)
+    } else if (index === 1) {
+      input.placeholder = translations[selectedLang].passwordPlaceholder;
+    } else if (index === 2) {
       input.placeholder = translations[selectedLang].confirmPasswordPlaceholder;
+    }
   });
 }
 

@@ -14,7 +14,7 @@
 }
 
 .wrapper .title {
-	margin-top: 5vh;
+	margin-top: 4vh;
 	width: 50%;
 	font-size: calc(4vw + 4vh);
 	font-weight: 900;
@@ -170,51 +170,14 @@ form .btn input[type="submit"] {
 }
 
 /* ========== Button Container for Login/Signup ========== */
-  .button-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	margin-top: 0;
-}
 
-.option-button {
-	position: relative;
-	background: none;
-	border: none;
-	color: #a16935;
-	font-size: calc(2vw + 2vh);
-	margin: 0 calc(2vw);
-	cursor: pointer;
-	padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh);
-	outline: none;
-	transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.option-button:hover,
-.option-button:focus {
-	color: #ffcc00;
-	transform: scale(1.05);
-}
-
-.option-button::before {
-	content: '';
-	position: absolute;
-	left: calc(-0.4vw + -0.4vh);;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 0;
-	height: 0;
-	border-top: calc(0.5vw + 0.5vh) solid transparent;
-	border-bottom: calc(0.5vw + 0.5vh) solid transparent;
-	border-left: calc(0.5vw + 0.5vh) solid #ffcc00;
-	opacity: 0;
-	transition: opacity 0.3s ease;
-}
-
-.option-button:hover::before,
-.option-button:focus::before {
-	opacity: 1;
+.button-container-l-sg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 0; /* Supprimer la marge supérieure */
+    margin-bottom: 1vh; /* Réduire la marge en bas */
 }
 
 /* ========== Link Styling ========== */
@@ -231,7 +194,7 @@ form .btn input[type="submit"] {
 
 .signup-link-bottom {
 	text-align: center;
-	margin-top: calc(2vh);
+	margin-top: calc(1vh);
 	font-size: calc(1.5vw + 1.5vh);
 	font-family: 'Jersey', sans-serif;
 	color: #625f8a;
@@ -240,6 +203,7 @@ form .btn input[type="submit"] {
 /* ========== Password Field and Toggle Icon ========== */
 .password-field {
 	position: relative;
+	margin-bottom: 1vh; /* Réduire la marge pour rapprocher le bouton */
 }
 
 .password-field input {

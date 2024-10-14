@@ -6,7 +6,7 @@ import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRen
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { isGameActive } from '../PongGame/Game3D/ballCollision3D.js';
+import { isGameActive3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
@@ -81,13 +81,13 @@ function moveBall() {
 
 /* ********************************************************************************* */
 
-function animate2Players() {
+function gameLoop2Players3D() {
     if (isGameActive && isGameStarted()) {
         movePaddles2Players();
         moveBall();
     }
     renderer.render(scene, camera);
-    requestAnimationFrame(animate2Players);
+    requestAnimationFrame(gameLoop2Players3D);
 }
 
-animate2Players();
+gameLoop2Players3D();

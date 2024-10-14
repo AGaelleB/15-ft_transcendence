@@ -53,7 +53,7 @@ export function initialize1Player3D() {
 
     // limites du mouvement des paddles
     const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
-    
+     
     function movePaddles1Player() {
         if (keys['ArrowUp']) {
             if (paddleLeft.position.z > -paddleMovementLimit)
@@ -87,7 +87,7 @@ export function initialize1Player3D() {
     
     /* ********************************************************************************* */
     
-    function animate1Players() {
+    function gameLoop1Player3D() {
         console.log("isGameActive3D: ", isGameActive3D);
         if (isGameActive3D && isGameStarted()) {
             movePaddles1Player();
@@ -97,7 +97,7 @@ export function initialize1Player3D() {
         else if (!isGameActive3D)
             return;
         renderer.render(scene, camera);
-        requestAnimationFrame(animate1Players);
+        requestAnimationFrame(gameLoop1Player3D);
     }
-    animate1Players();
+    gameLoop1Player3D();
 }

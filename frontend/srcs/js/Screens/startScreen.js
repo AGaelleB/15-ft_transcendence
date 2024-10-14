@@ -3,20 +3,23 @@
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export function initializeStartScreen() {
+// frontend/srcs/js/Screens/startScreen.js
+
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
     loginButton.addEventListener("click", function(event) {
         event.preventDefault();
-        window.history.pushState({}, "", "/login");
+        window.history.pushState({}, "", "/login#login");
         route(event);
     });
-    
+
     signupButton.addEventListener("click", function(event) {
         event.preventDefault();
-        window.history.pushState({}, "", "/login");
+        window.history.pushState({}, "", "/login#signup");
         route(event);
     });
+
 
     let keyboardNavigationEnabled = true;
 
