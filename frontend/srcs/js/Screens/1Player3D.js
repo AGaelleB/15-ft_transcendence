@@ -75,7 +75,7 @@ export function initialize1Player3D() {
         if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
             gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
     
-        if (checkBallOutOfBounds3D())
+        if (checkBallOutOfBounds3D() === false)
             setIsGameActive(false);
         checkPaddleCollision3D(ball, paddleLeft, paddleRight);
     }
@@ -83,6 +83,7 @@ export function initialize1Player3D() {
     /* ********************************************************************************* */
     
     function animate1Players() {
+        console.log("isGameActive3D: ", isGameActive3D);
         if (isGameActive3D && isGameStarted()) {
             movePaddles1Player();
             moveBall();

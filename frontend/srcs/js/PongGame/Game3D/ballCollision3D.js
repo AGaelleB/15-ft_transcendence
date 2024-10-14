@@ -117,6 +117,6 @@ export function checkBallOutOfBounds3D() {
     }
     updateScore3D();
     const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
-    if (gameEnded)
+    if (gameEnded === true)
         return false;
 }
