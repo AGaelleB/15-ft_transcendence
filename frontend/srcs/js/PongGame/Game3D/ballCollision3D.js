@@ -1,21 +1,12 @@
 // frontend/srcs/js/PongGame/Game3D/ballCollision3D.js
 
 import { startCountdown } from '../chrono.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from './score3D.js';
+import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D, checkGameEnd3D, player1Score3D, player2Score3D } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
 import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
 
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
-
-export let isGameActive = true;
-
-export function setIsGameActive(value) {
-    if (typeof value === 'boolean')
-        isGameActive = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
-}
 
 export function getLastTouchedPaddle() {
     return lastTouchedPaddle;
@@ -96,7 +87,7 @@ function resetBall3D() {
     // hidePowerUp(powerUpImageElement);
     // resetPowerUpTimer();
 
-    if (!checkGameEnd(player1Score, player2Score)) {
+    if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
         startCountdown(() => {
             let direction;
             if (Math.random() < 0.5)
@@ -111,23 +102,21 @@ function resetBall3D() {
 
 export function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
-        setPlayer1Score(player1Score + 1);
+        setPlayer1Score3D(player1Score3D + 1);
         resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
     if (ball.position.x <= -ballMovementLimitX) {
-        setPlayer2Score(player2Score + 1);
+        setPlayer2Score3D(player2Score3D + 1);
         resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
-    updateScore();
-    const gameEnded = checkGameEnd(player1Score, player2Score);
-    if (gameEnded) {
-        setIsGameActive(false);
-        return;
-    }
+    updateScore3D();
+    const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
+    if (gameEnded === true)
+        return false;
 }

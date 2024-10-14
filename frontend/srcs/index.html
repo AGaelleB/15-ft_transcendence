@@ -1,63 +1,42 @@
-<!-- frontend/srcs/index.html -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ft_transcendence</title>
+        
+        <!-- user's visible area of a web page -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!doctype html>
-<html lang="en">
+        <!-- Favicon -->
+        <link rel="icon" type="image/ico" href="../srcs/images/icons/pongIcon.ico">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ft_transcendence</title>
+        <!-- CSS Dependencies -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        
+        <link href="./css/index.css" rel="stylesheet">
+        <link href="./css/gameScreen.css" rel="stylesheet">
+        <link href="./css/gameSettingsModal.css" rel="stylesheet">
+        <link href="./css/homeScreen.css" rel="stylesheet">
+        <link href="./css/loginSignUp.css" rel="stylesheet">
+        <link href="./css/logoutMsgModal.css" rel="stylesheet">
+        <link href="./css/startGameModal.css" rel="stylesheet">
+        <link href="./css/startScreen.css" rel="stylesheet">
+        <link href="./css/userDashboard.css" rel="stylesheet">
+        <link href="./css/winMsgModal.css" rel="stylesheet">
+    
+    </head>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/ico" href="../srcs/images/icons/pongIcon.ico">
+    <body>
 
-    <!-- CSS Dependencies -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="./css/startScreen.css" rel="stylesheet">
-</head>
+        <div id="app"></div>
+        <!-- Bootstrap JavaScript Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<body>
-    <!-- ========== Welcome Text Section ========== -->
-    <div class="welcome-text">
-        <h1 data-lang-key="welcome_message">Welcome to our game!</h1>
-    </div>
-
-    <!-- ========== GIF Section ========== -->
-    <div class="gif-container">
-        <img src="../srcs/images/gif/pongGame.gif" alt="Pong Game Animation" class="pong-gif">
-    </div>
-
-    <!-- ========== Buttons for Login and Signup ========== -->
-    <div class="button-container">
-        <button data-lang-key="login" class="option-button" id="login-button" tabindex="0">Login</button>
-        <button data-lang-key="signup" class="option-button" id="signup-button" tabindex="0">Sign Up</button>
-    </div>
-
-    <!-- ========== Language Selection Menu ========== -->
-    <div class="language-menu" id="lang-switcher">
-        <!-- Default Language Button (English) -->
-        <button id="language-button" type="button" data-lang="en">
-            <img src="./images/icons/usa.jpg" alt="English" class="flag-icon">
-        </button>
-
-        <!-- Dropdown Menu for Other Languages -->
-        <ul id="language-dropdown" class="dropdown-menu">
-            <li>
-                <a href="#" data-lang="fr" class="dropdown-item">
-                    <img src="./images/icons/franc.png" alt="Français" class="flag-icon">
-                </a>
-            </li>
-            <li>
-                <a href="#" data-lang="es" class="dropdown-item">
-                    <img src="./images/icons/spain.png" alt="Español" class="flag-icon">
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- ========== JavaScript Dependencies ========== -->
-    <script type="module" src="./js/Screens/startScreen.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
+        <!-- Three.js Library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        
+        <!-- ========== JavaScript Dependencies ========== -->
+        <script src="js/main.js"></script>
+    </body>
 
 </html>

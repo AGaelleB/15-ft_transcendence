@@ -46,52 +46,54 @@ export function resetPaddlePosition() {
     paddleRight.position.set(28, 0, 0);
 }
 
-/* *************************** Bordures du jeu ******************************** */
+export function draw3D() {
+    /* *************************** Bordures du jeu ******************************** */
 
-// Créer les bordures autour du terrain de jeu
-const borderThickness = 0.5;
-const borderHeight = paddleGeometry.parameters.height;
+    // Créer les bordures autour du terrain de jeu
+    const borderThickness = 0.5;
+    const borderHeight = paddleGeometry.parameters.height;
 
-// Bordure supérieure
-const topBorderGeometry = new THREE.BoxGeometry(58.5, borderHeight, borderThickness);
-const topBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
-const topBorder = new THREE.Mesh(topBorderGeometry, topBorderMaterial);
-topBorder.position.set(0, 0, -10);
-scene.add(topBorder);
+    // Bordure supérieure
+    const topBorderGeometry = new THREE.BoxGeometry(58.5, borderHeight, borderThickness);
+    const topBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
+    const topBorder = new THREE.Mesh(topBorderGeometry, topBorderMaterial);
+    topBorder.position.set(0, 0, -10);
+    scene.add(topBorder);
 
-// Bordure inférieure
-const bottomBorderGeometry = new THREE.BoxGeometry(58.5, borderHeight, borderThickness);
-const bottomBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
-const bottomBorder = new THREE.Mesh(bottomBorderGeometry, bottomBorderMaterial);
-bottomBorder.position.set(0, 0, 10);
-scene.add(bottomBorder);
+    // Bordure inférieure
+    const bottomBorderGeometry = new THREE.BoxGeometry(58.5, borderHeight, borderThickness);
+    const bottomBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
+    const bottomBorder = new THREE.Mesh(bottomBorderGeometry, bottomBorderMaterial);
+    bottomBorder.position.set(0, 0, 10);
+    scene.add(bottomBorder);
 
-// Bordure gauche
-const leftBorderGeometry = new THREE.BoxGeometry(borderThickness, borderHeight, 20);
-const leftBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
-const leftBorder = new THREE.Mesh(leftBorderGeometry, leftBorderMaterial);
-leftBorder.position.set(-29, 0, 0);
-scene.add(leftBorder);
+    // Bordure gauche
+    const leftBorderGeometry = new THREE.BoxGeometry(borderThickness, borderHeight, 20);
+    const leftBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
+    const leftBorder = new THREE.Mesh(leftBorderGeometry, leftBorderMaterial);
+    leftBorder.position.set(-29, 0, 0);
+    scene.add(leftBorder);
 
-// Bordure droite
-const rightBorderGeometry = new THREE.BoxGeometry(borderThickness, borderHeight, 20);
-const rightBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
-const rightBorder = new THREE.Mesh(rightBorderGeometry, rightBorderMaterial);
-rightBorder.position.set(29, 0, 0);
-scene.add(rightBorder);
+    // Bordure droite
+    const rightBorderGeometry = new THREE.BoxGeometry(borderThickness, borderHeight, 20);
+    const rightBorderMaterial = new THREE.MeshBasicMaterial({ color: 0xa16935 });
+    const rightBorder = new THREE.Mesh(rightBorderGeometry, rightBorderMaterial);
+    rightBorder.position.set(29, 0, 0);
+    scene.add(rightBorder);
 
-/* *************************** Ligne pointillée ******************************** */
+    /* *************************** Ligne pointillée ******************************** */
 
-const lineLength = 1;
-const gapLength = 1;
-const totalHeight = ground.geometry.parameters.height;
-const lineWidth = 1;
+    const lineLength = 1;
+    const gapLength = 1;
+    const totalHeight = ground.geometry.parameters.height;
+    const lineWidth = 1;
 
-const lineMaterial = new THREE.MeshBasicMaterial({ color: '#a16935' });
+    const lineMaterial = new THREE.MeshBasicMaterial({ color: '#a16935' });
 
-for (let z = -totalHeight / 2; z < totalHeight / 2; z += lineLength + gapLength) {
-    const segmentGeometry = new THREE.BoxGeometry(lineWidth, 0.01, lineLength);
-    const segment = new THREE.Mesh(segmentGeometry, lineMaterial);
-    segment.position.set(0, -0.99, z + lineLength / 2);
-    scene.add(segment);
+    for (let z = -totalHeight / 2; z < totalHeight / 2; z += lineLength + gapLength) {
+        const segmentGeometry = new THREE.BoxGeometry(lineWidth, 0.01, lineLength);
+        const segment = new THREE.Mesh(segmentGeometry, lineMaterial);
+        segment.position.set(0, -0.99, z + lineLength / 2);
+        scene.add(segment);
+    }
 }

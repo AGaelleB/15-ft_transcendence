@@ -1,8 +1,8 @@
 // frontend/srcs/js/Modals/gameSettingsModal3D.js
 
 import { gameSettings3D } from '../PongGame/gameSettings.js';
-import { updateScore } from '../PongGame/Game3D/score3D.js';
-import { resetGame } from './startGameModal.js';
+import { updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { resetGame3D } from './startGameModal3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 
 export let isSettingsOpen = false;
@@ -140,12 +140,12 @@ export function initializeGameSettings3D() {
         isSettingsOpen = false;
     });
 
-    updateScore();
+    updateScore3D();
 
     
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings3D();
-        updateScore();
+        updateScore3D();
     });
     
     document.getElementById('novice').addEventListener('change', function () {
@@ -292,13 +292,13 @@ export function initializeGameSettings3D() {
     });
 
     loadSettingsOnPageLoad3D();
-    resetGame();
+    resetGame3D();
 
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
         gameSettings3D.winningScore = pointsToWinValue;
         updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
-        updateScore();
+        updateScore3D();
         saveGameSettings3D();
     });
 
@@ -308,7 +308,7 @@ export function initializeGameSettings3D() {
     });
 
     loadSettingsOnPageLoad3D();
-    resetGame();
+    resetGame3D();
 }
 
 export function loadSettingsOnPageLoad3D() {

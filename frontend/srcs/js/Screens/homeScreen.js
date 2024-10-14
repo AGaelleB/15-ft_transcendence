@@ -2,7 +2,7 @@
 
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
-document.addEventListener("DOMContentLoaded", function() {
+export function initializeHome() {
     const menuItems = document.querySelectorAll('.menu-item a');
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
@@ -24,30 +24,50 @@ document.addEventListener("DOMContentLoaded", function() {
         updateSelection();
     }
 
+    function getTargetPath(gameMode) {
+        if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
+            return '/1player-2d';
+        else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
+            return '/1player-3d';
+        else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
+            return '/2players-2d';
+        else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
+            return '/2players-3d';
+        else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
+            return '/multi-2d';
+        else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
+            return '/multi-3d';
+        else
+            console.error('Error: Mode de jeu non défini');
+    }
+
     menuItems.forEach((item, index) => {
         item.addEventListener('mouseenter', function() {
             keyboardNavigationEnabled = false;
             currentIndex = index;
             updateSelection();
         });
-
+    
         item.addEventListener('mouseleave', function() {
             keyboardNavigationEnabled = true;
         });
-
+    
         item.addEventListener('click', function(event) {
             event.preventDefault();
-
+    
             const mode = item.innerText.trim();  // "1 PLAYER", "2 PLAYERS", "MULTI PLAYERS"
             localStorage.setItem('gameMode', mode);
-
-            window.location.href = item.getAttribute('href');
+    
+            const targetPath = getTargetPath(mode);
+            window.history.pushState({}, "", targetPath);
+    
+            handleLocation();
         });
     });
 
     document.addEventListener('keydown', function(event) {
         if (!keyboardNavigationEnabled) return;
-
+    
         if (event.key === 'ArrowDown' && currentIndex < menuItems.length - 1) {
             currentIndex++;
             updateSelection();
@@ -58,11 +78,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         else if (event.key === 'Enter') {
             const selectedItem = menuItems[currentIndex];
-
+    
             const mode = selectedItem.innerText.trim();
             localStorage.setItem('gameMode', mode);
-
-            window.location.href = selectedItem.getAttribute('href');
+    
+            // Utilise également pushState pour la navigation par clavier
+            const targetPath = getTargetPath(mode);
+            window.history.pushState({}, "", targetPath);
+    
+            // Charge dynamiquement le contenu en fonction de l'URL
+            handleLocation();
         }
     });
 
@@ -109,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const logoutModal = document.getElementById('logout-modal');
     const confirmLogoutButton = document.getElementById('confirm-logout');
     const cancelLogoutButton = document.getElementById('cancel-logout');
+    const profileLink = document.querySelector('.profile-link');
 
     function openModal() {
         overlay.style.display = 'block';
@@ -125,13 +151,21 @@ document.addEventListener("DOMContentLoaded", function() {
         openModal();
     });
 
-    confirmLogoutButton.addEventListener('click', function() {
+    confirmLogoutButton.addEventListener('click', function(event) {
+        event.preventDefault();
         closeModal();
-        window.location.href = "../index.html";
+        window.history.pushState({}, "", "/start");
+        handleLocation();
+    });
+
+    profileLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        window.history.pushState({}, "", "/profil");
+        handleLocation();
     });
 
     cancelLogoutButton.addEventListener('click', closeModal);
     overlay.addEventListener('click', closeModal);
 
     updateSelection();
-});
+}

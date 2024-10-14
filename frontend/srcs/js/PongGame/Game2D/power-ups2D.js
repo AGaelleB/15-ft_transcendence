@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/Game2D/power-ups2D.js
 
-import { isGameStarted } from '../../Modals/startGameModal.js';
+import { isGameStarted } from '../../Modals/startGameModal2D.js';
 import { gameSettings2D } from '../gameSettings.js';
 import { getLastTouchedPaddle } from './ballCollision2D.js';
 
@@ -10,10 +10,10 @@ let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai po
 let powerUpTimeoutId;
 
 export const powerUpsImages = [
-    '../images/power-ups/sizeUpPaddle.png',
-    '../images/power-ups/sizeDownPaddle.png',
-    '../images/power-ups/speedPaddle.png',
-    '../images/power-ups/slowPaddle.png'
+    'frontend/srcs/images/power-ups/sizeUpPaddle.png',
+    'frontend/srcs/images/power-ups/sizeDownPaddle.png',
+    'frontend/srcs/images/power-ups/speedPaddle.png',
+    'frontend/srcs/images/power-ups/slowPaddle.png'
 ];
 
 export function resetPowerUpTimer() {

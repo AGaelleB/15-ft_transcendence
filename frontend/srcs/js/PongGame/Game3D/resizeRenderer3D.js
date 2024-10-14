@@ -10,7 +10,15 @@ document.body.appendChild(renderer.domElement);
 
 // Ajuster la taille du renderer
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('pongCanvas').appendChild(renderer.domElement);
+// document.getElementById('pongCanvas').appendChild(renderer.domElement);
+const pongCanvas = document.getElementById('pongCanvas');
+if (pongCanvas) {
+    pongCanvas.appendChild(renderer.domElement);
+} else {
+    console.error("L'élément 'pongCanvas' est introuvable.");
+}
+
+
 
 // Position de la caméra angle de jeu
 camera.position.set(0, 20, 25);

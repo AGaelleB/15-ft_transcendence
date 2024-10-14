@@ -1,77 +1,68 @@
 // frontend/srcs/js/Modals/switchLanguages.js
 
 export async function loadLanguages(lang) {
-    let response;
-
-    try {
-        response = await fetch(`./languages/${lang}.json`);
-        if (!response.ok) 
-            throw new Error(`404 Not Found at ./languages/${lang}.json`);
-    }
-    catch (error) {
-        console.warn(`First path failed: ./languages/${lang}.json. Trying alternative path...`);
-        try {
-            response = await fetch(`../languages/${lang}.json`);
-            if (!response.ok) 
-                throw new Error(`404 Not Found at ../languages/${lang}.json`);
-        }
-        catch (error) {
-            console.error(`Error loading language ${lang}:`, error);
-            return;
-        }
-    }
-
-    try {
-        // const response = await fetch(`../languages/${lang}.json`);
-
-        const languages = await response.json();
-        applyLanguages(languages);
-    }
-    catch (error) {
-        console.error(`Error parsing language file ${lang}:`, error);
-    }
+  try {
+      const response = await fetch(`/frontend/srcs/languages/${lang}.json`);
+      if (!response.ok) {
+          throw new Error(`Language file ${lang} not found (HTTP ${response.status})`);
+      }
+      const languages = await response.json();
+      applyLanguages(languages);
+  }
+  catch (error) {
+      console.error(`Error loading language file ${lang}:`, error);
+  }
 }
+
  
 function applyLanguages(languages) {
-    // Parcourt tous les éléments ayant l'attribut data-lang-key
     document.querySelectorAll("[data-lang-key]").forEach(element => {
       const key = element.getAttribute("data-lang-key");
       element.textContent = languages[key] || key;
     });
 }
 
-// Objet de traduction pour les placeholders
 const translations = {
   en: {
-    emailPlaceholder: "Email Address",
+    userPlaceholder: "Username",
+    emailPlaceholder: "Email address",
     passwordPlaceholder: "Password",
     confirmPasswordPlaceholder: "Confirm password"
   },
   fr: {
+    userPlaceholder: "Nom d'utilisateur",
     emailPlaceholder: "Adresse e-mail",
     passwordPlaceholder: "Mot de passe",
     confirmPasswordPlaceholder: "Confirmez le mot de passe"
   },
   es: {
+    userPlaceholder: "Nombre de usuario",
     emailPlaceholder: "Correo electrónico",
     passwordPlaceholder: "Contraseña",
     confirmPasswordPlaceholder: "Confirmar contraseña"
   }
 };
 
-// placeholders en fonction de la langue
 export function updatePlaceholders(selectedLang) {
-  document.querySelectorAll('input[type="text"]').forEach(input => {
+  // Mettre à jour le placeholder pour le champ Username
+  document.querySelectorAll('.username-input').forEach(input => {
+    input.placeholder = translations[selectedLang].userPlaceholder;
+  });
+
+  // Mettre à jour le placeholder pour le champ Email
+  document.querySelectorAll('.email-input').forEach(input => {
     input.placeholder = translations[selectedLang].emailPlaceholder;
   });
 
+  // Mettre à jour les placeholders pour les champs Password et Confirm Password
   document.querySelectorAll('input[type="password"]').forEach((input, index) => {
-    if (index === 0)
+    if (index === 0) {
       input.placeholder = translations[selectedLang].passwordPlaceholder;
-    if (index === 1)
-        input.placeholder = translations[selectedLang].passwordPlaceholder;
-    if (index === 2)
+    } else if (index === 1) {
+      input.placeholder = translations[selectedLang].passwordPlaceholder;
+    } else if (index === 2) {
       input.placeholder = translations[selectedLang].confirmPasswordPlaceholder;
+    }
   });
 }
 

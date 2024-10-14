@@ -1,15 +1,5 @@
 /* frontend/srcs/css/gameSettingsModal.css */
 
-/* ========== Font and Selection Styles ========== */
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
-
-body {
-	user-select: none;
-}
-
 /* ========== Modal Container ========== */
   .settings-modal-container {
 	display: flex;
@@ -298,3 +288,4 @@ input[type="checkbox"]:checked::after {
 .reset-button:active {
 	color: #ffff00;
 }
+

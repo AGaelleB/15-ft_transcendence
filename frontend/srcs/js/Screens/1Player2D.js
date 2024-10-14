@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player2D.js
 
-import { initializeGameStartListener, isGameStarted } from '../Modals/startGameModal.js';
+import { initializeGameStartListener2D, isGameStarted } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { updateAI } from '../PongGame/Game2D/computerAI2D.js';
@@ -8,12 +8,13 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle, handleWallCollision, checkBallOutOfBounds, checkPaddleCollision } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score, setPlayer2Score, updateScore, checkGameEnd, player1Score, player2Score } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement, generatePowerUp, hidePowerUp, resetPowerUpTimer, applyPowerUpEffect, checkPowerUpCollision, resetPowerUpEffects} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount, resetRallyCount } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+export function initialize1Player2D() {
+    
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
     const startGameMessage = document.getElementById('startGameMessage');
@@ -22,13 +23,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const powerUpImageElement = createPowerUpImageElement();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
-
-    homeIcon.addEventListener('click', () => {
-        window.location.href = '/frontend/srcs/html/homeScreen.html';
+    
+    homeIcon.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.history.pushState({}, "", "/home");
+        handleLocation();
     });
+    
+    let isGameActive2d = true;
 
+    function setIsGameActive2d(value) {
+        if (typeof value === 'boolean')
+            isGameActive2d = value;
+        else
+            console.warn("Invalid value. Please provide a boolean (true or false).");
+    }
+    
     initializeButton2D();
-    initializeGameStartListener(startGameMessage, settingsIcon, homeIcon);
+    initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
     
     let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
 
@@ -92,9 +104,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function update() {
-        updateScore(); 
-        const gameEnded = checkGameEnd(player1Score, player2Score);
+        updateScore2D(); 
+        const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
         if (gameEnded) {
+            setIsGameActive2d(false);
             hidePowerUp(powerUpImageElement);
             return;
         }
@@ -117,10 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (checkBallOutOfBounds(ball, canvas, 
-            () => setPlayer1Score(player1Score + 1), 
-            () => setPlayer2Score(player2Score + 1))) {
+            () => setPlayer1Score2D(player1Score2D + 1), 
+            () => setPlayer2Score2D(player2Score2D + 1))) {
                 resetRallyCount(); 
-                const gameEnded = checkGameEnd(player1Score, player2Score);
+                const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;
@@ -183,8 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', handleKeydown);
     document.addEventListener('keyup', handleKeyup);
 
-    function gameLoop() {
-        if (isGameStarted()) {
+    function gameLoop1Player2D() {
+        if (isGameActive2d && isGameStarted()) {
             update();
             movePaddles();
             generatePowerUp(powerUpImageElement, canvas);
@@ -192,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else
             hidePowerUp(powerUpImageElement);
 
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(gameLoop1Player2D);
     }
-    gameLoop();
-});
+    gameLoop1Player2D();
+}

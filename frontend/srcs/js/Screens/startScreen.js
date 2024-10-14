@@ -2,17 +2,24 @@
 
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
-document.addEventListener("DOMContentLoaded", function() {
+export function initializeStartScreen() {
+// frontend/srcs/js/Screens/startScreen.js
+
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
-    loginButton.addEventListener("click", function() {
-        window.location.href = "./html/loginSignUp.html#login";
+    loginButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.history.pushState({}, "", "/login#login");
+        route(event);
     });
-    
-    signupButton.addEventListener("click", function() {
-        window.location.href = "./html/loginSignUp.html#signup";
+
+    signupButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.history.pushState({}, "", "/login#signup");
+        route(event);
     });
+
 
     let keyboardNavigationEnabled = true;
 
@@ -88,5 +95,4 @@ document.addEventListener("DOMContentLoaded", function() {
             switchFlag(item);
         });
     });
-});
-
+}
