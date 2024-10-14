@@ -84,7 +84,6 @@ const handleLocation = async () => {
 
         case '/1player-2d':
             console.log("1 Player 2D game loaded");
-            import('./PongGame/Game2D/score2D.js')
             import('./Screens/1Player2D.js')
             .then(module => {
                 module.initialize1Player2D();
@@ -94,7 +93,7 @@ const handleLocation = async () => {
 
         case '/1player-3d':
             console.log("1 Player 3D game loaded");
-            import('./PongGame/Game3D/score3D.js')
+            import('./PongGame/Game3D/draw3D.js')
             import('./Screens/1Player3D.js')
             .then(module => {
                 module.initialize1Player3D();
@@ -104,7 +103,6 @@ const handleLocation = async () => {
 
         case '/2players-2d':
             console.log("2 Players 2D game loaded");
-            import('./PongGame/Game2D/score2D.js')
             import('./Screens/2Players2D.js')
             .then(module => {
                 module.initialize2Players2D();
@@ -114,7 +112,6 @@ const handleLocation = async () => {
 
         case '/2players-3d':
             console.log("2 Players 3D game loaded");
-            import('./PongGame/Game3D/score3D.js')
             import('./Screens/2Players3D.js')
             .then(module => {
                 module.initialize2Players3D();

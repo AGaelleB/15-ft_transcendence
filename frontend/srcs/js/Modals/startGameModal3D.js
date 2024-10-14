@@ -38,7 +38,6 @@ export function resetGame3D() {
     });
 }
 
-
 export function initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon) {
     function handleKeyPress(e) {
         if (!gameStarted && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter')) {

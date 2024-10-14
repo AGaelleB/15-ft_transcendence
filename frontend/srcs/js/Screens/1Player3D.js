@@ -3,7 +3,7 @@
 import { initializeGameStartListener3D, isGameStarted, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
@@ -11,6 +11,8 @@ import { updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 let isGameActive3D = true;
+
+draw3D();
 
 export function initialize1Player3D() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -25,29 +27,30 @@ export function initialize1Player3D() {
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
-    initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
-    
+
     isGameActive3D = true;
-    
+
+    draw3D();
     resetGame3D();
     resizeRenderer3D();
     initializeButton3D();
     updateScore3D();
-    
+    initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
+
     function setIsGameActive(value) {
         if (typeof value === 'boolean')
             isGameActive3D = value;
         else
             console.warn("Invalid value. Please provide a boolean (true or false).");
     }
-    
+
     /* ************************** Mouvement du paddle ******************************* */
-    
+
     const keys = {};
-    
+
     document.addEventListener('keydown', (e) => { keys[e.key] = true; });
     document.addEventListener('keyup', (e) => { keys[e.key] = false; });
-    
+
     // limites du mouvement des paddles
     const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
     
