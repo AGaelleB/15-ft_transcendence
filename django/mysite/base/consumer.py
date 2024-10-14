@@ -52,8 +52,6 @@ class UserCreationConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
 
-    # action from data is set by my js code, not a native from asgi/channels
-    # can be used to precise context for the socket to send smthg (maybe better to use separate ws)
     def receive(self, text_data):
         data = json.loads(text_data)
         action = data.get('action')
@@ -65,11 +63,10 @@ class UserCreationConsumer(WebsocketConsumer):
         else:
             self.send(text_data=json.dumps({'status': 'unrecognized action'}))
         
-        # check form validity + stores a new user in the db
-        # send a response back (note we can redefine the send function)
         if (check_user_form_validity(form_data) == "Succes" ):
             self.send(text_data=json.dumps({'status': 'Success, user created'}))
             user = User(form_data['user_name'], form_data['first_name'], form_data['last_name'], form_data['email'])
+            user.is_connected = True
             user.save()
         else:
             reason = f"Failure: {check_user_form_validity(form_data)}"
@@ -105,7 +102,37 @@ class UserInfoConsumer(WebsocketConsumer):
     def disconnect(self, close_code):
         pass
 
+    def send_user_info(self, user='yo'):
+        user_info = {}
+        user = User.objects.filter(pk=user)
+        print(user) 
+        for u in user:
+            user_info[str(u)] = f"Username:{str(u.username)}, email:{str(u.email)}, connected:{str(u.is_connected)}"
+        self.send(text_data=json.dumps({
+            'status': 'get_info',
+            'info' : user_info
+        }))
 
+    def log_in(self, user_name='yo'):
+        user = User.objects.get(pk=user_name)
+        user.is_connected = True
+        user.save()
+        self.send_user_info()
+
+    def log_out(self, user_name='yo'):
+        user = User.objects.get(pk=user_name)
+        user.is_connected = False
+        user.save()
+        self.send_user_info()
+
+    # import the error type !!!!
+    def delete_user(self, user_name='yo'):
+        try:
+            user = User.objects.get(pk=user_name)
+        except  self.model.DoesNotExist:
+            return False
+        user.delete()
+        return True
 
     def receive(self, text_data):
         data = json.loads(text_data)
@@ -113,13 +140,22 @@ class UserInfoConsumer(WebsocketConsumer):
 
         if action == 'get_info':
             print("get info")
-            self.send(text_data=json.dumps({'status': 'get_info sent'}))
+            self.send_user_info()
+        elif action == 'log_in':
+            print("log_in action")
+            self.log_in()
+        elif action == 'log_out':
+            print("log_out action")
+            self.log_out()
         elif action == 'change_info':
             print("change_info")
             self.send(text_data=json.dumps({'status': 'change_info sent'}))
         elif action == 'delete_user':
             print("delete_user")
-            self.send(text_data=json.dumps({'status': 'delete_user sent'}))
+            if self.delete_user() == True:
+                self.send(text_data=json.dumps({'status': 'user_deleted'}))
+            else:
+                self.send(text_data=json.dumps({'status': 'Error: unrecognized user'}))
         else:
             print("unrecognized action")
             self.send(text_data=json.dumps({'status': 'unrecognized action sent'}))

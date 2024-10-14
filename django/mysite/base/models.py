@@ -8,7 +8,7 @@ class User(models.Model):
     email           = models.EmailField()
     is_connected    = models.BooleanField(default=False)
     is_2fa          = models.BooleanField(default=False)
-    #friends         = models.ManyToManyField()
+    #friends         = models.ManyToManyField("self")
 
     # optional
     #birth_date      = models.DateTimeField()
@@ -20,8 +20,12 @@ class User(models.Model):
 
     def create(self, username, first_name, last_name, email):
         self.create(username=username, first_name=first_name, last_name=last_name, email=email, is_2fa=False)
-		#self.save()
 
+    def log_in(self):
+        self.is_connected = True
+
+    def log_out(self):
+        self.is_connected = False
 
 class Tournament(models.Model):
     uid = models.IntegerField(primary_key=True)

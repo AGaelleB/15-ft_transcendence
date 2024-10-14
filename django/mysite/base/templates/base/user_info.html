@@ -23,6 +23,9 @@
 
     <div>
         <p id="user_info"></p>
+        <button id="loginbut">Log in</button>
+        <button id="logoutbut">Log out</button>
+        <button id="delete">Delete your account</button>
     </div>
     
 
@@ -37,8 +40,27 @@
         socket.onmessage = function(e) {
             let data = JSON.parse(e.data);
             let action = data['status'];
+            let info = data['info'];
 
-            display.innerHTML = action;
+            let userData;
+            if (action === "get_info"){
+                userData = Object.values(info)[0];}
+            else{
+                userData = action;}
+            console.log(userData);
+            display.innerHTML = userData;
+        };
+
+        document.getElementById('loginbut').onclick = function() {
+                socket.send(JSON.stringify({action: 'log_in', username: 'yo'}));
+        };
+
+        document.getElementById('logoutbut').onclick = function() {
+                socket.send(JSON.stringify({action: 'log_out', username: 'yo'}));
+        };
+
+        document.getElementById('delete').onclick = function() {
+                socket.send(JSON.stringify({action: 'delete_user', username: 'yo'}));
         };
 
      </script>
