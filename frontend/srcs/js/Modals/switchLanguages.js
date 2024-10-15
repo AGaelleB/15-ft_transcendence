@@ -2,7 +2,7 @@
 
 export async function loadLanguages(lang) {
   try {
-      const response = await fetch(`/frontend/srcs/languages/${lang}.json`);
+      const response = await fetch(`./languages/${lang}.json`);
       if (!response.ok) {
           throw new Error(`Language file ${lang} not found (HTTP ${response.status})`);
       }
