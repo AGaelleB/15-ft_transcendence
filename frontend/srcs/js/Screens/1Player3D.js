@@ -86,6 +86,24 @@ export function initialize1Player3D() {
 
     /* ********************************************************************************* */
 
+        // POWER UPS
+        // // Check collision with power-up
+        // if (gameSettings3D.setPowerUps) {
+        //     if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
+        //         applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
+        //         hidePowerUp(powerUpImageElement);
+        //     }
+        // }
+
+        // const gameEnded = checkGameEnd(player1Score, player2Score);
+        // if (gameEnded) {
+        //     hidePowerUp(powerUpImageElement);
+        //     return;
+        // }
+
+
+    /* ********************************************************************************* */
+
     function gameLoop1Player3D() {
         if (isGameActive3D && isGameStarted3D()) {
             movePaddles1Player();
