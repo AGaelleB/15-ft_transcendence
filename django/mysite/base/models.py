@@ -2,6 +2,7 @@ from django.db import models
 
 class User(models.Model):
     username        = models.CharField(max_length=20, primary_key=True)
+    #tournament_name = models.CharField(max_length=20, unique=True, blank=False)
     first_name      = models.CharField(max_length=30, null=False, blank=False)
     last_name       = models.CharField(max_length=30, null=False, blank=False)
     #avatar          = models.ImageField()

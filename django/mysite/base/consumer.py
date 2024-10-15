@@ -95,76 +95,6 @@ class UserListingConsumer(WebsocketConsumer):
         pass
 
 
-class UserInfoConsumer(WebsocketConsumer):
-    def connect(self):
-        self.accept()
-
-    def disconnect(self, close_code):
-        pass
-
-    def send_user_info(self, user='yo'):
-        user_info = {}
-        user = User.objects.filter(pk=user)
-        if not user:
-            self.send(text_data=json.dumps({'status': 'unrecognized user'}))
-            return
-        for u in user:
-            user_info[str(u)] = f"Username:{str(u.username)}, email:{str(u.email)}, connected:{str(u.is_connected)}"
-        self.send(text_data=json.dumps({'status': 'get_info','info' : user_info}))
-
-    def log_in(self, user_name='yo'):
-        try:
-            user = User.objects.get(pk=user_name)
-        except User.DoesNotExist:
-            return False
-        user.is_connected = True
-        user.save()
-        self.send_user_info()
-        return True
-
-    def log_out(self, user_name='yo'):
-        try:
-            user = User.objects.get(pk=user_name)
-        except User.DoesNotExist:
-            return False
-        user.is_connected = False
-        user.save()
-        self.send_user_info()
-        return True
-
-    # import the error type !!!!
-    def delete_user(self, user_name='yo'):
-        try:
-            user = User.objects.get(pk=user_name)
-        except User.DoesNotExist:
-            return False
-        user.delete()
-        return True
-
-    def receive(self, text_data):
-        data = json.loads(text_data)
-        action = data.get('action')
-
-        if action == 'get_info':
-            self.send_user_info()
-        elif action == 'log_in':
-            if self.log_in() == False:
-                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
-        elif action == 'log_out':
-            if self.log_out() == False:
-                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
-        elif action == 'change_info':
-            self.send(text_data=json.dumps({'status': 'change_info sent'}))
-        elif action == 'delete_user':
-            if self.delete_user() == True:
-                self.send(text_data=json.dumps({'status': 'user_deleted'}))
-            else:
-                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
-        else:
-            print("unrecognized action")
-            self.send(text_data=json.dumps({'status': 'unrecognized action sent'}))
-
-
 class UserConnectedConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
@@ -178,6 +108,93 @@ class UserConnectedConsumer(WebsocketConsumer):
         for user in users:
             userlist[str(user)] = f"{str(user.username)} is connected"
             self.send(text_data=json.dumps({'status': 'succes', 'user_list' : userlist}))
+
+    def disconnect(self, close_code):
+        pass
+
+
+class UserInfoConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+    def disconnect(self, close_code):
+        pass
+
+    def send_user_info(self, user):
+        user_info = {}
+        user = User.objects.filter(pk=user)
+        if not user:
+            self.send(text_data=json.dumps({'status': 'unrecognized user'}))
+            return
+        for u in user:
+            user_info[str(u)] = f"Username:{str(u.username)}, email:{str(u.email)}, connected:{str(u.is_connected)}, 2FA activated:{str(u.is_2fa)}"
+        self.send(text_data=json.dumps({'status': 'get_info', 'info' : user_info}))
+
+    def log_in(self, user=''):
+        try:
+            user = User.objects.get(pk=user)
+        except User.DoesNotExist:
+            return False
+        user.is_connected = True
+        user.save()
+        self.send_user_info(user)
+        return True
+
+    def log_out(self, user=''):
+        try:
+            user = User.objects.get(pk=user)
+        except User.DoesNotExist:
+            return False
+        user.is_connected = False
+        user.save()
+        self.send_user_info(user)
+        return True
+
+    def delete_user(self, user=''):
+        try:
+            user = User.objects.get(pk=user)
+        except User.DoesNotExist:
+            return False
+        user.delete()
+        return True
+
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        action = data.get('action')
+        username = data.get('username')
+
+        if action == 'get_info':
+            self.send_user_info(username)
+        elif action == 'log_in':
+            if self.log_in(username) == False:
+                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
+        elif action == 'log_out':
+            if self.log_out(username) == False:
+                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
+        elif action == 'change_info':
+            self.send(text_data=json.dumps({'status': 'change_info sent'})) # into a new class for a separate webso
+        elif action == 'delete_user':
+            if self.delete_user(username) == True:
+                self.send(text_data=json.dumps({'status': 'user_deleted'}))
+            else:
+                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
+        else:
+            print("unrecognized action")
+            self.send(text_data=json.dumps({'status': 'unrecognized action sent'}))
+
+
+# could be integrated in userInfo
+class UserUpdateConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        action = data.get('action')
+        username = data.get('username')
+
+        if action == 'get_info':
+            UserInfoConsumer.send_user_info("yo") # lets try to call userinfo.send_user_info
 
     def disconnect(self, close_code):
         pass
