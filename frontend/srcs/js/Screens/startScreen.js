@@ -3,8 +3,6 @@
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export function initializeStartScreen() {
-// frontend/srcs/js/Screens/startScreen.js
-
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
