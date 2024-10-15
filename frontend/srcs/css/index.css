@@ -36,6 +36,13 @@ html, body {
 	font-size: calc(1vw + 1vh);
 }
 
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 /* 
     pour le win message
 
