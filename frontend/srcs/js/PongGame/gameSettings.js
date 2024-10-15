@@ -74,6 +74,4 @@ export const gameSettings3D = {
     difficultyLevel3D: "novice",
     errorMargin3D: 4200,
     aiSpeedFactor3D: 5,
-
 };
-
