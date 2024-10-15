@@ -1,4 +1,4 @@
-// frontend/srcs/js/Screens/1Player3D.jsekir
+// frontend/srcs/js/Screens/1Player3D.js
 
 import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
@@ -83,9 +83,9 @@ export function initialize1Player3D() {
             setIsGameActive(false);
         checkPaddleCollision3D(ball, paddleLeft, paddleRight);
     }
-    
+
     /* ********************************************************************************* */
-    
+
     function gameLoop1Player3D() {
         if (isGameActive3D && isGameStarted3D()) {
             movePaddles1Player();
