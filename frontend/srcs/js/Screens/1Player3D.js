@@ -2,7 +2,7 @@
 
 import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
-import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
+import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
@@ -11,8 +11,6 @@ import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 let isGameActive3D = true;
-
-draw3D();
 
 export function initialize1Player3D() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -41,10 +39,9 @@ export function initialize1Player3D() {
     initializeButton3D();
     initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
 
-    draw3D();
     resetGame3D();
     updateScore3D();
-    resizeRenderer3D();
+    initializeRenderer3D();
 
     /* ************************** Mouvement du paddle ******************************* */
 

@@ -34,10 +34,8 @@ export function resetGame3D() {
     gameSettings3D.ballSpeedZ3D = 0;
 
     // Redémarrer le décompte avant le début du jeu
-    startCountdown(() => {
-        gameSettings3D.ballSpeedX3D = 0.2; // La vitesse initiale de la balle
-        gameSettings3D.ballSpeedZ3D = 0.2;
-    });
+    gameSettings3D.ballSpeedX3D = 0.2;
+    gameSettings3D.ballSpeedZ3D = 0.2;
 }
 
 export function initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon) {
