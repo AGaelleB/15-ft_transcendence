@@ -22,23 +22,30 @@ export function updateScore3D() {
     document.getElementById('player2Score3D').textContent = `${player2Score3D} / ${winningScore}`;
 }
 
-export let gameOver = false;
+let gameOver3D = false;
 
 export function isGameOver3D() {
-    return gameOver;
+    return gameOver3D;
+}
+
+export function setIsGameOver3D(value) {
+    if (typeof value === 'boolean')
+        gameOver3D = value;
+    else
+        console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
 export function checkGameEnd3D() {
     const winningScore = gameSettings3D.winningScore;
     
     if (player1Score3D >= winningScore) {
-        gameOver = true;
+        gameOver3D = true;
         showWinMessage(1);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
     else if (player2Score3D >= winningScore) {
-        gameOver = true;
+        gameOver3D = true;
         showWinMessage(2);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;

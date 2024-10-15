@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/2Players3D.js
 
-import { initializeGameStartListener3D, isGameStarted } from '../Modals/startGameModal3D.js';
+import { initializeGameStartListener3D, isGameStarted3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
@@ -82,7 +82,7 @@ function moveBall() {
 /* ********************************************************************************* */
 
 function gameLoop2Players3D() {
-    if (isGameActive && isGameStarted()) {
+    if (isGameActive && isGameStarted3D()) {
         movePaddles2Players();
         moveBall();
     }

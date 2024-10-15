@@ -1,13 +1,13 @@
 // frontend/srcs/js/Screens/1Player3D.jsekir
 
-import { initializeGameStartListener3D, isGameStarted, resetGame3D } from '../Modals/startGameModal3D.js';
+import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { resizeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 let isGameActive3D = true;
@@ -29,13 +29,7 @@ export function initialize1Player3D() {
     });
 
     isGameActive3D = true;
-
-    draw3D();
-    resetGame3D();
-    resizeRenderer3D();
-    initializeButton3D();
-    updateScore3D();
-    initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
+    setIsGameOver3D(false);
 
     function setIsGameActive(value) {
         if (typeof value === 'boolean')
@@ -43,6 +37,14 @@ export function initialize1Player3D() {
         else
             console.warn("Invalid value. Please provide a boolean (true or false).");
     }
+
+    initializeButton3D();
+    initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
+
+    draw3D();
+    resetGame3D();
+    updateScore3D();
+    resizeRenderer3D();
 
     /* ************************** Mouvement du paddle ******************************* */
 
@@ -89,7 +91,7 @@ export function initialize1Player3D() {
     
     function gameLoop1Player3D() {
         console.log("isGameActive3D: ", isGameActive3D);
-        if (isGameActive3D && isGameStarted()) {
+        if (isGameActive3D && isGameStarted3D()) {
             movePaddles1Player();
             moveBall();
             updateAI3D(ball, paddleRight, ground);

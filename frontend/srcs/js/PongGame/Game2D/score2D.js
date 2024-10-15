@@ -22,15 +22,15 @@ export function updateScore2D() {
     document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
 }
 
-export let gameOver = false;
+let gameOver2D = false;
 
-export function isGameOver() {
-    return gameOver;
+export function isGameOver2D() {
+    return gameOver2D;
 }
 
 export function setIsGameOver2D(value) {
     if (typeof value === 'boolean')
-        gameOver = value;
+        gameOver2D = value;
     else
         console.warn("Invalid value. Please provide a boolean (true or false).");
 }
@@ -39,13 +39,13 @@ export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
     
     if (player1Score2D >= winningScore) {
-        gameOver = true;
+        gameOver2D = true;
         showWinMessage(1);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
     else if (player2Score2D >= winningScore) {
-        gameOver = true;
+        gameOver2D = true;
         showWinMessage(2);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;

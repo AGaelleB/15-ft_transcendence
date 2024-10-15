@@ -6,21 +6,23 @@ import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 
-let gameStarted = false;
+let gameStarted3D = false;
 
 function startGame(startGameMessage, settingsIcon, homeIcon) {
+    console.log("je cache mon press entrer to start the game !!!! ");
     startGameMessage.style.display = 'none';
     startGameMessage.classList.add('hidden');
     settingsIcon.classList.add('hidden');
     homeIcon.classList.add('hidden');
-    gameStarted = true;
+    gameStarted3D = true;
 }
 
 export function resetGame3D() {
     // Réinitialiser les scores
+    gameStarted3D = false;
     setPlayer1Score3D(0);
     setPlayer2Score3D(0);
-    updateScore3D();  // Mettre à jour l'affichage des scores
+    updateScore3D();
 
     // Réinitialiser la position des raquettes et de la balle
     paddleLeft.position.set(-28, 0, 0);
@@ -40,7 +42,7 @@ export function resetGame3D() {
 
 export function initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon) {
     function handleKeyPress(e) {
-        if (!gameStarted && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter')) {
+        if (!gameStarted3D && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter')) {
             startGame(startGameMessage, settingsIcon, homeIcon);
             document.removeEventListener('keypress', handleKeyPress);
         }
@@ -48,6 +50,6 @@ export function initializeGameStartListener3D(startGameMessage, settingsIcon, ho
     document.addEventListener('keypress', handleKeyPress);
 }
 
-export function isGameStarted() {
-    return gameStarted;
+export function isGameStarted3D() {
+    return gameStarted3D;
 }

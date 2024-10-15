@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/Game2D/power-ups2D.js
 
-import { isGameStarted } from '../../Modals/startGameModal2D.js';
+import { isGameStarted2D } from '../../Modals/startGameModal2D.js';
 import { gameSettings2D } from '../gameSettings.js';
 import { getLastTouchedPaddle } from './ballCollision2D.js';
 
@@ -83,11 +83,11 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
 export function generatePowerUp(powerUpImageElement, canvas) {
     const now = Date.now();
 
-    if (gameSettings2D.setPowerUps && isGameStarted() && now >= nextPowerUpTime) {
+    if (gameSettings2D.setPowerUps && isGameStarted2D() && now >= nextPowerUpTime) {
         displayRandomPowerUp(powerUpImageElement, canvas);
         nextPowerUpTime = now + getRandomInterval(12000, 25000); // temps entre 2 affichages
     }
-    else if (!isGameStarted() || !gameSettings2D.setPowerUps) {
+    else if (!isGameStarted2D() || !gameSettings2D.setPowerUps) {
         hidePowerUp(powerUpImageElement);
     }
 }

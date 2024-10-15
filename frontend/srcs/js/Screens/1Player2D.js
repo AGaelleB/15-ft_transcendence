@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player2D.js
 
-import { initializeGameStartListener2D, isGameStarted } from '../Modals/startGameModal2D.js';
+import { initializeGameStartListener2D, isGameStarted2D } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { updateAI } from '../PongGame/Game2D/computerAI2D.js';
@@ -198,7 +198,7 @@ export function initialize1Player2D() {
     document.addEventListener('keyup', handleKeyup);
 
     function gameLoop1Player2D() {
-        if (isGameActive2d && isGameStarted()) {
+        if (isGameActive2d && isGameStarted2D()) {
             update();
             movePaddles();
             generatePowerUp(powerUpImageElement, canvas);

@@ -4,7 +4,7 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { updateScore2D } from '../PongGame/Game2D/score2D.js';
 import { resetGame2D } from './startGameModal2D.js';
 
-export let isSettingsOpen = false;
+let isSettingsOpen = false;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
 let pointsToWinValue = 0;
