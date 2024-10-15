@@ -7,9 +7,9 @@ import { ground } from './draw3D.js';
 
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
-let nextPowerUpTime = Date.now() + getRandomInterval(5000, 10000); // Délai pour le 1er affichage
-let powerUpObject; // pour l'objet 3D du power-up
-let powerUpTimeoutId;
+let nextPowerUpTime3D = Date.now() + getRandomInterval3D(5000, 10000); // Délai pour le 1er affichage
+let powerUpObject3D; // pour l'objet 3D du power-up
+let powerUpTimeoutId3D;
 
 export const powerUpsTextures3D = [
     new THREE.TextureLoader().load('../images/power-ups/sizeUpPaddle.png'),
@@ -19,23 +19,23 @@ export const powerUpsTextures3D = [
 ];
 
 export function resetPowerUpTimer3D() {
-    nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
+    nextPowerUpTime3D = Date.now() + getRandomInterval3D(17000, 20000);
 }
 
 export function hidePowerUp3D(powerUpImageElement) {
     powerUpImageElement.style.display = 'none';
 
-    if (powerUpTimeoutId) {
-        clearTimeout3D(powerUpTimeoutId);
-        powerUpTimeoutId = null;
+    if (powerUpTimeoutId3D) {
+        clearTimeout3D(powerUpTimeoutId3D);
+        powerUpTimeoutId3D = null;
     }
 }
 
-function getRandomInterval(min, max) {
+function getRandomInterval3D(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function createPowerUpImageElement3D() {
+export function createPowerUp3DImageElement3D() {
 
     const powerUpImageElement = document.createElement('img');
     document.body.appendChild(powerUpImageElement);
@@ -76,21 +76,21 @@ export function createPowerUpImageElement3D() {
 //         powerUpImageElement.style.display = 'block';
 
 //         // affiche durant 7 secondes
-//         powerUpTimeoutId = setTimeout(() => {
+//         powerUpTimeoutId3D = setTimeout(() => {
 //             powerUpImageElement.style.display = 'none';
 //         }, 7000);
 //     };
 // }
 
 
-export function createPowerUp(scene) {
+export function createPowerUp3D(scene) {
     const randomIndex = Math.floor(Math.random() * powerUpsTextures3D.length);
     const selectedTexture = powerUpsTextures3D[randomIndex];
 
     // Créer un plan avec une texture de power-up
     const geometry = new THREE.PlaneGeometry(5, 5);  // Taille du power-up
     const material = new THREE.MeshBasicMaterial({ map: selectedTexture, transparent: true });
-    powerUpObject = new THREE.Mesh(geometry, material);
+    powerUpObject3D = new THREE.Mesh(geometry, material);
 
     // Limiter la position aléatoire du power-up aux dimensions du sol
     const groundWidth = ground.geometry.parameters.width;
@@ -98,22 +98,22 @@ export function createPowerUp(scene) {
 
     const randomX = (Math.random() - 0.5) * groundWidth;  // Générer X dans les limites du sol
     const randomZ = (Math.random() - 0.5) * groundHeight; // Générer Z dans les limites du sol
-    powerUpObject.position.set(randomX, 0, randomZ);  // Positionner sur le sol (Y = 0)
+    powerUpObject3D.position.set(randomX, 0, randomZ);  // Positionner sur le sol (Y = 0)
 
-    scene.add(powerUpObject);
+    scene.add(powerUpObject3D);
 
     // Le rendre visible pendant un certain temps (7 secondes)
-    powerUpTimeoutId = setTimeout(() => {
-        scene.remove(powerUpObject);
+    powerUpTimeoutId3D = setTimeout(() => {
+        scene.remove(powerUpObject3D);
     }, 7000);
 }
 
 // Générer des power-ups à des intervalles réguliers
 export function generatePowerUp3D(scene) {
     const now = Date.now();
-    if (isGameStarted() && now >= nextPowerUpTime) {
-        createPowerUp(scene);
-        nextPowerUpTime = now + getRandomInterval(12000, 25000);
+    if (isGameStarted() && now >= nextPowerUpTime3D) {
+        createPowerUp3D(scene);
+        nextPowerUpTime3D = now + getRandomInterval3D(12000, 25000);
     }
 }
 
@@ -143,10 +143,11 @@ export function generatePowerUp3D(scene) {
 
 
 export function checkPowerUpCollision3D(ball) {
-    if (!powerUpObject) return false;
+    if (!powerUpObject3D) 
+        return false;
 
     // Vérifier si la balle chevauche le power-up
-    const distance = ball.position.distanceTo(powerUpObject.position);
+    const distance = ball.position.distanceTo(powerUpObject3D.position);
     return distance < (gameSettings3D.ballRadius3D + 2.5);  // 2.5 est la moitié de la taille du power-up
 }
 
@@ -176,18 +177,14 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
         return;
     }
 
-    if (powerUpTexture === powerUpsTextures3D[0]) {  // sizeUpPaddle.png
+    if (powerUpTexture === powerUpsTextures3D[0])  // sizeUpPaddle.png
         affectedPaddle.scale.y *= 1.75;
-    }
-    else if (powerUpTexture === powerUpsTextures3D[1]) {  // sizeDownPaddle.png
+    else if (powerUpTexture === powerUpsTextures3D[1])  // sizeDownPaddle.png
         affectedPaddle.scale.y *= 0.5;
-    }
-    else if (powerUpTexture === powerUpsTextures3D[2]) {  // speedPaddle.png
+    else if (powerUpTexture === powerUpsTextures3D[2])  // speedPaddle.png
         affectedPaddle.speedFactor *= 5;
-    }
-    else if (powerUpTexture === powerUpsTextures3D[3]) {  // slowPaddle.png
+    else if (powerUpTexture === powerUpsTextures3D[3])  // slowPaddle.png
         affectedPaddle.speedFactor *= 0.25;
-    }
 
     // Réinitialiser après la durée de l'effet
     setTimeout(() => {

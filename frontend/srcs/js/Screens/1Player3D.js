@@ -90,17 +90,16 @@ export function initialize1Player3D() {
         // Check collision with power-up
         if (gameSettings3D.setPowerUps) {
             if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
-                applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
-                hidePowerUp(powerUpImageElement);
+                applyPowerUpEffect3D(powerUpImageElement.src, paddleLeft, paddleRight);
+                hidePowerUp3D(powerUpImageElement);
             }
         }
 
         const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
         if (gameEnded) {
-            hidePowerUp(powerUpImageElement);
+            hidePowerUp3D(powerUpImageElement);
             return;
         }
-
 
     /* ********************************************************************************* */
 
