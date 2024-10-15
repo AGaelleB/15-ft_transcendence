@@ -35,7 +35,7 @@ const handleLocation = async () => {
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("app").innerHTML = html;
 
-    console.log("Path: ", path);
+    // console.log("Path: ", path);
     switch (path) {
         case '/start':
             console.log("Start screen loaded");
@@ -57,26 +57,17 @@ const handleLocation = async () => {
 
         case '/login':
             console.log("Login page loaded");
-            // Importer le module associé pour gérer la logique du formulaire login/signup
             import('./Screens/loginSignUp.js')
                 .then(module => {
                     module.initializeLogin();
-                    
-                    // Vérifier le hash dans l'URL pour déterminer quel formulaire afficher
                     const hash = window.location.hash;
-                    if (hash === "#signup") {
-                        console.log("Switching to signup form");
-                        // Simuler un clic sur le bouton 'Signup' pour afficher le formulaire d'inscription
+                    if (hash === "#signup")
                         document.querySelector("label.signup").click();
-                    } else {
-                        console.log("Displaying login form");
-                        // Simuler un clic sur le bouton 'Login' pour afficher le formulaire de connexion
+                    else
                         document.querySelector("label.login").click();
-                    }
                 })
                 .catch(err => console.error('Failed to load loginSignUp.js:', err));
             break;
-    
 
         case '/home':
             console.log("Home page loaded");
@@ -107,7 +98,6 @@ const handleLocation = async () => {
 
         case '/1player-3d':
             console.log("1 Player 3D game loaded");
-            import('./PongGame/Game3D/draw3D.js')
             import('./Screens/1Player3D.js')
             .then(module => {
                 module.initialize1Player3D();

@@ -87,7 +87,6 @@ export function initialize1Player3D() {
     /* ********************************************************************************* */
     
     function gameLoop1Player3D() {
-        console.log("isGameActive3D: ", isGameActive3D);
         if (isGameActive3D && isGameStarted3D()) {
             movePaddles1Player();
             moveBall();

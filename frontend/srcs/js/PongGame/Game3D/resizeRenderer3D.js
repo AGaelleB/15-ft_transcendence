@@ -5,20 +5,21 @@ import { gameSettings3D } from '../gameSettings.js';
 export let renderer, camera;
 
 export function initializeRenderer3D() {
+
     // Création d'une caméra
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
     // Création d'un renderer avec transparence
     renderer = new THREE.WebGLRenderer({ alpha: true });
     const pongCanvas = document.getElementById('pongCanvas');
-    if (pongCanvas) {
+    if (pongCanvas)
         pongCanvas.appendChild(renderer.domElement);
-    } else {
+    else {
         console.error("L'élément 'pongCanvas' est introuvable.");
-        return; // Quitter la fonction si le canvas est introuvable
+        return;
     }
 
-    // Position de la caméra initiale
+    // Position de la caméra
     camera.position.set(0, 20, 25);
     camera.lookAt(0, 0, 0);
 
@@ -27,7 +28,7 @@ export function initializeRenderer3D() {
         const gameContainer = document.querySelector('.game-container');
         if (!gameContainer) {
             console.error("L'élément 'game-container' est introuvable.");
-            return; // Quitter la fonction si le container est introuvable
+            return;
         }
 
         const containerWidth = gameContainer.offsetWidth;
@@ -47,10 +48,7 @@ export function initializeRenderer3D() {
         camera.updateProjectionMatrix();
     }
 
-    // Appeler la fonction pour redimensionner le renderer dès le départ
     resizeRenderer();
-
-    // Ajouter un écouteur d'événement pour ajuster la taille du renderer lors du redimensionnement de la fenêtre
     window.addEventListener('resize', resizeRenderer);
 
     return { renderer, camera };

@@ -44,25 +44,21 @@ const translations = {
 };
 
 export function updatePlaceholders(selectedLang) {
-  // Mettre à jour le placeholder pour le champ Username
   document.querySelectorAll('.username-input').forEach(input => {
     input.placeholder = translations[selectedLang].userPlaceholder;
   });
 
-  // Mettre à jour le placeholder pour le champ Email
   document.querySelectorAll('.email-input').forEach(input => {
     input.placeholder = translations[selectedLang].emailPlaceholder;
   });
 
-  // Mettre à jour les placeholders pour les champs Password et Confirm Password
   document.querySelectorAll('input[type="password"]').forEach((input, index) => {
-    if (index === 0) {
+    if (index === 0)
       input.placeholder = translations[selectedLang].passwordPlaceholder;
-    } else if (index === 1) {
+    else if (index === 1)
       input.placeholder = translations[selectedLang].passwordPlaceholder;
-    } else if (index === 2) {
+    else if (index === 2)
       input.placeholder = translations[selectedLang].confirmPasswordPlaceholder;
-    }
   });
 }
 

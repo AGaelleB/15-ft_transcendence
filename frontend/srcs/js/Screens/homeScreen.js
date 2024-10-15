@@ -86,7 +86,6 @@ export function initializeHome() {
             const targetPath = getTargetPath(mode);
             window.history.pushState({}, "", targetPath);
     
-            // Charge dynamiquement le contenu en fonction de l'URL
             handleLocation();
         }
     });

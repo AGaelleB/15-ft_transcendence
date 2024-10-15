@@ -51,7 +51,6 @@ function resetToDefaultSettings3D() {
     updateSettingsModal3D();
 }
 
-
 export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) {
     const slider = document.getElementById(sliderId);
     const sliderValue = document.getElementById(spanId);

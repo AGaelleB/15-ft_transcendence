@@ -4,12 +4,10 @@ import { getIsSettingsOpen3D } from './gameSettingsModal3D.js';
 import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
-import { startCountdown } from '../PongGame/chrono.js';
 
 let gameStarted3D = false;
 
 function startGame(startGameMessage, settingsIcon, homeIcon) {
-    console.log("je cache mon press entrer to start the game !!!! ");
     startGameMessage.style.display = 'none';
     startGameMessage.classList.add('hidden');
     settingsIcon.classList.add('hidden');
@@ -30,10 +28,6 @@ export function resetGame3D() {
     ball.position.set(0, 0, 0);
 
     // Réinitialiser les vitesses de la balle
-    gameSettings3D.ballSpeedX3D = 0;
-    gameSettings3D.ballSpeedZ3D = 0;
-
-    // Redémarrer le décompte avant le début du jeu
     gameSettings3D.ballSpeedX3D = 0.2;
     gameSettings3D.ballSpeedZ3D = 0.2;
 }
