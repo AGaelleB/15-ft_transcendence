@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
-import { resetGame3D } from "./startGameModal3D.js";
+// import { resetGame3D } from "./startGameModal3D.js";
 
 export function showWinMessage(winner) {
     const modal = document.querySelector('.modal');
@@ -36,7 +36,7 @@ export function initializeWinMsg() {
         else
             console.error('Error: Mode de jeu non défini');
 
-        resetGame3D();  // Réinitialise les scores et la partie
+        // resetGame3D();  // a m,ettre dans les cases ou cest en 3d seulement
         window.history.pushState({}, "", targetPath);
         handleLocation();
     });

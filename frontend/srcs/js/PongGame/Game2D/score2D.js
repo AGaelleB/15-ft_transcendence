@@ -28,6 +28,13 @@ export function isGameOver() {
     return gameOver;
 }
 
+export function setIsGameOver2D(value) {
+    if (typeof value === 'boolean')
+        gameOver = value;
+    else
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+}
+
 export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
     
