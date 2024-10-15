@@ -10,6 +10,9 @@ def user_form(request):
 def user_info(request):
     return render(request, "base/user_info.html")
 
+def user_connected(request):
+    return render(request, "base/user_connected.html")
+
 ''' 
 second arg "path" needed because re_path (cf. urls.py) returns the match pattern (against the given regex)
 it permits to adapt the views code depending on the real pattern matched

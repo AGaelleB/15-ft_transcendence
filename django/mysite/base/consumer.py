@@ -1,5 +1,6 @@
 import json, re
 from channels.generic.websocket import WebsocketConsumer
+from django.core.exceptions import ObjectDoesNotExist
 from .models import User
 
 '''
@@ -82,14 +83,13 @@ class UserListingConsumer(WebsocketConsumer):
 
         userlist = {}
         users = User.objects.all()
+        if not users:
+            print("no user found, sending status=no data")
+            self.send(text_data=json.dumps({'status': 'no data',}))
+            return
         for user in users:
             userlist[str(user)] = f"Username:{str(user.username)}, email:{str(user.email)}, connected:{str(user.is_connected)}"
-            print(userlist[str(user)])
-
-        self.send(text_data=json.dumps({
-            'status': 'connection succes',
-            'user_list' : userlist
-        }))
+            self.send(text_data=json.dumps({'status': 'succes', 'user_list' : userlist}))
 
     def disconnect(self, close_code):
         pass
@@ -105,31 +105,38 @@ class UserInfoConsumer(WebsocketConsumer):
     def send_user_info(self, user='yo'):
         user_info = {}
         user = User.objects.filter(pk=user)
-        print(user) 
+        if not user:
+            self.send(text_data=json.dumps({'status': 'unrecognized user'}))
+            return
         for u in user:
             user_info[str(u)] = f"Username:{str(u.username)}, email:{str(u.email)}, connected:{str(u.is_connected)}"
-        self.send(text_data=json.dumps({
-            'status': 'get_info',
-            'info' : user_info
-        }))
+        self.send(text_data=json.dumps({'status': 'get_info','info' : user_info}))
 
     def log_in(self, user_name='yo'):
-        user = User.objects.get(pk=user_name)
+        try:
+            user = User.objects.get(pk=user_name)
+        except User.DoesNotExist:
+            return False
         user.is_connected = True
         user.save()
         self.send_user_info()
+        return True
 
     def log_out(self, user_name='yo'):
-        user = User.objects.get(pk=user_name)
+        try:
+            user = User.objects.get(pk=user_name)
+        except User.DoesNotExist:
+            return False
         user.is_connected = False
         user.save()
         self.send_user_info()
+        return True
 
     # import the error type !!!!
     def delete_user(self, user_name='yo'):
         try:
             user = User.objects.get(pk=user_name)
-        except  self.model.DoesNotExist:
+        except User.DoesNotExist:
             return False
         user.delete()
         return True
@@ -139,24 +146,38 @@ class UserInfoConsumer(WebsocketConsumer):
         action = data.get('action')
 
         if action == 'get_info':
-            print("get info")
             self.send_user_info()
         elif action == 'log_in':
-            print("log_in action")
-            self.log_in()
+            if self.log_in() == False:
+                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
         elif action == 'log_out':
-            print("log_out action")
-            self.log_out()
+            if self.log_out() == False:
+                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
         elif action == 'change_info':
-            print("change_info")
             self.send(text_data=json.dumps({'status': 'change_info sent'}))
         elif action == 'delete_user':
-            print("delete_user")
             if self.delete_user() == True:
                 self.send(text_data=json.dumps({'status': 'user_deleted'}))
             else:
-                self.send(text_data=json.dumps({'status': 'Error: unrecognized user'}))
+                self.send(text_data=json.dumps({'status': 'unrecognized user'}))
         else:
             print("unrecognized action")
             self.send(text_data=json.dumps({'status': 'unrecognized action sent'}))
 
+
+class UserConnectedConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+        userlist = {}
+        users = User.objects.filter(is_connected=True)
+        if not users:
+            print("no connected users in db")
+            self.send(text_data=json.dumps({'status': 'no data',}))
+            return
+        for user in users:
+            userlist[str(user)] = f"{str(user.username)} is connected"
+            self.send(text_data=json.dumps({'status': 'succes', 'user_list' : userlist}))
+
+    def disconnect(self, close_code):
+        pass

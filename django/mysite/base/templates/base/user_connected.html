@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ft_transcendence user list</title>
+    <title>ft_transcendence user connected</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/ico" href="{% static 'base/images/icons/pongIcon.ico' %}">
@@ -17,20 +17,20 @@
 <body>
     <!-- ========== Welcome Text Section ========== -->
     <div class="welcome-text">
-        <h1 data-lang-key="welcome_message">User List Page</h1>
+        <h1 data-lang-key="welcome_message">connected users</h1>
     </div>
 
 
     <div>
-        <p id="user_list"></p>
+        <p id="user_connected"></p>
     </div>
     
 
     <!-- ========== JavaScript ========== -->
      <script>
 
-        let socket = new WebSocket('ws://' + window.location.host + '/ws/user_listing/');
-        let display = document.getElementById('user_list');
+        let socket = new WebSocket('ws://' + window.location.host + '/ws/user_connected/');
+        let display = document.getElementById('user_connected');
 
         socket.onmessage = function(e) {
             let data = JSON.parse(e.data);
@@ -41,23 +41,18 @@
 
             if (status === "succes"){
                 console.log("succes")
-                // Loop through the user_list object
                 for (let userKey in user_list) {
                     if (user_list.hasOwnProperty(userKey)) {
                         let userData = user_list[userKey]; // e.g., 'Username:fgfdg, email:as@gmail.com, connected:False'
                         
-                        // Create a new paragraph or div for each user
                         let userElement = document.createElement('p');
                         userElement.textContent = userData;
-                        
-                        // Append each user info to the user_list div
                         display.appendChild(userElement);
                     }
                 }
             }
             else if (status === "no data"){
-                console.log("no data")
-                display.innerHTML = 'no data';
+                display.innerHTML = 'no connected user ...';
             }
         };
 
