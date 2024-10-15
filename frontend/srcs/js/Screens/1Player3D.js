@@ -3,11 +3,11 @@
 import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { player1Score3D, player2Score3D, setIsGameOver3D, updateScore3D, checkGameEnd3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 let isGameActive3D = true;
@@ -87,19 +87,19 @@ export function initialize1Player3D() {
     /* ********************************************************************************* */
 
         // POWER UPS
-        // // Check collision with power-up
-        // if (gameSettings3D.setPowerUps) {
-        //     if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
-        //         applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
-        //         hidePowerUp(powerUpImageElement);
-        //     }
-        // }
+        // Check collision with power-up
+        if (gameSettings3D.setPowerUps) {
+            if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
+                applyPowerUpEffect(powerUpImageElement.src, paddleLeft, paddleRight);
+                hidePowerUp(powerUpImageElement);
+            }
+        }
 
-        // const gameEnded = checkGameEnd(player1Score, player2Score);
-        // if (gameEnded) {
-        //     hidePowerUp(powerUpImageElement);
-        //     return;
-        // }
+        const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
+        if (gameEnded) {
+            hidePowerUp(powerUpImageElement);
+            return;
+        }
 
 
     /* ********************************************************************************* */
