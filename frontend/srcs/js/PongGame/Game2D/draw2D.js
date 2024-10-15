@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game2D/draw2D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { rallyCount, maxRallyBeforeSmoke, drawPsychedelicBall, drawSmokeTrail, addSmokeTrail} from './rallyEffect2D.js';
+import { rallyCount2D, rallySmokeEffect2D, drawPsychedelicBall2D, drawSmokeTrail2D, addSmokeTrail2D} from './rallyEffect2D.js';
 
 export function drawPaddle(ctx, paddle) {
     ctx.fillStyle = '#ffcc00';
@@ -9,13 +9,13 @@ export function drawPaddle(ctx, paddle) {
 }
 
 export function drawBall(ctx, ball) {
-    if (rallyCount > 25 && (gameSettings2D.setRally === true))
-        drawPsychedelicBall(ctx, ball);
+    if (rallyCount2D > 25 && (gameSettings2D.setRally === true))
+        drawPsychedelicBall2D(ctx, ball);
     else {
         if (gameSettings2D.setRally === true)
-            drawSmokeTrail(ctx, ball);
-        if (rallyCount >= maxRallyBeforeSmoke && (gameSettings2D.setRally === true))
-            addSmokeTrail(ball.x, ball.y);
+            drawSmokeTrail2D(ctx, ball);
+        if (rallyCount2D >= rallySmokeEffect2D && (gameSettings2D.setRally === true))
+            addSmokeTrail2D(ball.x, ball.y);
 
         ctx.beginPath();
         ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);

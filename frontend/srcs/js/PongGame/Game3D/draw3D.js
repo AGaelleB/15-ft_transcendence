@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game3D/draw3D.js
 
 import { gameSettings3D } from '../gameSettings.js'
-import { loadGameSettingsFromStorage } from '../../Modals/gameSettingsModal3D.js'
+import { loadSettingsStorage3D } from '../../Modals/gameSettingsModal3D.js'
 
 export let scene, ground, ball, paddleLeft, paddleRight, groundGeometry;
 
@@ -29,7 +29,7 @@ export function draw3D() {
     scene.add(light);
 
     // Charger les paramètres du jeu
-    loadGameSettingsFromStorage();
+    loadSettingsStorage3D();
 
     // Création de la balle
     const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);
@@ -128,7 +128,7 @@ export function resetPaddlePosition() {
 // light.position.set(5, 10, 5);
 // scene.add(light);
 
-// loadGameSettingsFromStorage();
+// loadSettingsStorage3D();
 
 // // Création de la balle
 // export const ballGeometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);

@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/startGameModal2D.js
 
-import { getIsSettingsOpen } from './gameSettingsModal3D.js';
+import { getIsSettingsOpen3D } from './gameSettingsModal3D.js';
 import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
@@ -42,7 +42,7 @@ export function resetGame3D() {
 
 export function initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon) {
     function handleKeyPress(e) {
-        if (!gameStarted3D && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter')) {
+        if (!gameStarted3D && !getIsSettingsOpen3D() && (e.code === 'Space' || e.code === 'Enter')) {
             startGame(startGameMessage, settingsIcon, homeIcon);
             document.removeEventListener('keypress', handleKeyPress);
         }

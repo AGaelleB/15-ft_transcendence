@@ -5,22 +5,22 @@ import { updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { resetGame3D } from './startGameModal3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 
-export let isSettingsOpen = false;
+let isSettingsOpen3D = false;
 let ballSpeedValue = 3;
 let paddleSpeedValue = 3;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
 let pointsToWinValue = 5;
 
-export function getIsSettingsOpen() {
-    return isSettingsOpen;
+export function getIsSettingsOpen3D() {
+    return isSettingsOpen3D;
 }
 
 export function saveGameSettings3D() {
     localStorage.setItem('gameSettings3D', JSON.stringify(gameSettings3D));
 }
 
-export function loadGameSettingsFromStorage() {
+export function loadSettingsStorage3D() {
     const savedSettings = localStorage.getItem('gameSettings3D');
     if (savedSettings) {
         Object.assign(gameSettings3D, JSON.parse(savedSettings));
@@ -47,7 +47,7 @@ function resetToDefaultSettings3D() {
     pointsToWinValue = 5;
 
     saveGameSettings3D();
-    loadGameSettingsFromStorage();
+    loadSettingsStorage3D();
     updateSettingsModal3D();
 }
 
@@ -117,18 +117,18 @@ export function initializeGameSettings3D() {
     settingsModal.style.display = 'none';
 
     settingsIcon.addEventListener('click', () => {
-        if (!isSettingsOpen) {
+        if (!isSettingsOpen3D) {
             document.querySelector('.settings-modal-container').classList.add('active');
             settingsModal.style.display = 'flex';
             updateSettingsModal3D();
-            isSettingsOpen = true;
+            isSettingsOpen3D = true;
         }
         else {
             document.querySelector('.settings-modal-container').classList.remove('active');
             settingsModal.style.display = 'none';
             saveGameSettings3D();
             window.location.reload();
-            isSettingsOpen = false;
+            isSettingsOpen3D = false;
         }
     });
 
@@ -137,7 +137,7 @@ export function initializeGameSettings3D() {
         settingsModal.style.display = 'none';
         saveGameSettings3D();
         window.location.reload();
-        isSettingsOpen = false;
+        isSettingsOpen3D = false;
     });
 
     updateScore3D();

@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/startGameModal2D.js
 
-import { getIsSettingsOpen } from './gameSettingsModal2D.js';
+import { getIsSettingsOpen2D } from './gameSettingsModal2D.js';
 import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
 
 let gameStarted2D = false;
@@ -22,7 +22,7 @@ export function resetGame2D() {
 
 export function initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon) {
     function handleKeyPress(e) {
-        if (!gameStarted2D && !getIsSettingsOpen() && (e.code === 'Space' || e.code === 'Enter')) {
+        if (!gameStarted2D && !getIsSettingsOpen2D() && (e.code === 'Space' || e.code === 'Enter')) {
             startGame(startGameMessage, settingsIcon, homeIcon);
             document.removeEventListener('keypress', handleKeyPress);
         }

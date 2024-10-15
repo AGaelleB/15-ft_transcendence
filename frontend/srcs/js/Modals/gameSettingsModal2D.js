@@ -4,13 +4,13 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { updateScore2D } from '../PongGame/Game2D/score2D.js';
 import { resetGame2D } from './startGameModal2D.js';
 
-let isSettingsOpen = false;
+let isSettingsOpen2D = false;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
 let pointsToWinValue = 0;
 
-export function getIsSettingsOpen() {
-    return isSettingsOpen;
+export function getIsSettingsOpen2D() {
+    return isSettingsOpen2D;
 }
 
 export function saveGameSettings2D() {
@@ -34,11 +34,11 @@ const defaultGameSettings = {
 function resetToDefaultSettings() {
     Object.assign(gameSettings2D, defaultGameSettings);
     saveGameSettings2D();
-    loadGameSettings();
+    loadGameSettings2D();
     updateSettingsModal2D();
 }
 
-export function loadGameSettings() {
+function loadGameSettings2D() {
     const savedSettings = localStorage.getItem('gameSettings2D');
     if (savedSettings)
         Object.assign(gameSettings2D, JSON.parse(savedSettings));
@@ -139,19 +139,19 @@ export function initializeGameSettings2D() {
     settingsModal.style.display = 'none';
 
     settingsIcon.addEventListener('click', () => {
-        if (!isSettingsOpen) {
+        if (!isSettingsOpen2D) {
             document.querySelector('.settings-modal-container').classList.add('active');
             settingsModal.style.display = 'flex';
             updateSettingsModal2D();
-            isSettingsOpen = true;
+            isSettingsOpen2D = true;
         }
         else {
             document.querySelector('.settings-modal-container').classList.remove('active');
             settingsModal.style.display = 'none';
             saveGameSettings2D();
-            loadGameSettings();
+            loadGameSettings2D();
             window.location.reload();
-            isSettingsOpen = false;
+            isSettingsOpen2D = false;
         }
     });
 
@@ -159,13 +159,13 @@ export function initializeGameSettings2D() {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings2D();
-        loadGameSettings();
+        loadGameSettings2D();
         window.location.reload();
-        isSettingsOpen = false;
+        isSettingsOpen2D = false;
     });
     
     settingsModal.addEventListener('keydown', (e) => {
-        if (isSettingsOpen && (e.code === 'Space' || e.code === 'Enter')) {
+        if (isSettingsOpen2D && (e.code === 'Space' || e.code === 'Enter')) {
             e.stopPropagation();
             e.preventDefault();
         }
@@ -260,6 +260,6 @@ export function initializeGameSettings2D() {
 }
 
 export function loadSettingsOnPageLoad2D() {
-    loadGameSettings();
+    loadGameSettings2D();
     updateSettingsModal2D();
 }

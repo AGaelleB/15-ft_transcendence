@@ -8,11 +8,11 @@ import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
 
-export function getLastTouchedPaddle() {
+export function getLastTouchedPaddle3D() {
     return lastTouchedPaddle;
 }
 
-export function setLastTouchedPaddle(paddle) {
+export function setLastTouchedPaddle3D(paddle) {
     if (paddle === 'left' || paddle === 'right' || paddle === null)
         lastTouchedPaddle = paddle;
     else
@@ -33,7 +33,7 @@ export function handlePaddleCollision3D(ball, paddle) {
     gameSettings3D.ballSpeedZ3D = speed * Math.sin(bounceAngle);
 }
 
-export function handleWallCollision(ball, canvas) {
+export function handleWallCollision3D(ball, canvas) {
     // Ball collision with top wall
     if (ball.y - ball.size < 0) {
         ball.dy = -ball.dy;
@@ -57,7 +57,7 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
         ball.position.x = paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 + gameSettings3D.ballRadius3D;
         handlePaddleCollision3D(ball, paddleLeft);
-        setLastTouchedPaddle('left');
+        setLastTouchedPaddle3D('left');
     }
 
     // Ball collision with right paddle (Player 2 or AI)
@@ -69,7 +69,7 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
         ball.position.x = paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 - gameSettings3D.ballRadius3D;
         handlePaddleCollision3D(ball, paddleRight);
-        setLastTouchedPaddle('right');
+        setLastTouchedPaddle3D('right');
     }
 }
 
@@ -82,10 +82,10 @@ function resetBall3D() {
     gameSettings3D.ballSpeedX3D = 0;
     gameSettings3D.ballSpeedZ3D = 0;
 
-    // setLastTouchedPaddle(null);
-    // resetPowerUpEffects(paddleLeft, paddleRight);
+    // setLastTouchedPaddle3D(null);
+    // resetPowerUpEffects3D(paddleLeft, paddleRight);
     // hidePowerUp(powerUpImageElement);
-    // resetPowerUpTimer();
+    // resetPowerUpTimerD();
 
     if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
         startCountdown(() => {

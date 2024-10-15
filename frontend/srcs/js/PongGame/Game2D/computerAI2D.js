@@ -60,7 +60,7 @@ function predictBallPositionWithError(ball, canvas, timeToPaddle) {
     return (predictedBallY);
 }
 
-export function updateAI(ball, paddleRight, canvas) {
+export function updateAI2D(ball, paddleRight, canvas) {
     if (ball.x > canvas.width / 2) {
         if (shouldUpdateAI()) {
             let timeToPaddle = (paddleRight.x - ball.x) / ball.dx;
