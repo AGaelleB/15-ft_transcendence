@@ -9,6 +9,7 @@ import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { player1Score3D, player2Score3D, setIsGameOver3D, updateScore3D, checkGameEnd3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
+import { applyPowerUpEffect3D, generatePowerUp3D, hidePowerUp3D } from '../PongGame/Game3D/power-ups3D.js';
 
 let isGameActive3D = true;
 
@@ -87,19 +88,16 @@ export function initialize1Player3D() {
     /* ********************************************************************************* */
 
         // POWER UPS
-        // Check collision with power-up
-        if (gameSettings3D.setPowerUps) {
-            if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
-                applyPowerUpEffect3D(powerUpImageElement.src, paddleLeft, paddleRight);
-                hidePowerUp3D(powerUpImageElement);
-            }
-        }
-
-        const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
-        if (gameEnded) {
-            hidePowerUp3D(powerUpImageElement);
-            return;
-        }
+        console.log("***** Powers ups avant *****");
+        // if (gameSettings3D.setPowerUps3D) {
+            // console.log("***** Powers ups 1er if *****");
+            // if (powerUpImageElement3D.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
+                // console.log("***** Powers ups 1er if *****");
+                // generatePowerUp3D(scene);
+                // applyPowerUpEffect3D(powerUpImageElement3D.src, paddleLeft, paddleRight);
+                // hidePowerUp3D(powerUpImageElement3D);
+            // }
+        // }
 
     /* ********************************************************************************* */
 
@@ -108,6 +106,7 @@ export function initialize1Player3D() {
             movePaddles1Player();
             moveBall();
             updateAI3D(ball, paddleRight, ground);
+            generatePowerUp3D(scene);
         }
         else if (!isGameActive3D)
             return;
@@ -116,3 +115,6 @@ export function initialize1Player3D() {
     }
     gameLoop1Player3D();
 }
+
+
+

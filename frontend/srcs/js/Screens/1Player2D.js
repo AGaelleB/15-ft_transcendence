@@ -125,12 +125,12 @@ export function initialize1Player2D() {
         });
         
         // Check collision with power-up
-        if (gameSettings2D.setPowerUps) {
-            if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision2D(ball, powerUpImageElement, canvas)) {
-                applyPowerUpEffect2D(powerUpImageElement.src, paddleLeft, paddleRight);
-                hidePowerUp(powerUpImageElement);
-            }
+        // if (gameSettings2D.setPowerUps) {
+        if (powerUpImageElement.style.display === 'block' && checkPowerUpCollision2D(ball, powerUpImageElement, canvas)) {
+            applyPowerUpEffect2D(powerUpImageElement.src, paddleLeft, paddleRight);
+            hidePowerUp(powerUpImageElement);
         }
+        // }
 
         if (checkBallOutOfBounds2D(ball, canvas, 
             () => setPlayer1Score2D(player1Score2D + 1), 
