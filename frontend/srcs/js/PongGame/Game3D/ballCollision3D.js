@@ -79,7 +79,6 @@ function resetBall3D() {
     const savedSpeedX = gameSettings3D.ballSpeedX3D;
     const savedSpeedZ = gameSettings3D.ballSpeedZ3D;
 
-    
     // setLastTouchedPaddle3D(null);
     // resetPowerUpEffects3D(paddleLeft, paddleRight);
     // hidePowerUp(powerUpImageElement);
