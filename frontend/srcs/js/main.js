@@ -1,16 +1,32 @@
+// const routes = {
+//     404: "./templates/404.html",
+//     "/": "./templates/startScreen.html",
+//     "/start": "./templates/startScreen.html",
+//     "/home": "./templates/homeScreen.html",
+//     "/login": "./templates/loginSignUp.html",
+//     "/profil": "./templates/userDashboard.html",
+//     "/1player-2d": "./templates/1Player2D.html",
+//     "/1player-3d": "./templates/1Player3D.html",
+//     "/2players-2d": "./templates/2Players2D.html",
+//     "/2players-3d": "./templates/2Players3D.html",
+//     "/multi-2d": "./templates/multiPlayers2D.html",
+//     "/multi-3d": "./templates/multiPlayers3D.html"
+// };
+
 const routes = {
-    404: "./templates/404.html",
-    "/": "./templates/startScreen.html",
-    "/start": "./templates/startScreen.html",
-    "/home": "./templates/homeScreen.html",
-    "/login": "./templates/loginSignUp.html",
-    "/profil": "./templates/userDashboard.html",
-    "/1player-2d": "./templates/1Player2D.html",
-    "/1player-3d": "./templates/1Player3D.html",
-    "/2players-2d": "./templates/2Players2D.html",
-    "/2players-3d": "./templates/2Players3D.html",
-    "/multi-2d": "./templates/multiPlayers2D.html",
-    "/multi-3d": "./templates/multiPlayers3D.html"
+    404: "/frontend/srcs/templates/404.html",
+    "/": "/frontend/srcs/templates/startScreen.html",
+    "/start": "/frontend/srcs/templates/startScreen.html",
+    "/index.html": "/frontend/srcs/templates/startScreen.html",
+    "/home": "/frontend/srcs/templates/homeScreen.html",
+    "/login": "/frontend/srcs/templates/loginSignUp.html",
+    "/profil": "/frontend/srcs/templates/userDashboard.html",
+    "/1player-2d": "/frontend/srcs/templates/1Player2D.html",
+    "/1player-3d": "/frontend/srcs/templates/1Player3D.html",
+    "/2players-2d": "/frontend/srcs/templates/2Players2D.html",
+    "/2players-3d": "/frontend/srcs/templates/2Players3D.html",
+    "/multi-2d": "/frontend/srcs/templates/multiPlayers2D.html",
+    "/multi-3d": "/frontend/srcs/templates/multiPlayers3D.html"
 };
 
 const route = (event) => {
@@ -24,6 +40,9 @@ const handleLocation = async () => {
     let path = window.location.pathname;
     console.log("Path n*1: ", path);
 
+    if (path.includes("/frontend/srcs/"))
+        path = path.replace("/frontend/srcs", "");
+    
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("app").innerHTML = html;
@@ -31,6 +50,15 @@ const handleLocation = async () => {
     console.log("Path n*2: ", path);
     switch (path) {
         case '/start':
+            console.log("Start screen loaded");
+            import('./Screens/startScreen.js')
+                .then(module => {
+                    module.initializeStartScreen();
+                })
+                .catch(err => console.error('Failed to load startScreen.js:', err));
+            break;
+
+        case '/index.html':
             console.log("Start screen loaded");
             import('./Screens/startScreen.js')
                 .then(module => {
