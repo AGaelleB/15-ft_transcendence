@@ -2,7 +2,6 @@ const routes = {
     404: "./templates/404.html",
     "/": "./templates/startScreen.html",
     "/start": "./templates/startScreen.html",
-    "/index.html": "./templates/startScreen.html",
     "/home": "./templates/homeScreen.html",
     "/login": "./templates/loginSignUp.html",
     "/profil": "./templates/userDashboard.html",
@@ -32,15 +31,6 @@ const handleLocation = async () => {
     console.log("Path n*2: ", path);
     switch (path) {
         case '/start':
-            console.log("Start screen loaded");
-            import('./Screens/startScreen.js')
-                .then(module => {
-                    module.initializeStartScreen();
-                })
-                .catch(err => console.error('Failed to load startScreen.js:', err));
-            break;
-
-        case '/index.html':
             console.log("Start screen loaded");
             import('./Screens/startScreen.js')
                 .then(module => {
