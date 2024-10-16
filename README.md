@@ -29,16 +29,17 @@ in django repo, use `source script.sh` : create a virtual env and get python pac
   * go to 127.0.0.1:8000/uploads/ -> get all images
   * upload image : scroll down, give a name, select image, and press post  
   * retrieve in static: django/mysite/media/image/  
-  * get it back from the API: 127.0.0.1:8000/uploads/[img_id]
+  * get it back from the API: 127.0.0.1:8000/uploads/[img_id]/ -> displayed in browser
 
 ### 16/10/2024 19h30:  
 * API is working for models: User, Game and IMG_TEST  
 * using different DRF classes (APIviews, mixin, generic.views)
 * still some issues for customizing mixin and generics:
   * customization per method
-  * using different serializer for different "type" of request (i.e user password at creation or update, but for a user listing)
+  * using different serializer for different "type" of request (i.e user password at creation or update, but NEVER for a user listing)
 * crsf token completly unmanaged (unset drf permisisons in settings)
 * jwt should just be a middleware (jwt simple)
+* images on special class (not integrated as user.avatar yet), pb in retireve if img is null (need to find the rifht exception to catch), must be turned into class
 
 ### 16/10/2024 11h30:  
 * on arrete les websocket pour passer django en REST API avec DRF (views + serializer)  
