@@ -79,15 +79,15 @@ function resetBall3D() {
     const savedSpeedX = gameSettings3D.ballSpeedX3D;
     const savedSpeedZ = gameSettings3D.ballSpeedZ3D;
 
-    gameSettings3D.ballSpeedX3D = 0;
-    gameSettings3D.ballSpeedZ3D = 0;
-
+    
     // setLastTouchedPaddle3D(null);
     // resetPowerUpEffects3D(paddleLeft, paddleRight);
     // hidePowerUp(powerUpImageElement);
     // resetPowerUpTimerD();
-
+    
     if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
+        gameSettings3D.ballSpeedX3D = 0;
+        gameSettings3D.ballSpeedZ3D = 0;
         startCountdown(() => {
             let direction;
             if (Math.random() < 0.5)
@@ -103,14 +103,14 @@ function resetBall3D() {
 export function checkBallOutOfBounds3D() {
     if (ball.position.x >= ballMovementLimitX) {
         setPlayer1Score3D(player1Score3D + 1);
-        resetBall3D();
+            resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;
     }
     if (ball.position.x <= -ballMovementLimitX) {
         setPlayer2Score3D(player2Score3D + 1);
-        resetBall3D();
+            resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
         return true;

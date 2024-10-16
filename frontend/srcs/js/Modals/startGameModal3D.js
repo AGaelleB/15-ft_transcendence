@@ -3,7 +3,6 @@
 import { getIsSettingsOpen3D } from './gameSettingsModal3D.js';
 import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
-import { gameSettings3D } from '../PongGame/gameSettings.js';
 
 let gameStarted3D = false;
 
@@ -16,20 +15,14 @@ function startGame(startGameMessage, settingsIcon, homeIcon) {
 }
 
 export function resetGame3D() {
-    // Réinitialiser les scores
     gameStarted3D = false;
     setPlayer1Score3D(0);
     setPlayer2Score3D(0);
     updateScore3D();
 
-    // Réinitialiser la position des raquettes et de la balle
     paddleLeft.position.set(-28, 0, 0);
     paddleRight.position.set(28, 0, 0);
     ball.position.set(0, 0, 0);
-
-    // Réinitialiser les vitesses de la balle
-    gameSettings3D.ballSpeedX3D = 0.2;
-    gameSettings3D.ballSpeedZ3D = 0.2;
 }
 
 export function initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon) {

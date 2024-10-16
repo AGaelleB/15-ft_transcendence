@@ -39,7 +39,9 @@ export function initialize1Player2D() {
         else
             console.warn("Invalid value. Please provide a boolean (true or false).");
     }
-    
+
+    gameSettings2D.ballSpeedX2D
+
     initializeButton2D();
     initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
     
