@@ -1,3 +1,12 @@
+# docker launch
+
+go to frontend/srcs  
+`docker build -t nginxapp .`  
+`docker run -p 8000:80 nginxapp`  
+nginx is running with root dir /www, all front end files put in /www in docker file system  
+`docker ps`  
+`docker exec -it [dockerid] bash` -> have a bash inside the docker (ls -l /www to see files)
+
 # MODULES
 
 ## Web

@@ -10,10 +10,10 @@ let nextPowerUpTime = Date.now() + getRandomInterval2D(17000, 20000); // Délai 
 let powerUpTimeoutId;
 
 const powerUpsImages = [
-    'frontend/srcs/images/power-ups/sizeUpPaddle.png',
-    'frontend/srcs/images/power-ups/sizeDownPaddle.png',
-    'frontend/srcs/images/power-ups/speedPaddle.png',
-    'frontend/srcs/images/power-ups/slowPaddle.png'
+    './images/power-ups/sizeUpPaddle.png',
+    './images/power-ups/sizeDownPaddle.png',
+    './images/power-ups/speedPaddle.png',
+    './images/power-ups/slowPaddle.png'
 ];
 
 export function resetPowerUpTimer2D() {
