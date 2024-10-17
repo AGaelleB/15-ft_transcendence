@@ -110,49 +110,69 @@ export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
     paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
 }
 
+function setAffectedPaddle(affectedPaddle) {
+    // Redessiner la raquette après changement de profondeur
+    affectedPaddle.geometry.dispose(); // Supprimer l'ancienne géométrie
+    const newPaddleGeometry = new THREE.BoxGeometry(
+        gameSettings3D.paddleWidth3D, 
+        gameSettings3D.paddleHeight3D, 
+        affectedPaddle.paddleDepth3D * affectedPaddle.scale.z  // Changer la profondeur (axe Z)
+    );
+    affectedPaddle.paddleDepth3D = gameSettings3D.paddleDepth3D * affectedPaddle.scale.z;
+    affectedPaddle.geometry = newPaddleGeometry;  // Appliquer la nouvelle géométrie
+}
+
+function updatePaddleMovementLimit() {
+    return (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
+}
+
 export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle3D();
     let affectedPaddle;
-    
+
     if (lastTouchedPaddle === 'left') {
         affectedPaddle = paddleLeft;
-    }
-    else if (lastTouchedPaddle === 'right') {
+    } else if (lastTouchedPaddle === 'right') {
         affectedPaddle = paddleRight;
-    }
-    else {
+    } else {
         console.warn('Invalid paddle detected');
         return;
     }
-    const originalHeight = paddleLeft.paddleDepth3D;
-    const originalSpeed = paddleLeft.speedFactor;
-    console.log(" originalHeight", originalHeight);
-    console.log(" originalSpeed", originalSpeed);
-    
+
+    // Sauvegarder la profondeur originale
+    const originalDepth = affectedPaddle.scale.z;
+    const originalSpeed = affectedPaddle.speedFactor;
+
+    // Appliquer l'effet du power-up (modification de la profondeur, axe Z)
     if (powerUpTexture === powerUpsTextures3D[0]) { // sizeUpPaddle.png
-        console.log(" ---> sizeUpPaddle");
-        affectedPaddle.paddleDepth3D *= 1.75;
+        affectedPaddle.scale.z *= 1.15;  // Augmenter la profondeur
+        setAffectedPaddle(affectedPaddle);
     }
     else if (powerUpTexture === powerUpsTextures3D[1]) { // sizeDownPaddle.png
-        console.log(" ---> sizeDownPaddle");
-        affectedPaddle.paddleDepth3D *= 0.5;
+        affectedPaddle.scale.z *= 0.5;  // Réduire la profondeur
+        setAffectedPaddle(affectedPaddle);
     }
     else if (powerUpTexture === powerUpsTextures3D[2]) { // speedPaddle.png
-        console.log(" ---> speedPaddle");
-        affectedPaddle.speedFactor *=1.75;
+        affectedPaddle.speedFactor *= 1.75;  // Augmenter la vitesse
     }
     else if (powerUpTexture === powerUpsTextures3D[3]) { // slowPaddle.png
-        console.log(" ---> slowPaddle");
-        affectedPaddle.speedFactor *=0.25;
+        affectedPaddle.speedFactor *= 0.25;  // Réduire la vitesse
     }
 
     // Réinitialiser après la durée de l'effet
     setTimeout(() => {
-        paddleLeft.height = originalHeight;
-        paddleLeft.speedFactor = originalSpeed;
+        affectedPaddle.scale.z = gameSettings3D.paddleDepth3D;  // Réinitialiser la profondeur
+        affectedPaddle.speedFactor = gameSettings3D.paddleSpeed3D;  // Réinitialiser la vitesse
+        affectedPaddle.geometry.dispose();  // Supprimer la géométrie modifiée
+        const resetPaddleGeometry = new THREE.BoxGeometry(
+            gameSettings3D.paddleWidth3D, 
+            gameSettings3D.paddleHeight3D, 
+            gameSettings3D.paddleDepth3D // Réinitialiser la profondeur
+        );
+        affectedPaddle.geometry = resetPaddleGeometry;  // Appliquer la géométrie originale
+        paddleMovementLimit = updatePaddleMovementLimit();
     }, gameSettings3D.powerUpEffectDuration3D);
 }
-
 
 /************************** FONCTION PRINCIPALE POWERS-UPS **************************/
 

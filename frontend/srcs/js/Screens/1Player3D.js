@@ -54,7 +54,7 @@ export function initialize1Player3D() {
     document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
     // limites du mouvement des paddles
-    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
+    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
      
     function movePaddles1Player() {
         if (keys['ArrowUp']) {

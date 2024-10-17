@@ -42,10 +42,12 @@ export function draw3D() {
 
     paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
     paddleLeft.position.set(-28, 0, 0);
+    paddleLeft.paddleDepth3D = gameSettings3D.paddleDepth3D;
     scene.add(paddleLeft);
-
+    
     paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
     paddleRight.position.set(28, 0, 0);
+    paddleRight.paddleDepth3D = gameSettings3D.paddleDepth3D;
     scene.add(paddleRight);
 
     /* *************************** Bordures du jeu ******************************** */

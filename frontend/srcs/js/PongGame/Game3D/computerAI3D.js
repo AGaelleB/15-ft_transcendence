@@ -26,7 +26,7 @@ function simulateKeyPress(direction) {
 }
 
 function IAKeysPress(paddleRight, ground) {
-    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
+    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleRight.paddleDepth3D / 2.30);
 
     if (keys['w']) {
         if (paddleRight.position.z > -paddleMovementLimit)
