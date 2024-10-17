@@ -106,14 +106,14 @@ export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
     paddleLeft.height = gameSettings3D.paddleHeight3D * canvasHeight; 
     paddleRight.height = gameSettings3D.paddleHeight3D * canvasHeight;
 
-    paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D * 25;
-    paddleRight.speedFactor = gameSettings3D.paddleSpeed3D * 25;
+    paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
+    paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
 }
 
 export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle3D();
     let affectedPaddle;
-
+    
     if (lastTouchedPaddle === 'left') {
         affectedPaddle = paddleLeft;
     }
@@ -124,27 +124,26 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
         console.warn('Invalid paddle detected');
         return;
     }
-
-    const originalHeight = paddleLeft.height;
+    const originalHeight = paddleLeft.paddleDepth3D;
     const originalSpeed = paddleLeft.speedFactor;
     console.log(" originalHeight", originalHeight);
     console.log(" originalSpeed", originalSpeed);
-
+    
     if (powerUpTexture === powerUpsTextures3D[0]) { // sizeUpPaddle.png
         console.log(" ---> sizeUpPaddle");
-        paddleLeft.height *= 1.75;
+        affectedPaddle.paddleDepth3D *= 1.75;
     }
     else if (powerUpTexture === powerUpsTextures3D[1]) { // sizeDownPaddle.png
         console.log(" ---> sizeDownPaddle");
-        paddleLeft.height *= 0.5;
+        affectedPaddle.paddleDepth3D *= 0.5;
     }
     else if (powerUpTexture === powerUpsTextures3D[2]) { // speedPaddle.png
         console.log(" ---> speedPaddle");
-        paddleLeft.speedFactor *=1.75;
+        affectedPaddle.speedFactor *=1.75;
     }
     else if (powerUpTexture === powerUpsTextures3D[3]) { // slowPaddle.png
         console.log(" ---> slowPaddle");
-        paddleLeft.speedFactor *=0.25;
+        affectedPaddle.speedFactor *=0.25;
     }
 
     // Réinitialiser après la durée de l'effet

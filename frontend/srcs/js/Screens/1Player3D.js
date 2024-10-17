@@ -41,6 +41,8 @@ export function initialize1Player3D() {
     initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
 
     resetGame3D();
+    paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
+    paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
     updateScore3D();
     initializeRenderer3D();
 
@@ -57,11 +59,11 @@ export function initialize1Player3D() {
     function movePaddles1Player() {
         if (keys['ArrowUp']) {
             if (paddleLeft.position.z > -paddleMovementLimit)
-                paddleLeft.position.z -= gameSettings3D.paddleSpeed3D;
+                paddleLeft.position.z -= paddleLeft.speedFactor;
         }
         if (keys['ArrowDown']) {
             if (paddleLeft.position.z < paddleMovementLimit)
-                paddleLeft.position.z += gameSettings3D.paddleSpeed3D;
+                paddleLeft.position.z += paddleLeft.speedFactor;
         }
     
         updateAI3D(ball, paddleRight, ground);
