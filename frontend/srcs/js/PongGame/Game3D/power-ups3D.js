@@ -68,11 +68,15 @@ export function displayPowerUp3D(scene) {
     // Temps de visibilité
     powerUpTimeoutId3D = setTimeout(() => {
         scene.remove(powerUpObject3D);
-    }, 14000);
+    }, isGameStarted3D.powerUpVisibilityDuration3D);
 }
 
 function getRandomInterval3D(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function resetPowerUpTimer3D() {
+    nextPowerUpTime3D = Date.now() + getRandomInterval3D(5000, 7000);
 }
 
 
@@ -100,11 +104,12 @@ export function checkPowerUpCollision3D(ball) {
 
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
+// cette fonction ne marche pas 
 export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
-    const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
+    // const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
 
-    paddleLeft.height = gameSettings3D.paddleHeight3D * canvasHeight; 
-    paddleRight.height = gameSettings3D.paddleHeight3D * canvasHeight;
+    paddleLeft.height = gameSettings3D.paddleDepth3D; 
+    paddleRight.height = gameSettings3D.paddleDepth3D;
 
     paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
     paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
@@ -119,22 +124,18 @@ function setAffectedPaddle(affectedPaddle) {
         affectedPaddle.paddleDepth3D * affectedPaddle.scale.z  // Changer la profondeur (axe Z)
     );
     affectedPaddle.paddleDepth3D = gameSettings3D.paddleDepth3D * affectedPaddle.scale.z;
-    affectedPaddle.geometry = newPaddleGeometry;  // Appliquer la nouvelle géométrie
-}
-
-function updatePaddleMovementLimit() {
-    return (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
+    affectedPaddle.geometry = newPaddleGeometry;
 }
 
 export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle3D();
     let affectedPaddle;
 
-    if (lastTouchedPaddle === 'left') {
+    if (lastTouchedPaddle === 'left')
         affectedPaddle = paddleLeft;
-    } else if (lastTouchedPaddle === 'right') {
+    else if (lastTouchedPaddle === 'right')
         affectedPaddle = paddleRight;
-    } else {
+    else {
         console.warn('Invalid paddle detected');
         return;
     }
@@ -144,18 +145,18 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const originalSpeed = affectedPaddle.speedFactor;
 
     // Appliquer l'effet du power-up (modification de la profondeur, axe Z)
-    if (powerUpTexture === powerUpsTextures3D[0]) { // sizeUpPaddle.png
+    if (powerUpTexture === powerUpsTextures3D[0]) {
         affectedPaddle.scale.z *= 1.15;  // Augmenter la profondeur
         setAffectedPaddle(affectedPaddle);
     }
-    else if (powerUpTexture === powerUpsTextures3D[1]) { // sizeDownPaddle.png
+    else if (powerUpTexture === powerUpsTextures3D[1]) { 
         affectedPaddle.scale.z *= 0.5;  // Réduire la profondeur
         setAffectedPaddle(affectedPaddle);
     }
-    else if (powerUpTexture === powerUpsTextures3D[2]) { // speedPaddle.png
+    else if (powerUpTexture === powerUpsTextures3D[2]) {
         affectedPaddle.speedFactor *= 1.75;  // Augmenter la vitesse
     }
-    else if (powerUpTexture === powerUpsTextures3D[3]) { // slowPaddle.png
+    else if (powerUpTexture === powerUpsTextures3D[3]) {
         affectedPaddle.speedFactor *= 0.25;  // Réduire la vitesse
     }
 
@@ -167,10 +168,9 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
         const resetPaddleGeometry = new THREE.BoxGeometry(
             gameSettings3D.paddleWidth3D, 
             gameSettings3D.paddleHeight3D, 
-            gameSettings3D.paddleDepth3D // Réinitialiser la profondeur
+            gameSettings3D.paddleDepth3D
         );
         affectedPaddle.geometry = resetPaddleGeometry;  // Appliquer la géométrie originale
-        paddleMovementLimit = updatePaddleMovementLimit();
     }, gameSettings3D.powerUpEffectDuration3D);
 }
 

@@ -3,8 +3,8 @@
 import { startCountdown } from '../chrono.js';
 import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D, checkGameEnd3D, player1Score3D, player2Score3D } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
-import { ball, groundGeometry, resetPaddlePosition, scene } from './draw3D.js';
-import { hidePowerUp3D } from './power-ups3D.js';
+import { ball, groundGeometry, paddleLeft, paddleRight, resetPaddlePosition, scene } from './draw3D.js';
+import { hidePowerUp3D, resetPowerUpEffects3D, resetPowerUpTimer3D } from './power-ups3D.js';
 
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
@@ -80,11 +80,12 @@ function resetBall3D() {
     const savedSpeedX = gameSettings3D.ballSpeedX3D;
     const savedSpeedZ = gameSettings3D.ballSpeedZ3D;
 
-    // setLastTouchedPaddle3D(null);
-    // resetPowerUpEffects3D(paddleLeft, paddleRight);
-    // resetPowerUpTimerD();
-
+    /********************************* POWER-UPS *********************************/
+    setLastTouchedPaddle3D(null);
+    resetPowerUpEffects3D(paddleLeft, paddleRight); // marche pas ?? 
     hidePowerUp3D(scene);
+    resetPowerUpTimer3D(); // marche pas ?? 
+    /********************************* POWER-UPS *********************************/
 
     if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
         gameSettings3D.ballSpeedX3D = 0;

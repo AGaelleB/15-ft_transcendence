@@ -47,6 +47,7 @@ export const gameSettings3D = {
 
     // Power-ups
     powerUpEffectDuration3D: 7000,
+    powerUpVisibilityDuration3D: 14000,
 
     // Rally
     setRally3D: 0,
