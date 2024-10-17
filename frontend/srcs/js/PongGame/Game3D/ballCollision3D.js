@@ -80,10 +80,6 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
 function resetBall3D() {
 	ball.position.set(0, 0, 0);
 
-	const savedSpeedX = gameSettings3D.ballSpeedX3D;
-	const savedSpeedZ = gameSettings3D.ballSpeedZ3D;
-
-	
 	// setLastTouchedPaddle3D(null);
 	// resetPowerUpEffects3D(paddleLeft, paddleRight);
 	// hidePowerUp(powerUpImageElement);
@@ -98,8 +94,8 @@ function resetBall3D() {
 				direction = -1;
 			else
 				direction = 1;
-			gameSettings3D.ballSpeedX3D = direction * savedSpeedX;
-			gameSettings3D.ballSpeedZ3D = savedSpeedZ;
+			gameSettings3D.ballSpeedX3D = direction * gameSettings3D.ballSpeedSAV;
+			gameSettings3D.ballSpeedZ3D = gameSettings3D.ballSpeedSAV;
 		});
 	}
 }

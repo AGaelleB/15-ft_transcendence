@@ -67,6 +67,7 @@ export function updateSettingsModal3D() {
     else if (gameSettings3D.ballSpeedX3D <= 0.30) ballSpeedValue = 3;
     else if (gameSettings3D.ballSpeedX3D <= 0.40) ballSpeedValue = 4;
     else ballSpeedValue = 5;
+    console.log("ballSpeedValue: ", ballSpeedValue);
 
     if (gameSettings3D.paddleSpeed3D <= 0.1) paddleSpeedValue = 1;
     else if (gameSettings3D.paddleSpeed3D <= 0.2) paddleSpeedValue = 2;
@@ -180,22 +181,27 @@ export function initializeGameSettings3D() {
             case 1:
                 gameSettings3D.ballSpeedX3D = 0.10;
                 gameSettings3D.ballSpeedZ3D = 0.10;
+                gameSettings3D.ballSpeedSAV = 0.10;
                 break;
             case 2:
                 gameSettings3D.ballSpeedX3D = 0.20;
                 gameSettings3D.ballSpeedZ3D = 0.20;
+                gameSettings3D.ballSpeedSAV = 0.20;
                 break;
             case 3:
                 gameSettings3D.ballSpeedX3D = 0.30;
                 gameSettings3D.ballSpeedZ3D = 0.30;
+                gameSettings3D.ballSpeedSAV = 0.30;
                 break;
             case 4:
                 gameSettings3D.ballSpeedX3D = 0.40;
                 gameSettings3D.ballSpeedZ3D = 0.40;
+                gameSettings3D.ballSpeedSAV = 0.40;
                 break;
             case 5:
                 gameSettings3D.ballSpeedX3D = 0.55;
                 gameSettings3D.ballSpeedZ3D = 0.55;
+                gameSettings3D.ballSpeedSAV = 0.55;
                 break;
         }
 
