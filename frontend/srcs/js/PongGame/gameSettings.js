@@ -68,6 +68,7 @@ export const gameSettings3D = {
     paddleSpeed3D: 0,
     ballSpeedX3D: 0,
     ballSpeedZ3D: 0,
+    ballSpeedSAV: 0,
 
     // IA
     setPowerUps3D: 0,
