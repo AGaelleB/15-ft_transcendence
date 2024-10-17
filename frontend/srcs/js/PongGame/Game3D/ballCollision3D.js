@@ -4,6 +4,8 @@ import { startCountdown } from '../chrono.js';
 import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D, checkGameEnd3D, player1Score3D, player2Score3D } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
 import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
+import { clearSmokeTrail3D, resetRallyCount3D } from './rallyEffect3D.js';
+import { rallyCount3D, setRallyCount3D } from './rallyEffect3D.js';
 
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;
@@ -54,6 +56,8 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
         ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
         ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth3D / 2
     ) {
+        setRallyCount3D();
+        console.log('rallyCount3D: ', rallyCount3D);
         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
         ball.position.x = paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 + gameSettings3D.ballRadius3D;
         handlePaddleCollision3D(ball, paddleLeft);
@@ -66,6 +70,8 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
         ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
         ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth3D / 2
     ) {
+        setRallyCount3D();
+        console.log('rallyCount3D: ', rallyCount3D);
         gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
         ball.position.x = paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 - gameSettings3D.ballRadius3D;
         handlePaddleCollision3D(ball, paddleRight);
@@ -100,23 +106,33 @@ function resetBall3D() {
     }
 }
 
-export function checkBallOutOfBounds3D() {
+export function checkBallOutOfBounds3D(scene) {
     if (ball.position.x >= ballMovementLimitX) {
         setPlayer1Score3D(player1Score3D + 1);
-            resetBall3D();
+        clearSmokeTrail3D(scene);
+        resetRallyCount3D();
+        resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
+        if (checkGameEnd3D(player1Score3D, player2Score3D))
+            clearSmokeTrail3D(scene);
         return true;
     }
     if (ball.position.x <= -ballMovementLimitX) {
         setPlayer2Score3D(player2Score3D + 1);
-            resetBall3D();
+        clearSmokeTrail3D(scene);
+        resetRallyCount3D();
+        resetBall3D();
         if (gameSettings3D.resetPaddlePosition)
             resetPaddlePosition();
+        if (checkGameEnd3D(player1Score3D, player2Score3D))
+            clearSmokeTrail3D(scene);
         return true;
     }
     updateScore3D();
     const gameEnded = checkGameEnd3D(player1Score3D, player2Score3D);
-    if (gameEnded === true)
-        return false;
+    if (gameEnded === true) {
+        clearSmokeTrail3D(scene);
+            return false;
+    }
 }

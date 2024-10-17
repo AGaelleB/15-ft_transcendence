@@ -3,7 +3,7 @@
 import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
@@ -79,7 +79,7 @@ export function initialize1Player3D() {
         if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
             gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
     
-        if (checkBallOutOfBounds3D() === false)
+        if (checkBallOutOfBounds3D(scene) === false)
             setIsGameActive(false);
         checkPaddleCollision3D(ball, paddleLeft, paddleRight);
     }
@@ -91,6 +91,7 @@ export function initialize1Player3D() {
             movePaddles1Player();
             moveBall();
             updateAI3D(ball, paddleRight, ground);
+            drawBallWithSmokeTrail3D();
         }
         else if (!isGameActive3D)
             return;
