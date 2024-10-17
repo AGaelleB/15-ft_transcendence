@@ -96,9 +96,10 @@ export function initialize1Player3D() {
     
             if (checkPowerUpCollision3D(ball)) {
                 console.log("*** COLLISION DETECTED ***");
-                // if (powerUpObject3D && powerUpObject3D.material) {
-                //     applyPowerUpEffect3D(powerUpObject3D.material.map, paddleLeft, paddleRight);
-                // }
+                if (powerUpObject3D && powerUpObject3D.material) {
+                    console.log("*** applyPowerUpEffect3D ***");
+                    applyPowerUpEffect3D(powerUpObject3D.material.map, paddleLeft, paddleRight);
+                }
                 hidePowerUp3D(scene);
             }
         }

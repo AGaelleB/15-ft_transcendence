@@ -61,7 +61,7 @@ export function displayPowerUp3D(scene) {
     // Genere les power ups dans la zone definie
     const randomX = (Math.random() - 0.5) * marginWidth;
     const randomZ = (Math.random() - 0.5) * marginHeight;
-    powerUpObject3D.position.set(randomX, 0.5, randomZ);  // Position sur le sol
+    powerUpObject3D.position.set(randomX, 1, randomZ);  // Position sur le sol
 
     scene.add(powerUpObject3D);
 
@@ -110,7 +110,6 @@ export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
     paddleRight.speedFactor = gameSettings3D.paddleSpeed3D * 25;
 }
 
-
 export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle3D();
     let affectedPaddle;
@@ -126,48 +125,34 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
         return;
     }
 
-    // Créer un tableau pour stocker les valeurs d'origine
-    const originalState = {
-        height: affectedPaddle.height.y,
-        speedFactor: affectedPaddle.speedFactor,
-    };
+    const originalHeight = paddleLeft.height;
+    const originalSpeed = paddleLeft.speedFactor;
+    console.log(" originalHeight", originalHeight);
+    console.log(" originalSpeed", originalSpeed);
 
-    // Appliquer les effets du power-up
-    switch (powerUpTexture) {
-        case powerUpsTextures3D[0]: // sizeUpPaddle.png
-            console.log("*** affectedPaddle.height.y AVANT ***", affectedPaddle.height.y);
-            affectedPaddle.height.y *= 1.75;
-            console.log("*** affectedPaddle.height.y APRES ***", affectedPaddle.height.y);
-            break;
-        case powerUpsTextures3D[1]: // sizeDownPaddle.png
-            console.log("*** affectedPaddle.height.y AVANT ***", affectedPaddle.height.y);
-            affectedPaddle.height.y *= 0.5;
-            console.log("*** affectedPaddle.height.y APRES ***", affectedPaddle.height.y);
-            break;
-        case powerUpsTextures3D[2]: // speedPaddle.png
-            console.log("*** affectedPaddle.speedFactor AVANT ***", affectedPaddle.speedFactor);
-            affectedPaddle.speedFactor *= 1.75;
-            console.log("*** affectedPaddle.speedFactor APRES ***", affectedPaddle.speedFactor);
-            break;
-        case powerUpsTextures3D[3]: // slowPaddle.png
-            console.log("*** affectedPaddle.speedFactor AVANT ***", affectedPaddle.speedFactor);
-            affectedPaddle.speedFactor *= 0.25;
-            console.log("*** affectedPaddle.speedFactor APRES ***", affectedPaddle.speedFactor);
-            break;
-        default:
-            console.warn('Unknown power-up texture');
-            return;
+    if (powerUpTexture === powerUpsTextures3D[0]) { // sizeUpPaddle.png
+        console.log(" ---> sizeUpPaddle");
+        paddleLeft.height *= 1.75;
+    }
+    else if (powerUpTexture === powerUpsTextures3D[1]) { // sizeDownPaddle.png
+        console.log(" ---> sizeDownPaddle");
+        paddleLeft.height *= 0.5;
+    }
+    else if (powerUpTexture === powerUpsTextures3D[2]) { // speedPaddle.png
+        console.log(" ---> speedPaddle");
+        paddleLeft.speedFactor *=1.75;
+    }
+    else if (powerUpTexture === powerUpsTextures3D[3]) { // slowPaddle.png
+        console.log(" ---> slowPaddle");
+        paddleLeft.speedFactor *=0.25;
     }
 
     // Réinitialiser après la durée de l'effet
     setTimeout(() => {
-        affectedPaddle.height.y = originalState.height; // Réinitialiser la hauteur
-        affectedPaddle.speedFactor = originalState.speedFactor; // Réinitialiser la vitesse
-        console.log("*** affectedPaddle.height.y RÉINITIALISÉE ***", affectedPaddle.height.y);
-        console.log("*** affectedPaddle.speedFactor RÉINITIALISÉE ***", affectedPaddle.speedFactor);
+        paddleLeft.height = originalHeight;
+        paddleLeft.speedFactor = originalSpeed;
     }, gameSettings3D.powerUpEffectDuration3D);
 }
-
 
 
 /************************** FONCTION PRINCIPALE POWERS-UPS **************************/
