@@ -101,9 +101,9 @@ export function draw3D() {
 }
 
 export function drawBallWithSmokeTrail3D() {
-	if ((rallyCount3D >= 3 && rallyCount3D < 7) && gameSettings3D.setRally3D)
+	if ((rallyCount3D >= 10 && rallyCount3D < 25) && gameSettings3D.setRally3D)
 		addSmokeTrail3D(ball.position, scene);
-	else if (rallyCount3D >= 7 && gameSettings3D.setRally3D) {
+	else if (rallyCount3D >= 25 && gameSettings3D.setRally3D) {
 		applyPsychedelicEffect3D(ball);
 		psychedelicShaderMaterial.uniforms.time.value += 0.05;
 	}

@@ -63,7 +63,6 @@ export const gameSettings3D = {
     
     // Ball
     ballRadius3D: 0.75,
-    ballColor3D: 0xff0000,
     
     // Speed of the game
     paddleSpeed3D: 0,
