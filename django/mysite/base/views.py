@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+import mimetypes
 
 def index(request):
     return render(request, "base/index.html")
@@ -78,7 +79,7 @@ def user_detail(request, pk):
 
     elif request.method == 'DELETE':
         user.delete()
-        return Response(status=status.HTTP_201_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 ##########################################################
@@ -114,11 +115,10 @@ class GameDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Dest
     serializer_class = GameSerializer
 
     def get(self, request, *args, **kwargs):
-        # perform specific get actions
-        return self.retrieve(request, *args, **kwargs)
+        # perform specific actions when get arrives
+        return self.retrieve(request, *args, **kwargs) # calls the mixin method
 
     def put(self, request, *args, **kwargs):
-        #serializer = GameSerializer(self.get_queryset(), partial=True) # does not work
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
@@ -144,21 +144,37 @@ class ImageViewSet(APIView):
     queryset = IMG_TEST.objects.all()
     serializer_class = ImageSerializer
 
-    def get(self, request):
+    def get(self, request, pk=None):
+        if pk:
+            try:
+                obj = IMG_TEST.objects.get(pk=pk)
+                image = obj.img
+            except IMG_TEST.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            # externalize MIME in a function
+            mime_type, _ = mimetypes.guess_type(image.url)
+            if mime_type is None:
+                mime_type = 'application/octet-stream'
+            return HttpResponse(image, content_type=mime_type)
         img = IMG_TEST.objects.all()
         serializer = ImageSerializer(img, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        file = request.data['name']
-        img = request.data['img']
-        image = IMG_TEST.objects.create(name=file, img=img)
-        return HttpResponse(json.dumps({'message': "Uploaded"}), status=200)
+        serializer = ImageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def image_view(request, pk):
-    image = IMG_TEST.objects.get(pk=pk).img
-    if image is not None:
-        return HttpResponse(image, content_type="image/png")
-    else:
-        return HttpResponse(json.dumps({'message': "Uplono data"}), status=404)
+    '''
+    integrated in ImageViewSet get
+    '''
+    try:
+        obj = IMG_TEST.objects.get(pk=pk)
+    except IMG_TEST.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    image = obj.img
+    return HttpResponse(image, content_type="image/png")

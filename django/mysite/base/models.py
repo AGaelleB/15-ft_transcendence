@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 
 class User(models.Model):
-    id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username        = models.CharField(max_length=20, blank=False)
     first_name      = models.CharField(max_length=30, blank=False)
     last_name       = models.CharField(max_length=30, blank=False)
@@ -25,7 +24,6 @@ class User(models.Model):
 
 
 class Tournament(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=25, null=False)
     date = models.DateTimeField()
     nb_player = models.IntegerField(null=False)
@@ -34,7 +32,6 @@ class Tournament(models.Model):
         return self.uid
     
 class Game(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateTimeField(auto_now_add=True, editable=False)
     #player1 = models.ForeignKey(User, on_delete=models.PROTECT, related_name="player")
     score = models.PositiveIntegerField()
