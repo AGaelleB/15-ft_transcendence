@@ -7,8 +7,8 @@ import { ground } from './draw3D.js';
 
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
-let nextPowerUpTime3D = Date.now() + getRandomInterval3D(3000, 5000); // Délai pour le 1er affichage
-let powerUpObject3D; // pour l'objet 3D du power-up
+let nextPowerUpTime3D = Date.now() + getRandomInterval3D(5000, 7000); // Délai pour le 1er affichage
+export let powerUpObject3D; // pour l'objet 3D du power-up
 let powerUpTimeoutId3D;
 
 // // si docker nginx
@@ -27,97 +27,76 @@ export const powerUpsTextures3D = [
     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/slowPaddle.png')
 ];
 
-export function resetPowerUpTimer3D() {
-    nextPowerUpTime3D = Date.now() + getRandomInterval3D(3000, 5000);
-}
+export function hidePowerUp3D(scene) {
+    if (powerUpObject3D) {
+        scene.remove(powerUpObject3D);
+        powerUpObject3D = null;
+    }
 
-export function hidePowerUp3D(powerUpImageElement) {
-    powerUpImageElement.style.display = 'none';
-
+    // Annuler le timeout si le power-up est masqué avant la fin du délai
     if (powerUpTimeoutId3D) {
-        clearTimeout3D(powerUpTimeoutId3D);
+        clearTimeout(powerUpTimeoutId3D);
         powerUpTimeoutId3D = null;
     }
 }
 
-function getRandomInterval3D(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function createPowerUp3DImageElement3D() {
-
-    const powerUpImageElement = document.createElement('img');
-    document.body.appendChild(powerUpImageElement);
-    powerUpImageElement.style.position = 'absolute';
-    powerUpImageElement.style.display = 'none';
-
-    return (powerUpImageElement);
-}
-
-export function createPowerUp3D(scene) {
+export function displayPowerUp3D(scene) {
     const randomIndex = Math.floor(Math.random() * powerUpsTextures3D.length);
     const selectedTexture = powerUpsTextures3D[randomIndex];
-
-    console.log("***** images loaded 3D *****");
 
     // Créer un plan avec une texture de power-up
     const geometry = new THREE.PlaneGeometry(7, 7);  // Taille du power-up
     const material = new THREE.MeshBasicMaterial({ map: selectedTexture, transparent: true });
     powerUpObject3D = new THREE.Mesh(geometry, material);
 
-    // Limiter la position aléatoire du power-up aux dimensions du sol
+    // Limiter aux dimensions du ground
     const groundWidth = ground.geometry.parameters.width;
     const groundHeight = ground.geometry.parameters.height;
 
-    const randomX = (Math.random() - 0.5) * groundWidth;  // Générer X dans les limites du sol
-    const randomZ = (Math.random() - 0.5) * groundHeight; // Générer Z dans les limites du sol
-    powerUpObject3D.position.set(randomX, 1.5, randomZ);  // Positionner sur le sol (Y = 0)
+    // Marge de sécurité
+    const margin = 0.2;
+    const marginWidth = groundWidth * (1 - margin);
+    const marginHeight = groundHeight * (1 - margin);
+
+    // Genere les power ups dans la zone definie
+    const randomX = (Math.random() - 0.5) * marginWidth;
+    const randomZ = (Math.random() - 0.5) * marginHeight;
+    powerUpObject3D.position.set(randomX, 0.5, randomZ);  // Position sur le sol
 
     scene.add(powerUpObject3D);
 
-    // Le rendre visible pendant un certain temps (7 secondes)
+    // Temps de visibilité
     powerUpTimeoutId3D = setTimeout(() => {
         scene.remove(powerUpObject3D);
-    }, 5000);
+    }, 14000);
 }
 
-// Générer des power-ups à des intervalles réguliers
-export function generatePowerUp3D(scene) {
-
-    const now = Date.now();
-
-    console.log("***** generatePowerUp3D *****");
-    console.log("isGameStarted3D: ", isGameStarted3D());
-    // console.log("now: ", now);
-    // console.log("nextPowerUpTime3D: ", nextPowerUpTime3D);
-
-    if (isGameStarted3D && now >= nextPowerUpTime3D) {
-        console.log("***** Je genere les Powers ups *****");
-        createPowerUp3D(scene);
-        nextPowerUpTime3D = now + getRandomInterval3D(1000, 2000);
-    }
+function getRandomInterval3D(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/* 
-    Idee :
-    voir sur le met bien le game isGameStarted3D a true en debut de game, on dirait que non
-    peut etre utiliser un autre flag
-    le power up s affiche une fois mais ensuite une fois disparu il ne revient plus 
-
-
-*/
 
 /******************** DETECTION DES COLISSIONS ENTRE IMG ET POWERS-UPS ********************/
 
 export function checkPowerUpCollision3D(ball) {
-    if (!powerUpObject3D) 
+    if (!powerUpObject3D) {
         return false;
+    }
 
-    // Vérifier si la balle chevauche le power-up
-    const distance = ball.position.distanceTo(powerUpObject3D.position);
-    return distance < (gameSettings3D.ballRadius3D + 2.5);  // 2.5 est la moitié de la taille du power-up
+    // Taille approximative du power-up
+    const powerUpSize = 3.5;
+
+    // Vérifier les distances sur chaque axe séparément (X, Y, Z)
+    const distanceX = Math.abs(ball.position.x - powerUpObject3D.position.x);
+    const distanceY = Math.abs(ball.position.y - powerUpObject3D.position.y);
+    const distanceZ = Math.abs(ball.position.z - powerUpObject3D.position.z);
+
+    const collisionX = distanceX < (ball.geometry.parameters.radius + powerUpSize);
+    const collisionY = distanceY < (ball.geometry.parameters.radius + powerUpSize); 
+    const collisionZ = distanceZ < (ball.geometry.parameters.radius + powerUpSize);
+
+    return collisionX && collisionY && collisionZ;
 }
-
 
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
@@ -131,32 +110,76 @@ export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
     paddleRight.speedFactor = gameSettings3D.paddleSpeed3D * 25;
 }
 
+
 export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle3D();
     let affectedPaddle;
 
-    if (lastTouchedPaddle === 'left')
+    if (lastTouchedPaddle === 'left') {
         affectedPaddle = paddleLeft;
-    else if (lastTouchedPaddle === 'right')
+    }
+    else if (lastTouchedPaddle === 'right') {
         affectedPaddle = paddleRight;
+    }
     else {
         console.warn('Invalid paddle detected');
         return;
     }
 
-    if (powerUpTexture === powerUpsTextures3D[0])  // sizeUpPaddle.png
-        affectedPaddle.scale.y *= 1.75;
-    else if (powerUpTexture === powerUpsTextures3D[1])  // sizeDownPaddle.png
-        affectedPaddle.scale.y *= 0.5;
-    else if (powerUpTexture === powerUpsTextures3D[2])  // speedPaddle.png
-        affectedPaddle.speedFactor *= 5;
-    else if (powerUpTexture === powerUpsTextures3D[3])  // slowPaddle.png
-        affectedPaddle.speedFactor *= 0.25;
+    // Créer un tableau pour stocker les valeurs d'origine
+    const originalState = {
+        height: affectedPaddle.height.y,
+        speedFactor: affectedPaddle.speedFactor,
+    };
+
+    // Appliquer les effets du power-up
+    switch (powerUpTexture) {
+        case powerUpsTextures3D[0]: // sizeUpPaddle.png
+            console.log("*** affectedPaddle.height.y AVANT ***", affectedPaddle.height.y);
+            affectedPaddle.height.y *= 1.75;
+            console.log("*** affectedPaddle.height.y APRES ***", affectedPaddle.height.y);
+            break;
+        case powerUpsTextures3D[1]: // sizeDownPaddle.png
+            console.log("*** affectedPaddle.height.y AVANT ***", affectedPaddle.height.y);
+            affectedPaddle.height.y *= 0.5;
+            console.log("*** affectedPaddle.height.y APRES ***", affectedPaddle.height.y);
+            break;
+        case powerUpsTextures3D[2]: // speedPaddle.png
+            console.log("*** affectedPaddle.speedFactor AVANT ***", affectedPaddle.speedFactor);
+            affectedPaddle.speedFactor *= 1.75;
+            console.log("*** affectedPaddle.speedFactor APRES ***", affectedPaddle.speedFactor);
+            break;
+        case powerUpsTextures3D[3]: // slowPaddle.png
+            console.log("*** affectedPaddle.speedFactor AVANT ***", affectedPaddle.speedFactor);
+            affectedPaddle.speedFactor *= 0.25;
+            console.log("*** affectedPaddle.speedFactor APRES ***", affectedPaddle.speedFactor);
+            break;
+        default:
+            console.warn('Unknown power-up texture');
+            return;
+    }
 
     // Réinitialiser après la durée de l'effet
     setTimeout(() => {
-        affectedPaddle.scale.y = originalHeight;
-        affectedPaddle.speedFactor = originalSpeedFactor;
+        affectedPaddle.height.y = originalState.height; // Réinitialiser la hauteur
+        affectedPaddle.speedFactor = originalState.speedFactor; // Réinitialiser la vitesse
+        console.log("*** affectedPaddle.height.y RÉINITIALISÉE ***", affectedPaddle.height.y);
+        console.log("*** affectedPaddle.speedFactor RÉINITIALISÉE ***", affectedPaddle.speedFactor);
     }, gameSettings3D.powerUpEffectDuration3D);
 }
+
+
+
+/************************** FONCTION PRINCIPALE POWERS-UPS **************************/
+
+export function generatePowerUp3D(scene, ball) {
+
+    const now = Date.now();
+
+    if (isGameStarted3D && now >= nextPowerUpTime3D) {
+        displayPowerUp3D(scene);
+        nextPowerUpTime3D = now + getRandomInterval3D(5000, 7000);
+    }
+}
+
 

@@ -7,9 +7,9 @@ import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '..
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { player1Score3D, player2Score3D, setIsGameOver3D, updateScore3D, checkGameEnd3D } from '../PongGame/Game3D/score3D.js';
+import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
-import { applyPowerUpEffect3D, generatePowerUp3D, hidePowerUp3D } from '../PongGame/Game3D/power-ups3D.js';
+import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D } from '../PongGame/Game3D/power-ups3D.js';
 
 let isGameActive3D = true;
 
@@ -87,34 +87,26 @@ export function initialize1Player3D() {
 
     /* ********************************************************************************* */
 
-        // POWER UPS
-        console.log("***** Powers ups avant *****");
-        // if (gameSettings3D.setPowerUps3D) {
-            // console.log("***** Powers ups 1er if *****");
-            // if (powerUpImageElement3D.style.display === 'block' && checkPowerUpCollision(ball, powerUpImageElement3D, canvas)) {
-                // console.log("***** Powers ups 1er if *****");
-                // generatePowerUp3D(scene);
-                // applyPowerUpEffect3D(powerUpImageElement3D.src, paddleLeft, paddleRight);
-                // hidePowerUp3D(powerUpImageElement3D);
-            // }
-        // }
-
-    /* ********************************************************************************* */
-
     function gameLoop1Player3D() {
         if (isGameActive3D && isGameStarted3D()) {
             movePaddles1Player();
             moveBall();
             updateAI3D(ball, paddleRight, ground);
             generatePowerUp3D(scene);
+    
+            if (checkPowerUpCollision3D(ball)) {
+                console.log("*** COLLISION DETECTED ***");
+                // if (powerUpObject3D && powerUpObject3D.material) {
+                //     applyPowerUpEffect3D(powerUpObject3D.material.map, paddleLeft, paddleRight);
+                // }
+                hidePowerUp3D(scene);
+            }
         }
         else if (!isGameActive3D)
             return;
+    
         renderer.render(scene, camera);
         requestAnimationFrame(gameLoop1Player3D);
     }
     gameLoop1Player3D();
 }
-
-
-
