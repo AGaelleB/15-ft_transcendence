@@ -100,11 +100,10 @@ export function draw3D() {
 	}
 }
 
-// Fonction pour dessiner la balle avec la traînée de fumée
 export function drawBallWithSmokeTrail3D() {
-	if (rallyCount3D >= 3 && rallyCount3D < 7)
+	if ((rallyCount3D >= 3 && rallyCount3D < 7) && gameSettings3D.setRally3D)
 		addSmokeTrail3D(ball.position, scene);
-	else if (rallyCount3D >= 7) {
+	else if (rallyCount3D >= 7 && gameSettings3D.setRally3D) {
 		applyPsychedelicEffect3D(ball);
 		psychedelicShaderMaterial.uniforms.time.value += 0.05;
 	}
@@ -112,7 +111,6 @@ export function drawBallWithSmokeTrail3D() {
 		ball.material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 }
 
-// Fonction pour réinitialiser les positions des raquettes
 export function resetPaddlePosition() {
 	paddleLeft.position.set(-28, 0, 0);
 	paddleRight.position.set(28, 0, 0);
