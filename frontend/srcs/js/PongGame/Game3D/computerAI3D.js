@@ -1,7 +1,6 @@
 // frontend/srcs/js/PongGame/Game3D/computerAI3D.js
 
 import { gameSettings3D } from '../gameSettings.js';
-import { paddleRight } from './draw3D.js';
 
 const keys = {};
 let lastUpdateTime = 0;

@@ -3,11 +3,12 @@
 import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
+import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D } from '../PongGame/Game3D/power-ups3D.js';
 
 let isGameActive3D = true;
 
@@ -39,46 +40,49 @@ export function initialize2Players3D() {
     initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
 
     resetGame3D();
+    paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
+    paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
     updateScore3D();
     initializeRenderer3D();
 
-/* ************************** Mouvement du paddle ******************************* */
+    /* ************************** Mouvement du paddle ******************************* */
 
-const keys = {};
+    const keys = {};
 
-document.addEventListener('keydown', (e) => { keys[e.key] = true; });
-document.addEventListener('keyup', (e) => { keys[e.key] = false; });
-
-// limites du mouvement des paddles
-const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
-
-function movePaddles2Players() {
-    // Player 1
-    if (keys['s']) {
-        if (paddleLeft.position.z < paddleMovementLimit)
-            paddleLeft.position.z += gameSettings3D.paddleSpeed3D;
+    document.addEventListener('keydown', (e) => { keys[e.key] = true; });
+    document.addEventListener('keyup', (e) => { keys[e.key] = false; });
+    
+    // limites du mouvement des paddles
+    
+    function movePaddles2Players() {
+        const paddleLeftMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
+        const paddleRightMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleRight.paddleDepth3D / 2.30);
+        // Player 1
+        if (keys['s']) {
+            if (paddleLeft.position.z < paddleLeftMovementLimit)
+                paddleLeft.position.z += paddleLeft.speedFactor;
+        }
+        if (keys['w']) {
+            if (paddleLeft.position.z > -paddleLeftMovementLimit)
+                paddleLeft.position.z -= paddleLeft.speedFactor;
+        }
+    
+        // Player 2
+        if (keys['ArrowDown']) {
+            if (paddleRight.position.z < paddleRightMovementLimit)
+                paddleRight.position.z += paddleRight.speedFactor;
+        }
+        if (keys['ArrowUp']) {
+            if (paddleRight.position.z > -paddleRightMovementLimit)
+                paddleRight.position.z -= paddleRight.speedFactor;
+        }
     }
-    if (keys['w']) {
-        if (paddleLeft.position.z > -paddleMovementLimit)
-            paddleLeft.position.z -= gameSettings3D.paddleSpeed3D;
-    }
-
-    // Player 2
-    if (keys['ArrowDown']) {
-        if (paddleRight.position.z < paddleMovementLimit)
-            paddleRight.position.z += gameSettings3D.paddleSpeed3D;
-    }
-    if (keys['ArrowUp']) {
-        if (paddleRight.position.z > -paddleMovementLimit)
-            paddleRight.position.z -= gameSettings3D.paddleSpeed3D;
-    }
-}
-
-/* ************************** Mouvement de la balle ******************************* */
+    
+    /* ************************** Mouvement de la balle ******************************* */
     
     // Limites de mouvement de la balle
-    const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
     
+    const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
     function moveBall() {
         ball.position.x += gameSettings3D.ballSpeedX3D;
         ball.position.z += gameSettings3D.ballSpeedZ3D;
@@ -87,7 +91,7 @@ function movePaddles2Players() {
         if (ball.position.z >= ballMovementLimitZ || ball.position.z <= -ballMovementLimitZ)
             gameSettings3D.ballSpeedZ3D = -gameSettings3D.ballSpeedZ3D;
     
-        if (checkBallOutOfBounds3D() === false)
+        if (checkBallOutOfBounds3D(scene) === false)
             setIsGameActive(false);
         checkPaddleCollision3D(ball, paddleLeft, paddleRight);
     }
@@ -98,9 +102,20 @@ function movePaddles2Players() {
         if (isGameActive3D && isGameStarted3D()) {
             movePaddles2Players();
             moveBall();
+            drawBallWithSmokeTrail3D();
+            if (gameSettings3D.setPowerUps3D) {
+                generatePowerUp3D(scene);
+                if (checkPowerUpCollision3D(ball)) {
+                    if (powerUpObject3D && powerUpObject3D.material) {
+                        applyPowerUpEffect3D(powerUpObject3D.material.map, paddleLeft, paddleRight);
+                    }
+                    hidePowerUp3D(scene);
+                }
+            }
         }
         else if (!isGameActive3D)
             return;
+    
         renderer.render(scene, camera);
         requestAnimationFrame(gameLoop2Players3D);
     }

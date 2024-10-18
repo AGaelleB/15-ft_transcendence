@@ -98,9 +98,7 @@ export function initialize1Player3D() {
             if (gameSettings3D.setPowerUps3D) {
                 generatePowerUp3D(scene);
                 if (checkPowerUpCollision3D(ball)) {
-                    console.log("*** COLLISION DETECTED ***");
                     if (powerUpObject3D && powerUpObject3D.material) {
-                        console.log("*** applyPowerUpEffect3D ***");
                         applyPowerUpEffect3D(powerUpObject3D.material.map, paddleLeft, paddleRight);
                     }
                     hidePowerUp3D(scene);

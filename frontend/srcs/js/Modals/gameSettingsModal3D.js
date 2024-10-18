@@ -29,6 +29,7 @@ export function loadSettingsStorage3D() {
 }
 
 function resetToDefaultSettings3D() {
+    gameSettings3D.ballSpeedSAV = 0.30;
     gameSettings3D.ballSpeedX3D = 0.30;
     gameSettings3D.ballSpeedZ3D = 0.30;
     gameSettings3D.paddleSpeed3D = 0.3;
@@ -63,12 +64,11 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
 }
 
 export function updateSettingsModal3D() {
-    if (gameSettings3D.ballSpeedX3D <= 0.10) ballSpeedValue = 1;
-    else if (gameSettings3D.ballSpeedX3D <= 0.20) ballSpeedValue = 2;
-    else if (gameSettings3D.ballSpeedX3D <= 0.30) ballSpeedValue = 3;
-    else if (gameSettings3D.ballSpeedX3D <= 0.40) ballSpeedValue = 4;
+    if (gameSettings3D.ballSpeedSAV <= 0.10) ballSpeedValue = 1;
+    else if (gameSettings3D.ballSpeedSAV <= 0.20) ballSpeedValue = 2;
+    else if (gameSettings3D.ballSpeedSAV <= 0.30) ballSpeedValue = 3;
+    else if (gameSettings3D.ballSpeedSAV <= 0.40) ballSpeedValue = 4;
     else ballSpeedValue = 5;
-    console.log("ballSpeedValue: ", ballSpeedValue);
 
     if (gameSettings3D.paddleSpeed3D <= 0.1) paddleSpeedValue = 1;
     else if (gameSettings3D.paddleSpeed3D <= 0.2) paddleSpeedValue = 2;
