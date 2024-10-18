@@ -80,12 +80,12 @@ function resetBall3D() {
     const savedSpeedX = gameSettings3D.ballSpeedX3D;
     const savedSpeedZ = gameSettings3D.ballSpeedZ3D;
 
-    /********************************* POWER-UPS *********************************/
-    setLastTouchedPaddle3D(null);
-    resetPowerUpEffects3D(paddleLeft, paddleRight); // marche pas ?? 
-    hidePowerUp3D(scene);
-    resetPowerUpTimer3D(); // marche pas ?? 
-    /********************************* POWER-UPS *********************************/
+    if (gameSettings3D.setPowerUps3D) {
+        setLastTouchedPaddle3D(null);
+        resetPowerUpEffects3D(paddleLeft, paddleRight);
+        hidePowerUp3D(scene);
+        resetPowerUpTimer3D();
+    }
 
     if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
         gameSettings3D.ballSpeedX3D = 0;

@@ -7,7 +7,7 @@ import { ground } from './draw3D.js';
 
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
-let nextPowerUpTime3D = Date.now() + getRandomInterval3D(5000, 7000); // Délai pour le 1er affichage
+let nextPowerUpTime3D = Date.now() + getRandomInterval3D(gameSettings3D.powerUpStart3D, gameSettings3D.powerUpEnd3D); // Délai pour le 1er affichage
 export let powerUpObject3D; // pour l'objet 3D du power-up
 let powerUpTimeoutId3D;
 
@@ -61,14 +61,14 @@ export function displayPowerUp3D(scene) {
     // Genere les power ups dans la zone definie
     const randomX = (Math.random() - 0.5) * marginWidth;
     const randomZ = (Math.random() - 0.5) * marginHeight;
-    powerUpObject3D.position.set(randomX, 1, randomZ);  // Position sur le sol
+    powerUpObject3D.position.set(randomX, 1.5, randomZ);  // Position sur le sol
 
     scene.add(powerUpObject3D);
 
     // Temps de visibilité
     powerUpTimeoutId3D = setTimeout(() => {
         scene.remove(powerUpObject3D);
-    }, isGameStarted3D.powerUpVisibilityDuration3D);
+    }, gameSettings3D.powerUpVisibilityDuration3D);
 }
 
 function getRandomInterval3D(min, max) {
@@ -76,7 +76,7 @@ function getRandomInterval3D(min, max) {
 }
 
 export function resetPowerUpTimer3D() {
-    nextPowerUpTime3D = Date.now() + getRandomInterval3D(5000, 7000);
+    nextPowerUpTime3D = Date.now() + getRandomInterval3D(gameSettings3D.powerUpStart3D, gameSettings3D.powerUpEnd3D);
 }
 
 
@@ -104,26 +104,29 @@ export function checkPowerUpCollision3D(ball) {
 
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
-// cette fonction ne marche pas 
-export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
-    // const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
-
-    paddleLeft.height = gameSettings3D.paddleDepth3D; 
-    paddleRight.height = gameSettings3D.paddleDepth3D;
-
-    paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
-    paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
+function resetPaddleDefault(paddle) {
+    paddle.speedFactor = gameSettings3D.paddleSpeed3D;
+    paddle.geometry.dispose();
+    const resetPaddleGeometry = new THREE.BoxGeometry(
+        gameSettings3D.paddleWidth3D, 
+        gameSettings3D.paddleHeight3D, 
+        paddle.paddleDepth3D = gameSettings3D.paddleDepth3D
+    );
+    paddle.geometry = resetPaddleGeometry;
 }
 
-function setAffectedPaddle(affectedPaddle) {
-    // Redessiner la raquette après changement de profondeur
-    affectedPaddle.geometry.dispose(); // Supprimer l'ancienne géométrie
+export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
+    resetPaddleDefault(paddleLeft);
+    resetPaddleDefault(paddleRight);
+}
+
+function setAffectedPaddle(affectedPaddle, size) {
+    affectedPaddle.geometry.dispose();
     const newPaddleGeometry = new THREE.BoxGeometry(
         gameSettings3D.paddleWidth3D, 
         gameSettings3D.paddleHeight3D, 
-        affectedPaddle.paddleDepth3D * affectedPaddle.scale.z  // Changer la profondeur (axe Z)
+        affectedPaddle.paddleDepth3D = gameSettings3D.paddleDepth3D * size
     );
-    affectedPaddle.paddleDepth3D = gameSettings3D.paddleDepth3D * affectedPaddle.scale.z;
     affectedPaddle.geometry = newPaddleGeometry;
 }
 
@@ -140,37 +143,23 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
         return;
     }
 
-    // Sauvegarder la profondeur originale
-    const originalDepth = affectedPaddle.scale.z;
-    const originalSpeed = affectedPaddle.speedFactor;
+    let size = 1;
 
-    // Appliquer l'effet du power-up (modification de la profondeur, axe Z)
-    if (powerUpTexture === powerUpsTextures3D[0]) {
-        affectedPaddle.scale.z *= 1.15;  // Augmenter la profondeur
-        setAffectedPaddle(affectedPaddle);
+    if (powerUpTexture === powerUpsTextures3D[0]) { // sizeUpPaddle
+        size *= 1.5;
+        setAffectedPaddle(affectedPaddle, size);
     }
-    else if (powerUpTexture === powerUpsTextures3D[1]) { 
-        affectedPaddle.scale.z *= 0.5;  // Réduire la profondeur
-        setAffectedPaddle(affectedPaddle);
+    else if (powerUpTexture === powerUpsTextures3D[1]) { // sizeDownPaddle
+        size *= 0.5;
+        setAffectedPaddle(affectedPaddle, size);
     }
-    else if (powerUpTexture === powerUpsTextures3D[2]) {
-        affectedPaddle.speedFactor *= 1.75;  // Augmenter la vitesse
-    }
-    else if (powerUpTexture === powerUpsTextures3D[3]) {
-        affectedPaddle.speedFactor *= 0.25;  // Réduire la vitesse
-    }
+    else if (powerUpTexture === powerUpsTextures3D[2]) // speedPaddle
+        affectedPaddle.speedFactor *= 1.75;
+    else if (powerUpTexture === powerUpsTextures3D[3]) // slowPaddle
+        affectedPaddle.speedFactor *= 0.25;
 
-    // Réinitialiser après la durée de l'effet
     setTimeout(() => {
-        affectedPaddle.scale.z = gameSettings3D.paddleDepth3D;  // Réinitialiser la profondeur
-        affectedPaddle.speedFactor = gameSettings3D.paddleSpeed3D;  // Réinitialiser la vitesse
-        affectedPaddle.geometry.dispose();  // Supprimer la géométrie modifiée
-        const resetPaddleGeometry = new THREE.BoxGeometry(
-            gameSettings3D.paddleWidth3D, 
-            gameSettings3D.paddleHeight3D, 
-            gameSettings3D.paddleDepth3D
-        );
-        affectedPaddle.geometry = resetPaddleGeometry;  // Appliquer la géométrie originale
+        resetPaddleDefault(affectedPaddle);
     }, gameSettings3D.powerUpEffectDuration3D);
 }
 
@@ -182,7 +171,7 @@ export function generatePowerUp3D(scene, ball) {
 
     if (isGameStarted3D && now >= nextPowerUpTime3D) {
         displayPowerUp3D(scene);
-        nextPowerUpTime3D = now + getRandomInterval3D(5000, 7000);
+        nextPowerUpTime3D = now + getRandomInterval3D(12000, 25000);
     }
 }
 

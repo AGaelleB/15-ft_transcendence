@@ -39,6 +39,7 @@ function resetToDefaultSettings3D() {
     gameSettings3D.winningScore = 5;
     gameSettings3D.difficultyLevel3D = "intermediate";
     gameSettings3D.resetPaddlePosition = false;
+    gameSettings3D.setPowerUps3D = false;
 
     ballSpeedValue = 3;
     paddleSpeedValue = 3;
@@ -106,6 +107,7 @@ export function updateSettingsModal3D() {
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
     updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
     document.getElementById('resetPaddlePosition').checked = gameSettings3D.resetPaddlePosition;
+    document.getElementById('setPowerUps').checked = gameSettings3D.setPowerUps3D;
 }
 
 export function initializeGameSettings3D() {
@@ -303,6 +305,11 @@ export function initializeGameSettings3D() {
 
     document.getElementById('resetPaddlePosition').addEventListener('change', function (event) {
         gameSettings3D.resetPaddlePosition = event.target.checked;
+        saveGameSettings3D();
+    });
+
+    document.getElementById('setPowerUps').addEventListener('change', function (event) {
+        gameSettings3D.setPowerUps3D = event.target.checked;
         saveGameSettings3D();
     });
 

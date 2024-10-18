@@ -6,7 +6,7 @@ import { getLastTouchedPaddle2D } from './ballCollision2D.js';
 
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
-let nextPowerUpTime = Date.now() + getRandomInterval2D(17000, 20000); // Délai pour le 1er affichage
+let nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D); // Délai pour le 1er affichage
 let powerUpTimeoutId;
 
 const powerUpsImages = [
@@ -24,7 +24,7 @@ const powerUpsImages = [
 // ];
 
 export function resetPowerUpTimer2D() {
-    nextPowerUpTime = Date.now() + getRandomInterval2D(17000, 20000);
+    nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D);
 }
 
 export function hidePowerUp(powerUpImageElement) {
@@ -83,7 +83,7 @@ function displayRandomPowerUp2D(powerUpImageElement, canvas) {
         // affiche durant 7 secondes
         powerUpTimeoutId = setTimeout(() => {
             powerUpImageElement.style.display = 'none';
-        }, 7000);
+        }, gameSettings2D.powerUpVisibilityDuration2D);
     };
 }
 
