@@ -11,21 +11,21 @@ let nextPowerUpTime3D = Date.now() + getRandomInterval3D(gameSettings3D.powerUpS
 export let powerUpObject3D; // pour l'objet 3D du power-up
 let powerUpTimeoutId3D;
 
-// // si docker nginx
-// export const powerUpsTextures3D = [
-//     new THREE.TextureLoader().load('../images/power-ups/sizeUpPaddle.png'),
-//     new THREE.TextureLoader().load('../images/power-ups/sizeDownPaddle.png'),
-//     new THREE.TextureLoader().load('../images/power-ups/speedPaddle.png'),
-//     new THREE.TextureLoader().load('../images/power-ups/slowPaddle.png')
-// ];
+// si docker nginx
+export const powerUpsTextures3D = [
+    new THREE.TextureLoader().load('../images/power-ups/sizeUpPaddle.png'),
+    new THREE.TextureLoader().load('../images/power-ups/sizeDownPaddle.png'),
+    new THREE.TextureLoader().load('../images/power-ups/speedPaddle.png'),
+    new THREE.TextureLoader().load('../images/power-ups/slowPaddle.png')
+];
 
 // si live server
-export const powerUpsTextures3D = [
-    new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/sizeUpPaddle.png'),
-    new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/sizeDownPaddle.png'),
-    new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/speedPaddle.png'),
-    new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/slowPaddle.png')
-];
+// export const powerUpsTextures3D = [
+//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/sizeUpPaddle.png'),
+//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/sizeDownPaddle.png'),
+//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/speedPaddle.png'),
+//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/slowPaddle.png')
+// ];
 
 export function hidePowerUp3D(scene) {
     if (powerUpObject3D) {
@@ -146,11 +146,11 @@ export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     let size = 1;
 
     if (powerUpTexture === powerUpsTextures3D[0]) { // sizeUpPaddle
-        size *= 1.5;
+        size *= 1.75;
         setAffectedPaddle(affectedPaddle, size);
     }
     else if (powerUpTexture === powerUpsTextures3D[1]) { // sizeDownPaddle
-        size *= 0.5;
+        size *= 0.25;
         setAffectedPaddle(affectedPaddle, size);
     }
     else if (powerUpTexture === powerUpsTextures3D[2]) // speedPaddle
