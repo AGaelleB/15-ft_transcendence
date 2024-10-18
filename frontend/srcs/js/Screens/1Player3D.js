@@ -3,12 +3,13 @@
 import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, draw3D, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
+import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D } from '../PongGame/Game3D/power-ups3D.js';
 
 let isGameActive3D = true;
 
@@ -40,6 +41,8 @@ export function initialize1Player3D() {
     initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
 
     resetGame3D();
+    paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
+    paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
     updateScore3D();
     initializeRenderer3D();
 
@@ -51,16 +54,16 @@ export function initialize1Player3D() {
     document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
     // limites du mouvement des paddles
-    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
-     
+    
     function movePaddles1Player() {
+        const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
         if (keys['ArrowUp']) {
             if (paddleLeft.position.z > -paddleMovementLimit)
-                paddleLeft.position.z -= gameSettings3D.paddleSpeed3D;
+                paddleLeft.position.z -= paddleLeft.speedFactor;
         }
         if (keys['ArrowDown']) {
             if (paddleLeft.position.z < paddleMovementLimit)
-                paddleLeft.position.z += gameSettings3D.paddleSpeed3D;
+                paddleLeft.position.z += paddleLeft.speedFactor;
         }
     
         updateAI3D(ball, paddleRight, ground);
@@ -92,9 +95,21 @@ export function initialize1Player3D() {
             moveBall();
             updateAI3D(ball, paddleRight, ground);
             drawBallWithSmokeTrail3D();
+            if (gameSettings3D.setPowerUps3D) {
+                generatePowerUp3D(scene);
+                if (checkPowerUpCollision3D(ball)) {
+                    console.log("*** COLLISION DETECTED ***");
+                    if (powerUpObject3D && powerUpObject3D.material) {
+                        console.log("*** applyPowerUpEffect3D ***");
+                        applyPowerUpEffect3D(powerUpObject3D.material.map, paddleLeft, paddleRight);
+                    }
+                    hidePowerUp3D(scene);
+                }
+            }
         }
         else if (!isGameActive3D)
             return;
+    
         renderer.render(scene, camera);
         requestAnimationFrame(gameLoop1Player3D);
     }

@@ -6,7 +6,11 @@ export const gameSettings2D = {
     winningScore: 0,
 
     // Power-ups
+    setPowerUps: 0,
+    powerUpStart2D: 17000,
+    powerUpEnd2D: 20000,
     powerUpEffectDuration2D: 7000,
+    powerUpVisibilityDuration2D: 7000,
 
     // Rally
     setRally: 0,
@@ -29,7 +33,6 @@ export const gameSettings2D = {
     ballSpeedY2D: 5,
 
     // IA
-    setPowerUps: 0,
     difficultyLevel: "novice",
     errorMargin: 0,
     aiSpeedFactor: 5,
@@ -46,7 +49,11 @@ export const gameSettings3D = {
     pointsToWin: 5,
 
     // Power-ups
+    setPowerUps3D: 0,
+    powerUpStart3D: 17000,
+    powerUpEnd3D: 20000,
     powerUpEffectDuration3D: 7000,
+    powerUpVisibilityDuration3D: 7000,
 
     // Rally
     setRally3D: 0,
@@ -71,7 +78,6 @@ export const gameSettings3D = {
     ballSpeedSAV: 0,
 
     // IA
-    setPowerUps3D: 0,
     difficultyLevel3D: "novice",
     errorMargin3D: 4200,
     aiSpeedFactor3D: 5,

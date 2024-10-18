@@ -41,13 +41,15 @@ export function draw3D() {
 	const paddleGeometry = new THREE.BoxGeometry(gameSettings3D.paddleWidth3D, gameSettings3D.paddleHeight3D, gameSettings3D.paddleDepth3D);
 	const paddleMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
 
-	paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
-	paddleLeft.position.set(-28, 0, 0);
-	scene.add(paddleLeft);
-
-	paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
-	paddleRight.position.set(28, 0, 0);
-	scene.add(paddleRight);
+    paddleLeft = new THREE.Mesh(paddleGeometry, paddleMaterial);
+    paddleLeft.position.set(-28, 0, 0);
+    paddleLeft.paddleDepth3D = gameSettings3D.paddleDepth3D;
+    scene.add(paddleLeft);
+    
+    paddleRight = new THREE.Mesh(paddleGeometry, paddleMaterial);
+    paddleRight.position.set(28, 0, 0);
+    paddleRight.paddleDepth3D = gameSettings3D.paddleDepth3D;
+    scene.add(paddleRight);
 
 	/* *************************** Bordures du jeu ******************************** */
 

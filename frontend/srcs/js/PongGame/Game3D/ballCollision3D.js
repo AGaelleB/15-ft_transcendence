@@ -3,6 +3,8 @@
 import { startCountdown } from '../chrono.js';
 import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D, checkGameEnd3D, player1Score3D, player2Score3D } from './score3D.js';
 import { gameSettings3D } from '../gameSettings.js';
+import { ball, groundGeometry, paddleLeft, paddleRight, resetPaddlePosition, scene } from './draw3D.js';
+import { hidePowerUp3D, resetPowerUpEffects3D, resetPowerUpTimer3D } from './power-ups3D.js';
 import { ball, groundGeometry, resetPaddlePosition } from './draw3D.js';
 import { clearSmokeTrail3D, resetRallyCount3D } from './rallyEffect3D.js';
 import { rallyCount3D, setRallyCount3D } from './rallyEffect3D.js';
@@ -25,6 +27,9 @@ export function handlePaddleCollision3D(ball, paddle) {
 	const paddleCenterZ = paddle.position.z;
 	const ballDistanceFromCenter = ball.position.z - paddleCenterZ;
 
+    const impactRatio = ballDistanceFromCenter / (paddle.paddleDepth3D / 2);
+    const maxBounceAngle = Math.PI / 4; 
+    const bounceAngle = impactRatio * maxBounceAngle;
 	const impactRatio = ballDistanceFromCenter / (gameSettings3D.paddleDepth3D / 2);
 	const maxBounceAngle = Math.PI / 4; 
 	const bounceAngle = impactRatio * maxBounceAngle;
@@ -50,6 +55,17 @@ export function handleWallCollision3D(ball, canvas) {
 }
 
 export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
+    // Ball collision with left paddle (Player 1)
+    if (
+        ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
+        ball.position.z <= paddleLeft.position.z + paddleLeft.paddleDepth3D / 2 &&
+        ball.position.z >= paddleLeft.position.z - paddleLeft.paddleDepth3D / 2
+    ) {
+        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
+        ball.position.x = paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 + gameSettings3D.ballRadius3D;
+        handlePaddleCollision3D(ball, paddleLeft);
+        setLastTouchedPaddle3D('left');
+    }
 	// Ball collision with left paddle (Player 1)
 	if (
 		ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
@@ -63,6 +79,17 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
 		setLastTouchedPaddle3D('left');
 	}
 
+    // Ball collision with right paddle (Player 2 or AI)
+    if (
+        ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
+        ball.position.z <= paddleRight.position.z + paddleRight.paddleDepth3D / 2 &&
+        ball.position.z >= paddleRight.position.z - paddleRight.paddleDepth3D / 2
+    ) {
+        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
+        ball.position.x = paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 - gameSettings3D.ballRadius3D;
+        handlePaddleCollision3D(ball, paddleRight);
+        setLastTouchedPaddle3D('right');
+    }
 	// Ball collision with right paddle (Player 2 or AI)
 	if (
 		ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
@@ -80,10 +107,26 @@ export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
 function resetBall3D() {
 	ball.position.set(0, 0, 0);
 
-	// setLastTouchedPaddle3D(null);
-	// resetPowerUpEffects3D(paddleLeft, paddleRight);
-	// hidePowerUp(powerUpImageElement);
-	// resetPowerUpTimerD();
+    if (gameSettings3D.setPowerUps3D) {
+        setLastTouchedPaddle3D(null);
+        resetPowerUpEffects3D(paddleLeft, paddleRight);
+        hidePowerUp3D(scene);
+        resetPowerUpTimer3D();
+    }
+
+    if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
+        gameSettings3D.ballSpeedX3D = 0;
+        gameSettings3D.ballSpeedZ3D = 0;
+        startCountdown(() => {
+            let direction;
+            if (Math.random() < 0.5)
+                direction = -1;
+            else
+                direction = 1;
+            gameSettings3D.ballSpeedX3D = direction * savedSpeedX;
+            gameSettings3D.ballSpeedZ3D = savedSpeedZ;
+        });
+    }
 	
 	if (!checkGameEnd3D(player1Score3D, player2Score3D)) {
 		gameSettings3D.ballSpeedX3D = 0;
