@@ -62,7 +62,7 @@ class UserList(APIView):
 
     def get(self, request):
         users = User.objects.all()
-        serializer = User_List_Serializer(self.get_q, many=True)
+        serializer = User_List_Serializer(users, many=True)
         return Response(serializer.data)
 
     def post(self, request):
