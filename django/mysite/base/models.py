@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 
 class User(models.Model):
@@ -9,29 +8,46 @@ class User(models.Model):
     email           = models.EmailField()
     is_connected    = models.BooleanField(default=True)
     is_2fa          = models.BooleanField(default=False)
-    #friends         = models.ManyToManyField("self")
+    friends         = models.ManyToManyField("self", symmetrical=True, blank=True)
 
     # optional
     #birth_date      = models.DateTimeField()
     #last_login      = models.DateTimeField()
     #account_create  = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.username
-
     class Meta:
         ordering = ["id"]
+        
+    def delete(self, *args, **kwargs):
+        """
+        overide models.delete to clear friends list (no on_delete=CASCADE in many to many)
+        """
+        self.friends.clear()
+        super().delete(*args, **kwargs)
 
-class Friend_invite(models.Model):
-    """
-    implement accept and refuse : add friends in both user, delete friend invite
-    """
+    def __str__(self):
+        return self.username
+    
+    def remove_friend(self, friend):
+        #self.friends.remove(friend)
+        pass
+
+
+
+class FriendRequest(models.Model):
     date = models.DateTimeField(auto_now_add=True, editable=False)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="sender")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="receiver")
 
     def __str__(self):
         return f"{self.sender} --> {self.receiver}"
+
+    def accept_request(self):
+        self.sender.friends.add(self.receiver)
+        self.delete()
+
+    def decline_request(self):
+        self.delete()
 
 
 class Tournament(models.Model):
