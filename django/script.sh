@@ -6,7 +6,7 @@
 deactivate > /dev/null 2>&1 && echo "venv deactivated"
 
 # if any .venv already exists (cwd only)
-rm -rf .venv && echo ".venv removed"
+rm -r .venv > /dev/null 2>&1 && echo ".venv removed"
 
 # create the virtual env (venv = command, .venv = repo, with .venv in .gitignore)
 python3 -m venv .venv && echo "venv .venv created"

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import User, Game, IMG_TEST
+from django.core.exceptions import ValidationError
+from .models import User, Game, IMG_TEST, Friend_invite
 
 '''
 How data would be sent/accepted with clients (same as django.form for pos/put)
@@ -17,18 +18,66 @@ s = UserSerializer()
 print(repr(s))
 '''
 
-class UserSerializer(serializers.ModelSerializer):
+################################################################################
+#                Users
+################################################################################
+class User_Create_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User 
+        fields = ['id', 'username', 'first_name', 'email', 'is_2fa']
+
+class User_List_Serializer(serializers.ModelSerializer):
+    received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     class Meta:
         model = User
-        exclude = []
-        #fields = ['id', 'username', 'first_name', 'email', 'is_connected']
+        #exclude = []
+        fields = ['id', 'username', 'first_name', 'email', 'is_connected', 'received_invites']
 
+class User_Update_Serializer(serializers.ModelSerializer):
+    received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
+    class Meta:
+        model = User
+        #exclude = []
+        fields = ['id', 'username', 'first_name', 'email', 'is_2fa', 'received_invites']
+
+
+################################################################################
+#               Friend invites
+################################################################################
+class Friend_invite_create_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Friend_invite
+        fields = ['sender', 'receiver']
+
+    def validate(self, data):
+        sender = data['sender']
+        receiver = data['receiver']
+        if sender == receiver:
+            raise serializers.ValidationError("Friend invite: sender is same user as receiver")
+        if Friend_invite.objects.filter(sender=sender, receiver=receiver) or Friend_invite.objects.filter(sender=receiver, receiver=sender):
+            raise serializers.ValidationError("Friend invite: exists already")
+        return data
+
+
+class Friend_invite_show_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Friend_invite
+        fields = ['sender', 'receiver', 'date']
+
+
+################################################################################
+#               Games
+################################################################################
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         exclude = []
         #fields = ['id', 'date', 'score', 'opp_score']
 
+
+################################################################################
+#               Images
+################################################################################
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = IMG_TEST

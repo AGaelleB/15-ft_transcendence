@@ -8,7 +8,7 @@ urlpatterns = [
     path("user_connected/", views.user_connected, name="user_info"),
     re_path(r'^user_(listing|list)/$', views.user_listing, name="user_listing"),
     # API VIEWS
-    path('users/', views.user_list),
+    path('users/', views.UserList.as_view()),
     path('users/<int:pk>/', views.user_detail),
     path('games/', views.GameList.as_view()),
     path('games/<int:pk>/', views.GameDetail.as_view()),
@@ -16,5 +16,9 @@ urlpatterns = [
     path('gamesG/<int:pk>/', views.GameDetailGeneric.as_view()),
     # images
     path('upload/', views.ImageViewSet.as_view(), name='upload'),
-    path('upload/<int:pk>/', views.ImageViewSet.as_view(), name='retrieve img')
+    path('upload/<int:pk>/', views.ImageViewSet.as_view(), name='retrieve img'),
+    # friend invite
+    path('friends/', views.friend_invite_list_retrieve.as_view(), name='friends invite list'),
+    path('friends/<int:pk>/', views.friend_invite_list_retrieve.as_view(), name='retr friends invite'),
+    path('friends/create/', views.friend_invite_create.as_view(), name='friends invite create'),
 ]

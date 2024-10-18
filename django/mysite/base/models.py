@@ -2,12 +2,12 @@ import uuid
 from django.db import models
 
 class User(models.Model):
-    username        = models.CharField(max_length=20, blank=False)
+    username        = models.CharField(max_length=20, blank=False, unique=True)
     first_name      = models.CharField(max_length=30, blank=False)
     last_name       = models.CharField(max_length=30, blank=False)
     #avatar          = models.ImageField()
     email           = models.EmailField()
-    is_connected    = models.BooleanField(default=False)
+    is_connected    = models.BooleanField(default=True)
     is_2fa          = models.BooleanField(default=False)
     #friends         = models.ManyToManyField("self")
 
@@ -20,7 +20,18 @@ class User(models.Model):
         return self.username
 
     class Meta:
-        ordering = ["username"]
+        ordering = ["id"]
+
+class Friend_invite(models.Model):
+    """
+    implement accept and refuse : add friends in both user, delete friend invite
+    """
+    date = models.DateTimeField(auto_now_add=True, editable=False)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="sender")
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="receiver")
+
+    def __str__(self):
+        return f"{self.sender} --> {self.receiver}"
 
 
 class Tournament(models.Model):
@@ -29,7 +40,7 @@ class Tournament(models.Model):
     nb_player = models.IntegerField(null=False)
     
     def __str__(self):
-        return self.uid
+        return self.id
     
 class Game(models.Model):
     date = models.DateTimeField(auto_now_add=True, editable=False)
@@ -39,7 +50,7 @@ class Game(models.Model):
     #tournament = models.ForeignKey(Tournament, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.uid
+        return self.id
 
 class IMG_TEST(models.Model):
     name = models.CharField(max_length=25)
