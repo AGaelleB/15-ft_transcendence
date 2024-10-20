@@ -1,4 +1,5 @@
 from django.db import models
+from .utils import rename_image
 
 class User(models.Model):
     username        = models.CharField(max_length=20, blank=False, unique=True)
@@ -29,7 +30,7 @@ class User(models.Model):
         return self.username
     
     def remove_friend(self, friend):
-        #self.friends.remove(friend)
+        self.friends.remove(friend)
         pass
 
 
@@ -60,7 +61,7 @@ class Tournament(models.Model):
     
 class Game(models.Model):
     date = models.DateTimeField(auto_now_add=True, editable=False)
-    #player1 = models.ForeignKey(User, on_delete=models.PROTECT, related_name="player")
+    #player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="player")
     score = models.PositiveIntegerField()
     opp_score = models.PositiveIntegerField(default='0')
     #tournament = models.ForeignKey(Tournament, on_delete=models.PROTECT)
@@ -68,9 +69,11 @@ class Game(models.Model):
     def __str__(self):
         return self.id
 
+
+
 class IMG_TEST(models.Model):
     name = models.CharField(max_length=25)
-    img = models.ImageField(upload_to='images')
+    img = models.ImageField(upload_to=rename_image, default="pad.webp")
 
     def __str__(self):
         return self.name

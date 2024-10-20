@@ -3,18 +3,14 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-import mimetypes
 
-from base.models import *
-from base.serializers import *
+from .models import *
+from .serializers import *
+from .utils import *
 
 ##########################################################
 #       USER 
 ##########################################################
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
-
 class UserListCreate(generics.GenericAPIView, mixins.CreateModelMixin):
     """
     list all users (GET) or create a new one (POST)
@@ -37,7 +33,7 @@ class UserListCreate(generics.GenericAPIView, mixins.CreateModelMixin):
 
 class UserRUD(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     """ 
-    individual user : retrieve (GET), update (PUT) or destroy (DELETE)
+    individual user page : retrieve (GET), update (PUT) or destroy (DELETE)
     """
     queryset = User.objects.all()
     serializer_class = User_Update_Serializer
@@ -56,6 +52,46 @@ class UserRUD(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateM
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+class User_remove_friend(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = User_List_Serializer
+    
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        friend_id = self.kwargs.get('friend')
+        for f in instance.friends.all():
+            if f.id == friend_id:
+                instance.friends.remove(friend_id)
+                return Response({"status": "Friend removed"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Invalid friend id."}, status=status.HTTP_400_BAD_REQUEST)
+
+class User_log_in_out(generics.UpdateAPIView):
+    """
+    check pass word here (if yes, add password in serializer)?
+    check if already logged to send 404 if login action?
+    """
+    queryset = User.objects.all()
+    serializer_class = User_Log_in_out_Serializer
+
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        action = self.kwargs.get('action')
+        print(action)
+        print(instance)
+        if action == 'in':
+            if instance.is_connected == True:
+                return Response({"status": "Already logged in"}, status=status.HTTP_200_OK) # 400?
+            instance.is_connected = True
+            instance.save()
+            return Response({"status": "Login succes"}, status=status.HTTP_200_OK)
+        elif action == 'out':
+            instance.is_connected = False
+            instance.save()
+            return Response({"status": "Logout succes"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Invalid action."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 ##########################################################
@@ -130,8 +166,6 @@ class GameList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #       GAME detail (with mixins)
-
-
 class GameDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -163,15 +197,9 @@ from base.models import IMG_TEST
 from base.serializers import ImageSerializer
 import json
 
-class ImageViewSet(APIView):
+class ImageViewSet(generics.DestroyAPIView):
     queryset = IMG_TEST.objects.all()
     serializer_class = ImageSerializer
-
-    def get_image_mime_type(image):
-        mime_type, _ = mimetypes.guess_type(image.url)
-        if mime_type is None:
-            return 'application/octet-stream'
-        return mime_type
 
     def get(self, request, pk=None):
         if pk:
@@ -180,11 +208,7 @@ class ImageViewSet(APIView):
                 image = obj.img
             except IMG_TEST.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-            # externalize MIME in a function
-            mime_type, _ = mimetypes.guess_type(image.url)
-            if mime_type is None:
-                mime_type = 'application/octet-stream'
-            return HttpResponse(image, content_type=mime_type)
+            return HttpResponse(image, content_type=get_image_mime_type(image))
         img = IMG_TEST.objects.all()
         serializer = ImageSerializer(img, many=True)
         return Response(serializer.data)

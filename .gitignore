@@ -1,5 +1,5 @@
 .venv
 db.sqlite3
 *pycache*
-media
+images
 .vscode
