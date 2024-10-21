@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -53,7 +53,7 @@ class UserRUD(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateM
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-class User_remove_friend(generics.RetrieveUpdateAPIView):
+class User_remove_friend(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = User_List_Serializer
     
@@ -70,7 +70,6 @@ class User_remove_friend(generics.RetrieveUpdateAPIView):
 class User_log_in_out(generics.UpdateAPIView):
     """
     check pass word here (if yes, add password in serializer)?
-    check if already logged to send 404 if login action?
     """
     queryset = User.objects.all()
     serializer_class = User_Log_in_out_Serializer
@@ -93,6 +92,18 @@ class User_log_in_out(generics.UpdateAPIView):
         else:
             return Response({"status": "Invalid action."}, status=status.HTTP_400_BAD_REQUEST)
 
+class User_avatar(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = User_avatar_serializer
+
+    def get(self, request, pk=None):
+        if pk:
+            try:
+                obj = User.objects.get(pk=pk)
+                image = obj.avatar
+            except User.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            return HttpResponse(image, content_type=get_image_mime_type(image))
 
 ##########################################################
 #       Friend invite
@@ -139,48 +150,8 @@ class FriendRequest_accept_decline(generics.RetrieveUpdateAPIView):
 
 
 ##########################################################
-#       GAME API VIEWS (with classbasedview cf. tuto3)
-#   in urls, used as CLASS.as_view()
+#       GAME API VIEWS 
 ##########################################################
-from base.models import Game
-from base.serializers import GameSerializer
-from django.http import Http404
-
-from rest_framework.response import Response
-from rest_framework import status
-
-class GameList(APIView):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
-
-    def get(self, request):
-        games = Game.objects.all()
-        serializer = GameSerializer(games, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = GameSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#       GAME detail (with mixins)
-class GameDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
-
-    def get(self, request, *args, **kwargs):
-        # perform specific actions when get arrives
-        return self.retrieve(request, *args, **kwargs) # calls the mixin method
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-#       GAME detail and list (rewritten with generics, uncustomizable?)
 class GameListGeneric(generics.ListCreateAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -189,34 +160,4 @@ class GameDetailGeneric(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
-##########################################################
-#       Image tests
-# see hasattr(p2, "restaurant")
-##########################################################
-from base.models import IMG_TEST
-from base.serializers import ImageSerializer
-import json
-
-class ImageViewSet(generics.DestroyAPIView):
-    queryset = IMG_TEST.objects.all()
-    serializer_class = ImageSerializer
-
-    def get(self, request, pk=None):
-        if pk:
-            try:
-                obj = IMG_TEST.objects.get(pk=pk)
-                image = obj.img
-            except IMG_TEST.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-            return HttpResponse(image, content_type=get_image_mime_type(image))
-        img = IMG_TEST.objects.all()
-        serializer = ImageSerializer(img, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs):
-        serializer = ImageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

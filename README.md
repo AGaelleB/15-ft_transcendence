@@ -23,59 +23,49 @@ in django repo, use `source script.sh` : create a virtual env and get python pac
 
 
 ### API Routes
-#### Users
-* `/users/` : GET (list), POST (create, expect body)
-  * `GET 127.0.0.1:8000/users/`
-  * `POST 127.0.0.1:8000/users/ {"username": "user", "first_name": "blabla", "email": "user@gmail.com", "is_2fa": false}`
-* `/users/<int:pk>/` : GET (retrieve), PUT (update partial, expect body), DELETE (destroy). pk is the user id
-  * `GET 127.0.0.1:8000/users/1/`
-  * `PUT 127.0.0.1:8000/users/1/ {"username": "new_user_name"}`
-  * `DELETE 127.0.0.1:8000/users/1/`
-* `/users/<int:pk>/log<str:action>/` : PUT (update is_connected to True or False, no body). str= 'in' | 'out'
-  * `PUT 127.0.0.1:8000/users/1/login`
-  * `PUT 127.0.0.1:8000/users/2/logout`
-* `/users/<int:pk>/remove-friend/<int:friend>/` : PUT (update: rm one friend, no body). pk=user_id, friend=friend_id
-  * `PUT 127.0.0.1:8000/users/2/remove-friend/1` --> user2.friends.remove(user1), and it is symmetrical (user1.friends.remove(user2))
-#### Games
-* `/games/` or `/gamesG/` : GET (list), POST (create, optionnal body for scores)
-  * `GET 127.0.0.1:8000/games/`
-  * `POST 127.0.0.1:8000/games/` (create game with score=0 opp_score=0)
-* `/games/<int:pk>/` or `/gamesG/<int:pk>/` : GET (retrieve), PUT (update partial), DELETE (destroy). pk=game_id
-  * `GET 127.0.0.1:8000/games/1`
-  * `PUT 127.0.0.1:8000/games/1 score=5`
-  * `DELETE 127.0.0.1:8000/games/1`
-#### Friend Request
-* `/friend-request/` : GET (list)
-  * `GET 127.0.0.1:8000/friend-reques//`
-* `/friend-request/create/` : POST (create, expect body)
-  * `POST 127.0.0.1:8000/friend-request/ sender=1 receiver=2` create a request from user1 to user2 (only user2 can accept/decline). user1 cannot resend a request to user2, neither user2 towards user1 !
-* `/friend-request/<int:pk>/` : GET (retrieve), pk=request_id
-  * `GET 127.0.0.1:8000/friend-request/1/` where 1 is the id of the request, not users
-* `/friend-request/<int:pk>/<str:action>/` : PUT (update+destroy). pk=request_id, action= 'accept' | 'decline'
-  * `PUT 127.0.0.1:8000/friend-request/1/accept/` accepts request id1 --> add both users as friends, destroy the request
-  * `PUT 127.0.0.1:8000/friend-request/1/decline/` decline request id1 --> just destroy the request. 
-#### Images
-* `/upload/` : GET (list), POST (create)
-  * `GET 127.0.0.1:8000/upload/`
-  * `POST 127.0.0.1:8000/upload/` and use the browser to upload an optional image. image are stored in media/images. if none provided, a default is set.
-* `/upload/<int:pk>/` : GET (retrieve = serve the image), DELETE (destroy)
-  * `GET 127.0.0.1:8000/upload/` serve the actual image, not its info
+#### `/users/` : GET (list), POST (create, expect body)
+* `GET 127.0.0.1:8000/users/`
+* `POST 127.0.0.1:8000/users/ {"username": "user", "first_name": "blabla", "last_name": blibli, "email": "user@gmail.com", "is_2fa": false}`
+#### `/users/<int:pk>/` : GET (retrieve), PUT (update partial, expect body), DELETE (destroy). pk is the user id
+* `GET 127.0.0.1:8000/users/1/`
+* `PUT 127.0.0.1:8000/users/1/ {"username": "new_user_name"}`
+* `DELETE 127.0.0.1:8000/users/1/`
+#### `/users/<int:pk>/avatar/` : GET (serve the actual image, no json)
+* `GET 127.0.0.1:8000/users/1/avatar/`
+#### `/users/<int:pk>/log<str:action>/` : PUT (update is_connected to True or False, no body). str= 'in' | 'out'
+* `PUT 127.0.0.1:8000/users/1/login`
+* `PUT 127.0.0.1:8000/users/2/logout`
+#### `/users/<int:pk>/remove-friend/<int:friend>/` : PUT (update: rm one friend, no body). pk=user_id, friend=friend_id
+* `PUT 127.0.0.1:8000/users/2/remove-friend/1` --> user2.friends.remove(user1), and it is symmetrical (user1.friends.remove(user2))
+#### `/games/` : GET (list), POST (create, expecting body)
+* `GET 127.0.0.1:8000/games/`
+* `POST 127.0.0.1:8000/games/ {"score": 0, "opp_score": 0}` (create game with score=0 opp_score=0)
+#### `/games/<int:pk>/` : GET (retrieve), PUT (update partial), DELETE (destroy). pk=game_id
+* `GET 127.0.0.1:8000/games/1`
+ * `PUT 127.0.0.1:8000/games/1 score=5`
+ * `DELETE 127.0.0.1:8000/games/1`
+#### `/friend-request/` : GET (list)
+* `GET 127.0.0.1:8000/friend-reques//`
+#### `/friend-request/create/` : POST (create, expect body)
+* `POST 127.0.0.1:8000/friend-request/ sender=1 receiver=2` create a request from user1 to user2 (only user2 can accept/decline). user1 cannot resend a request to user2, neither user2 towards user1 !
+#### `/friend-request/<int:pk>/` : GET (retrieve), pk=request_id
+* `GET 127.0.0.1:8000/friend-request/1/` where 1 is the id of the request, not users
+#### `/friend-request/<int:pk>/<str:action>/` : PUT (update+destroy). pk=request_id, action= 'accept' | 'decline'
+* `PUT 127.0.0.1:8000/friend-request/1/accept/` accepts request id1 --> add both users as friends, destroy the request
+* `PUT 127.0.0.1:8000/friend-request/1/decline/` decline request id1 --> just destroy the request. 
 
 
 
-### 20/10/2024 18h30:
+### 21/10/2024 12h30:
 * users:   
-  * now: list, create, retrieve, update, login (no paswd yet), logout, remove friends (both friendship), destroy
-  * todo : password/authentication, avatar in field
+  * now: list, create, retrieve, update, get avatar, login (no paswd yet), logout, remove friends (both friendship), destroy
+  * todo : password/authentication
 * games: 
   * now: list, create, retrieve, update (is update needed?)
   * todo: more fields for dashboard, link it to player. update to remove? destroy not needed?
 * friend request:
   * now: list, create(if no existing request and not friends), retrieve, update (accept/decline): add both users as friend and destroy the request
   * todo: nothing?
-* images: 
-  * now: list, create (media/images/rename.ext, default provided), retrieve (serving the image), destroy (needed?)
-  * todo: rename with pk=none, clientside: few propositions, change class IMG to field in user + change routes
 
 list: returns all instances, GET  
 retrieve: return one instance, GET  

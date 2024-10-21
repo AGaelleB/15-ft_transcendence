@@ -40,7 +40,7 @@ class User_Create_Serializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User 
-        fields = ['id', 'username', 'first_name', 'email', 'is_2fa']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_2fa', 'avatar']
 
 class User_friends_Serializer(serializers.ModelSerializer):
     """
@@ -59,7 +59,7 @@ class User_List_Serializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'email', 'is_connected', 'received_invites', 'friends']
+        fields = ['id', 'username', 'first_name', 'email', 'is_connected', 'received_invites', 'avatar', 'friends']
 
 class User_Update_Serializer(serializers.ModelSerializer):
     """
@@ -69,7 +69,7 @@ class User_Update_Serializer(serializers.ModelSerializer):
     friends = User_friends_Serializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name',  'email', 'is_2fa', 'friends', 'received_invites']
+        fields = ['id', 'username', 'first_name', 'last_name',  'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
 
 class User_Log_in_out_Serializer(serializers.ModelSerializer):
     """
@@ -78,6 +78,14 @@ class User_Log_in_out_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id'] # +password ?
+
+class User_avatar_serializer(serializers.ModelSerializer):
+    """
+    serving the actual image
+    """
+    class Meta:
+        model = User
+        fields = ['avatar']
 
 ################################################################################
 #               Friend invites
