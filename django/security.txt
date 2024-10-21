@@ -1,0 +1,55 @@
+#########
+|SOURCES| 
+#########
+- https://chatgpt.com/c/6716658c-c838-8007-823e-0a161b0f8729 (intro)
+- https://www.django-rest-framework.org/topics/ajax-csrf-cors/ (drf topics)
+- https://owasp.org/www-community/attacks/csrf (CSRF maxi def)
+- https://docs.djangoproject.com/en/5.1/topics/security/ (vanilladjango security)
+- https://medium.com/@akshatgadodia/chapter-10-security-considerations-in-django-orm-a00da351a354
+- https://www.django-rest-framework.org/api-guide/authentication/#sessionauthentication (DRF session auth)
+- https://docs.djangoproject.com/en/stable/howto/csrf/#using-csrf-protection-with-ajax (CSRF in AJAX django)
+- https://testdriven.io/blog/django-spa-auth/ (very interesting, many example yc SPA with DRF, seession auth, nginx, dockers)
+
+
+CRSF : 
+	- https://owasp.org/www-community/attacks/csrf
+
+CORS :
+	- https://www.django-rest-framework.org/topics/ajax-csrf-cors/
+	- https://github.com/adamchainz/django-cors-headers
+
+SQL inject: 
+https://www.stackhawk.com/blog/sql-injection-prevention-django/
+https://docs.djangoproject.com/en/5.1/topics/security/
+	- If no use of raw SQL queries, no SQL inject possible because : 
+	- Django ORM use query parametrization and escape user inputs
+
+######
+|PLAN|
+######
+	- nginx to serve frontend on 8000
+	- django on 8001 (maybe via nginx too? why? the same as front?)
+	- https everywhere. same certif front and back? each front client its own certif? 
+	- CRSF/XSS protection is probably needed
+	- CORS if front/back served separetly? see django-cors-headers, you can set allowed	  origin (ie django 8001 accept 127.0.0.1:8000, our front)
+	- any info into cookie (token etc) should be ok since htpps?
+	- 
+
+	- users : connection via passwd -> get JWT -> stored in front and used for all rq
+		- when user disconnects, JWT must be removed
+		- new user would have a new JWT at login
+		- refresh JWT implies re-login?
+	- admin : sessionauthentication in backend
+		- must be tranparent to front
+		- works for all front clients
+
+see: 
+- CSRF_COOKIE_SAMESITE				--> where cookie from
+- SESSION_COOKIE_SAMESITE
+- CSRF_COOKIE_HTTPONLY = True		--> js cant access cookie
+- SESSION_COOKIE_HTTPONLY = True
+- CSRF_TRUSTED_ORIGINS				--> where csrf must be made
+- CSRF_COOKIE_SECURE = True			--> https only
+- SESSION_COOKIE_SECURE = True		--> https only
+- django_cors_headers
+	- CORS_ALLOWED_ORIGINS
