@@ -1,6 +1,6 @@
 // frontend/srcs/js/PongGame/Game2D/power-ups2D.js
 
-import { isGameStarted2D } from '../../Modals/startGameModal2D.js';
+import { gameStarted2D, isGameStarted2D } from '../../Modals/startGameModal2D.js';
 import { gameSettings2D } from '../gameSettings.js';
 import { getLastTouchedPaddle2D } from './ballCollision2D.js';
 

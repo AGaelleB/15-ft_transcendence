@@ -9,7 +9,7 @@ import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { setIsGameOver3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
-import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D } from '../PongGame/Game3D/power-ups3D.js';
+import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D, resetPowerUpEffects3D, resetPowerUpTimer3D } from '../PongGame/Game3D/power-ups3D.js';
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 
 export let isGameActive3D = true;
@@ -128,7 +128,10 @@ export function initialize1Player3D() {
         }
         else if (!isGameActive3D)
             return;
-    
+        else {
+            hidePowerUp3D(scene);
+            resetPowerUpTimer3D();
+        }
         renderer.render(scene, camera);
         animationId = requestAnimationFrame(gameLoop1Player3D);
     }

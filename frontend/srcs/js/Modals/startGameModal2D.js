@@ -3,7 +3,7 @@
 import { getIsSettingsOpen2D } from './gameSettingsModal2D.js';
 import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
 
-let gameStarted2D = false;
+export let gameStarted2D = false;
 
 function startGame(startGameMessage, settingsIcon, homeIcon) {
     startGameMessage.style.display = 'none';

@@ -233,8 +233,10 @@ export function initialize2Players2D() {
             movePaddles();
             generatePowerUp2D(powerUpImageElement, canvas);
         }
-        else
+        else {
             hidePowerUp(powerUpImageElement);
+            resetPowerUpTimer2D();
+        }
         animationId = requestAnimationFrame(gameLoop2Players2D);
     }
     gameLoop2Players2D();
