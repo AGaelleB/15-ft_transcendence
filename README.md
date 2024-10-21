@@ -1,10 +1,15 @@
 # Branch bastien   
 ### How to launch:
-in django repo, use `source script.sh` : create a virtual env and get python packages  
-```cd mysite``` : (repo with a file manage.py)  
-```python manage.py makemigrations``` : update migrations (if pb and db integrity no matter: rm -rf base/migrations 00*)  
-```python manage.py migrate``` : migrate (create/update db)  
-```python manage.py runserver``` : launch server  
+`cd django` (repo with script.sh and mysite)  
+`source script.sh` : create a virtual env and get python packages  
+`cd mysite ` : (repo with a file manage.py)  
+`./launch.sh` : run the following commands to launch the server  
+Django is now available on **127.0.0.1:8001** (not 8000)
+
+#### launch.sh details
+* ```python manage.py makemigrations``` : update migrations (if pb and db integrity no matter: rm -rf base/migrations 00*)  
+* ```python manage.py migrate``` : migrate (create/update db)  
+* ```python manage.py runserver``` : launch server  
 
 ### API use :
 * available on 127.0.0.1:8000/  
