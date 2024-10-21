@@ -3,7 +3,6 @@
 import { gameSettings2D } from '../gameSettings.js';
 import { showWinMessage } from '../../Modals/winMsgModal.js';
 
-// set players score
 export let player1Score2D = 0;
 export let player2Score2D = 0;
 
