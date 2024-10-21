@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
-from .models import User, Game, IMG_TEST, FriendRequest
+
+from .models import *
 
 '''
 How data would be sent/accepted with clients (same as django.form for pos/put)
@@ -50,16 +51,23 @@ class User_friends_Serializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username']
 
+
+class Game_easy_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ['id', 'date', 'score', 'opp_score', 'player', 'opp_ia']
+
 class User_List_Serializer(serializers.ModelSerializer):
     """
     fields for the whole users list (ie list all users to select for sending a FriendRequest)
     """
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     friends = User_friends_Serializer(many=True, read_only=True)
+    games = Game_easy_Serializer(many=True, source='player', read_only=True)
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'email', 'is_connected', 'received_invites', 'avatar', 'friends']
+        fields = ['id', 'username', 'first_name', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games']
 
 class User_Update_Serializer(serializers.ModelSerializer):
     """
@@ -119,17 +127,15 @@ class FriendRequest_show_Serializer(serializers.ModelSerializer):
 ################################################################################
 #               Games
 ################################################################################
-class GameSerializer(serializers.ModelSerializer):
+class Game_list_Serializer(serializers.ModelSerializer):
+    player = User_friends_Serializer(read_only=True)
     class Meta:
         model = Game
-        exclude = []
-        #fields = ['id', 'date', 'score', 'opp_score']
+        fields = ['id', 'date', 'score', 'opp_score', 'player', 'opp_ia']
 
-
-################################################################################
-#               Images
-################################################################################
-class ImageSerializer(serializers.ModelSerializer):
+class Game_create_Serializer(serializers.ModelSerializer):
     class Meta:
-        model = IMG_TEST
-        exclude = []
+        model = Game
+        fields = ['id', 'date', 'score', 'opp_score', 'player', 'opp_ia']
+
+

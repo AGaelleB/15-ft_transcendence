@@ -154,10 +154,16 @@ class FriendRequest_accept_decline(generics.RetrieveUpdateAPIView):
 ##########################################################
 class GameListGeneric(generics.ListCreateAPIView):
     queryset = Game.objects.all()
-    serializer_class = GameSerializer
+    serializer_class = Game_list_Serializer
 
-class GameDetailGeneric(generics.RetrieveUpdateDestroyAPIView):
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return Game_list_Serializer
+        else:
+            return Game_create_Serializer
+
+class GameDetailGeneric(generics.RetrieveDestroyAPIView):
     queryset = Game.objects.all()
-    serializer_class = GameSerializer
+    serializer_class = Game_list_Serializer
 
 
