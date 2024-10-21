@@ -11,7 +11,7 @@ from .utils import *
 ##########################################################
 #       USER 
 ##########################################################
-class UserListCreate(generics.GenericAPIView, mixins.CreateModelMixin):
+class UserListCreate(generics.ListCreateAPIView):
     """
     list all users (GET) or create a new one (POST)
     """
@@ -24,16 +24,9 @@ class UserListCreate(generics.GenericAPIView, mixins.CreateModelMixin):
         else:
             return User_Create_Serializer
 
-    def get(self, request): # can use mixins.ListModelMixin.list()
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-class UserRUD(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
-    individual user page : retrieve (GET), update (PUT) or destroy (DELETE)
+    individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
     """
     queryset = User.objects.all()
     serializer_class = User_Update_Serializer
@@ -43,15 +36,9 @@ class UserRUD(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateM
             return User_List_Serializer
         else:
             return User_Update_Serializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
     
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 class User_remove_friend(generics.UpdateAPIView):
     queryset = User.objects.all()
