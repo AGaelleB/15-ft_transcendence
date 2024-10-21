@@ -3,7 +3,7 @@
 import { gameSettings3D } from "../gameSettings.js";
 
 export let rallyCount3D = 0;
-const smokeLifetime = 150;
+const smokeLifetime = 210;
 let smokeParticles = [];
 
 export function setRallyCount3D() {

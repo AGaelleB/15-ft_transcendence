@@ -4,14 +4,13 @@ import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
-import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
 import { setIsGameOver3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D } from '../PongGame/Game3D/power-ups3D.js';
 
-let isGameActive3D = true;
+export let isGameActive3D = true;
 
 export function initialize2Players3D() {
     const startGameMessage = document.getElementById('startGameMessage');
@@ -28,28 +27,6 @@ export function initialize2Players3D() {
     });
 
     let animationId;
-
-    window.addEventListener('popstate', function(event) {
-        console.log("Retour arrière du navigateur détecté !");
-        cleanup1Player3D();
-    });
-
-    function cleanup1Player3D() {
-        cancelAnimationFrame(animationId);
-
-        document.removeEventListener('keydown', (e) => { keys[e.key] = true; });
-        document.removeEventListener('keyup', (e) => { keys[e.key] = false; });
-        setPlayer1Score3D(0);
-        setPlayer2Score3D(0);
-        setIsGameOver3D(false);
-
-        // hidePowerUp3D(scene);
-        // resetRallyCount3D(); // A MERGE !!!!!!
-
-        isGameActive3D = false;
-        console.log("Jeu réinitialisé et boucle arrêtée.");
-    }
-
     isGameActive3D = true;
     setIsGameOver3D(false);
 
@@ -58,6 +35,25 @@ export function initialize2Players3D() {
             isGameActive3D = value;
         else
             console.warn("Invalid value. Please provide a boolean (true or false).");
+    }
+
+    window.addEventListener('popstate', function(event) {
+        cleanup2Players3D();
+    });
+
+    function cleanup2Players3D() {
+        cancelAnimationFrame(animationId);
+
+        document.removeEventListener('keydown', (e) => { keys[e.key] = true; });
+        document.removeEventListener('keyup', (e) => { keys[e.key] = false; });
+        setPlayer1Score3D(0);
+        setPlayer2Score3D(0);
+        setIsGameOver3D(false);
+
+        hidePowerUp3D(scene);
+        resetRallyCount3D();
+
+        isGameActive3D = false;
     }
 
     initializeButton3D();
@@ -75,7 +71,7 @@ export function initialize2Players3D() {
 
     document.addEventListener('keydown', (e) => { keys[e.key] = true; });
     document.addEventListener('keyup', (e) => { keys[e.key] = false; });
-    
+
     // limites du mouvement des paddles
     
     function movePaddles2Players() {
@@ -100,13 +96,12 @@ export function initialize2Players3D() {
             if (paddleRight.position.z > -paddleRightMovementLimit)
                 paddleRight.position.z -= paddleRight.speedFactor;
         }
-    }
-    
+    }    
     /* ************************** Mouvement de la balle ******************************* */
     
     // Limites de mouvement de la balle
-    
     const ballMovementLimitZ = groundGeometry.parameters.height / 2 - gameSettings3D.ballRadius3D;
+    
     function moveBall() {
         ball.position.x += gameSettings3D.ballSpeedX3D;
         ball.position.z += gameSettings3D.ballSpeedZ3D;

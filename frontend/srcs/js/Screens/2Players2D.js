@@ -235,7 +235,7 @@ export function initialize2Players2D() {
         }
         else
             hidePowerUp(powerUpImageElement);
-        animationId = requestAnimationFrame(gameLoop1Player2D);
+        animationId = requestAnimationFrame(gameLoop2Players2D);
     }
     gameLoop2Players2D();
 
