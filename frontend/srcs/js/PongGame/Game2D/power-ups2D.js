@@ -9,19 +9,22 @@ import { getLastTouchedPaddle2D } from './ballCollision2D.js';
 let nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D); // Délai pour le 1er affichage
 let powerUpTimeoutId;
 
+// si docker nginx
 const powerUpsImages = [
-    '/frontend/srcs/images/power-ups/sizeUpPaddle.png',
-    '/frontend/srcs/images/power-ups/sizeDownPaddle.png',
-    '/frontend/srcs/images/power-ups/speedPaddle.png',
-    '/frontend/srcs/images/power-ups/slowPaddle.png'
+    './images/power-ups/sizeUpPaddle.png',
+    './images/power-ups/sizeDownPaddle.png',
+    './images/power-ups/speedPaddle.png',
+    './images/power-ups/slowPaddle.png'
 ];
 
+// // si live server
 // const powerUpsImages = [
-//     './images/power-ups/sizeUpPaddle.png',
-//     './images/power-ups/sizeDownPaddle.png',
-//     './images/power-ups/speedPaddle.png',
-//     './images/power-ups/slowPaddle.png'
+//     '/frontend/srcs/images/power-ups/sizeUpPaddle.png',
+//     '/frontend/srcs/images/power-ups/sizeDownPaddle.png',
+//     '/frontend/srcs/images/power-ups/speedPaddle.png',
+//     '/frontend/srcs/images/power-ups/slowPaddle.png'
 // ];
+
 
 export function resetPowerUpTimer2D() {
     nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D);

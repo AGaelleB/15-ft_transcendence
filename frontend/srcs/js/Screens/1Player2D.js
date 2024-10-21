@@ -13,6 +13,7 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
+
 export function initialize1Player2D() {
     
     const canvas = document.getElementById('pongCanvas');
@@ -24,13 +25,46 @@ export function initialize1Player2D() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
     
+    let animationId; // Variable pour stocker l'ID de l'animation
+    let isGameActive2d = true;
+    
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
     
-    let isGameActive2d = true;
+    window.addEventListener('popstate', function(event) {
+        console.log("Retour arrière du navigateur détecté !");
+        cleanup1Player2D();
+        window.location.href = "/home"; // Rediriger vers la page d'accueil si nécessaire
+    });
+
+    function cleanup1Player2D() {
+        // Arrêter la boucle de jeu en annulant l'animation
+        cancelAnimationFrame(animationId);
+
+        // Retirer les écouteurs d'événements
+        document.removeEventListener('keydown', handleKeydown);
+        document.removeEventListener('keyup', handleKeyup);
+        window.removeEventListener('resize', onResizeCanvas);
+        
+        // Réinitialiser les scores et l'état du jeu
+        setPlayer1Score2D(0);
+        setPlayer2Score2D(0);
+        setIsGameOver2D(false);
+    
+        // Supprimer les power-ups affichés
+        hidePowerUp(powerUpImageElement);
+        resetRallyCount2D();
+    
+        // Effacer le canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        isGameActive2d = false; // Désactiver le jeu
+        console.log("Jeu réinitialisé et boucle arrêtée.");
+    }
+
     setIsGameOver2D(false);
 
     function setIsGameActive2d(value) {
@@ -40,12 +74,12 @@ export function initialize1Player2D() {
             console.warn("Invalid value. Please provide a boolean (true or false).");
     }
 
+    let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
     gameSettings2D.ballSpeedX2D
 
     initializeButton2D();
     initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
     
-    let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
 
     const paddleLeft = {
         x: 0,
@@ -152,7 +186,7 @@ export function initialize1Player2D() {
         drawBall(ctx, ball);
         
         updateAI2D(ball, paddleRight, canvas);
-    }    
+    }
 
     const keys = {};
 
@@ -207,8 +241,7 @@ export function initialize1Player2D() {
         }
         else
             hidePowerUp(powerUpImageElement);
-
-        requestAnimationFrame(gameLoop1Player2D);
+        animationId = requestAnimationFrame(gameLoop1Player2D);
     }
     gameLoop1Player2D();
 }
