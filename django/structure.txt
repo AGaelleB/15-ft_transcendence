@@ -1,0 +1,96 @@
+reboot persistent data to be stored in the database (== django.model classes)
+
+problem with User manaegement module with no Remote users:
+	users must be connected to participate in games/tournament
+	since we're in local, all users are connected from the same client
+	--> what user to be shown when accessing user page ??
+	--> ask for authentification everytime we acces user page? (easiest for us)
+	--> each user must log in from a tab? see django.channel_layers and groups
+		--> best user experience mais big pb for games
+	--> multiple users connected on same tab, with an active users
+		--> pb with JWT
+
+========
+| USER |
+========
+rules
+	username is the uid of user --> must be unique
+	a single person may have multiple accounts? fname, lname and mail not unique
+	email for 2fa? or mobilephone?
+mandatory attributes
+	user_name : string | not empty | unique
+	fisrt_name : string | not empty
+	last_name : string | not empty
+	avatar : image | not empty | default one
+	email : email | not empty | not unique (a same person can have multiple account)
+	is_logged : bool | not empty (triggered on logging events)
+	is_2fa : bool | (defaut to False)
+	friends : list of USER | empty ok
+extra ideas
+	birth : datetime
+	last_login : datetime
+	account_create_date : datetime
+
+==================
+| FRIEND_REQUEST |
+==================
+rules
+	reboot persistent
+	deleted when accepted/refused
+	one initiator / one receiver : must be different
+	no expiration? (easier for us)
+mandatory attributes
+	uid : self.initiator.name + self.receiver.name + self.date | not empty | unique
+	initiator : USER | not empty
+	receiver : USER | not empty
+	date : datetime | not empty
+
+========
+| GAME |
+========
+rules
+	no need to store game data during game -> only when game finishes
+	during game data stored in localStorage
+	if interrupted before game end :
+		- i.e. close game window but program still runs : continue game?
+		- i.e. transcendance server stops: abort game?
+	game can be related to tournament, or not
+	second player can be a USER, or ia :
+		- if ia, no need to store a second player in db
+mandatory attributes
+	uid : int | not empty | unique
+	start : datetime | not empty (triggered at game start)
+	end : datetime | not empty (triggered at game end)
+	ia_opp : bool | not empty
+	player1 : USER | not empty
+	player2 : USER | empty ok (if ia_opp == true)
+	score : tuple (INT, INT) | not empty
+	tournament : TOURNAMENT | empty ok
+extras ideas
+	graphics_3D : bool | not empty
+	start_customs : string (or list, or 1field per custom) | not empty
+	duration : GAME.end - GAME.start
+	power_ups : string or list | empty ok (make two fields: pl1 and pl2?)
+	strikes_pl1 : int | not empty
+	strikes_pl2 : int | not empty
+	max_swaps : int | not empty
+
+==============
+| TOURNAMENT |
+==============
+rules
+	initiated by an user (== owner of tournament)
+	all participants must be connected :
+		- at start of tournament (easier for us)
+		- at start of each game (better user experience?)
+	matchmaking
+	order of the game/players must be announced
+mandatory attributes
+	uid : int | not empty | unique
+	initiator : USER | not empty
+	start : datetime | not empty (triggered at tourn start)
+	end : datetime | not empty (triggered at tourn end)
+	orga : json file | not empty
+	
+	
+
