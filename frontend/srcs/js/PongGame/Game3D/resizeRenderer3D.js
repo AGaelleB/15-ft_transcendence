@@ -1,5 +1,6 @@
 // frontend/srcs/js/PongGame/Game3D/resizeRenderer3D.js
 
+import { isGameActive3D } from '../../Screens/1Player3D.js';
 import { gameSettings3D } from '../gameSettings.js';
 
 export let renderer, camera;
@@ -26,30 +27,31 @@ export function initializeRenderer3D() {
     // Fonction pour ajuster la taille du renderer
     function resizeRenderer() {
         const gameContainer = document.querySelector('.game-container');
-        if (!gameContainer) {
-            console.error("L'élément 'game-container' est introuvable.");
-            return;
+        if (gameContainer) {
+            const containerWidth = gameContainer.offsetWidth;
+            const containerHeight = window.innerHeight * 0.85;
+            
+            let width, height;
+            if (containerWidth / containerHeight < gameSettings3D.aspectRatio) {
+                width = containerWidth * gameSettings3D.canvasWidthFactor;
+                height = width / gameSettings3D.aspectRatio;
+            }
+            else {
+                height = containerHeight * gameSettings3D.canvasWidthFactor;
+                width = height * gameSettings3D.aspectRatio;
+            }
+    
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
         }
 
-        const containerWidth = gameContainer.offsetWidth;
-        const containerHeight = window.innerHeight * 0.85;
-        
-        let width, height;
-        if (containerWidth / containerHeight < gameSettings3D.aspectRatio) {
-            width = containerWidth * gameSettings3D.canvasWidthFactor;
-            height = width / gameSettings3D.aspectRatio;
-        } else {
-            height = containerHeight * gameSettings3D.canvasWidthFactor;
-            width = height * gameSettings3D.aspectRatio;
-        }
-
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
     }
 
     resizeRenderer();
     window.addEventListener('resize', resizeRenderer);
+    if (isGameActive3D === false)
+        window.removeEventListener('resize', resizeRenderer);
 
     return { renderer, camera };
 }

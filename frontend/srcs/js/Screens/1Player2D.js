@@ -25,7 +25,7 @@ export function initialize1Player2D() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
     
-    let animationId; // Variable pour stocker l'ID de l'animation
+    let animationId;
     let isGameActive2d = true;
     
     homeIcon.addEventListener('click', (event) => {
@@ -37,31 +37,25 @@ export function initialize1Player2D() {
     window.addEventListener('popstate', function(event) {
         console.log("Retour arrière du navigateur détecté !");
         cleanup1Player2D();
-        window.location.href = "/home"; // Rediriger vers la page d'accueil si nécessaire
     });
 
     function cleanup1Player2D() {
-        // Arrêter la boucle de jeu en annulant l'animation
         cancelAnimationFrame(animationId);
 
-        // Retirer les écouteurs d'événements
         document.removeEventListener('keydown', handleKeydown);
         document.removeEventListener('keyup', handleKeyup);
         window.removeEventListener('resize', onResizeCanvas);
         
-        // Réinitialiser les scores et l'état du jeu
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
         setIsGameOver2D(false);
     
-        // Supprimer les power-ups affichés
         hidePowerUp(powerUpImageElement);
         resetRallyCount2D();
     
-        // Effacer le canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        isGameActive2d = false; // Désactiver le jeu
+        isGameActive2d = false;
         console.log("Jeu réinitialisé et boucle arrêtée.");
     }
 

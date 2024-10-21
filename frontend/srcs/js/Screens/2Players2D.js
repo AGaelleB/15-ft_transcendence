@@ -22,11 +22,36 @@ export function initialize2Players2D() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
 
+    let animationId;
+
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
+
+    window.addEventListener('popstate', function(event) {
+        console.log("Retour arrière du navigateur détecté !");
+        cleanup1Player2D();
+    });
+
+    function cleanup1Player2D() {
+        cancelAnimationFrame(animationId);
+
+        document.removeEventListener('keydown', handleKeydown);
+        document.removeEventListener('keyup', handleKeyup);
+        window.removeEventListener('resize', onResizeCanvas);
+        setPlayer1Score2D(0);
+        setPlayer2Score2D(0);
+        setIsGameOver2D(false);
+
+        hidePowerUp(powerUpImageElement);
+        resetRallyCount2D();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        isGameActive2d = false;
+        console.log("Jeu réinitialisé et boucle arrêtée.");
+    }
 
     let isGameActive2d = true;
     setIsGameOver2D(false);
@@ -210,8 +235,7 @@ export function initialize2Players2D() {
         }
         else
             hidePowerUp(powerUpImageElement);
-
-        requestAnimationFrame(gameLoop2Players2D);
+        animationId = requestAnimationFrame(gameLoop1Player2D);
     }
     gameLoop2Players2D();
 

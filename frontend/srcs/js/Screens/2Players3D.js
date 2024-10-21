@@ -4,9 +4,10 @@ import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
+import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { setIsGameOver3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D } from '../PongGame/Game3D/power-ups3D.js';
 
@@ -25,6 +26,29 @@ export function initialize2Players3D() {
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
+
+    let animationId;
+
+    window.addEventListener('popstate', function(event) {
+        console.log("Retour arrière du navigateur détecté !");
+        cleanup1Player3D();
+    });
+
+    function cleanup1Player3D() {
+        cancelAnimationFrame(animationId);
+
+        document.removeEventListener('keydown', (e) => { keys[e.key] = true; });
+        document.removeEventListener('keyup', (e) => { keys[e.key] = false; });
+        setPlayer1Score3D(0);
+        setPlayer2Score3D(0);
+        setIsGameOver3D(false);
+
+        // hidePowerUp3D(scene);
+        // resetRallyCount3D(); // A MERGE !!!!!!
+
+        isGameActive3D = false;
+        console.log("Jeu réinitialisé et boucle arrêtée.");
+    }
 
     isGameActive3D = true;
     setIsGameOver3D(false);
@@ -117,7 +141,7 @@ export function initialize2Players3D() {
             return;
     
         renderer.render(scene, camera);
-        requestAnimationFrame(gameLoop2Players3D);
+        animationId = requestAnimationFrame(gameLoop2Players3D);
     }
     gameLoop2Players3D();
 }
