@@ -81,7 +81,6 @@ document.querySelector("form.signup").addEventListener("submit", async function(
         "last_name": "",
         "email": email,
         "is_2fa": false,
-        // Ajoute "password" si nécessaire côté backend
     };
 
     try {

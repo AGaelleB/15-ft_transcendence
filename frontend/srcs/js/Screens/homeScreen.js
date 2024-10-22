@@ -150,12 +150,61 @@ export function initializeHome() {
         openModal();
     });
 
-    confirmLogoutButton.addEventListener('click', function(event) {
+    confirmLogoutButton.addEventListener('click', async function(event) {
         event.preventDefault();
-        closeModal();
-        window.history.pushState({}, "", "/start");
-        handleLocation();
+    
+        // Récupère les données de l'utilisateur depuis le localStorage
+        const savedUser = localStorage.getItem('user');
+        if (!savedUser) {
+            alert("No user logged in.");
+            return;
+        }
+    
+        const user = JSON.parse(savedUser);
+        const userId = user.id;
+        console.log("user ID: ", userId);
+        console.log("user name: ", user.username);
+    
+        // Construire les données à envoyer dans la requête PUT pour déconnexion
+        const userData = {
+            "username": user.username,
+            "first_name": "",
+            "last_name": "",
+            "email": user.email,
+            "is_2fa": false,
+        };
+
+        try {
+            const response = await fetch(`http://127.0.0.1:8001/users/${userId}/logout/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error during logout:', errorData);
+                alert('Logout failed: ' + JSON.stringify(errorData));
+            }
+            else {
+                // Supprimer les informations de l'utilisateur du localStorage
+                localStorage.removeItem('user');
+                
+                // Fermer le modal et rediriger vers la page de démarrage
+                closeModal();
+                alert('Logout successful!');
+                window.history.pushState({}, "", "/start");
+                handleLocation();
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+        }
     });
+    
 
     profileLink.addEventListener('click', function(event) {
         event.preventDefault();
