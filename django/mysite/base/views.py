@@ -30,6 +30,7 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = User.objects.all()
     serializer_class = User_Update_Serializer
+    lookup_field = 'username'
 
     def get_serializer_class(self):
         if self.request.method in ['GET', 'DELETE']:
@@ -43,10 +44,12 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
 class User_remove_friend(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = User_List_Serializer
+    lookup_field = 'username'
     
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
-        friend_id = self.kwargs.get('friend')
+        friend_username = self.kwargs.get('friend')
+        friend_id = User.objects.get(username=friend_username).id
         for f in instance.friends.all():
             if f.id == friend_id:
                 instance.friends.remove(friend_id)
@@ -84,10 +87,10 @@ class User_avatar(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = User_avatar_serializer
 
-    def get(self, request, pk=None):
-        if pk:
+    def get(self, request, username=None):
+        if username:
             try:
-                obj = User.objects.get(pk=pk)
+                obj = User.objects.get(username=username)
                 image = obj.avatar
             except User.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
