@@ -1,46 +1,57 @@
 // frontend/srcs/js/PongGame/Game3D/resizeRenderer3D.js
 
+import { isGameActive3D } from '../../Screens/1Player3D.js';
 import { gameSettings3D } from '../gameSettings.js';
 
-export const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+export let renderer, camera;
 
-// creation d un scene avec un renderer
-export const renderer = new THREE.WebGLRenderer({ alpha: true });
-document.body.appendChild(renderer.domElement);
+export function initializeRenderer3D() {
 
-// Ajuster la taille du renderer
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('pongCanvas').appendChild(renderer.domElement);
+    // Création d'une caméra
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-// Position de la caméra angle de jeu
-camera.position.set(0, 20, 25);
-camera.lookAt(0, 0, 0);
-
-// // Position de la caméra du dessus
-// camera.position.set(0, 30, 0);
-// camera.lookAt(0, 0, 0);
-// camera.rotation.order = "YXZ";
-
-// Fonction pour ajuster la taille du renderer
-export function resizeRenderer3D() {
-    const gameContainer = document.querySelector('.game-container');
-    const containerWidth = gameContainer.offsetWidth;
-    const containerHeight = window.innerHeight * 0.85;
-
-    let width, height;
-    if (containerWidth / containerHeight < gameSettings3D.aspectRatio) {
-        width = containerWidth * gameSettings3D.canvasWidthFactor;
-        height = width / gameSettings3D.aspectRatio;
-    }
+    // Création d'un renderer avec transparence
+    renderer = new THREE.WebGLRenderer({ alpha: true });
+    const pongCanvas = document.getElementById('pongCanvas');
+    if (pongCanvas)
+        pongCanvas.appendChild(renderer.domElement);
     else {
-        height = containerHeight * gameSettings3D.canvasWidthFactor;
-        width = height * gameSettings3D.aspectRatio;
+        console.error("L'élément 'pongCanvas' est introuvable.");
+        return;
     }
 
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
+    // Position de la caméra
+    camera.position.set(0, 20, 25);
+    camera.lookAt(0, 0, 0);
+
+    // Fonction pour ajuster la taille du renderer
+    function resizeRenderer() {
+        const gameContainer = document.querySelector('.game-container');
+        if (gameContainer) {
+            const containerWidth = gameContainer.offsetWidth;
+            const containerHeight = window.innerHeight * 0.85;
+            
+            let width, height;
+            if (containerWidth / containerHeight < gameSettings3D.aspectRatio) {
+                width = containerWidth * gameSettings3D.canvasWidthFactor;
+                height = width / gameSettings3D.aspectRatio;
+            }
+            else {
+                height = containerHeight * gameSettings3D.canvasWidthFactor;
+                width = height * gameSettings3D.aspectRatio;
+            }
+    
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
+
+    }
+
+    resizeRenderer();
+    window.addEventListener('resize', resizeRenderer);
+    if (isGameActive3D === false)
+        window.removeEventListener('resize', resizeRenderer);
+
+    return { renderer, camera };
 }
-
-window.addEventListener('resize', resizeRenderer3D);
-

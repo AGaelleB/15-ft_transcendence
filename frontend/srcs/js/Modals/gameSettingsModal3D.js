@@ -1,26 +1,26 @@
 // frontend/srcs/js/Modals/gameSettingsModal3D.js
 
 import { gameSettings3D } from '../PongGame/gameSettings.js';
-import { updateScore } from '../PongGame/Game3D/score3D.js';
-import { resetGame } from './startGameModal.js';
+import { updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { resetGame3D } from './startGameModal3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 
-export let isSettingsOpen = false;
+let isSettingsOpen3D = false;
 let ballSpeedValue = 3;
 let paddleSpeedValue = 3;
 let ballSizeValue = 3;
 let paddleSizeValue = 3;
 let pointsToWinValue = 5;
 
-export function getIsSettingsOpen() {
-    return isSettingsOpen;
+export function getIsSettingsOpen3D() {
+    return isSettingsOpen3D;
 }
 
 export function saveGameSettings3D() {
     localStorage.setItem('gameSettings3D', JSON.stringify(gameSettings3D));
 }
 
-export function loadGameSettingsFromStorage() {
+export function loadSettingsStorage3D() {
     const savedSettings = localStorage.getItem('gameSettings3D');
     if (savedSettings) {
         Object.assign(gameSettings3D, JSON.parse(savedSettings));
@@ -29,6 +29,7 @@ export function loadGameSettingsFromStorage() {
 }
 
 function resetToDefaultSettings3D() {
+    gameSettings3D.ballSpeedSAV = 0.30;
     gameSettings3D.ballSpeedX3D = 0.30;
     gameSettings3D.ballSpeedZ3D = 0.30;
     gameSettings3D.paddleSpeed3D = 0.3;
@@ -39,6 +40,8 @@ function resetToDefaultSettings3D() {
     gameSettings3D.winningScore = 5;
     gameSettings3D.difficultyLevel3D = "intermediate";
     gameSettings3D.resetPaddlePosition = false;
+    gameSettings3D.setRally3D = false;
+    gameSettings3D.setPowerUps3D = false;
 
     ballSpeedValue = 3;
     paddleSpeedValue = 3;
@@ -47,10 +50,9 @@ function resetToDefaultSettings3D() {
     pointsToWinValue = 5;
 
     saveGameSettings3D();
-    loadGameSettingsFromStorage();
+    loadSettingsStorage3D();
     updateSettingsModal3D();
 }
-
 
 export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) {
     const slider = document.getElementById(sliderId);
@@ -62,10 +64,10 @@ export function updateSliderValuePosition(sliderId, spanId, multiplier, offset) 
 }
 
 export function updateSettingsModal3D() {
-    if (gameSettings3D.ballSpeedX3D <= 0.10) ballSpeedValue = 1;
-    else if (gameSettings3D.ballSpeedX3D <= 0.20) ballSpeedValue = 2;
-    else if (gameSettings3D.ballSpeedX3D <= 0.30) ballSpeedValue = 3;
-    else if (gameSettings3D.ballSpeedX3D <= 0.40) ballSpeedValue = 4;
+    if (gameSettings3D.ballSpeedSAV <= 0.10) ballSpeedValue = 1;
+    else if (gameSettings3D.ballSpeedSAV <= 0.20) ballSpeedValue = 2;
+    else if (gameSettings3D.ballSpeedSAV <= 0.30) ballSpeedValue = 3;
+    else if (gameSettings3D.ballSpeedSAV <= 0.40) ballSpeedValue = 4;
     else ballSpeedValue = 5;
 
     if (gameSettings3D.paddleSpeed3D <= 0.1) paddleSpeedValue = 1;
@@ -107,6 +109,8 @@ export function updateSettingsModal3D() {
     updateSliderValuePosition('ballSize', 'ballSizeValue', 1, 16);
     updateSliderValuePosition('paddleSize', 'paddleSizeValue', 1, 16);
     document.getElementById('resetPaddlePosition').checked = gameSettings3D.resetPaddlePosition;
+    document.getElementById('setPowerUps').checked = gameSettings3D.setPowerUps3D;
+    document.getElementById('setRally').checked = gameSettings3D.setRally3D;
 }
 
 export function initializeGameSettings3D() {
@@ -117,18 +121,18 @@ export function initializeGameSettings3D() {
     settingsModal.style.display = 'none';
 
     settingsIcon.addEventListener('click', () => {
-        if (!isSettingsOpen) {
+        if (!isSettingsOpen3D) {
             document.querySelector('.settings-modal-container').classList.add('active');
             settingsModal.style.display = 'flex';
             updateSettingsModal3D();
-            isSettingsOpen = true;
+            isSettingsOpen3D = true;
         }
         else {
             document.querySelector('.settings-modal-container').classList.remove('active');
             settingsModal.style.display = 'none';
             saveGameSettings3D();
             window.location.reload();
-            isSettingsOpen = false;
+            isSettingsOpen3D = false;
         }
     });
 
@@ -137,15 +141,15 @@ export function initializeGameSettings3D() {
         settingsModal.style.display = 'none';
         saveGameSettings3D();
         window.location.reload();
-        isSettingsOpen = false;
+        isSettingsOpen3D = false;
     });
 
-    updateScore();
+    updateScore3D();
 
     
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings3D();
-        updateScore();
+        updateScore3D();
     });
     
     document.getElementById('novice').addEventListener('change', function () {
@@ -179,22 +183,27 @@ export function initializeGameSettings3D() {
             case 1:
                 gameSettings3D.ballSpeedX3D = 0.10;
                 gameSettings3D.ballSpeedZ3D = 0.10;
+                gameSettings3D.ballSpeedSAV = 0.10;
                 break;
             case 2:
                 gameSettings3D.ballSpeedX3D = 0.20;
                 gameSettings3D.ballSpeedZ3D = 0.20;
+                gameSettings3D.ballSpeedSAV = 0.20;
                 break;
             case 3:
                 gameSettings3D.ballSpeedX3D = 0.30;
                 gameSettings3D.ballSpeedZ3D = 0.30;
+                gameSettings3D.ballSpeedSAV = 0.30;
                 break;
             case 4:
                 gameSettings3D.ballSpeedX3D = 0.40;
                 gameSettings3D.ballSpeedZ3D = 0.40;
+                gameSettings3D.ballSpeedSAV = 0.40;
                 break;
             case 5:
                 gameSettings3D.ballSpeedX3D = 0.55;
                 gameSettings3D.ballSpeedZ3D = 0.55;
+                gameSettings3D.ballSpeedSAV = 0.55;
                 break;
         }
 
@@ -292,13 +301,13 @@ export function initializeGameSettings3D() {
     });
 
     loadSettingsOnPageLoad3D();
-    resetGame();
+    resetGame3D();
 
     document.getElementById('pointsToWin').addEventListener('input', function (event) {
         pointsToWinValue = Number(event.target.value);
         gameSettings3D.winningScore = pointsToWinValue;
         updateSliderValuePosition('pointsToWin', 'pointsToWinValue', 1, 16);
-        updateScore();
+        updateScore3D();
         saveGameSettings3D();
     });
 
@@ -307,8 +316,18 @@ export function initializeGameSettings3D() {
         saveGameSettings3D();
     });
 
+    document.getElementById('setPowerUps').addEventListener('change', function (event) {
+        gameSettings3D.setPowerUps3D = event.target.checked;
+        saveGameSettings3D();
+    });
+
+    document.getElementById('setRally').addEventListener('change', function (event) {
+        gameSettings3D.setRally3D = event.target.checked;
+        saveGameSettings3D();
+    });
+
     loadSettingsOnPageLoad3D();
-    resetGame();
+    resetGame3D();
 }
 
 export function loadSettingsOnPageLoad3D() {

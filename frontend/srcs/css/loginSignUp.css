@@ -1,35 +1,5 @@
 /* frontend/srcs/css/loginSignUp.css */
 
-/* ========== Font and Selection Styles ========== */
-@font-face {
-	font-family: 'Jersey';
-	src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Jersey', sans-serif;
-}
-
-html, body {
-	display: grid;
-	height: 100%;
-	width: 100%;
-	place-items: center;
-	background: url('../images/backgrounds/backgroundEmpty.jpg') no-repeat center center fixed;
-	background-size: cover;
-	font-size: calc(1vw + 1vh);
-}
-
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
-
 /* ========== Wrapper Styling ========== */
 .wrapper {
 	overflow: hidden;
@@ -44,7 +14,7 @@ html, body {
 }
 
 .wrapper .title {
-	margin-top: 5vh;
+	margin-top: 4vh;
 	width: 50%;
 	font-size: calc(4vw + 4vh);
 	font-weight: 900;
@@ -194,82 +164,17 @@ form .btn input[type="submit"] {
 	padding-left: 0;
 	border-radius: 1vh;
 	font-size: calc(1vw + 1vh);
-	font-weight: 500;
+	font-weight: 50000;
 	cursor: pointer;
 	font-family: 'Jersey', sans-serif;
 }
 
-/* ========== Button Container for Login/Signup ========== */
-  .button-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	margin-top: 0;
-}
 
-.option-button {
-	position: relative;
-	background: none;
-	border: none;
-	color: #a16935;
-	font-size: calc(2vw + 2vh);
-	margin: 0 calc(2vw);
-	cursor: pointer;
-	padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh);
-	outline: none;
-	transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.option-button:hover,
-.option-button:focus {
-	color: #ffcc00;
-	transform: scale(1.05);
-}
-
-.option-button::before {
-	content: '';
-	position: absolute;
-	left: calc(-0.4vw + -0.4vh);;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 0;
-	height: 0;
-	border-top: calc(0.5vw + 0.5vh) solid transparent;
-	border-bottom: calc(0.5vw + 0.5vh) solid transparent;
-	border-left: calc(0.5vw + 0.5vh) solid #ffcc00;
-	opacity: 0;
-	transition: opacity 0.3s ease;
-}
-
-.option-button:hover::before,
-.option-button:focus::before {
-	opacity: 1;
-}
-
-/* ========== Link Styling ========== */
-  .orange-link {
-	color: #a16935;
-	text-decoration: none;
-	font-family: 'Jersey', sans-serif;
-}
-
-.orange-link:hover {
-	color: #ffcc00;
-	text-decoration: none;
-}
-
-.signup-link-bottom {
-	text-align: center;
-	margin-top: calc(2vh);
-	font-size: calc(1.5vw + 1.5vh);
-	font-family: 'Jersey', sans-serif;
-	color: #625f8a;
-}
 
 /* ========== Password Field and Toggle Icon ========== */
 .password-field {
 	position: relative;
+	margin-bottom: 1vh; /* Réduire la marge pour rapprocher le bouton */
 }
 
 .password-field input {
@@ -285,4 +190,106 @@ form .btn input[type="submit"] {
 	cursor: pointer;
 	font-size: calc(1.5vw + 1.5vh);
 	color: #a16935;
+}
+
+/* ========== Button Container for Login/Signup ========== */
+
+.button-container-l-sg {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	margin-top: 1vh; /* Petite marge entre le champ mot de passe et le bouton */
+	margin-bottom: 0; /* Supprimer toute marge inférieure supplémentaire */
+}
+
+.option-button-l-sg {
+	background: none;
+	border: none;
+	color: #a16935;
+	font-size: calc(2vw + 2vh);
+	cursor: pointer;
+	padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh);
+	outline: none;
+	transition: color 0.3s ease, transform 0.3s ease;
+	/* Supprimer les marges verticales inutiles */
+	margin: 0;
+}
+
+.option-button-l-sg:hover,
+.option-button-l-sg:focus {
+	color: #ffcc00;
+	transform: scale(1.05);
+}
+
+.option-button-l-sg::before {
+	content: '';
+	position: absolute;
+	left: calc(-2vw);
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	border-top: calc(0.8vw + 0.8vh) solid transparent;
+	border-bottom: calc(0.8vw + 0.8vh) solid transparent;
+	border-left: calc(0.8vw + 0.8vh) solid #ffcc00;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.option-button-l-sg:hover::before,
+.option-button-l-sg:focus::before {
+	opacity: 1;
+}
+:hover,
+.option-button-l-sg:focus {
+	color: #ffcc00;
+	transform: scale(1.05);
+}
+
+.option-button-l-sg:hover,
+.option-button-l-sg:focus {
+	color: #ffcc00;
+	transform: scale(1.05);
+}
+
+.option-button-l-sg::before {
+	content: '';
+	position: absolute;
+	left: calc(-2vw);
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	border-top: calc(0.8vw + 0.8vh) solid transparent;
+	border-bottom: calc(0.8vw + 0.8vh) solid transparent;
+	border-left: calc(0.8vw + 0.8vh) solid #ffcc00;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.option-button-l-sg:hover::before,
+.option-button-l-sg:focus::before {
+	opacity: 1;
+}
+
+
+/* ========== Link Styling ========== */
+.orange-link {
+	color: #a16935;
+	text-decoration: none;
+	font-family: 'Jersey', sans-serif;
+}
+
+.orange-link:hover {
+	color: #ffcc00;
+	text-decoration: none;
+}
+
+.signup-link-bottom {
+	text-align: center;
+	margin-top: calc(1vh);
+	font-size: calc(1.5vw + 1.5vh);
+	font-family: 'Jersey', sans-serif;
+	color: #625f8a;
 }

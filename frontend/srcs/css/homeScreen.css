@@ -1,32 +1,11 @@
 /* frontend/srcs/css/homeScreen.css */
 
-/* ========== Font and Selection Styles ========== */
-@font-face {
-	font-family: 'Jersey';
-	src: url('../fonts/Jersey_10/Jersey10-Regular.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Jersey', sans-serif;
-}
-
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
-
-html, body {
+.content {
 	height: 100%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: url('../images/backgrounds/backgroundEmpty.jpg') no-repeat center center fixed;
 	background-size: cover;
 	position: relative;
 	overflow: hidden;
@@ -59,6 +38,7 @@ html, body {
 	cursor: pointer;
 	z-index: 1;
 	transition: all 0.6s ease;
+	overflow: hidden;
 }
 
 .slide-controls-2d-3d .slider-tab {
@@ -70,6 +50,7 @@ html, body {
 	border-radius: 0;
 	background: #a16935;
 	transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	overflow: hidden;
 }
 
 #game3d:checked ~ .slider-tab {
@@ -110,6 +91,7 @@ input[type="radio"] {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	overflow: hidden;
 }
 
 .menu-item {
@@ -117,8 +99,9 @@ input[type="radio"] {
 	color: #a16935;
 	text-align: center;
 	position: relative;
-	padding: calc(0.5vh + 0.5vw) 0;
+	padding: calc(1vh) 0;
 	transition: color 0.3s ease, transform 0.3s ease;
+	overflow: hidden;
 }
 
 .menu-item a {
@@ -196,7 +179,10 @@ input[type="radio"] {
 	font-size: calc(7vw + 7vh);
 	color: #a16935;
 	text-align: center;
-	z-index: 20;
+	z-index: 1;
+	white-space: nowrap;
+	max-width: 90vw;
+	overflow: hidden;
 }
 
 /* ========== Icon Customization ========== */

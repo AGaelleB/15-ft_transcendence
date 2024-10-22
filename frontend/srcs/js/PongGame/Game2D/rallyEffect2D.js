@@ -1,43 +1,43 @@
 // frontend/srcs/js/PongGame/Game2D/rallyEffect2D.js
 
-export let rallyCount = 0;
-export const maxRallyBeforeSmoke = 10;
+export let rallyCount2D = 0;
+export const rallySmokeEffect2D = 10;
 let smokeTrail = [];
 const maxSmokeParticles = 10;
 
-export function getSmokeTrail() {
+function getSmokeTrail2D() {
     return smokeTrail;
 }
 
-function getSmokeSize(ball) {
+function getSmokeSize2D(ball) {
     return ball.size * 0.6;
 }
 
-export function setSmokeTrail(newTrail) {
+function setSmokeTrail2D(newTrail) {
     smokeTrail = newTrail;
 }
 
-export function resetRallyCount() {
-    rallyCount = 0;
-    setSmokeTrail([]);
+export function resetRallyCount2D() {
+    rallyCount2D = 0;
+    setSmokeTrail2D([]);
 }
 
-export function incrementRallyCount() {
-    rallyCount++;
+export function incrementRallyCount2D() {
+    rallyCount2D++;
 }
 
-export function addSmokeTrail(x, y) {
-    const currentTrail = getSmokeTrail();
+export function addSmokeTrail2D(x, y) {
+    const currentTrail = getSmokeTrail2D();
 
     currentTrail.push({ x, y, opacity: 1.0 });
     if (currentTrail.length > maxSmokeParticles)
         currentTrail.shift();
-    setSmokeTrail(currentTrail);
+    setSmokeTrail2D(currentTrail);
 }
 
-export function drawSmokeTrail(ctx, ball) {
-    const currentTrail = getSmokeTrail();
-    const smokeSize = getSmokeSize(ball);
+export function drawSmokeTrail2D(ctx, ball) {
+    const currentTrail = getSmokeTrail2D();
+    const smokeSize = getSmokeSize2D(ball);
 
     currentTrail.forEach((particle, index) => {
         ctx.fillStyle = `rgba(255, 204, 0, ${particle.opacity})`;
@@ -50,10 +50,10 @@ export function drawSmokeTrail(ctx, ball) {
         if (particle.opacity <= 0)
             currentTrail.splice(index, 1);
     });
-    setSmokeTrail(currentTrail);
+    setSmokeTrail2D(currentTrail);
 }
 
-export function drawPsychedelicBall(ctx, ball) {
+export function drawPsychedelicBall2D(ctx, ball) {
     const gradient = ctx.createRadialGradient(ball.x, ball.y, ball.size / 4, ball.x, ball.y, ball.size);
     const colorOffset = Date.now() % 360;
 

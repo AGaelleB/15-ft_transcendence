@@ -3,42 +3,49 @@
 import { gameSettings2D } from '../gameSettings.js';
 import { showWinMessage } from '../../Modals/winMsgModal.js';
 
-export let player1Score = 0;
-export let player2Score = 0;
+export let player1Score2D = 0;
+export let player2Score2D = 0;
 
-export const setPlayer1Score = (value) => {
-    player1Score = value;
-    updateScore();
+export const setPlayer1Score2D = (value) => {
+    player1Score2D = value;
+    updateScore2D();
 };
 
-export const setPlayer2Score = (value) => {
-    player2Score = value;
-    updateScore();
+export const setPlayer2Score2D = (value) => {
+    player2Score2D = value;
+    updateScore2D();
 };
 
-export function updateScore() {
+export function updateScore2D() {
     const winningScore = gameSettings2D.winningScore;
-    document.getElementById('player1Score').textContent = `${player1Score} / ${winningScore}`;
-    document.getElementById('player2Score').textContent = `${player2Score} / ${winningScore}`;
+    document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
+    document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
 }
 
-export let gameOver = false;
+let gameOver2D = false;
 
-export function isGameOver() {
-    return gameOver;
+export function isGameOver2D() {
+    return gameOver2D;
 }
 
-export function checkGameEnd() {
+export function setIsGameOver2D(value) {
+    if (typeof value === 'boolean')
+        gameOver2D = value;
+    else
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+}
+
+export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
     
-    if (player1Score >= winningScore) {
-        gameOver = true;
+    if (player1Score2D >= winningScore) {
+        gameOver2D = true;
         showWinMessage(1);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
-    else if (player2Score >= winningScore) {
-        gameOver = true;
+    else if (player2Score2D >= winningScore) {
+        gameOver2D = true;
         showWinMessage(2);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;

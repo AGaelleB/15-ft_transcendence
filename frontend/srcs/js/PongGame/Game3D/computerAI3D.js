@@ -24,16 +24,16 @@ function simulateKeyPress(direction) {
     }
 }
 
-function IAKeysPress(paddle, ground) {
-    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (gameSettings3D.paddleDepth3D / 2.30);
+function IAKeysPress(paddleRight, ground) {
+    const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleRight.paddleDepth3D / 2.30);
 
     if (keys['w']) {
-        if (paddle.position.z > -paddleMovementLimit)
-            paddle.position.z -= gameSettings3D.paddleSpeed3D;
+        if (paddleRight.position.z > -paddleMovementLimit)
+            paddleRight.position.z -= paddleRight.speedFactor;
     }
     else if (keys['s']) {
-        if (paddle.position.z < paddleMovementLimit)
-            paddle.position.z += gameSettings3D.paddleSpeed3D;
+        if (paddleRight.position.z < paddleMovementLimit)
+            paddleRight.position.z += paddleRight.speedFactor;
     }
 }
 

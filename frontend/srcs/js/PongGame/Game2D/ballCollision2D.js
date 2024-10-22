@@ -2,18 +2,18 @@
 
 let lastTouchedPaddle = null;
 
-export function getLastTouchedPaddle() {
+export function getLastTouchedPaddle2D() {
     return lastTouchedPaddle;
 }
 
-export function setLastTouchedPaddle(paddle) {
+export function setLastTouchedPaddle2D(paddle) {
     if (paddle === 'left' || paddle === 'right' || paddle === null)
         lastTouchedPaddle = paddle;
     else
         console.warn("Invalid paddle value. Use 'left', 'right', or null.");
 }
 
-export function handlePaddleCollision(ball, paddle) {
+export function handlePaddleCollision2D(ball, paddle) {
     const paddleCenter = paddle.y + paddle.height / 2;
     const ballDistanceFromCenter = ball.y - paddleCenter;
 
@@ -26,7 +26,7 @@ export function handlePaddleCollision(ball, paddle) {
     ball.dy = speed * Math.sin(bounceAngle);
 }
 
-export function handleWallCollision(ball, canvas) {
+export function handleWallCollision2D(ball, canvas) {
     // Ball collision with top wall
     if (ball.y - ball.size < 0) {
         ball.dy = -ball.dy;
@@ -40,15 +40,15 @@ export function handleWallCollision(ball, canvas) {
     }
 }
 
-export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBoundsFlag) {
+export function checkPaddleCollision2D(ball, paddleLeft, paddleRight, resetOutOfBoundsFlag) {
     // Ball collision with left paddle (Player 1)
     if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
         ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
         ball.dx = -ball.dx;
         ball.x = paddleLeft.x + paddleLeft.width + ball.size;
-        handlePaddleCollision(ball, paddleLeft);
+        handlePaddleCollision2D(ball, paddleLeft);
         resetOutOfBoundsFlag();
-        setLastTouchedPaddle('left');
+        setLastTouchedPaddle2D('left');
     }
 
     // Ball collision with right paddle (Player 2 or AI)
@@ -56,13 +56,13 @@ export function checkPaddleCollision(ball, paddleLeft, paddleRight, resetOutOfBo
         ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
         ball.dx = -ball.dx;
         ball.x = paddleRight.x - ball.size; 
-        handlePaddleCollision(ball, paddleRight);
+        handlePaddleCollision2D(ball, paddleRight);
         resetOutOfBoundsFlag();
-        setLastTouchedPaddle('right');
+        setLastTouchedPaddle2D('right');
     }
 }
 
-export function checkBallOutOfBounds(ball, canvas, onPlayer1Score, onPlayer2Score) {
+export function checkBallOutOfBounds2D(ball, canvas, onPlayer1Score, onPlayer2Score) {
     if (ball.x - ball.size < 0) {
         onPlayer2Score();
         return true;

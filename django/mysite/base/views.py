@@ -60,6 +60,7 @@ class User_log_in_out(generics.UpdateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = User_Log_in_out_Serializer
+    lookup_field = 'username'
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()

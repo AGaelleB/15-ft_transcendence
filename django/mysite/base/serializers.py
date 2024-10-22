@@ -41,7 +41,7 @@ class User_Create_Serializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User 
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_2fa', 'avatar']
+        fields = ['id', 'username', 'email', 'is_2fa', 'avatar']
 
 class User_friends_Serializer(serializers.ModelSerializer):
     """
@@ -50,7 +50,6 @@ class User_friends_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
-
 
 class Game_easy_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -67,7 +66,7 @@ class User_List_Serializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games']
+        fields = ['id', 'username', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games']
 
 class User_Update_Serializer(serializers.ModelSerializer):
     """
@@ -77,7 +76,7 @@ class User_Update_Serializer(serializers.ModelSerializer):
     friends = User_friends_Serializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name',  'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
+        fields = ['id', 'username', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
 
 class User_Log_in_out_Serializer(serializers.ModelSerializer):
     """
@@ -85,7 +84,7 @@ class User_Log_in_out_Serializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['id'] # +password ?
+        fields = ['id', 'username'] # +password ?
 
 class User_avatar_serializer(serializers.ModelSerializer):
     """

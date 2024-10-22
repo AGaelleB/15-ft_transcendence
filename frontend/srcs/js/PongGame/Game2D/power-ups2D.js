@@ -1,23 +1,33 @@
 // frontend/srcs/js/PongGame/Game2D/power-ups2D.js
 
-import { isGameStarted } from '../../Modals/startGameModal.js';
+import { gameStarted2D, isGameStarted2D } from '../../Modals/startGameModal2D.js';
 import { gameSettings2D } from '../gameSettings.js';
-import { getLastTouchedPaddle } from './ballCollision2D.js';
+import { getLastTouchedPaddle2D } from './ballCollision2D.js';
 
 /*********************** MISE EN PLACE ET AFFICHAGE DES POWERS-UPS ***********************/
 
-let nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000); // Délai pour le 1er affichage
+let nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D); // Délai pour le 1er affichage
 let powerUpTimeoutId;
 
-export const powerUpsImages = [
-    '../images/power-ups/sizeUpPaddle.png',
-    '../images/power-ups/sizeDownPaddle.png',
-    '../images/power-ups/speedPaddle.png',
-    '../images/power-ups/slowPaddle.png'
+// si docker nginx
+const powerUpsImages = [
+    './images/power-ups/sizeUpPaddle.png',
+    './images/power-ups/sizeDownPaddle.png',
+    './images/power-ups/speedPaddle.png',
+    './images/power-ups/slowPaddle.png'
 ];
 
-export function resetPowerUpTimer() {
-    nextPowerUpTime = Date.now() + getRandomInterval(17000, 20000);
+// // si live server
+// const powerUpsImages = [
+//     '/frontend/srcs/images/power-ups/sizeUpPaddle.png',
+//     '/frontend/srcs/images/power-ups/sizeDownPaddle.png',
+//     '/frontend/srcs/images/power-ups/speedPaddle.png',
+//     '/frontend/srcs/images/power-ups/slowPaddle.png'
+// ];
+
+
+export function resetPowerUpTimer2D() {
+    nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D);
 }
 
 export function hidePowerUp(powerUpImageElement) {
@@ -29,11 +39,11 @@ export function hidePowerUp(powerUpImageElement) {
     }
 }
 
-function getRandomInterval(min, max) {
+function getRandomInterval2D(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function createPowerUpImageElement() {
+export function createPowerUpImageElement2D() {
 
     const powerUpImageElement = document.createElement('img');
     document.body.appendChild(powerUpImageElement);
@@ -43,7 +53,7 @@ export function createPowerUpImageElement() {
     return (powerUpImageElement);
 }
 
-export function displayRandomPowerUp(powerUpImageElement, canvas) {
+function displayRandomPowerUp2D(powerUpImageElement, canvas) {
     const randomIndex = Math.floor(Math.random() * powerUpsImages.length);
     const selectedImage = powerUpsImages[randomIndex];
 
@@ -76,18 +86,18 @@ export function displayRandomPowerUp(powerUpImageElement, canvas) {
         // affiche durant 7 secondes
         powerUpTimeoutId = setTimeout(() => {
             powerUpImageElement.style.display = 'none';
-        }, 7000);
+        }, gameSettings2D.powerUpVisibilityDuration2D);
     };
 }
 
-export function generatePowerUp(powerUpImageElement, canvas) {
+export function generatePowerUp2D(powerUpImageElement, canvas) {
     const now = Date.now();
 
-    if (gameSettings2D.setPowerUps && isGameStarted() && now >= nextPowerUpTime) {
-        displayRandomPowerUp(powerUpImageElement, canvas);
-        nextPowerUpTime = now + getRandomInterval(12000, 25000); // temps entre 2 affichages
+    if (gameSettings2D.setPowerUps && isGameStarted2D() && now >= nextPowerUpTime) {
+        displayRandomPowerUp2D(powerUpImageElement, canvas);
+        nextPowerUpTime = now + getRandomInterval2D(12000, 25000); // temps entre 2 affichages
     }
-    else if (!isGameStarted() || !gameSettings2D.setPowerUps) {
+    else if (!isGameStarted2D() || !gameSettings2D.setPowerUps) {
         hidePowerUp(powerUpImageElement);
     }
 }
@@ -95,7 +105,7 @@ export function generatePowerUp(powerUpImageElement, canvas) {
 
 /******************** DETECTION DES COLISSIONS ENTRE IMG ET POWERS-UPS ********************/
 
-export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
+export function checkPowerUpCollision2D(ball, powerUpImageElement, canvas) {
     const canvasRect = canvas.getBoundingClientRect();
     const powerUpRect = powerUpImageElement.getBoundingClientRect();
 
@@ -117,7 +127,7 @@ export function checkPowerUpCollision(ball, powerUpImageElement, canvas) {
 
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
 
-export function resetPowerUpEffects(paddleLeft, paddleRight) {
+export function resetPowerUpEffects2D(paddleLeft, paddleRight) {
     const canvasHeight = window.canvasHeight || document.getElementById('pongCanvas').height;
 
     paddleLeft.height = gameSettings2D.paddleHeight2D * canvasHeight; 
@@ -127,8 +137,8 @@ export function resetPowerUpEffects(paddleLeft, paddleRight) {
     paddleRight.speedFactor = gameSettings2D.paddleSpeedFactor * 25;
 }
 
-export function applyPowerUpEffect(powerUpSrc, paddleLeft, paddleRight) {
-    const lastTouchedPaddle = getLastTouchedPaddle();
+export function applyPowerUpEffect2D(powerUpSrc, paddleLeft, paddleRight) {
+    const lastTouchedPaddle = getLastTouchedPaddle2D();
     let affectedPaddle;
 
     if (lastTouchedPaddle === 'left')

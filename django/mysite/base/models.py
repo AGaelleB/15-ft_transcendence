@@ -3,18 +3,11 @@ from .utils import rename_image
 
 class User(models.Model):
     username        = models.CharField(max_length=20, blank=False, unique=True)
-    first_name      = models.CharField(max_length=30, blank=False)
-    last_name       = models.CharField(max_length=30, blank=False)
     avatar          = models.ImageField(upload_to=rename_image, default="default.png")
     email           = models.EmailField()
     is_connected    = models.BooleanField(default=True)
     is_2fa          = models.BooleanField(default=False)
     friends         = models.ManyToManyField("self", symmetrical=True, blank=True)
-
-    # optional
-    #birth_date      = models.DateTimeField()
-    #last_login      = models.DateTimeField()
-    #account_create  = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["id"]

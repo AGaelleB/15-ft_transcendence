@@ -1,10 +1,6 @@
 /* frontend/srcs/css/startGameModal.css */
 
 /* ========== Font and Selection Styles ========== */
-::selection {
-	background: #302a66;
-	color: #a16935;
-}
 
 .start-game-modal {
 	position: fixed;
