@@ -21,7 +21,7 @@ Django is now available on **127.0.0.1:8001** (not 8000)
 * using curl : 
   * Get all users : `curl 127.0.0.1:8000/users/`
   * POST/PUT : `curl -X POST URL -d "{\"key\": value, \"key2\": value2}"` (keys must be doublequoted, escaping needed)
-  * delete user with id 3 : `curl -X DELETE 127.0.0.1:8000/users/3/`
+  * delete user with id 3 : `curl -X DELETE 127.0.0.1:8000/users/user3/`
 * using browser (browsable DRF API):
   * go to the route, informations and expected data are nicely displayed
   * forms are provided for POST/PUT, with constraints
@@ -31,24 +31,24 @@ Django is now available on **127.0.0.1:8001** (not 8000)
 #### `/users/` : GET (list), POST (create, expect body)
 * `GET 127.0.0.1:8000/users/`
 * `POST 127.0.0.1:8000/users/ {"username": "user", "first_name": "blabla", "last_name": blibli, "email": "user@gmail.com", "is_2fa": false}`
-#### `/users/<int:pk>/` : GET (retrieve), PUT (update partial, expect body), DELETE (destroy). pk is the user id
-* `GET 127.0.0.1:8000/users/1/`
-* `PUT 127.0.0.1:8000/users/1/ {"username": "new_user_name"}`
-* `DELETE 127.0.0.1:8000/users/1/`
-#### `/users/<int:pk>/avatar/` : GET (serve the actual image, no json)
-* `GET 127.0.0.1:8000/users/1/avatar/`
-#### `/users/<int:pk>/log<str:action>/` : PUT (update is_connected to True or False, no body). str= 'in' | 'out'
-* `PUT 127.0.0.1:8000/users/1/login`
-* `PUT 127.0.0.1:8000/users/2/logout`
-#### `/users/<int:pk>/remove-friend/<int:friend>/` : PUT (update: rm one friend, no body). pk=user_id, friend=friend_id
-* `PUT 127.0.0.1:8000/users/2/remove-friend/1` --> user2.friends.remove(user1), and it is symmetrical (user1.friends.remove(user2))
+#### `/users/<std::username>/` : GET (retrieve), PUT (update partial, expect body), DELETE (destroy). pk is the user id
+* `GET 127.0.0.1:8000/users/user/`
+* `PUT 127.0.0.1:8000/users/user/ {"username": "new_user_name"}`
+* `DELETE 127.0.0.1:8000/users/user/`
+#### `/users/<std::username>/avatar/` : GET (serve the actual image, no json)
+* `GET 127.0.0.1:8000/users/user/avatar/`
+#### `/users/<std::username>/log<str:action>/` : PUT (update is_connected to True or False, no body). str= 'in' | 'out'
+* `PUT 127.0.0.1:8000/users/user/login/`
+* `PUT 127.0.0.1:8000/users/user/logout/`
+#### `/users/<std::username>/remove-friend/<str:friend>/` : PUT (update: rm one friend, no body). pk=user_id, friend=friend_id
+* `PUT 127.0.0.1:8000/users/user1/remove-friend/user2/` --> user2.friends.remove(user1), and it is symmetrical (user1.friends.remove(user2))
 #### `/games/` : GET (list), POST (create, expecting body)
 * `GET 127.0.0.1:8000/games/`
 * `POST 127.0.0.1:8000/games/ {"score": 0, "opp_score": 0}` (create game with score=0 opp_score=0)
 #### `/games/<int:pk>/` : GET (retrieve), PUT (update partial), DELETE (destroy). pk=game_id
-* `GET 127.0.0.1:8000/games/1`
- * `PUT 127.0.0.1:8000/games/1 score=5`
- * `DELETE 127.0.0.1:8000/games/1`
+* `GET 127.0.0.1:8000/games/1/`
+ * `PUT 127.0.0.1:8000/games/1/ score=5`
+ * `DELETE 127.0.0.1:8000/games/1/`
 #### `/friend-request/` : GET (list)
 * `GET 127.0.0.1:8000/friend-reques//`
 #### `/friend-request/create/` : POST (create, expect body)

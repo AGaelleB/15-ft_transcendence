@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, Http404
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -86,15 +86,15 @@ class User_log_in_out(generics.UpdateAPIView):
 class User_avatar(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = User_avatar_serializer
+    lookup_field = 'username'
 
     def get(self, request, username=None):
         if username:
-            try:
-                obj = User.objects.get(username=username)
-                image = obj.avatar
-            except User.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-            return HttpResponse(image, content_type=get_image_mime_type(image))
+            obj = get_object_or_404(User, username=username)
+            image = obj.avatar
+        if not image:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return FileResponse(open(image.path, 'rb'), content_type=get_image_mime_type(image))
 
 ##########################################################
 #       Friend invite
