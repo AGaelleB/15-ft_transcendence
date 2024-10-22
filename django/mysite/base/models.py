@@ -3,8 +3,8 @@ from .utils import rename_image
 
 class User(models.Model):
     username        = models.CharField(max_length=20, blank=False, unique=True)
-    first_name      = models.CharField(max_length=30, blank=False)
-    last_name       = models.CharField(max_length=30, blank=False)
+    first_name      = models.CharField(max_length=30, blank=True)
+    last_name       = models.CharField(max_length=30, blank=True)
     avatar          = models.ImageField(upload_to=rename_image, default="default.png")
     email           = models.EmailField()
     is_connected    = models.BooleanField(default=True)

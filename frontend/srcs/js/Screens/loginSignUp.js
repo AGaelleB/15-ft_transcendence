@@ -61,3 +61,62 @@ export function initializeLogin() {
             });
         });
 }
+
+document.querySelector("form.signup").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const username = document.querySelector("form.signup input[placeholder='User Name']").value;
+    const email = document.querySelector("form.signup input[placeholder='Email Address']").value;
+    const password = document.querySelector("form.signup input[placeholder='Password']").value;
+    const confirmPassword = document.querySelector("form.signup input[placeholder='Confirm password']").value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+    }
+
+    const userData = {
+        "username": username,
+        "first_name": "",
+        "last_name": "",
+        "email": email,
+        "is_2fa": false,
+        // Ajoute "password" si nécessaire côté backend
+    };
+
+    try {
+        const response = await fetch('http://127.0.0.1:8001/users/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+    
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error:', errorData);
+            alert('Signup failed: ' + JSON.stringify(errorData));
+        }
+        else {
+            // Récupère les données de l'utilisateur depuis la réponse
+            const userResponse = await response.json();
+
+            // Sauvegarde les informations de l'utilisateur dans le localStorage
+            localStorage.setItem('user', JSON.stringify({
+                id: userResponse.id,           // Utilise l'ID retourné par le backend
+                username: userResponse.username,
+                email: userResponse.email,
+                is_2fa: userResponse.is_2fa,
+            }));
+
+            alert('Signup successful!');
+
+            // Redirection vers la page de login ou une autre page
+            window.location.href = '/home';  // Exemple de redirection
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});

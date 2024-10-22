@@ -27,15 +27,15 @@ MEDIA_URL = '/media/' # 'http://myhost:port/media/
 SECRET_KEY = 'django-insecure-k44y@p3p=vjr38a-vu9odvfn^^x7=etp*a2^ya4rfeoqlq@p0g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # Remplace par False en production
 
-ALLOWED_HOSTS = ["127.0.0.1"]
-
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]  # Ajoute les domaines de production
 
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
+    'corsheaders',  # Ajouté pour la gestion des CORS
     'base.apps.BaseConfig',
     'django_extensions',
     'django.contrib.admin',
@@ -50,11 +50,12 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',  # Modifie selon tes besoins
     ]
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Ajouté pour CORS, doit être en premier
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,6 +63,24 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# CORS configuration
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',  # Frontend local
+    'http://localhost:8000',  # Frontend sur localhost
+]
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS',
+]
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-requested-with',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -137,3 +156,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Security settings (à configurer pour la production)
+SECURE_SSL_REDIRECT = False  # Active pour forcer HTTPS en production
+SECURE_HSTS_SECONDS = 3600  # HTTP Strict Transport Security (modifie en production)
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = False  # Change à True en production
+SESSION_COOKIE_SECURE = False  # Change à True en production

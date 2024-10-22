@@ -1,7 +1,25 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
 export function showWinMessage(winner) {
+    // Récupérer l'utilisateur depuis le localStorage
+    const savedUser = localStorage.getItem('user');
+    let username = 'Player';  // Valeur par défaut si l'utilisateur n'est pas trouvé
+
+    if (savedUser) {
+        const user = JSON.parse(savedUser);
+        username = user.username || 'Player';  // Utiliser le pseudo de l'utilisateur
+    }
+
+    // Modifier le contenu du modal avec le pseudo de l'utilisateur et le gagnant
     const modal = document.querySelector('.modal');
+    const messageElement = modal.querySelector('.message');
+
+    messageElement.innerHTML = `
+        <span data-lang-key="winner">${username} ${winner} Wins!</span>
+        <i class="bi bi-emoji-sunglasses"></i>
+    `;
+
+    // Afficher la modal
     modal.style.display = 'block';
 }
 
