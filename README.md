@@ -35,16 +35,16 @@ note: since docker settings, **local launch don't work anymore**
 ### `/users/` : GET, POST
 * `GET 127.0.0.1:8000/users/`
 * `POST 127.0.0.1:8000/users/ {"username": "user", "first_name": "blabla", "last_name": blibli, "email": "user@gmail.com", "is_2fa": false}`
-### `/users/<std::username>/` : GET, PUT, DELETE
+### `/users/<str:username>/` : GET, PUT, DELETE
 * `GET 127.0.0.1:8000/users/user/`
 * `PUT 127.0.0.1:8000/users/user/ {"username": "new_user_name"}`
 * `DELETE 127.0.0.1:8000/users/user/`
-### `/users/<std::username>/avatar/` : GET (serve the actual image)
+### `/users/<str:username>/avatar/` : GET (serve the actual image)
 * `GET 127.0.0.1:8000/users/user/avatar/`
-### `/users/<std::username>/log<str:action>/` : PUT
+### `/users/<str:username>/log<str:action>/` : PUT
 * `PUT 127.0.0.1:8000/users/user/login/`
 * `PUT 127.0.0.1:8000/users/user/logout/`
-### `/users/<std::username>/remove-friend/<str:friend>/` : PUT
+### `/users/<str:username>/remove-friend/<str:friend>/` : PUT
 * `PUT 127.0.0.1:8000/users/user1/remove-friend/user2/` --> user2.friends.remove(user1), and it is symmetrical (user1.friends.remove(user2))
 ### `/games/` : GET, POST
 * `GET 127.0.0.1:8000/games/`
