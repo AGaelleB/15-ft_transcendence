@@ -11,23 +11,20 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+#from dotenv import load_dotenv
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+#load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # dir for uploads/images. see URL when debug=false
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/' # 'http://myhost:port/media/
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k44y@p3p=vjr38a-vu9odvfn^^x7=etp*a2^ya4rfeoqlq@p0g'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -70,7 +67,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    #'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -112,12 +109,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE'    :   'django.db.backends.postgresql',
+        'NAME'      :   os.getenv("POSTGRES_DB"),
+        'USER'      :   os.getenv("POSTGRES_USER"),
+        'PASSWORD'  :   os.getenv("POSTGRES_PASSWORD"),
+        'HOST'      :   os.getenv("POSTGRES_HOST"),
+        'PORT'      :   5432,
     }
 }
 
