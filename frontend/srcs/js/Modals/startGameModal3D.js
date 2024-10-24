@@ -28,14 +28,15 @@ export function resetGame3D() {
     gameSettings3D.ballSpeedX3D = gameSettings3D.ballSpeedSAV;
 }
 
-export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
-    function handleKeyPress(e) {
-        if (!gameStarted3D && !getIsSettingsOpen3D() && (e.code === 'Space' || e.code === 'Enter')) {
-            startGame3D(startGameMessage3D, settingsIcon, homeIcon);
-            document.removeEventListener('keypress', handleKeyPress);
-        }
+export function handleKeyPress3D(e) {
+    if (!gameStarted3D && !getIsSettingsOpen3D() && (e.code === 'Space' || e.code === 'Enter')) {
+        startGame3D(startGameMessage3D, settingsIcon, homeIcon);
+        document.removeEventListener('keypress', handleKeyPress3D);
     }
-    document.addEventListener('keypress', handleKeyPress);
+}
+
+export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
+    document.addEventListener('keypress', handleKeyPress3D);
 }
 
 export function isGameStarted3D() {

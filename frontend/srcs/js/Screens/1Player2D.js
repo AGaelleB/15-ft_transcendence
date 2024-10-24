@@ -13,7 +13,7 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
-export let animationId;
+export let animationId2D1P;
 
 export function initialize1Player2D() {
     
@@ -41,7 +41,7 @@ export function initialize1Player2D() {
     });
 
     function cleanup1Player2D() {
-        cancelAnimationFrame(animationId);
+        cancelAnimationFrame(animationId2D1P);
 
         document.removeEventListener('keydown', handleKeydown);
         document.removeEventListener('keyup', handleKeyup);
@@ -239,7 +239,7 @@ export function initialize1Player2D() {
             hidePowerUp(powerUpImageElement);
             resetPowerUpTimer2D();
         }
-        animationId = requestAnimationFrame(gameLoop1Player2D);
+        animationId2D1P = requestAnimationFrame(gameLoop1Player2D);
     }
     gameLoop1Player2D();
 }

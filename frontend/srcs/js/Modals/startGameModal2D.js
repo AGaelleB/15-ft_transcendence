@@ -5,12 +5,11 @@ import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame
 
 export let gameStarted2D = false;
 
-function startGame2D(startGameMessage2D, settingsIcon, homeIcon, gameContainer) {
+function startGame2D(startGameMessage2D, settingsIcon, homeIcon) {
     startGameMessage2D.style.display = 'none';
     startGameMessage2D.classList.add('hidden');
     settingsIcon.classList.add('hidden');
     homeIcon.classList.add('hidden');
-    gameContainer.style.cursor = 'none'; // marche pas 
     gameStarted2D = true;
 }
 
@@ -23,8 +22,7 @@ export function resetGame2D() {
 
 export function handleKeyPress2D(e) {
     if (!gameStarted2D && !getIsSettingsOpen2D() && (e.code === 'Space' || e.code === 'Enter')) {
-        const gameContainer = document.getElementById('gameContainer');
-        startGame2D(startGameMessage2D, settingsIcon, homeIcon, gameContainer);
+        startGame2D(startGameMessage2D, settingsIcon, homeIcon);
         document.removeEventListener('keypress', handleKeyPress2D);
     }
 }

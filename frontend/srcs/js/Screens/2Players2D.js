@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/2Players.js
 
-import { initializeGameStartListener2D, isGameStarted2D } from '../Modals/startGameModal2D.js';
+import { initializeGameStartListener2D, isGameStarted2D, handleKeyPress2D } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { gameSettings2D } from '../PongGame/gameSettings.js';
@@ -12,6 +12,8 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
+export let animationId2D2P;
+
 export function initialize2Players2D() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
@@ -21,8 +23,6 @@ export function initialize2Players2D() {
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
-
-    let animationId;
 
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault();
@@ -36,10 +36,11 @@ export function initialize2Players2D() {
     });
 
     function cleanup1Player2D() {
-        cancelAnimationFrame(animationId);
+        cancelAnimationFrame(animationId2D2P);
 
         document.removeEventListener('keydown', handleKeydown);
         document.removeEventListener('keyup', handleKeyup);
+        document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
@@ -242,7 +243,7 @@ export function initialize2Players2D() {
             hidePowerUp(powerUpImageElement);
             resetPowerUpTimer2D();
         }
-        animationId = requestAnimationFrame(gameLoop2Players2D);
+        animationId2D2P = requestAnimationFrame(gameLoop2Players2D);
     }
     gameLoop2Players2D();
 }
