@@ -14,7 +14,7 @@ import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 export let isGameActive3D = true;
 
 export function initialize2Players3D() {
-    const startGameMessage = document.getElementById('startGameMessage');
+    const startGameMessage3D = document.getElementById('startGameMessage3D');
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
@@ -58,7 +58,7 @@ export function initialize2Players3D() {
     }
 
     initializeButton3D();
-    initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon);
+    initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon);
 
     resetGame3D();
     paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;

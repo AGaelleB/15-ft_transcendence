@@ -2,7 +2,8 @@
 
 import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { updateScore2D } from '../PongGame/Game2D/score2D.js';
-import { resetGame2D } from './startGameModal2D.js';
+import { handleKeyPress2D, resetGame2D } from './startGameModal2D.js';
+import { animationId } from '../Screens/1Player2D.js';
 
 let isSettingsOpen2D = false;
 let ballSizeValue = 3;
@@ -154,6 +155,7 @@ export function initializeGameSettings2D() {
     });
 
     closeSettingsButton.addEventListener('click', () => {
+        cancelAnimationFrame(animationId);
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings2D();
@@ -179,7 +181,7 @@ export function initializeGameSettings2D() {
         window.history.pushState({}, "", targetPath);
         handleLocation();
     });
-    
+
     settingsModal.addEventListener('keydown', (e) => {
         if (isSettingsOpen2D && (e.code === 'Space' || e.code === 'Enter')) {
             e.stopPropagation();

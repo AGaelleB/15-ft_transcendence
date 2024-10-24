@@ -5,11 +5,12 @@ import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame
 
 export let gameStarted2D = false;
 
-function startGame(startGameMessage, settingsIcon, homeIcon) {
-    startGameMessage.style.display = 'none';
-    startGameMessage.classList.add('hidden');
+function startGame2D(startGameMessage2D, settingsIcon, homeIcon, gameContainer) {
+    startGameMessage2D.style.display = 'none';
+    startGameMessage2D.classList.add('hidden');
     settingsIcon.classList.add('hidden');
     homeIcon.classList.add('hidden');
+    gameContainer.style.cursor = 'none'; // marche pas 
     gameStarted2D = true;
 }
 
@@ -20,16 +21,25 @@ export function resetGame2D() {
     updateScore2D();
 }
 
-export function initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon) {
-    function handleKeyPress(e) {
-        if (!gameStarted2D && !getIsSettingsOpen2D() && (e.code === 'Space' || e.code === 'Enter')) {
-            startGame(startGameMessage, settingsIcon, homeIcon);
-            document.removeEventListener('keypress', handleKeyPress);
-        }
+export function handleKeyPress2D(e) {
+    if (!gameStarted2D && !getIsSettingsOpen2D() && (e.code === 'Space' || e.code === 'Enter')) {
+        const gameContainer = document.getElementById('gameContainer');
+        startGame2D(startGameMessage2D, settingsIcon, homeIcon, gameContainer);
+        document.removeEventListener('keypress', handleKeyPress2D);
     }
-    document.addEventListener('keypress', handleKeyPress);
+}
+
+export function initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon) {
+    document.addEventListener('keypress', handleKeyPress2D);
 }
 
 export function isGameStarted2D() {
     return gameStarted2D;
+}
+
+export function setGameStarted2D(value) {
+    if (typeof value === 'boolean')
+        gameStarted2D = value;
+    else
+        console.warn("Invalid value. Please provide a boolean (true or false).");
 }

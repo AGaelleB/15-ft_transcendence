@@ -15,7 +15,7 @@ import { loadLanguages } from '../Modals/switchLanguages.js';
 export function initialize2Players2D() {
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
-    const startGameMessage = document.getElementById('startGameMessage');
+    const startGameMessage2D = document.getElementById('startGameMessage2D');
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement2D();
@@ -63,8 +63,13 @@ export function initialize2Players2D() {
             console.warn("Invalid value. Please provide a boolean (true or false).");
     }
 
+    console.log("2p AVANT APPEL initializeButton2D");
     initializeButton2D();
-    initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
+    console.log("2p APRES APPEL initializeButton2D");
+
+    console.log("2p AVANT APPEL initializeGameStartListener2D");
+    initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon);
+    console.log("2p APRES APPEL initializeGameStartListener2D");
     
     let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
   
@@ -96,7 +101,7 @@ export function initialize2Players2D() {
 
     let ballOutOfBounds = false;
 
-    function resetBall() {
+    function resetBall2D() {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
     
@@ -162,7 +167,7 @@ export function initialize2Players2D() {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;
                 }
-                resetBall();
+                resetBall2D();
         }
     
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -240,5 +245,4 @@ export function initialize2Players2D() {
         animationId = requestAnimationFrame(gameLoop2Players2D);
     }
     gameLoop2Players2D();
-
 }

@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player2D.js
 
-import { gameStarted2D, initializeGameStartListener2D, isGameStarted2D } from '../Modals/startGameModal2D.js';
+import { gameStarted2D, handleKeyPress2D, initializeGameStartListener2D, isGameStarted2D, setGameStarted2D } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { updateAI2D } from '../PongGame/Game2D/computerAI2D.js';
@@ -13,22 +13,23 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
+export let animationId;
 
 export function initialize1Player2D() {
     
     const canvas = document.getElementById('pongCanvas');
     const ctx = canvas.getContext('2d');
-    const startGameMessage = document.getElementById('startGameMessage');
+    const startGameMessage2D = document.getElementById('startGameMessage2D');
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
     
-    let animationId;
     let isGameActive2d = true;
     
     homeIcon.addEventListener('click', (event) => {
+        cleanup1Player2D();
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
@@ -44,6 +45,7 @@ export function initialize1Player2D() {
 
         document.removeEventListener('keydown', handleKeydown);
         document.removeEventListener('keyup', handleKeyup);
+        document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
         
         setPlayer1Score2D(0);
@@ -56,6 +58,7 @@ export function initialize1Player2D() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         isGameActive2d = false;
+        setGameStarted2D(true);
         console.log("Jeu réinitialisé et boucle arrêtée.");
     }
 
@@ -72,8 +75,7 @@ export function initialize1Player2D() {
     gameSettings2D.ballSpeedX2D
 
     initializeButton2D();
-    initializeGameStartListener2D(startGameMessage, settingsIcon, homeIcon);
-    
+    initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon);
 
     const paddleLeft = {
         x: 0,

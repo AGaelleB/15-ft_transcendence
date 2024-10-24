@@ -7,9 +7,9 @@ import { gameSettings3D } from '../PongGame/gameSettings.js';
 
 let gameStarted3D = false;
 
-function startGame(startGameMessage, settingsIcon, homeIcon) {
-    startGameMessage.style.display = 'none';
-    startGameMessage.classList.add('hidden');
+function startGame3D(startGameMessage3D, settingsIcon, homeIcon) {
+    startGameMessage3D.style.display = 'none';
+    startGameMessage3D.classList.add('hidden');
     settingsIcon.classList.add('hidden');
     homeIcon.classList.add('hidden');
     gameStarted3D = true;
@@ -28,10 +28,10 @@ export function resetGame3D() {
     gameSettings3D.ballSpeedX3D = gameSettings3D.ballSpeedSAV;
 }
 
-export function initializeGameStartListener3D(startGameMessage, settingsIcon, homeIcon) {
+export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
     function handleKeyPress(e) {
         if (!gameStarted3D && !getIsSettingsOpen3D() && (e.code === 'Space' || e.code === 'Enter')) {
-            startGame(startGameMessage, settingsIcon, homeIcon);
+            startGame3D(startGameMessage3D, settingsIcon, homeIcon);
             document.removeEventListener('keypress', handleKeyPress);
         }
     }

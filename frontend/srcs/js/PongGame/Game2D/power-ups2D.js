@@ -25,7 +25,6 @@ const powerUpsImages = [
 //     '/frontend/srcs/images/power-ups/slowPaddle.png'
 // ];
 
-
 export function resetPowerUpTimer2D() {
     nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D);
 }
