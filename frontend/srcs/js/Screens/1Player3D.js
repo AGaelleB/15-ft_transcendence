@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player3D.js
 
-import { initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
+import { handleKeyPress3D, initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
@@ -13,6 +13,7 @@ import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hideP
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 
 export let isGameActive3D = true;
+export let animationId3D1P;
 
 export function initialize1Player3D() {
     const startGameMessage3D = document.getElementById('startGameMessage3D');
@@ -28,7 +29,6 @@ export function initialize1Player3D() {
         handleLocation();
     });
 
-    let animationId;
     isGameActive3D = true;
     setIsGameOver3D(false);
 
@@ -44,10 +44,11 @@ export function initialize1Player3D() {
     });
 
     function cleanup1Player3D() {
-        cancelAnimationFrame(animationId);
+        cancelAnimationFrame(animationId3D1P);
 
         document.removeEventListener('keydown', (e) => { keys[e.key] = true; });
         document.removeEventListener('keyup', (e) => { keys[e.key] = false; });
+        document.removeEventListener('keypress', handleKeyPress3D);
         setPlayer1Score3D(0);
         setPlayer2Score3D(0);
         setIsGameOver3D(false);
@@ -133,7 +134,7 @@ export function initialize1Player3D() {
             resetPowerUpTimer3D();
         }
         renderer.render(scene, camera);
-        animationId = requestAnimationFrame(gameLoop1Player3D);
+        animationId3D1P = requestAnimationFrame(gameLoop1Player3D);
     }
     gameLoop1Player3D();
 }
