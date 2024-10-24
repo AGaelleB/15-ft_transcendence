@@ -106,7 +106,7 @@ export function initialize1Player2D() {
 
     let ballOutOfBounds = false;
 
-    function resetBall() {
+    function resetBall2D() {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
     
@@ -172,7 +172,7 @@ export function initialize1Player2D() {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;
                 }
-                resetBall();
+                resetBall2D();
         }
     
         ctx.clearRect(0, 0, canvas.width, canvas.height);

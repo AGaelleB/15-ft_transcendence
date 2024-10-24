@@ -1,8 +1,5 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
-// import { resetGame2D } from "./startGameModal2D";
-// import { initialize1Player2D } from "../Screens/1Player2D";
-
 export function showWinMessage(winner) {
     // Récupérer l'utilisateur depuis le localStorage
     const savedUser = localStorage.getItem('user');
@@ -40,11 +37,8 @@ export function initializeWinMsg() {
 
         let targetPath = '/home';
 
-        if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D') {
+        if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
             targetPath = '/1player-2d';
-            // initialize1Player2D(); 
-            // resetGame2D();
-        }
         else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
             targetPath = '/1player-3d';
         else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
