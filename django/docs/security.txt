@@ -9,6 +9,8 @@
 - https://www.django-rest-framework.org/api-guide/authentication/#sessionauthentication (DRF session auth)
 - https://docs.djangoproject.com/en/stable/howto/csrf/#using-csrf-protection-with-ajax (CSRF in AJAX django)
 - https://testdriven.io/blog/django-spa-auth/ (very interesting, many example yc SPA with DRF, seession auth, nginx, dockers)
+- https://pypi.org/project/django-cors-headers/ (cors django doc)
+- https://docs.djangoproject.com/en/5.1/ref/settings/ (vamilla django settings ref)
 
 
 CRSF : 

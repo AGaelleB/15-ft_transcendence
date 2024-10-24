@@ -1,0 +1,22 @@
+FROM python:3.10-bullseye
+
+# no pip update
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+# no .pyc
+ENV PYTHONDONTWRITEBYTECODE=1
+# no buffer (if crash, all data is written to stdout/err)
+ENV PYTHONUNBUFFERED=1
+
+RUN mkdir /djangodir
+# django files
+COPY ./django/. /djangodir/
+# env file
+#COPY .env /djangodir/
+
+RUN pip install -r /djangodir/requirements.txt
+
+WORKDIR /djangodir/mysite/
+
+EXPOSE 8001
+
+ENTRYPOINT ["./launch.sh"]
