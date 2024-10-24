@@ -15,6 +15,7 @@ import { loadLanguages } from '../Modals/switchLanguages.js';
 
 export let animationId;
 
+// test
 export function initialize1Player2D() {
     
     const canvas = document.getElementById('pongCanvas');
