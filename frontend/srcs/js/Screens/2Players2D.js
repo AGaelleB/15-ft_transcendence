@@ -11,6 +11,7 @@ import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, pl
 import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPowerUpTimer2D, applyPowerUpEffect2D, checkPowerUpCollision2D, resetPowerUpEffects2D} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
+import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 
 export let animationId2D2P;
 
@@ -23,6 +24,7 @@ export function initialize2Players2D() {
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
+    loadPlayerInfos();
 
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault();

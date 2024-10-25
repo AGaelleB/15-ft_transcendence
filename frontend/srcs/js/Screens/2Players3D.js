@@ -10,6 +10,7 @@ import { setIsGameOver3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } 
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D, resetPowerUpTimer3D } from '../PongGame/Game3D/power-ups3D.js';
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
+import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 
 export let isGameActive3D = true;
 export let animationId3D2P;
@@ -20,6 +21,7 @@ export function initialize2Players3D() {
     const homeIcon = document.getElementById('homeIcon');
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
+    loadPlayerInfos();
 
     homeIcon.addEventListener('click', (event) => {
         setIsGameActive(false);

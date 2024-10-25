@@ -35,18 +35,28 @@ export function setIsGameOver2D(value) {
         console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
+
 export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
-    
+
+    let username = "Player";
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+        const user = JSON.parse(savedUser);
+        if (user.username) username = user.username;
+    }
+
+    // if player 1 wins
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
-        showWinMessage(1);
+        showWinMessage("player", username);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
-    }
+    } 
+    // if the AI wins
     else if (player2Score2D >= winningScore) {
         gameOver2D = true;
-        showWinMessage(2);
+        showWinMessage("2");
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }

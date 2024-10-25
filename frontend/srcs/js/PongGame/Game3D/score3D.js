@@ -37,16 +37,27 @@ export function setIsGameOver3D(value) {
 
 export function checkGameEnd3D() {
     const winningScore = gameSettings3D.winningScore;
-    
+
+    let username = "Player";
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+        const user = JSON.parse(savedUser);
+        if (user.username)
+            username = user.username;
+    }
+
+    // if player 1 wins
     if (player1Score3D >= winningScore) {
         gameOver3D = true;
-        showWinMessage(1);
+        showWinMessage("player", username);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
-    }
+    } 
+    // if the AI wins
     else if (player2Score3D >= winningScore) {
         gameOver3D = true;
-        showWinMessage(2);
+        const opponentName = "Mr Robot";
+        showWinMessage("2", opponentName);
         document.getElementById('settingsIcon').classList.remove('hidden');
         return true;
     }
