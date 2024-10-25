@@ -80,11 +80,11 @@ export function initialize2Players3D() {
         const paddleLeftMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
         const paddleRightMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleRight.paddleDepth3D / 2.30);
         // Player 1
-        if (keys['s']) {
+        if (keys['s'] || keys['S']) {
             if (paddleLeft.position.z < paddleLeftMovementLimit)
                 paddleLeft.position.z += paddleLeft.speedFactor;
         }
-        if (keys['w']) {
+        if (keys['w'] || keys['W']) {
             if (paddleLeft.position.z > -paddleLeftMovementLimit)
                 paddleLeft.position.z -= paddleLeft.speedFactor;
         }

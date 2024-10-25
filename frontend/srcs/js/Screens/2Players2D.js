@@ -51,7 +51,6 @@ export function initialize2Players2D() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         isGameActive2d = false;
-        console.log("Jeu réinitialisé et boucle arrêtée.");
     }
 
     let isGameActive2d = true;
@@ -64,13 +63,8 @@ export function initialize2Players2D() {
             console.warn("Invalid value. Please provide a boolean (true or false).");
     }
 
-    console.log("2p AVANT APPEL initializeButton2D");
     initializeButton2D();
-    console.log("2p APRES APPEL initializeButton2D");
-
-    console.log("2p AVANT APPEL initializeGameStartListener2D");
     initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon);
-    console.log("2p APRES APPEL initializeGameStartListener2D");
     
     let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
   
@@ -193,9 +187,9 @@ export function initialize2Players2D() {
 
     function updatePaddleDirection() {
         // Player 1
-        if (keys['w'])
+        if (keys['w'] || keys['W'])
             paddleLeft.dy = -window.paddleSpeed;
-        else if (keys['s'])
+        else if (keys['s'] || keys['S'])
             paddleLeft.dy = window.paddleSpeed;
         else
             paddleLeft.dy = 0;

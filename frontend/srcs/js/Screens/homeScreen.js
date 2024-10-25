@@ -162,8 +162,8 @@ export function initializeHome() {
     
         const user = JSON.parse(savedUser);
         const userId = user.id;
-        console.log("user ID: ", userId);
-        console.log("user name: ", user.username);
+        // console.log("user ID: ", userId);
+        // console.log("user name: ", user.username);
     
         // Construire les données à envoyer dans la requête PUT pour déconnexion
         const userData = {

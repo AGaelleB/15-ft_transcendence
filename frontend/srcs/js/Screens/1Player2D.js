@@ -60,7 +60,6 @@ export function initialize1Player2D() {
 
         isGameActive2d = false;
         setGameStarted2D(true);
-        console.log("Jeu réinitialisé et boucle arrêtée.");
     }
 
     setIsGameOver2D(false);
