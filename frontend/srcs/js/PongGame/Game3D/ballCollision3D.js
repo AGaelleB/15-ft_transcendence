@@ -51,30 +51,31 @@ export function handleWallCollision3D(ball, canvas) {
 }
 
 export function checkPaddleCollision3D(ball, paddleLeft, paddleRight) {
-	// Ball collision with left paddle (Player 1)
-	if (
-		ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
-		ball.position.z <= paddleLeft.position.z + gameSettings3D.paddleDepth3D / 2 &&
-		ball.position.z >= paddleLeft.position.z - gameSettings3D.paddleDepth3D / 2
-	) {
-		setRallyCount3D();
-		gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
-		ball.position.x = paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 + gameSettings3D.ballRadius3D;
-		handlePaddleCollision3D(ball, paddleLeft);
-		setLastTouchedPaddle3D('left');
-	}
-	// Ball collision with right paddle (Player 2 or AI)
-	if (
-		ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
-		ball.position.z <= paddleRight.position.z + gameSettings3D.paddleDepth3D / 2 &&
-		ball.position.z >= paddleRight.position.z - gameSettings3D.paddleDepth3D / 2
-	) {
-		setRallyCount3D();
-		gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
-		ball.position.x = paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 - gameSettings3D.ballRadius3D;
-		handlePaddleCollision3D(ball, paddleRight);
-		setLastTouchedPaddle3D('right');
-	}
+    // Ball collision with left paddle (Player 1)
+    if (
+        ball.position.x - gameSettings3D.ballRadius3D <= paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 &&
+        ball.position.z <= paddleLeft.position.z + paddleLeft.paddleDepth3D / 2 &&
+        ball.position.z >= paddleLeft.position.z - paddleLeft.paddleDepth3D / 2
+    ) {
+        setRallyCount3D();
+        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
+        ball.position.x = paddleLeft.position.x + gameSettings3D.paddleWidth3D / 2 + gameSettings3D.ballRadius3D;
+        handlePaddleCollision3D(ball, paddleLeft);
+        setLastTouchedPaddle3D('left');
+    }
+
+    // Ball collision with right paddle (Player 2 or AI)
+    if (
+        ball.position.x + gameSettings3D.ballRadius3D >= paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 &&
+        ball.position.z <= paddleRight.position.z + paddleRight.paddleDepth3D / 2 &&
+        ball.position.z >= paddleRight.position.z - paddleRight.paddleDepth3D / 2
+    ) {
+        setRallyCount3D();
+        gameSettings3D.ballSpeedX3D = -gameSettings3D.ballSpeedX3D;
+        ball.position.x = paddleRight.position.x - gameSettings3D.paddleWidth3D / 2 - gameSettings3D.ballRadius3D;
+        handlePaddleCollision3D(ball, paddleRight);
+        setLastTouchedPaddle3D('right');
+    }
 }
 
 function resetBall3D() {

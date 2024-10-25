@@ -17,14 +17,6 @@ const powerUpsImages = [
     './images/power-ups/slowPaddle.png'
 ];
 
-// // si live server
-// const powerUpsImages = [
-//     '/frontend/srcs/images/power-ups/sizeUpPaddle.png',
-//     '/frontend/srcs/images/power-ups/sizeDownPaddle.png',
-//     '/frontend/srcs/images/power-ups/speedPaddle.png',
-//     '/frontend/srcs/images/power-ups/slowPaddle.png'
-// ];
-
 export function resetPowerUpTimer2D() {
     nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D);
 }

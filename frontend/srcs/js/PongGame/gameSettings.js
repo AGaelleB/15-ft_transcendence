@@ -50,8 +50,8 @@ export const gameSettings3D = {
 
     // Power-ups
     setPowerUps3D: 0,
-    powerUpStart3D: 17000,
-    powerUpEnd3D: 20000,
+    powerUpStart3D: 3000,
+    powerUpEnd3D: 5000,
     powerUpEffectDuration3D: 7000,
     powerUpVisibilityDuration3D: 7000,
 

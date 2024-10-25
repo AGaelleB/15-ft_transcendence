@@ -16,23 +16,6 @@ const routes = {
     "/multi-3d": "./templates/multiPlayers3D.html"
 };
 
-// // routes pour live server
-// const routes = {
-//     404: "/frontend/srcs/templates/404.html",
-//     "/": "/frontend/srcs/templates/startScreen.html",
-//     "/start": "/frontend/srcs/templates/startScreen.html",
-//     "/index.html": "/frontend/srcs/templates/startScreen.html",
-//     "/home": "/frontend/srcs/templates/homeScreen.html",
-//     "/login": "/frontend/srcs/templates/loginSignUp.html",
-//     "/profil": "/frontend/srcs/templates/userDashboard.html",
-//     "/1player-2d": "/frontend/srcs/templates/1Player2D.html",
-//     "/1player-3d": "/frontend/srcs/templates/1Player3D.html",
-//     "/2players-2d": "/frontend/srcs/templates/2Players2D.html",
-//     "/2players-3d": "/frontend/srcs/templates/2Players3D.html",
-//     "/multi-2d": "/frontend/srcs/templates/multiPlayers2D.html",
-//     "/multi-3d": "/frontend/srcs/templates/multiPlayers3D.html"
-// };
-
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();

@@ -11,21 +11,12 @@ let nextPowerUpTime3D = Date.now() + getRandomInterval3D(gameSettings3D.powerUpS
 export let powerUpObject3D; // pour l'objet 3D du power-up
 let powerUpTimeoutId3D;
 
-// si docker nginx
 export const powerUpsTextures3D = [
     new THREE.TextureLoader().load('../images/power-ups/sizeUpPaddle.png'),
     new THREE.TextureLoader().load('../images/power-ups/sizeDownPaddle.png'),
     new THREE.TextureLoader().load('../images/power-ups/speedPaddle.png'),
     new THREE.TextureLoader().load('../images/power-ups/slowPaddle.png')
 ];
-
-// si live server
-// export const powerUpsTextures3D = [
-//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/sizeUpPaddle.png'),
-//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/sizeDownPaddle.png'),
-//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/speedPaddle.png'),
-//     new THREE.TextureLoader().load('/frontend/srcs/images/power-ups/slowPaddle.png')
-// ];
 
 export function hidePowerUp3D(scene) {
     if (powerUpObject3D) {
@@ -99,7 +90,7 @@ export function checkPowerUpCollision3D(ball) {
     const collisionY = distanceY < (ball.geometry.parameters.radius + powerUpSize); 
     const collisionZ = distanceZ < (ball.geometry.parameters.radius + powerUpSize);
 
-    return collisionX && collisionY && collisionZ;
+    return (collisionX && collisionY && collisionZ);
 }
 
 /************************** MISE EN PLACE DES EFFETS POWERS-UPS **************************/
@@ -122,13 +113,35 @@ export function resetPowerUpEffects3D(paddleLeft, paddleRight) {
 
 function setAffectedPaddle(affectedPaddle, size) {
     affectedPaddle.geometry.dispose();
+
+    const newDepth = gameSettings3D.paddleDepth3D * size;
+    const depthDifference = (newDepth - gameSettings3D.paddleDepth3D) / 2;
+
+    // Agrandissement du paddle en fonction de la position du paddle sur le jeu
+    const halfGroundHeight = ground.geometry.parameters.height / 2;
+    if (affectedPaddle.position.z > 0) {
+        affectedPaddle.position.z = Math.min(
+            affectedPaddle.position.z - depthDifference,
+            halfGroundHeight - newDepth / 2
+        );
+    }
+    else {
+        affectedPaddle.position.z = Math.max(
+            affectedPaddle.position.z + depthDifference,
+            -halfGroundHeight + newDepth / 2
+        );
+    }
+
     const newPaddleGeometry = new THREE.BoxGeometry(
-        gameSettings3D.paddleWidth3D, 
-        gameSettings3D.paddleHeight3D, 
-        affectedPaddle.paddleDepth3D = gameSettings3D.paddleDepth3D * size
+        gameSettings3D.paddleWidth3D,
+        gameSettings3D.paddleHeight3D,
+        newDepth
     );
+
     affectedPaddle.geometry = newPaddleGeometry;
+    affectedPaddle.paddleDepth3D = newDepth;
 }
+
 
 export function applyPowerUpEffect3D(powerUpTexture, paddleLeft, paddleRight) {
     const lastTouchedPaddle = getLastTouchedPaddle3D();
