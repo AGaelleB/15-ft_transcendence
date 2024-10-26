@@ -72,6 +72,9 @@ export function initialize1Player3D() {
     resetGame3D();
     paddleLeft.speedFactor = gameSettings3D.paddleSpeed3D;
     paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
+    paddleLeft.paddleDepth3D = gameSettings3D.paddleDepth3D;
+    paddleRight.paddleDepth3D = gameSettings3D.paddleDepth3D;
+
     updateScore3D();
     initializeRenderer3D();
 
