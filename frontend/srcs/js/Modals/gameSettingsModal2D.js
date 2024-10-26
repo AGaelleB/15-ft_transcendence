@@ -20,7 +20,6 @@ export function saveGameSettings2D() {
 }
 
 const defaultGameSettings = {
-    is3D: false,
     difficultyLevel: "intermediate",
     ballSpeedX2D: 1.25,
     ballSpeedY2D: 1.25,

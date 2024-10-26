@@ -3,24 +3,24 @@
 export const gameSettings2D = {
 
     // Score
-    winningScore: 0,
+    winningScore: 5,
 
     // Power-ups
-    setPowerUps: 0,
+    setPowerUps: false,
     powerUpStart2D: 17000,
     powerUpEnd2D: 20000,
     powerUpEffectDuration2D: 7000,
     powerUpVisibilityDuration2D: 7000,
 
     // Rally
-    setRally: 0,
+    setRally: false,
 
     // Canvas dimensions
     canvasWidthFactor: 0.9,
     aspectRatio: 16 / 9, 
 
     // Paddle 
-    resetPaddlePosition: 0,
+    resetPaddlePosition: false,
     paddleWidth2D: 0.035,
     paddleHeight2D: 0.25,
 
@@ -28,12 +28,12 @@ export const gameSettings2D = {
     ballSizeFactor2D: 0.015,
 
     // Speed of the game
-    paddleSpeedFactor: 5,
-    ballSpeedX2D: 5,
-    ballSpeedY2D: 5,
+    paddleSpeedFactor: 0.035,
+    ballSpeedX2D: 1.25,
+    ballSpeedY2D: 1.25,
 
     // IA
-    difficultyLevel: "novice",
+    difficultyLevel: "intermediate",
     errorMargin: 0,
     aiSpeedFactor: 5,
 
@@ -49,14 +49,14 @@ export const gameSettings3D = {
     pointsToWin: 5,
 
     // Power-ups
-    setPowerUps3D: 0,
+    setPowerUps3D: false,
     powerUpStart3D: 3000,
     powerUpEnd3D: 5000,
     powerUpEffectDuration3D: 7000,
     powerUpVisibilityDuration3D: 7000,
 
     // Rally
-    setRally3D: 0,
+    setRally3D: false,
 
     // Canvas dimensions
     canvasWidthFactor: 0.9,
@@ -66,19 +66,19 @@ export const gameSettings3D = {
     resetPaddlePosition: false,
     paddleWidth3D: 1,
     paddleHeight3D: 1.5,
-    paddleDepth3D: 3.5,
+    paddleDepth3D: 5,
     
     // Ball
     ballRadius3D: 0.75,
     
     // Speed of the game
-    paddleSpeed3D: 0,
-    ballSpeedX3D: 0,
-    ballSpeedZ3D: 0,
-    ballSpeedSAV: 0,
+    paddleSpeed3D: 0.3,
+    ballSpeedX3D: 0.3,
+    ballSpeedZ3D: 0.3,
+    ballSpeedSAV: 0.3,
 
     // IA
-    difficultyLevel3D: "novice",
+    difficultyLevel3D: "intermediate",
     errorMargin3D: 4200,
     aiSpeedFactor3D: 5,
 };
