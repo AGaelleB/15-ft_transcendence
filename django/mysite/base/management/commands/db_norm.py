@@ -10,5 +10,5 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         if 'base_user' in connection.introspection.table_names():
             if User.objects.exists():
-                User.objects.all().update(is_connected=False)
+                User.objects.all().update(is_connected=False) #use is_active instead?
 

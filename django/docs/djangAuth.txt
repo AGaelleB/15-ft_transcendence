@@ -1,0 +1,3 @@
+django.contrib.auth (User, groups, perm) ref : https://docs.djangoproject.com/en/5.1/ref/contrib/auth/#django.contrib.auth.models.User
+user, auth, password : https://docs.djangoproject.com/en/5.1/topics/auth/default/#how-to-log-a-user-in
+custom auth and perm : https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#specifying-custom-user-model

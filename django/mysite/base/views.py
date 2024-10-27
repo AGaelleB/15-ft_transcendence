@@ -16,9 +16,9 @@ from .permissions import *
 ##########################################################
 class UserListCreate(generics.ListCreateAPIView):
     """
-    list all users (GET) or create a new one (POST)
+    list all users, except superuser (GET) or create a new one (POST)
     """
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_superuser=False)
     serializer_class = User_Create_Serializer
 
     def get_serializer_class(self):
@@ -61,12 +61,6 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
         else:
             return User_Update_Serializer
     
-#    def get(self, request, *args, **kwargs):
-#        if request.user.username == kwargs['username']:
-#            return self.retrieve(request, *args, **kwargs)
-#        else:
-#            return Response(status=403)
-
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
