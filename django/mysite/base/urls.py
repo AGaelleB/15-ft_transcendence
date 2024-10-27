@@ -1,5 +1,6 @@
 from django.urls import path, re_path
 from . import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     # users
@@ -16,4 +17,7 @@ urlpatterns = [
     path('friend-request/create/', views.FriendRequest_create.as_view(), name='friends request create'),
     path('friend-request/<int:pk>/', views.FriendRequest_retrieve.as_view(), name='single friend request'),
     path('friend-request/<int:pk>/<str:action>/', views.FriendRequest_accept_decline.as_view(), name='accept/decline a friend request'),
+    # JWT
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

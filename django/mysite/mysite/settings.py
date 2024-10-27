@@ -11,10 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-#from dotenv import load_dotenv
+from datetime import timedelta
 import os
 
-#load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,7 +32,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000'
 ]
 
-
 INSTALLED_APPS = [
     'rest_framework',
     'base.apps.BaseConfig',
@@ -47,12 +45,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+AUTH_USER_MODEL = 'base.User'
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    # echo $(cat /dev/urandom | tr -dc '0-9a-zA-Z!@#$%^&*_+-' | head -c 132) -> to generate a different key (132 chars recommend by rfc) everytime it runs!
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    #"USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+}
+
+# those settings are applied globally: we better set them per view (ie not requiering JWT on Admin user)
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework.authentication.RemoteUserAuthentication',

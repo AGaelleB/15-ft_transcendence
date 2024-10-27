@@ -3,10 +3,13 @@ from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import *
 from .serializers import *
 from .utils import *
+from .permissions import *
 
 ##########################################################
 #       USER 
@@ -24,10 +27,30 @@ class UserListCreate(generics.ListCreateAPIView):
         else:
             return User_Create_Serializer
 
+'''    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            # Get token right after creation
+            from rest_framework_simplejwt.tokens import RefreshToken
+            refresh = RefreshToken.for_user(user)
+            
+            return Response({
+                'user': User_List_Serializer(user).data,
+                'tokens': {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
+
 class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
     individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
     """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [UserRUDPermission]
     queryset = User.objects.all()
     serializer_class = User_Update_Serializer
     lookup_field = 'username'
@@ -38,6 +61,12 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
         else:
             return User_Update_Serializer
     
+#    def get(self, request, *args, **kwargs):
+#        if request.user.username == kwargs['username']:
+#            return self.retrieve(request, *args, **kwargs)
+#        else:
+#            return Response(status=403)
+
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
@@ -107,16 +136,10 @@ class FriendRequest_create(generics.CreateAPIView):
     serializer_class = FriendRequest_create_Serializer
 
 class FriendRequest_list(generics.ListAPIView):
-    """
-    list all requests
-    """
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequest_show_Serializer
 
 class FriendRequest_retrieve(generics.RetrieveAPIView):
-    """
-    returns a single request
-    """
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequest_show_Serializer
     

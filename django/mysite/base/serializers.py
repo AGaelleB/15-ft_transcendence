@@ -1,17 +1,16 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 from .models import *
 
 '''
 How data would be sent/accepted with clients (same as django.form for pos/put)
-note: class fields may be "overriden" by the serializer :
-    - you may create a new instance while not respecting class (ie. class field
-        not included in seria fields, even though its required)
-    - use fields = [] to include, 
-    - exclude [] -> use all model fields ()
-Is it needed to create several serializers for different action?
-    --> absolutely possible, cf. end of tuto 3 with APIview + mixins/generics
+
+see exactly what is does in python shell with : 
+from base.serializers import UserSerializer
+s = UserSerializer()
+print(repr(s))
 
 For field relationship (foreign key, manytomany etc), you can use :
     - String Related Field : display with __str__
@@ -21,15 +20,9 @@ For field relationship (foreign key, manytomany etc), you can use :
     - nested serializers: is you want several fields (cf. User.friends : id+uname),
         you may set a serializer for that field (which is actually a object on its
         own), and use it in main serializer as with the Related Field
-name of the variable that handle related field MUST be name as the field
+name of the variable that handle related field MUST be named as the field
 it is mainly used with read_only. if not, related ask for a queryset
 many=True needed if related field can be several objects
-
-
-see exactly what is does in python shell with : 
-from base.serializers import UserSerializer
-s = UserSerializer()
-print(repr(s))
 '''
 
 ################################################################################
@@ -39,9 +32,16 @@ class User_Create_Serializer(serializers.ModelSerializer):
     """
     fields needed at creation
     """
+    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
     class Meta:
-        model = User 
-        fields = ['id', 'username', 'email', 'is_2fa', 'avatar']
+        model = User
+        fields = ['id', 'username', 'email', 'is_2fa', 'avatar', 'password']
+
+    def create(self, validated_data):
+        # needed by abstract user
+        user = User.objects.create_user(**validated_data)
+        return user
+
 
 class User_friends_Serializer(serializers.ModelSerializer):
     """
@@ -66,7 +66,7 @@ class User_List_Serializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games']
+        fields = ['id', 'username', 'email', 'is_connected', 'is_active', 'received_invites', 'avatar', 'friends', 'games']
 
 class User_Update_Serializer(serializers.ModelSerializer):
     """
@@ -74,9 +74,10 @@ class User_Update_Serializer(serializers.ModelSerializer):
     """
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     friends = User_friends_Serializer(many=True, read_only=True)
+    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
+        fields = ['id', 'username', 'password', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
 
 class User_Log_in_out_Serializer(serializers.ModelSerializer):
     """

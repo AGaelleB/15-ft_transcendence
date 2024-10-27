@@ -1,13 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from .utils import rename_image
 
-class User(models.Model):
+class User(AbstractUser):
     username        = models.CharField(max_length=20, blank=False, unique=True)
     avatar          = models.ImageField(upload_to=rename_image, default="default.png")
     email           = models.EmailField()
     is_connected    = models.BooleanField(default=True)
     is_2fa          = models.BooleanField(default=False)
     friends         = models.ManyToManyField("self", symmetrical=True, blank=True)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     class Meta:
         ordering = ["id"]

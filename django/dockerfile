@@ -7,11 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # no buffer (if crash, all data is written to stdout/err)
 ENV PYTHONUNBUFFERED=1
 
-RUN mkdir /djangodir
 # django files
+RUN mkdir /djangodir
 COPY ./django/. /djangodir/
-# env file
-#COPY .env /djangodir/
 
 RUN pip install -r /djangodir/requirements.txt
 

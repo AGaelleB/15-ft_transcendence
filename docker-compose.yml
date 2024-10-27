@@ -18,12 +18,12 @@ services:
     depends_on:
       - db
 
-  front:
-    build: ./frontend/srcs
-    ports:
-      - "8000:80"
-    depends_on:
-      - django
+#  front:
+#    build: ./frontend/srcs
+#    ports:
+#      - "8000:80"
+#    depends_on:
+#      - django
 
 
 
