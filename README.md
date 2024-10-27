@@ -14,11 +14,13 @@
 Frontend: **127.0.0.1:8000**  
 Django:  **127.0.0.1:8001** (not 8000)  
 
-### Env format
-Same env file for django and postgres (might change it later)   
+### Env format (updated 27 october)
+Same env file for django and postgres and front (might change it later)   
 Mandatory:  
-* SECRET_KEY=
 * DEBUG=True
+* DJANGO_ADMIN_USERNAME=
+* DJANGO_SUPERUSER_PASSWORD=
+* DJANGO_SUPERUSER_EMAIL=
 * POSTGRES_HOST=
 * POSTGRES_DB=
 * POSTGRES_USER=
@@ -29,16 +31,37 @@ note: since docker settings, **local launch don't work anymore**
 * ```python manage.py makemigrations``` : update migrations (if pb and db integrity no matter: rm -rf base/migrations 00*)  
 * ```python manage.py migrate``` : migrate (create/update db)  
 * ```python manage.py db_norm``` : apply changes on db at startup (ie: logout all users)
+* ```python manage.py superuser``` : create superuser
 * ```python manage.py runserver``` : launch server  
+
+## Authentication
+* Meaning: validating your idendity with the server (without user to input credentials everytime)
+* How: via JWToken given at login, sent as authorization header in any following request, so Django can identify a request.user
+
+## Permission
+* Meaning: what a authenticated user can do
+* How: per view, using class that customize rest_framework.permissions.BasePermissions (cf permissions.py) 
+* there is also a way of setting permissions per user, but I dont know if interesting here (all normal users have same type of rights)
+
+## How to get a token, and use it?
+* create a user via a POST at 127.0.0.1:8001/users/ (superuser perm soon to be implemented, you'll then need to auth the superuser first)
+* get a token via a POST at 127.0.0.1:8001/api/token/ (path soon to be changed to login/) with username and password in body (json format)
+* the server should reply a body with an acces token (and a refresh one, to get a new access one when expired)
+* example of a JWToken (approx. 230 char) : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMDYyOTkwLCJpYXQiOjE3MzAwNTkzOTAsImp0aSI6IjU4YzQ1ODhlM2FlNTQ5YWZiM2U4Y2ZiNjhlYzMzNDhkIiwidXNlcl9pZCI6MTB9.j9oH7PFOWjvaFmNzrCn6_sIJLtXetHfDyw-yTQQ8Fw0"
+* include it in all requests for that user, in a header formatted as "Authorization: Bearer JWT" (JWT is the actual token string)
+* later, front end must store both acces and refresh token of a 'connected' user, but also those of the superuser (for creating user and game)
+
 
 ## API Routes
 ### `/users/` : GET, POST
 * `GET 127.0.0.1:8000/users/`
 * `POST 127.0.0.1:8000/users/ {"username": "user", "first_name": "blabla", "last_name": blibli, "email": "user@gmail.com", "is_2fa": false}`
 ### `/users/<str:username>/` : GET, PUT, DELETE
-* `GET 127.0.0.1:8000/users/user/`
-* `PUT 127.0.0.1:8000/users/user/ {"username": "new_user_name"}`
-* `DELETE 127.0.0.1:8000/users/user/`
+* Authentication needed for GET, PUT, DELETE
+* Permissions (request.user == username in path) for PUT and DELETE
+* `GET 127.0.0.1:8000/users/user/ "Authorization: Bearer JWT"`
+* `PUT 127.0.0.1:8000/users/user/ {"username": "new_user_name"} "Authorization: Bearer JWT"`
+* `DELETE 127.0.0.1:8000/users/user/ "Authorization: Bearer JWT"`
 ### `/users/<str:username>/avatar/` : GET (serve the actual image)
 * `GET 127.0.0.1:8000/users/user/avatar/`
 ### `/users/<str:username>/log<str:action>/` : PUT
@@ -65,6 +88,20 @@ note: since docker settings, **local launch don't work anymore**
 
 
 ### Journal
+#### 27/10/2024 21h00:
+* User inherits from AbsrtactUser for auth attributes (ie hash passwd)
+* JWT given at api/token --> to be changed to login
+* Auth + perm debut (cf. UserRUD: GET need auth, PUT/DELETE need auth + perm) 
+* Superuser (class User ...) created at startup with creds in .env (to be used by frontend)
+* secret key (used as salt for JWT) of 132bits rotating (gen at startup, no need in .env)
+* Todo: 
+  * enforce Auth and Perm for normal users everywhere (friend request, logout, remove-friend etc)
+  * transform api/token to login
+  * refresh token logic
+  * handle logout (rm token, blacklist?, user.is_active?)
+  * enforce superuser Auth in User.create and Game views
+  * go deeper into permissions: should we set it per user instead of per view?
+
 #### 23/10/2024 18h30:
 * postgreSQL as db for django, via docker  
 * django on docker  
