@@ -34,10 +34,10 @@ export function initialize2Players2D() {
 
     window.addEventListener('popstate', function(event) {
         console.log("Retour arrière du navigateur détecté !");
-        cleanup1Player2D();
+        cleanup2Players2D();
     });
 
-    function cleanup1Player2D() {
+    function cleanup2Players2D() {
         cancelAnimationFrame(animationId2D2P);
 
         document.removeEventListener('keydown', handleKeydown);

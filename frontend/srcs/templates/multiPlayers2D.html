@@ -1,5 +1,7 @@
 <!-- frontend/srcs/templates/multiPlayers2D.html -->
 
+<!-- frontend/srcs/templates/multiPlayers2D.html -->
+
 <div class="no-select">
     <!-- ========== Settings Button ========== -->
     <div id="settingsIcon" class="settings-icon">
@@ -12,5 +14,36 @@
     </div>
 
     <!-- ========== Game Screen Section ========== -->
+    <div class="game-screen">
+        <div class="game-header">
+            <div class="game-title">
+                <h1>PONG TOURNAMENT</h1>
+                <h2 data-lang-key="mode_multi_settings">Settings for multi players game</h2>
+            </div>
+        </div>
 
+        <!-- Tournament Players Section -->
+        <div class="game-title">
+            <h2>Tournament Players names</h2>
+
+            <!-- Player Count Input -->
+            <div class="input-group mb-3">
+                <button class="btn btn-outline-secondary" id="decreasePlayers" type="button">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" id="playerCount" class="form-control text-center" value="3" min="3" max="6" readonly>
+                <button class="btn btn-outline-secondary" id="increasePlayers" type="button">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <!-- Player Name Fields (dynamically updated by JavaScript) -->
+            <div id="playerFields"></div>
+            <template id="playerFieldTemplate">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Player Name" required>
+                </div>
+            </template>
+        </div>
+    </div>
 </div>
