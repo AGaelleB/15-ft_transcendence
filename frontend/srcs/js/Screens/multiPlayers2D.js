@@ -47,7 +47,6 @@ export function initializeMulti2D() {
         }
     }
     
-    
     // Initialize fields with the minimum players count
     updatePlayerFields(playerCount);
 
@@ -71,4 +70,11 @@ export function initializeMulti2D() {
 
     // Initial setup for fields
     updatePlayerFields(playerCount);
+
+    // Handle Start Tournament button
+    document.getElementById('startTournamentButton').addEventListener('click', () => {
+        window.history.pushState({}, "", "/tournament-2d");
+        handleLocation();
+    });
+    
 }
