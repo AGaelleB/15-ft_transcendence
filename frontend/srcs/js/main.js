@@ -110,6 +110,22 @@ const handleLocation = async () => {
             .catch(err => console.error('Failed to load 2Players3D.js:', err));
             break;
 
+        case '/multi-2d':
+            import('./Screens/multiPlayers2D.js')
+            .then(module => {
+                module.initializeMulti2D();
+            })
+            .catch(err => console.error('Failed to load multiPlayers2D.js:', err));
+            break;
+
+        case '/multi-3d':
+            import('./Screens/multiPlayers3D.js')
+            .then(module => {
+                module.initializeMulti3D();
+            })
+            .catch(err => console.error('Failed to load multiPlayers3D.js:', err));
+            break;
+
         default:
             console.log("404 Page not found");
             break;
