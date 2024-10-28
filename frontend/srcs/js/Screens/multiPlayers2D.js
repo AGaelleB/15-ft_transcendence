@@ -13,6 +13,8 @@ export function initializeMulti2D() {
         console.log("Retour arrière du navigateur détecté !");
     });
 
+
+    /****************************** initializePlayerCount ******************************/
     const minPlayers = 3;
     const maxPlayers = 6;
     let playerCount = parseInt(document.getElementById('playerCount').value);
@@ -21,33 +23,27 @@ export function initializeMulti2D() {
         const playerFieldsContainer = document.getElementById('playerFields');
         const template = document.getElementById('playerFieldTemplate').content;
         
-        // Sauvegarder les valeurs actuelles
         const currentValues = {};
         Array.from(playerFieldsContainer.children).forEach((child, index) => {
             const input = child.querySelector('input');
             if (input) currentValues[`player${index + 1}`] = input.value;
         });
     
-        // Vider les champs existants
         playerFieldsContainer.innerHTML = '';
     
-        // Recréer les champs et restaurer les valeurs
         for (let i = 1; i <= count; i++) {
             const field = template.cloneNode(true);
             const input = field.querySelector('input');
             input.setAttribute('name', `player${i}`);
             input.setAttribute('placeholder', `Player ${i} Name`);
             
-            // Restaurer la valeur si elle existe
-            if (currentValues[`player${i}`]) {
+            if (currentValues[`player${i}`])
                 input.value = currentValues[`player${i}`];
-            }
     
             playerFieldsContainer.appendChild(field);
         }
     }
     
-    // Initialize fields with the minimum players count
     updatePlayerFields(playerCount);
 
     // Increase player count
@@ -68,10 +64,11 @@ export function initializeMulti2D() {
         }
     });
 
-    // Initial setup for fields
     updatePlayerFields(playerCount);
 
-    // Handle Start Tournament button
+
+    /****************************** Start Tournament ******************************/
+
     document.getElementById('startTournamentButton').addEventListener('click', () => {
         window.history.pushState({}, "", "/tournament-2d");
         handleLocation();

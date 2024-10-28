@@ -14,7 +14,7 @@ const routes = {
     "/2players-3d": "./templates/2Players3D.html",
     "/multi-2d": "./templates/multiPlayers2D.html",
     "/multi-3d": "./templates/multiPlayers3D.html",
-    "/tournament-2d": "./templates/tournament2D.html"
+    "/tournament-2d": "./templates/tournamentGame2D.html"
 };
 
 const route = (event) => {
@@ -120,7 +120,7 @@ const handleLocation = async () => {
             break;
     
         case '/tournament-2d':
-            import('./Screens/multiPlayers2D.js')
+            import('./Screens/tournamentGame2D.js')
             .then(module => {
                 module.initializeTounament2D();
             })
