@@ -122,16 +122,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: calc(30vw + 30vh);
-    margin: 0 auto calc(0.5vw + 0.5vh);
+    max-width: calc(20vw + 20vh);
+    margin: 0 auto calc(0.25vw + 0.25vh);
 }
 
 /* Champ de nombre de joueurs avec marges latérales */
 #playerCount {
     text-align: center;
-    margin: 0 calc(0.25vw + 0vh);
+    margin: 0 calc(0.25vw + 0.25vh);
     font-size: calc(1.15vw + 1.15vh);
-    width: calc(1vw + 1vh);
+    width: calc(1.5vw + 1vh);
     border-radius: 8px;
 }
 
@@ -143,16 +143,15 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 0 calc(0.75vw + 0.75vh);
+    margin: 0 calc(1vw + 1vh);
 }
 
 /* Champs des noms des joueurs */
 #playerFields .form-control {
     text-align: center;
-    font-size: calc(0.8vw + 1.2vh);
-    padding: calc(0.25vw + 0.25vh);
-    height: auto;
-    margin-bottom: calc(0.1vw + 0.1vh);
+    padding: calc(0.1vw + 0.1vh) calc(0.25vw + 0.25vh);
+    margin: 0;
+    font-size: calc(0.8vw + 1vh);
 }
 
 .no-select {
