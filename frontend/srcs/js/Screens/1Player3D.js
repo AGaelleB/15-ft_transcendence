@@ -74,7 +74,6 @@ export function initialize1Player3D() {
     paddleRight.speedFactor = gameSettings3D.paddleSpeed3D;
     paddleLeft.paddleDepth3D = gameSettings3D.paddleDepth3D;
     paddleRight.paddleDepth3D = gameSettings3D.paddleDepth3D;
-
     updateScore3D();
     initializeRenderer3D();
 
@@ -86,7 +85,6 @@ export function initialize1Player3D() {
     document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
     // limites du mouvement des paddles
-
     function movePaddles1Player() {
         const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
         if (keys['ArrowUp']) {

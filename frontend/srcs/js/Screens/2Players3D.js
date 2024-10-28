@@ -79,7 +79,6 @@ export function initialize2Players3D() {
     document.addEventListener('keyup', (e) => { keys[e.key] = false; });
 
     // limites du mouvement des paddles
-    
     function movePaddles2Players() {
         const paddleLeftMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
         const paddleRightMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleRight.paddleDepth3D / 2.30);
