@@ -3,8 +3,11 @@ from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
+
 
 from .models import *
 from .serializers import *
@@ -17,7 +20,10 @@ from .permissions import *
 class UserListCreate(generics.ListCreateAPIView):
     """
     list all users, except superuser (GET) or create a new one (POST)
+    no JWT returned on creation: you must then login
     """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [UserListCreatePermission]
     queryset = User.objects.filter(is_superuser=False)
     serializer_class = User_Create_Serializer
 
@@ -64,6 +70,19 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
+class User_avatar(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = User_avatar_serializer
+    lookup_field = 'username'
+
+    def get(self, request, username=None):
+        if username:
+            obj = get_object_or_404(User, username=username)
+            image = obj.avatar
+        if not image:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return FileResponse(open(image.path, 'rb'), content_type=get_image_mime_type(image))
+
 class User_remove_friend(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = User_List_Serializer
@@ -82,7 +101,7 @@ class User_remove_friend(generics.UpdateAPIView):
 
 class User_log_in_out(generics.UpdateAPIView):
     """
-    check pass word here (if yes, add password in serializer)?
+    split into 2 functions: login() and logout
     """
     queryset = User.objects.all()
     serializer_class = User_Log_in_out_Serializer
@@ -106,18 +125,34 @@ class User_log_in_out(generics.UpdateAPIView):
         else:
             return Response({"status": "Invalid action."}, status=status.HTTP_400_BAD_REQUEST)
 
-class User_avatar(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = User_avatar_serializer
-    lookup_field = 'username'
+class UserLogin(TokenObtainPairView):
+    """
+    redifining simple-JWT view to integrate: user.is_connected=True via the serializer
+    2FA later: maybe also via serializer? if not we can redefine here the post method
+    source code: https://github.com/jazzband/djangorestframework-simplejwt/blob/master/rest_framework_simplejwt/views.py
+    """
+    serializer_class = UserLoginSerializer
 
-    def get(self, request, username=None):
-        if username:
-            obj = get_object_or_404(User, username=username)
-            image = obj.avatar
-        if not image:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        return FileResponse(open(image.path, 'rb'), content_type=get_image_mime_type(image))
+class UserLogout(APIView):
+    """
+    using APIView to manually get the refresh in body (generics wont check it)
+    not sure i need to try/cacth the refresh.blacklist bc token presence and validity checked in seria
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [UserLogoutPermission]
+    def post(self, request):
+        serializer = UserLogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = request.user
+        refresh = RefreshToken(serializer.validated_data['refresh'])
+        try:
+            refresh.blacklist()
+            user.is_connected = False
+            user.save()
+            return Response({"detail": "Logout succes, refresh token blacklisted"}, status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response({"detail": f"Error blacklisting tokens: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 ##########################################################
 #       Friend invite

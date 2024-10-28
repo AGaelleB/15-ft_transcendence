@@ -65,6 +65,10 @@ note: since docker settings, **local launch don't work anymore**
 ### `/users/<str:username>/avatar/` : GET (serve the actual image)
 * `GET 127.0.0.1:8000/users/user/avatar/`
 ### `/users/<str:username>/log<str:action>/` : PUT
+* ROUTES HAVE CHANGED: login/ logout/
+* METHODS: only POST
+* login body username= password=
+* logout header Authorization, body refresh=
 * `PUT 127.0.0.1:8000/users/user/login/`
 * `PUT 127.0.0.1:8000/users/user/logout/`
 ### `/users/<str:username>/remove-friend/<str:friend>/` : PUT
@@ -88,6 +92,21 @@ note: since docker settings, **local launch don't work anymore**
 
 
 ### Journal
+#### 28/10/2024 21h30:
+* route login/ --> give JWTokens to right creds user, turn is_connected to True
+  * already log in user: serializer.ValidationError not to re-issue a pair of tokens
+* route logout/ --> blacklist user Refresh tokens, turn is_connected to False. 
+  * Cannot directly override TokanBlacklistView because it does not handle authentication, we use a view/seria that retrieve refresh from the request and then refresh.blacklist(), to ensure a user can only logout himself (if ever he could steal another connected user token)
+  * problem: only refresh can be blacklisted, not acces! We may check that user is_connected on all routes that only required auth. People rely on acces lifetime, thats crazy!
+* remove routes users/username/[login|logout]/
+* permissions is_connected for routes that only require authentication
+* Todo:
+  * enforce user permissions (friend rmove and friend request) and superuser (on games)
+  * login/logout superuser, tests needed
+  * refresh token logic 
+  * ssl certificates with mkcert that bypass sec warning? 
+
+
 #### 27/10/2024 21h00:
 * User inherits from AbsrtactUser for auth attributes (ie hash passwd)
 * JWT given at api/token --> to be changed to login

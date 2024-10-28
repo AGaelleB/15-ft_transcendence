@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import *
 
@@ -42,7 +44,6 @@ class User_Create_Serializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
-
 class User_friends_Serializer(serializers.ModelSerializer):
     """
     used by other user serializers to display friends (which is a user object): .id & .username
@@ -81,11 +82,12 @@ class User_Update_Serializer(serializers.ModelSerializer):
 
 class User_Log_in_out_Serializer(serializers.ModelSerializer):
     """
+    # TO BE REMOVED #
     fields needed when login/logout.
     """
     class Meta:
         model = User
-        fields = ['id', 'username'] # +password ?
+        fields = ['id', 'username']
 
 class User_avatar_serializer(serializers.ModelSerializer):
     """
@@ -94,6 +96,44 @@ class User_avatar_serializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['avatar']
+
+
+class UserLoginSerializer(TokenObtainPairSerializer):
+    """
+    redefining validate to update our user as connected
+    first check if user is already connected (which require check DoesNotExist) not to re-issue tokens
+    data=super : ensure simple-JWT checks are executed before turning user.is_connected (+issue tokens)
+    """
+    def validate(self, attrs):
+        try:
+            user = User.objects.get(username=attrs[self.username_field])
+        except User.DoesNotExist:
+            raise serializers.ValidationError(f"{attrs[self.username_field]}: unknown username.")
+        if user.is_connected:
+            raise serializers.ValidationError(f"{attrs[self.username_field]} is already log in.")
+        data = super().validate(attrs)
+        user = User.objects.get(username=attrs[self.username_field])
+        user.is_connected = True
+        user.save()
+        return data
+    
+class UserLogoutSerializer(serializers.Serializer):
+    """
+    redefining validate to check refresh token presence + validity
+    is_connected is updated in the view
+    """
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        try:
+            refresh = RefreshToken(attrs.get('refresh'))
+        except Exception:
+            raise serializers.ValidationError("Missing refresh token.")
+        try:
+            refresh.verify()
+        except Exception:
+            raise serializers.ValidationError("Invalid refresh token.")
+        return attrs
 
 ################################################################################
 #               Friend invites

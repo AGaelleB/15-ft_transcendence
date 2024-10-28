@@ -34,6 +34,7 @@ CORS_ALLOWED_ORIGINS = [
 
 INSTALLED_APPS = [
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'base.apps.BaseConfig',
     'corsheaders',
     'django_extensions',
@@ -53,7 +54,6 @@ SIMPLE_JWT = {
 
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
-    # echo $(cat /dev/urandom | tr -dc '0-9a-zA-Z!@#$%^&*_+-' | head -c 132) -> to generate a different key (132 chars recommend by rfc) everytime it runs!
 
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
