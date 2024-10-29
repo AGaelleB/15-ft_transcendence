@@ -83,14 +83,16 @@ export function initializeWinMsgTournament() {
         nextMatchButton.addEventListener('click', () => {
             const modal = document.getElementById('winMsgModal');
             modal.style.display = 'none';
-            startNextMatch(); // Start the next match based on tournament logic
+            startNextMatch();
         });
     }
 }
 
 // Function to handle navigation for the next match
 function startNextMatch() {
-    // Read from tournament match queue in localStorage or elsewhere
+
+    console.log("startNextMatch in winMsgModal!");
+
     const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
     if (matchQueue.length === 0) {
         alert("Tournament Complete!");

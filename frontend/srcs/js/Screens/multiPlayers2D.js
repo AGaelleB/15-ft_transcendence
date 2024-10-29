@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
-export let isTournament = false; // Initialize as false
+export let isTournament = false;
 
 export function initializeMulti2D() {
     const homeIcon = document.getElementById('homeIcon');
@@ -49,9 +49,9 @@ export function initializeMulti2D() {
             if (i === 1) {
                 input.value = loggedInUsername;
                 input.readOnly = true;
-            } else if (currentValues[`player${i}`]) {
-                input.value = currentValues[`player${i}`];
             }
+            else if (currentValues[`player${i}`])
+                input.value = currentValues[`player${i}`];
 
             input.addEventListener('input', () => {
                 if (!validatePlayerName(input.value)) {
@@ -128,28 +128,26 @@ export function initializeMulti2D() {
         // Save match queue for the first round in localStorage
         localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
 
-        // Start the first match
         startNextMatch();
     }
 
     function startNextMatch() {
         const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches"));
 
+        console.log("startNextMatch in multiPlayers2D!");
+
         if (!matchQueue || matchQueue.length === 0) {
             console.log("Tournament is complete!");
-            return;  // Handle end of tournament here
+            return;
         }
 
         const { player1, player2 } = matchQueue.shift();
-        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));  // Update remaining matches
+        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
 
-        // Navigate based on the players
-        if (player2 === "AI") {
-            window.history.pushState({}, "", "/1player-2d"); // AI match
-        }
-        else {
-            window.history.pushState({}, "", "/2players-2d"); // Player vs Player match
-        }
+        if (player2 === "AI")
+            window.history.pushState({}, "", "/1player-2d");
+        else
+            window.history.pushState({}, "", "/2players-2d");
         handleLocation();
     }
 

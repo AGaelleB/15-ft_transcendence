@@ -295,7 +295,7 @@ export function initializeGameSettings2D() {
     });
 
     loadSettingsOnPageLoad2D();
-    console.log("Settings after load:", gameSettings2D);
+    // console.log("Settings after load:", gameSettings2D);
     resetGame2D();
 }
 
