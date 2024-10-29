@@ -69,12 +69,11 @@ export function showWinMessageTournament(winnerName) {
         return;
     }
     
-    // Populate the winner's name
     winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
     modal.style.display = 'block';
     
     // Call the tournament-specific initialization
-    initializeWinMsgTournament();
+    // initializeWinMsgTournament(); // deja fait dans settingsModal.js
 }
 
 export function initializeWinMsgTournament() {
@@ -88,8 +87,7 @@ export function initializeWinMsgTournament() {
     }
 }
 
-// Function to handle navigation for the next match
-function startNextMatch() {
+export function startNextMatch() {
 
     console.log("startNextMatch in winMsgModal!");
 

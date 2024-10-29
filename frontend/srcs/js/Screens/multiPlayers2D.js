@@ -1,5 +1,7 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
+// import { startNextMatch } from "../Modals/winMsgModal";
+
 export let isTournament = false;
 
 export function initializeMulti2D() {
@@ -160,3 +162,12 @@ export function initializeMulti2D() {
         }
     }
 }
+
+
+/*  
+    des que je fais l appel de startNextMatch, je ne peux plus jouer au 1player2d ni 2players2d. Or il ne devrait pas y avoir de probleme dans les autres games si cela concerne le multiplayer.
+    c est pourquoi je me demande s il n y a pas un probleme d initialisation, peut etre dans le html, ou une initialisation de la fonction startNextMatch.
+
+    
+
+*/
