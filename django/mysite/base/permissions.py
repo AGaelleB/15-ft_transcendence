@@ -1,10 +1,9 @@
 from rest_framework.permissions import BasePermission
 from rest_framework_simplejwt.tokens import RefreshToken
 
-"""
-because we cant blacklist access token, we need to ensure user.is_connected for routes that only ask auth
-"""
-
+##########################################################
+#       Generics Custom Permissions
+##########################################################
 class IsSuperUser(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_superuser
@@ -28,6 +27,10 @@ class IsUserConnectedPermission(BasePermission):
             return True
         return False
     
+
+##########################################################
+#       View specific Custom Permissions
+##########################################################
 class UserListCreatePermission(BasePermission):
     """
     create user: superuser only; list all users: any authenticated user
@@ -66,3 +69,31 @@ class UserLogoutPermission(BasePermission):
                 return request.user.id == user_id and request.user.is_connected
             except Exception:
                 return False
+
+class FriendRequestCreatePermission(BasePermission):
+    """
+    authenticated user must be the sender
+    if missing sender, we let it pass to get the serializer error
+    """
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            sender = request.data.get('sender')
+            if not sender:
+                return True
+            return str(request.user.id) == sender and request.user.is_connected
+
+'''
+class FriendRequestAcceptDeclinePermission(BasePermission):
+    """
+    authenticated user must be the receiver
+    if missing receiver, we let it pass to get the serializer error
+    WE DONT HAVE RECEIVER IN BODY
+    We can check from pk of request : request.object.filter(pk).receiver
+    """
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            receiver = request.data.get('receiver')
+            if not receiver:
+                return True
+            return request.user.id == receiver and request.user.is_connected
+'''

@@ -4,7 +4,6 @@ from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
 
@@ -33,24 +32,6 @@ class UserListCreate(generics.ListCreateAPIView):
         else:
             return User_Create_Serializer
 
-'''    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            # Get token right after creation
-            from rest_framework_simplejwt.tokens import RefreshToken
-            refresh = RefreshToken.for_user(user)
-            
-            return Response({
-                'user': User_List_Serializer(user).data,
-                'tokens': {
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                }
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-'''
-
 class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
     individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
@@ -71,8 +52,9 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
         return self.partial_update(request, *args, **kwargs)
 
 class User_avatar(generics.RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserConnectedPermission]
     queryset = User.objects.all()
-    serializer_class = User_avatar_serializer
     lookup_field = 'username'
 
     def get(self, request, username=None):
@@ -84,6 +66,8 @@ class User_avatar(generics.RetrieveAPIView):
         return FileResponse(open(image.path, 'rb'), content_type=get_image_mime_type(image))
 
 class User_remove_friend(generics.UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [UserRUDPermission]
     queryset = User.objects.all()
     serializer_class = User_List_Serializer
     lookup_field = 'username'
@@ -98,32 +82,6 @@ class User_remove_friend(generics.UpdateAPIView):
                 return Response({"status": "Friend removed"}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "Invalid friend id."}, status=status.HTTP_400_BAD_REQUEST)
-
-class User_log_in_out(generics.UpdateAPIView):
-    """
-    split into 2 functions: login() and logout
-    """
-    queryset = User.objects.all()
-    serializer_class = User_Log_in_out_Serializer
-    lookup_field = 'username'
-
-    def put(self, request, *args, **kwargs):
-        instance = self.get_object()
-        action = self.kwargs.get('action')
-        print(action)
-        print(instance)
-        if action == 'in':
-            if instance.is_connected == True:
-                return Response({"status": "Already logged in"}, status=status.HTTP_200_OK) # 400?
-            instance.is_connected = True
-            instance.save()
-            return Response({"status": "Login succes"}, status=status.HTTP_200_OK)
-        elif action == 'out':
-            instance.is_connected = False
-            instance.save()
-            return Response({"status": "Logout succes"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"status": "Invalid action."}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserLogin(TokenObtainPairView):
     """
@@ -149,9 +107,9 @@ class UserLogout(APIView):
             refresh.blacklist()
             user.is_connected = False
             user.save()
-            return Response({"detail": "Logout succes, refresh token blacklisted"}, status=status.HTTP_205_RESET_CONTENT)
+            return Response({"status": "Logout succes, refresh token blacklisted"}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
-            return Response({"detail": f"Error blacklisting tokens: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": f"Error blacklisting tokens: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 ##########################################################
@@ -159,28 +117,40 @@ class UserLogout(APIView):
 ##########################################################
 class FriendRequest_create(generics.CreateAPIView):
     """
-    create a single Request, sender/receiver id must be provided
+    create a single Request, sender/receiver id must be provided, auth user must be sender
     """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [FriendRequestCreatePermission]
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequest_create_Serializer
 
 class FriendRequest_list(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserConnectedPermission]
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequest_show_Serializer
 
 class FriendRequest_retrieve(generics.RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserConnectedPermission]
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequest_show_Serializer
     
-class FriendRequest_accept_decline(generics.RetrieveUpdateAPIView):
+class FriendRequest_accept_decline(generics.UpdateAPIView):
     """
-    accept/refuse via model methods
+    accept/refuse via model methods, auth.user must be revceiver
+    cant use permission to detect if request.user is receiver.id (cant get pk in permissions)
     """
+    authentication_classes = [JWTAuthentication]
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequest_show_Serializer
     
     def put(self, request, *args, **kwargs):
         friend_request = self.get_object()
+        print(friend_request.receiver.id)
+        print(request.user.id)
+        if str(friend_request.receiver.id) != str(request.user.id):
+            return Response({"status": "Only receiver can accept/decline friend request"}, status=status.HTTP_401_UNAUTHORIZED)
         action = self.kwargs.get('action')
         if action == "accept":
             friend_request.accept_request()
@@ -195,7 +165,7 @@ class FriendRequest_accept_decline(generics.RetrieveUpdateAPIView):
 ##########################################################
 #       GAME API VIEWS 
 ##########################################################
-class GameListGeneric(generics.ListCreateAPIView):
+class GameListCreate(generics.ListCreateAPIView):
     queryset = Game.objects.all()
     serializer_class = Game_list_Serializer
 
@@ -205,7 +175,7 @@ class GameListGeneric(generics.ListCreateAPIView):
         else:
             return Game_create_Serializer
 
-class GameDetailGeneric(generics.RetrieveDestroyAPIView):
+class GameRetrieve(generics.RetrieveDestroyAPIView):
     queryset = Game.objects.all()
     serializer_class = Game_list_Serializer
 

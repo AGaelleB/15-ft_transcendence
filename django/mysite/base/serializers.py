@@ -31,9 +31,6 @@ many=True needed if related field can be several objects
 #                Users
 ################################################################################
 class User_Create_Serializer(serializers.ModelSerializer):
-    """
-    fields needed at creation
-    """
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
     class Meta:
         model = User
@@ -70,9 +67,6 @@ class User_List_Serializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'is_connected', 'is_active', 'received_invites', 'avatar', 'friends', 'games']
 
 class User_Update_Serializer(serializers.ModelSerializer):
-    """
-    fields to update a user (sensitive/personal data)
-    """
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     friends = User_friends_Serializer(many=True, read_only=True)
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
@@ -80,23 +74,10 @@ class User_Update_Serializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'password', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
 
-class User_Log_in_out_Serializer(serializers.ModelSerializer):
-    """
-    # TO BE REMOVED #
-    fields needed when login/logout.
-    """
-    class Meta:
-        model = User
-        fields = ['id', 'username']
-
 class User_avatar_serializer(serializers.ModelSerializer):
-    """
-    serving the actual image
-    """
     class Meta:
         model = User
         fields = ['avatar']
-
 
 class UserLoginSerializer(TokenObtainPairSerializer):
     """

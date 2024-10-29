@@ -6,7 +6,7 @@ class User(AbstractUser):
     username        = models.CharField(max_length=20, blank=False, unique=True)
     avatar          = models.ImageField(upload_to=rename_image, default="default.png")
     email           = models.EmailField()
-    is_connected    = models.BooleanField(default=True)
+    is_connected    = models.BooleanField(default=False)
     is_2fa          = models.BooleanField(default=False)
     friends         = models.ManyToManyField("self", symmetrical=True, blank=True)
 
