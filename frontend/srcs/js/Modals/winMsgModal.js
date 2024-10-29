@@ -55,3 +55,55 @@ export function initializeWinMsg() {
         handleLocation();
     });
 }
+
+
+/****************************** Tournament ******************************/
+
+export function showWinMessageTournament(winnerName) {
+    const modal = document.getElementById('winMsgModal');
+    const winnerMessage = document.getElementById('winnerMessage');
+    const nextMatchButton = document.getElementById('nextMatchButton');
+    
+    if (!modal || !winnerMessage || !nextMatchButton) {
+        console.error("Tournament modal elements are missing in the DOM.");
+        return;
+    }
+    
+    // Populate the winner's name
+    winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
+    modal.style.display = 'block';
+    
+    // Call the tournament-specific initialization
+    initializeWinMsgTournament();
+}
+
+export function initializeWinMsgTournament() {
+    const nextMatchButton = document.getElementById('nextMatchButton');
+    if (nextMatchButton) {
+        nextMatchButton.addEventListener('click', () => {
+            const modal = document.getElementById('winMsgModal');
+            modal.style.display = 'none';
+            startNextMatch(); // Start the next match based on tournament logic
+        });
+    }
+}
+
+// Function to handle navigation for the next match
+function startNextMatch() {
+    // Read from tournament match queue in localStorage or elsewhere
+    const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
+    if (matchQueue.length === 0) {
+        alert("Tournament Complete!");
+        window.history.pushState({}, "", "/home");
+        handleLocation();
+    }
+    else {
+        const nextMatch = matchQueue.shift();
+        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
+        if (nextMatch.player2 === "AI")
+            window.history.pushState({}, "", "/1player-2d");
+        else
+            window.history.pushState({}, "", "/2players-2d");
+        handleLocation();
+    }
+}

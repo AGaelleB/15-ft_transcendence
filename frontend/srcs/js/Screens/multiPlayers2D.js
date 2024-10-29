@@ -1,5 +1,7 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
+export let isTournament = false; // Initialize as false
+
 export function initializeMulti2D() {
     const homeIcon = document.getElementById('homeIcon');
 
@@ -23,7 +25,7 @@ export function initializeMulti2D() {
 
     function validatePlayerName(name) {
         const regex = /^[a-zA-Z0-9]{1,20}$/;
-        return (regex.test(name));
+        return regex.test(name);
     }
 
     function updatePlayerFields(count) {
@@ -96,13 +98,67 @@ export function initializeMulti2D() {
             playerNames.push(name);
         });
 
-        if (hasInvalidNames)
-            return;
+        if (hasInvalidNames) return;
+
+        // Set tournament mode to true
+        isTournament = true;
 
         localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
-
-        // Navigate to tournament-2d
-        window.history.pushState({}, "", "/tournament-2d");
-        handleLocation();
+        createTournamentMatches(playerNames);
     });
+
+    /****************************** Tournament Match Setup ******************************/
+
+    function createTournamentMatches(playerNames) {
+        shuffleArray(playerNames);  // Randomize player order
+
+        const matchQueue = [];
+        let numPlayers = playerNames.length;
+
+        if (numPlayers % 2 !== 0) {
+            // Odd number of players: last player vs AI
+            matchQueue.push({ player1: playerNames.pop(), player2: "AI" });
+            numPlayers--;
+        }
+
+        for (let i = 0; i < numPlayers; i += 2) {
+            matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
+        }
+
+        // Save match queue for the first round in localStorage
+        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
+
+        // Start the first match
+        startNextMatch();
+    }
+
+    function startNextMatch() {
+        const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches"));
+
+        if (!matchQueue || matchQueue.length === 0) {
+            console.log("Tournament is complete!");
+            return;  // Handle end of tournament here
+        }
+
+        const { player1, player2 } = matchQueue.shift();
+        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));  // Update remaining matches
+
+        // Navigate based on the players
+        if (player2 === "AI") {
+            window.history.pushState({}, "", "/1player-2d"); // AI match
+        }
+        else {
+            window.history.pushState({}, "", "/2players-2d"); // Player vs Player match
+        }
+        handleLocation();
+    }
+
+    /****************************** Helper Functions ******************************/
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
 }

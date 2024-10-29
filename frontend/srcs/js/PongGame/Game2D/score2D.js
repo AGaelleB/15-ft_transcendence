@@ -1,7 +1,8 @@
 // frontend/srcs/js/score3D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { showWinMessage } from '../../Modals/winMsgModal.js';
+import { showWinMessage, showWinMessageTournament } from '../../Modals/winMsgModal.js';
+import { isTournament } from '../../Screens/multiPlayers2D.js';
 
 export let player1Score2D = 0;
 export let player2Score2D = 0;
@@ -35,29 +36,30 @@ export function setIsGameOver2D(value) {
         console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
-
 export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
-
     let username = "Player";
+
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
         const user = JSON.parse(savedUser);
         if (user.username) username = user.username;
     }
 
-    // if player 1 wins
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
-        showWinMessage("player", username);
-        document.getElementById('settingsIcon').classList.remove('hidden');
+        if (isTournament)
+            showWinMessageTournament(username);
+        else
+            showWinMessage("player", username);
         return true;
     } 
-    // if the AI wins
     else if (player2Score2D >= winningScore) {
         gameOver2D = true;
-        showWinMessage("2");
-        document.getElementById('settingsIcon').classList.remove('hidden');
+        if (isTournament)
+            showWinMessageTournament("2");
+        else
+            showWinMessage("2");
         return true;
     }
     return false;
