@@ -6,10 +6,10 @@ export let isTournament = false;
 
 export function startNextMatch() {
     const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
-    console.log("Current match queue:", matchQueue);
+    console.log("Current match queue at start:", matchQueue);
 
     if (matchQueue.length === 0) {
-        alert("Tournament Complete!");
+        console.log("Tournament Complete - No matches left.");
         isTournament = false;
         window.history.pushState({}, "", "/home");
         handleLocation();
@@ -21,38 +21,20 @@ export function startNextMatch() {
 
     console.log(`Starting next match: ${player1} vs ${player2}`);
 
-    if (player2 === "AI")
+    if (player2 === "AI") {
+        console.log(`-----> Navigating to 1-player mode for next match}`);
         window.history.pushState({}, "", "/1player-2d");
-    else
+    }
+    else {
+        console.log(`-----> Navigating to 2-player mode for next match}`);
         window.history.pushState({}, "", "/2players-2d");
+    }
 
     handleLocation();
 }
 
+
 /****************************** Tournament Initialization ******************************/
-
-// export function handleStartTournamentClick() {
-//     let hasInvalidNames = false;
-//     const playerNames = [];
-//     const inputs = document.querySelectorAll('#playerFields input');
-
-//     inputs.forEach(input => {
-//         const name = input.value.trim();
-//         if (!validatePlayerName(name)) hasInvalidNames = true;
-//         playerNames.push(name);
-//     });
-
-//     if (hasInvalidNames) 
-//         return;
-
-//     isTournament = true;
-
-//     localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
-//     createTournamentMatches(playerNames);
-
-//     console.log("Start the first match of the tournament");
-//     startNextMatch();
-// }
 
 export function initializeMulti2D() {
     const homeIcon = document.getElementById('homeIcon');
@@ -100,7 +82,8 @@ export function initializeMulti2D() {
             if (i === 1) {
                 input.value = loggedInUsername;
                 input.readOnly = true;
-            } else if (currentValues[`player${i}`]) {
+            }
+            else if (currentValues[`player${i}`]) {
                 input.value = currentValues[`player${i}`];
             }
 
@@ -179,6 +162,13 @@ export function initializeMulti2D() {
 
 /****************************** Tournament Modal Logic ******************************/
 
+function handleNextMatchClick() {
+    const modal = document.getElementById('winMsgModal');
+    console.log("Next Match button clicked - proceeding to next match");
+    modal.style.display = 'none';
+    startNextMatch();
+}
+
 export function showWinMessageTournament(winnerName) {
     const modal = document.getElementById('winMsgModal');
     const winnerMessage = document.getElementById('winnerMessage');
@@ -189,20 +179,17 @@ export function showWinMessageTournament(winnerName) {
         return;
     }
 
-    // Message de victoire avec le nom du gagnant
     winnerMessage.textContent = `Congratulations, ${winnerName} wins this match!`;
     modal.style.display = 'block';
 
-    // Ajouter un écouteur temporaire pour passer au match suivant
-    const handleNextMatchClick = () => {
-        console.log("Next Match button clicked");
-        modal.style.display = 'none';
-        nextMatchButton.removeEventListener('click', handleNextMatchClick); // Suppression de l'écouteur
-        // startNextMatch();
-    };
+    // Suppression de tout écouteur existant pour éviter les doublons
+    nextMatchButton.removeEventListener('click', handleNextMatchClick);
 
-    nextMatchButton.addEventListener('click', handleNextMatchClick);
+    // Ajout de l'écouteur pour passer au prochain match
+    nextMatchButton.addEventListener('click', handleNextMatchClick, { once: true });
 }
+
+
 
 export function initializeWinMsgTournament() {
     const nextMatchButton = document.getElementById('nextMatchButton');
@@ -210,8 +197,76 @@ export function initializeWinMsgTournament() {
         nextMatchButton.addEventListener('click', () => {
             const modal = document.getElementById('winMsgModal');
             console.log("initializeWinMsgTournament: Closing modal and starting next match");
+            // nextMatchButton.removeEventListener('click', handleNextMatchClick);
             modal.style.display = 'none';
-            startNextMatch();
+            // startNextMatch(); // doublons avec showWinMessageTournament
         });
     }
 }
+
+
+/* 
+
+il y a un soucis, comme si showWinMessageTournament etait appele deux fois de suite au lancement du 2e match du tournois
+
+voici mes logs si je fais une partie a 3 joueurs : 
+
+avant demarrage du premier match : 
+Tournament matches created: (3) [{…}, {…}, {…}]0: {player1: 'GagacMoi', player2: 'joueur2'}1: {player1: 'GagacMoi', player2: 'joueur3'}2: {player1: 'joueur2', player2: 'joueur3'}length: 3[[Prototype]]: Array(0)
+multiPlayers2D.js:140 Start the first match of the tournament
+multiPlayers2D.js:9 Current match queue at start: (3) [{…}, {…}, {…}]0: {player1: 'GagacMoi', player2: 'joueur3'}1: {player1: 'joueur2', player2: 'joueur3'}length: 2[[Prototype]]: Array(0)
+multiPlayers2D.js:22 Starting next match: GagacMoi vs joueur2
+multiPlayers2D.js:29 -----> Navigating to 2-player mode for next match}
+
+lors du click pour "Start next match" :
+
+initializeWinMsgTournament: Closing modal and starting next match
+multiPlayers2D.js:182 Next Match button clicked - proceeding to next match
+multiPlayers2D.js:9 Current match queue at start: (2) [{…}, {…}]0: {player1: 'joueur2', player2: 'joueur3'}length: 1[[Prototype]]: Array(0)
+multiPlayers2D.js:22 Starting next match: GagacMoi vs joueur3
+multiPlayers2D.js:29 -----> Navigating to 2-player mode for next match}
+multiPlayers2D.js:182 Next Match button clicked - proceeding to next match
+multiPlayers2D.js:9 Current match queue at start: [{…}]length: 0[[Prototype]]: Array(0)
+multiPlayers2D.js:22 Starting next match: joueur2 vs joueur3
+multiPlayers2D.js:29 -----> Navigating to 2-player mode for next match}
+
+nouveau du click pour "Start next match" qui arrete le tournoi, meme si seulement 2 matchs on eu lieu:
+initializeWinMsgTournament: Closing modal and starting next match
+multiPlayers2D.js:182 Next Match button clicked - proceeding to next match
+multiPlayers2D.js:9 Current match queue at start: []length: 0[[Prototype]]: Array(0)
+multiPlayers2D.js:12 Tournament Complete - No matches left.
+multiPlayers2D.js:182 Next Match button clicked - proceeding to next match
+multiPlayers2D.js:9 Current match queue at start: []length: 0[[Prototype]]: Array(0)
+multiPlayers2D.js:12 Tournament Complete - No matches left.
+multiPlayers2D.js:182 Next Match button clicked - proceeding to next match
+multiPlayers2D.js:9 Current match queue at start: []length: 0[[Prototype]]: Array(0)
+multiPlayers2D.js:12 Tournament Complete - No matches left.
+
+
+export function checkGameEnd2D() {
+    const winningScore = gameSettings2D.winningScore;
+
+    // Charger les noms des joueurs du tournoi
+    const tournamentPlayers = JSON.parse(localStorage.getItem("tournamentPlayers")) || [];
+    const player1Name = tournamentPlayers[0] || "Player 1";
+    const player2Name = tournamentPlayers[1] || "Player 2";
+
+    if (player1Score2D >= winningScore) {
+        gameOver2D = true;
+        if (isTournament)
+            showWinMessageTournament(player1Name);
+        else
+            showWinMessage("player", player1Name);
+        return true;
+    } 
+    else if (player2Score2D >= winningScore) {
+        gameOver2D = true;
+        if (isTournament)
+            showWinMessageTournament(player2Name);
+        else
+            showWinMessage("2", player2Name);
+        return true;
+    }
+    return false;
+}
+*/

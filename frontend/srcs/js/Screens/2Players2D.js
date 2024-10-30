@@ -23,6 +23,8 @@ export function initialize2Players2D() {
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    const nextMatchButton = document.getElementById('nextMatchButton'); // test
+
     loadLanguages(storedLang);
     loadPlayerInfos();
 
@@ -44,6 +46,8 @@ export function initialize2Players2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
+        nextMatchButton.removeEventListener('click', handleNextMatchClick); // test
+
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
         setIsGameOver2D(false);
