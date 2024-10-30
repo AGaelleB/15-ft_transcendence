@@ -40,8 +40,6 @@ export function updateScore2D() {
     }
 }
 
-
-
 let gameOver2D = false;
 
 export function isGameOver2D() {
@@ -96,7 +94,7 @@ export function checkGameEnd2D() {
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
         if (isTournament)
-            showWinMessageTournament(player1Name); // checkGameEnd2D (score2D.js:99:13)
+            showWinMessageTournament(player1Name);
         else
             showWinMessage("player", player1Name);
         return true;

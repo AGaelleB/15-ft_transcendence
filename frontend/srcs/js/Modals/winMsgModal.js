@@ -1,7 +1,5 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
-// import { startNextMatch } from "../Screens/multiPlayers2D";
-
 export function showWinMessage(winner, username = 'Player') {
     const modal = document.querySelector('.modal');
     const messageElement = modal.querySelector('.message');
@@ -58,38 +56,15 @@ export function initializeWinMsg() {
     });
 }
 
-
 /****************************** Tournament ******************************/
 
-// export function showWinMessageTournament(winnerName) {
-//     const modal = document.getElementById('winMsgModal');
-//     const winnerMessage = document.getElementById('winnerMessage');
-//     const nextMatchButton = document.getElementById('nextMatchButton');
-
-//     if (!modal || !winnerMessage || !nextMatchButton) {
-//         console.error("Tournament modal elements are missing in the DOM");
-//         return;
-//     }
-
-//     winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
-//     modal.style.display = 'block';
-
-//     // Hide the modal on button click and start the next match
-//     nextMatchButton.onclick = () => {
-//         console.log("Next Match button clicked");
-//         modal.style.display = 'none';
-//         startNextMatch();
-//     };
-// }
-
-// export function initializeWinMsgTournament() {
-//     const nextMatchButton = document.getElementById('nextMatchButton');
-//     if (nextMatchButton) {
-//         nextMatchButton.addEventListener('click', () => {
-//             const modal = document.getElementById('winMsgModal');
-//             console.log("initializeWinMsgTournament: Closing modal and starting next match");
-//             modal.style.display = 'none';
-//             startNextMatch();
-//         });
-//     }
-// }
+export function initializeWinMsgTournament() {
+    const nextMatchButton = document.getElementById('nextMatchButton');
+    if (nextMatchButton) {
+        nextMatchButton.addEventListener('click', () => {
+            const modal = document.getElementById('winMsgModal');
+            console.log("initializeWinMsgTournament: Closing modal and starting next match");
+            modal.style.display = 'none';
+        });
+    }
+}

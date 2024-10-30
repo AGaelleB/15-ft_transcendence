@@ -71,7 +71,7 @@ export function initialize2Players2D() {
 
     initializeButton2D();
     initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon);
-    
+
     let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;
   
     const paddleLeft = {
