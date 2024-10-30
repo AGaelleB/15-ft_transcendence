@@ -169,6 +169,8 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
 #       GAME API VIEWS 
 ##########################################################
 class GameListCreate(generics.ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [UserListCreatePermission]
     queryset = Game.objects.all()
     serializer_class = Game_list_Serializer
 
@@ -178,7 +180,9 @@ class GameListCreate(generics.ListCreateAPIView):
         else:
             return Game_create_Serializer
 
-class GameRetrieve(generics.RetrieveDestroyAPIView):
+class GameRetrieve(generics.RetrieveAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserConnectedPermission]
     queryset = Game.objects.all()
     serializer_class = Game_list_Serializer
 

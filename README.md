@@ -32,7 +32,9 @@ note: since docker settings, **local launch don't work anymore**
 * ```python manage.py migrate``` : migrate (create/update db)  
 * ```python manage.py db_norm``` : apply changes on db at startup (ie: logout all users)
 * ```python manage.py superuser``` : create superuser
-* ```python manage.py runserver``` : launch server  
+* ```python manage.py runserver``` : launch server in http 
+* ```python manage.py runserver_plus --cert-file certifSSL/cert.pem --key-file certifSSL/key.pem 0.0.0.0:8001``` : in https !
+
 
 ## Authentication vs Permission
 ### Authentication
@@ -65,6 +67,39 @@ note: since docker settings, **local launch don't work anymore**
 * front end can login it like a normal user (POST 127.0.0.1:8001/login/ with username and password), and must use its access token in any request
   * this means that we need to share the username and password to the front (via env file), and store its tokens too
 
+## SSL
+### mkcert package
+* it installs Certificate Authority (CA) on your system/browser and can create certificates and keys
+* created certif/key would be accepted with no security warning bc your browsers know the CA 
+* some docs
+  * https://github.com/FiloSottile/mkcert/issues/602
+  * https://docs.vmware.com/en/VMware-Adapter-for-SAP-Landscape-Management/2.1.0/Installation-and-Administration-Guide-for-VLA-Administrators/GUID-0CED691F-79D3-43A4-B90D-CD97650C13A0.html
+* package installation from pre-built binary, with **no sudo rights**:
+  * `https://dl.filippo.io/mkcert/latest?for=linux/amd64` 
+  * `chmod u+x ~/Downloads/mkcert-v1.4.4-linux-amd64`
+  * `cp ~/Downloads/mkcert-v1.4.4-linux-amd64 $HOME/.bin` (needed: .bin on your home and in PATH)
+### using mkcert  
+* `mkcert -install` to generate the Authority --> OK for creating Authority but KO (sudo rights) for putting them into system/browser
+* putting CA manually in firefox ():
+  * `mkcert --CAROOT`: find location of a **rootCA.pem**  
+  * in firefox: settings->privacy->certif->authority->import: set the rootCA.pem  
+* django setup:
+  * django-extension, Werkzeug, PyOnpenSsl neeeded + SSL in settings.py
+  * `mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1 localhost` : generate the certif and key (besides **manage.py**)
+  * `python manage.py runserver_plus --cert-file cert.pem --key-file key.pem 0.0.0.0:8001` : run it !
+  * without Werkzeug (not tried yet):
+    * nginx proxy: listen on 443 ssl with mkcert certif/key, and proxy-pass https to http to django
+    * django responses should then be converted to https before going out of nginx 
+### testing backend
+*authentication + ssl makes it harder to test*
+* browser needed for ssl testing, and the only available route without token is : **https://127.0.0.1:8001/login/**
+* connect a user, copy the access token from the response  
+* open inspect->network, request another route (ie https://127.0.0.1:8001/users/): you got 401 bc no token provided
+* find the 401 response in network, click on "resend": it opens a menu at top left where you can modify the request  
+* add the header (key='Authorization', value='Bearer JWT'), click on send --> letsgooooooooooo! 
+* results only in networks but behaves as expected,  
+
+ 
 ## API Routes
 ### `login/` : POST
 * POST: connect user and returns JWTokens. Protection: none (on the route, but verification username/password for success/failure)  
@@ -108,7 +143,7 @@ note: it is symetrical (user2 removed from user1 firends, and user1 removed from
 `POST 127.0.0.1:8001/friend-request/ sender=1 receiver=2`  
 note: provide user_id for sender/receiver. sender cannot resend a request to user2, neither user2 towards user1. if they are friends already, it fails.  
 
-### `/friend-request/<int:pk>/` : GET (pk=request_id)
+### `/friend-request/<int:pk>/` : GET
 * GET: retrieve request. Protection: any authenticated user  
 `GET 127.0.0.1:8001/friend-request/1/ "Authorization: Bearer AccesJWT"`  
 
@@ -118,18 +153,29 @@ note: provide user_id for sender/receiver. sender cannot resend a request to use
 `PUT 127.0.0.1:8001/friend-request/1/decline/ "Authorization: Bearer AccesJWT"`   
 note: delete the request, and if str=='accept', add both users as friends  
 
-### `/games/` : GET, POST
-* `GET 127.0.0.1:8000/games/`
-* `POST 127.0.0.1:8000/games/ {"score": 0, "opp_score": 0}` (create game with score=0 opp_score=0)
-### `/games/<int:pk>/` : GET, PUT, DELETE. pk=game_id
-* `GET 127.0.0.1:8000/games/1/`
- * `PUT 127.0.0.1:8000/games/1/ score=5`
- * `DELETE 127.0.0.1:8000/games/1/`
+### `/games/` : GET, 
+* GET: list all games. Protection: any auth user  
+`GET 127.0.0.1:8000/games/ "Authorization: Bearer AccesJWT"`  
+* POST: create a game. Protection: only superuser
+* `POST 127.0.0.1:8000/games/ "Authorization: Bearer AccesJWT" {"score": 1, "opp_score": 0, "user": "user2"}` 
 
+### `/games/<int:pk>/` : GET
+* GET: retrieve one game. Protection: any auth user
+* `GET 127.0.0.1:8000/games/1/ "Authorization: Bearer AccesJWT"`
 
 
 
 ## Journal
+#### 30/10/2024 19h00:
+* bugs friend-remove corrected
+* superuser must be connected 
+* games: no more destroy, auth/perm --> create: superuser, list/retrieve: auth user
+* SSL working (mkcert, firefox and Werkzeug) !!!!!!!! no scurity warning
+* todo:
+  * is it interesting to use nginx proxy instead of Werzeug for ssl?
+  * gives mkcert certif.key to front nginx: it must also only accept https
+  * ssl CA to be added to google too 
+
 #### 29/10/2024 19h15:
 * user/avatar/ --> only retrieve view + auth + perm (any user; should we change to owner? i dont think so)
 * remove-friend/ --> auth + perm (user must be user that remove its friend)
@@ -213,24 +259,3 @@ destroy: delete one instance, DELETE (sometimes via a PUT ie friend request)
 * plus besoin de channels et de daphne  
 * index.html sera servi par nginx, le reste de la navigation en js  
 * backend data sera envoye au site par http get/post/put/delete  
-
-## Modules
-### Web
-[X] Major module: Use a Framework as backend.
-[X] Minor module: Use a front-end framework or toolkit.
-[X] Minor module: Use a database for the backend -and more.
-### User Management
-[X] Major module: Standard user management, authentication, users across tournaments
-### Gameplay and user experience
-[X] Minor module: Game Customization Options.
-### AI-Algo
-[X] Major module: Introduce an AI Opponent
-[] Minor module: User and Game Stats Dashboards.
-### Cybersecurity
-[] Major module: Implement Two-Factor Authentication (2FA) and JWT.
-### Graphics
-[en cours] Major module: Implementing Advanced 3D Techniques
-### Accessibility
-[] Minor module: Expanding Browser Compatibility.
-[X] Minor module: Multiple language supports.
-[] Minor module: Add accessibility for Visually Impaired Users

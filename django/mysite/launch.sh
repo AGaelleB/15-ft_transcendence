@@ -7,6 +7,11 @@ echo "SECRET_KEY=$SECRET_KEY" >> .env
 python manage.py makemigrations
 python manage.py migrate
 python manage.py db_norm 
-# db_norm to change is_active?
 python manage.py superuser 
-python manage.py runserver 0.0.0.0:8001
+
+# HTTP 
+#python manage.py runserver 0.0.0.0:8001 
+# HTTPS
+python manage.py runserver_plus --cert-file certifSSL/cert.pem --key-file certifSSL/key.pem 0.0.0.0:8001
+
+
