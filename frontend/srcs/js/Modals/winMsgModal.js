@@ -68,12 +68,14 @@ export function showWinMessageTournament(winnerName) {
         console.error("Tournament modal elements are missing in the DOM.");
         return;
     }
-    
+
     winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
     modal.style.display = 'block';
-    
-    // Call the tournament-specific initialization
-    // initializeWinMsgTournament(); // deja fait dans settingsModal.js
+
+    nextMatchButton.onclick = () => {
+        modal.style.display = 'none';
+        startNextMatch();
+    };
 }
 
 export function initializeWinMsgTournament() {
@@ -82,28 +84,30 @@ export function initializeWinMsgTournament() {
         nextMatchButton.addEventListener('click', () => {
             const modal = document.getElementById('winMsgModal');
             modal.style.display = 'none';
-            startNextMatch();
+            // startNextMatch(); // fait doublons
         });
     }
 }
 
-export function startNextMatch() {
-
+function startNextMatch() {
+    const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
     console.log("startNextMatch in winMsgModal!");
 
-    const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
-    if (matchQueue.length === 0) {
+    if (!matchQueue || matchQueue.length === 0) {
         alert("Tournament Complete!");
         window.history.pushState({}, "", "/home");
         handleLocation();
+        return;
     }
-    else {
-        const nextMatch = matchQueue.shift();
-        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-        if (nextMatch.player2 === "AI")
-            window.history.pushState({}, "", "/1player-2d");
-        else
-            window.history.pushState({}, "", "/2players-2d");
-        handleLocation();
-    }
+
+    const { player1, player2 } = matchQueue.shift();
+    localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
+
+    console.log(`Next match: ${player1} vs ${player2}`);
+
+    if (player2 === "AI")
+        window.history.pushState({}, "", "/1player-2d");
+    else
+        window.history.pushState({}, "", "/2players-2d");
+    handleLocation();
 }

@@ -11,8 +11,10 @@ export function initializeButton2D() {
     loadSettingsOnPageLoad2D();
     initializeGameSettings2D();
     saveGameSettings2D();
-    initializeWinMsg();
-    initializeWinMsgTournament();
+    if (isTournament)
+        initializeWinMsgTournament();
+    else
+        initializeWinMsg();
     resetGame2D();
 }
 

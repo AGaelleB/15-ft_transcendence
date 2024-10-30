@@ -1,10 +1,9 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
-// import { startNextMatch } from "../Modals/winMsgModal";
-
 export let isTournament = false;
 
 export function initializeMulti2D() {
+
     const homeIcon = document.getElementById('homeIcon');
 
     homeIcon.addEventListener('click', (event) => {
@@ -112,62 +111,56 @@ export function initializeMulti2D() {
     /****************************** Tournament Match Setup ******************************/
 
     function createTournamentMatches(playerNames) {
-        shuffleArray(playerNames);  // Randomize player order
-
         const matchQueue = [];
-        let numPlayers = playerNames.length;
-
-        if (numPlayers % 2 !== 0) {
-            // Odd number of players: last player vs AI
-            matchQueue.push({ player1: playerNames.pop(), player2: "AI" });
-            numPlayers--;
+        
+        // Logic to create a round-robin schedule for all players
+        for (let i = 0; i < playerNames.length; i++) {
+            for (let j = i + 1; j < playerNames.length; j++) {
+                matchQueue.push({ player1: playerNames[i], player2: playerNames[j] });
+            }
         }
 
-        for (let i = 0; i < numPlayers; i += 2) {
-            matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
-        }
-
-        // Save match queue for the first round in localStorage
+        // Save match queue in localStorage
         localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-
-        startNextMatch();
-    }
-
-    function startNextMatch() {
-        const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches"));
-
-        console.log("startNextMatch in multiPlayers2D!");
-
-        if (!matchQueue || matchQueue.length === 0) {
-            console.log("Tournament is complete!");
-            return;
-        }
-
-        const { player1, player2 } = matchQueue.shift();
-        localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-
-        if (player2 === "AI")
-            window.history.pushState({}, "", "/1player-2d");
-        else
-            window.history.pushState({}, "", "/2players-2d");
-        handleLocation();
     }
 
     /****************************** Helper Functions ******************************/
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
+    // function shuffleArray(array) {
+    //     for (let i = array.length - 1; i > 0; i--) {
+    //         const j = Math.floor(Math.random() * (i + 1));
+    //         [array[i], array[j]] = [array[j], array[i]];
+    //     }
+    // }
 }
 
+/* 
 
-/*  
-    des que je fais l appel de startNextMatch, je ne peux plus jouer au 1player2d ni 2players2d. Or il ne devrait pas y avoir de probleme dans les autres games si cela concerne le multiplayer.
-    c est pourquoi je me demande s il n y a pas un probleme d initialisation, peut etre dans le html, ou une initialisation de la fonction startNextMatch.
+    si je vais sur tournament, que je clique sur le bouton "start Tournament" rien ne se passe,
+    par contre si ensuite je vais dans un match 1 player, ca m envoir le modal showWinMessageTournament, je pense que le bout on n est pas delate propprement, par exemple dans 1 player je fais 
 
+        function cleanup1Player2D() {
+        cancelAnimationFrame(animationId2D1P);
+
+        document.removeEventListener('keydown', handleKeydown);
+        document.removeEventListener('keyup', handleKeyup);
+        document.removeEventListener('keypress', handleKeyPress2D);
+        window.removeEventListener('resize', onResizeCanvas);
+        
+        setPlayer1Score2D(0);
+        setPlayer2Score2D(0);
+        setIsGameOver2D(false);
     
+        hidePowerUp(powerUpImageElement);
+        resetRallyCount2D();
+    
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        isGameActive2d = false;
+        setGameStarted2D(true);
+    }
+
+    aussi, pourquoi je ne suis pas redirigee vers la page de jeu et que mon clique ne redirige vers rien ? 
+
 
 */
