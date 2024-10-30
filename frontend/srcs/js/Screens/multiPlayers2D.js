@@ -21,39 +21,38 @@ export function startNextMatch() {
 
     console.log(`Starting next match: ${player1} vs ${player2}`);
 
-    if (player2 === "AI") {
+    if (player2 === "AI")
         window.history.pushState({}, "", "/1player-2d");
-    } else {
+    else
         window.history.pushState({}, "", "/2players-2d");
-    }
 
     handleLocation();
 }
 
 /****************************** Tournament Initialization ******************************/
 
-export function handleStartTournamentClick() {
-    let hasInvalidNames = false;
-    const playerNames = [];
-    const inputs = document.querySelectorAll('#playerFields input');
+// export function handleStartTournamentClick() {
+//     let hasInvalidNames = false;
+//     const playerNames = [];
+//     const inputs = document.querySelectorAll('#playerFields input');
 
-    inputs.forEach(input => {
-        const name = input.value.trim();
-        if (!validatePlayerName(name)) hasInvalidNames = true;
-        playerNames.push(name);
-    });
+//     inputs.forEach(input => {
+//         const name = input.value.trim();
+//         if (!validatePlayerName(name)) hasInvalidNames = true;
+//         playerNames.push(name);
+//     });
 
-    if (hasInvalidNames) 
-        return;
+//     if (hasInvalidNames) 
+//         return;
 
-    isTournament = true;
+//     isTournament = true;
 
-    localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
-    createTournamentMatches(playerNames);
+//     localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
+//     createTournamentMatches(playerNames);
 
-    console.log("Start the first match of the tournament");
-    startNextMatch();
-}
+//     console.log("Start the first match of the tournament");
+//     startNextMatch();
+// }
 
 export function initializeMulti2D() {
     const homeIcon = document.getElementById('homeIcon');
@@ -190,10 +189,11 @@ export function showWinMessageTournament(winnerName) {
         return;
     }
 
-    winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
+    // Message de victoire avec le nom du gagnant
+    winnerMessage.textContent = `Congratulations, ${winnerName} wins this match!`;
     modal.style.display = 'block';
 
-    // Ajouter un écouteur temporaire pour le bouton, et le retirer une fois cliqué
+    // Ajouter un écouteur temporaire pour passer au match suivant
     const handleNextMatchClick = () => {
         console.log("Next Match button clicked");
         modal.style.display = 'none';
@@ -203,7 +203,6 @@ export function showWinMessageTournament(winnerName) {
 
     nextMatchButton.addEventListener('click', handleNextMatchClick);
 }
-
 
 export function initializeWinMsgTournament() {
     const nextMatchButton = document.getElementById('nextMatchButton');
