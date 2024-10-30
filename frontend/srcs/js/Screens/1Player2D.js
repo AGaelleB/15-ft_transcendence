@@ -13,6 +13,7 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
+import { handleStartTournamentClick } from './multiPlayers2D.js';
 
 export let animationId2D1P;
 
@@ -26,6 +27,9 @@ export function initialize1Player2D() {
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     const opponentNameElement = document.getElementById('opponentName');
+    const nextMatchButton = document.getElementById('nextMatchButton'); // test
+    const startTournamentButton = document.getElementById('startTournamentButton'); // test
+
     if (opponentNameElement)
         opponentNameElement.textContent = "Mr Robot";
 
@@ -53,7 +57,9 @@ export function initialize1Player2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-        
+        nextMatchButton.removeEventListener('click', handleNextMatchClick); // test
+        startTournamentButton.removeEventListener('click', handleStartTournamentClick); // test
+
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
         setIsGameOver2D(false);
@@ -64,6 +70,7 @@ export function initialize1Player2D() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         isGameActive2d = false;
+        isTournament = false;
         setGameStarted2D(true);
     }
 

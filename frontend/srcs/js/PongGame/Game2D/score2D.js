@@ -1,8 +1,8 @@
 // frontend/srcs/js/score3D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { showWinMessage, showWinMessageTournament } from '../../Modals/winMsgModal.js';
-import { isTournament } from '../../Screens/multiPlayers2D.js';
+import { isTournament, showWinMessageTournament } from '../../Screens/multiPlayers2D.js';
+import { showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score2D = 0;
 export let player2Score2D = 0;
@@ -48,6 +48,7 @@ export function checkGameEnd2D() {
 
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
+        // console.log("checkGameEnd2D isTournament = ", isTournament);
         if (isTournament)
             showWinMessageTournament(username);
         else
@@ -64,3 +65,4 @@ export function checkGameEnd2D() {
     }
     return false;
 }
+

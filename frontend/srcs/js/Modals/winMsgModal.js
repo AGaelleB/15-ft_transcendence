@@ -1,5 +1,7 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
+// import { startNextMatch } from "../Screens/multiPlayers2D";
+
 export function showWinMessage(winner, username = 'Player') {
     const modal = document.querySelector('.modal');
     const messageElement = modal.querySelector('.message');
@@ -59,55 +61,35 @@ export function initializeWinMsg() {
 
 /****************************** Tournament ******************************/
 
-export function showWinMessageTournament(winnerName) {
-    const modal = document.getElementById('winMsgModal');
-    const winnerMessage = document.getElementById('winnerMessage');
-    const nextMatchButton = document.getElementById('nextMatchButton');
-    
-    if (!modal || !winnerMessage || !nextMatchButton) {
-        console.error("Tournament modal elements are missing in the DOM.");
-        return;
-    }
+// export function showWinMessageTournament(winnerName) {
+//     const modal = document.getElementById('winMsgModal');
+//     const winnerMessage = document.getElementById('winnerMessage');
+//     const nextMatchButton = document.getElementById('nextMatchButton');
 
-    winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
-    modal.style.display = 'block';
+//     if (!modal || !winnerMessage || !nextMatchButton) {
+//         console.error("Tournament modal elements are missing in the DOM");
+//         return;
+//     }
 
-    nextMatchButton.onclick = () => {
-        modal.style.display = 'none';
-        startNextMatch();
-    };
-}
+//     winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
+//     modal.style.display = 'block';
 
-export function initializeWinMsgTournament() {
-    const nextMatchButton = document.getElementById('nextMatchButton');
-    if (nextMatchButton) {
-        nextMatchButton.addEventListener('click', () => {
-            const modal = document.getElementById('winMsgModal');
-            modal.style.display = 'none';
-            // startNextMatch(); // fait doublons
-        });
-    }
-}
+//     // Hide the modal on button click and start the next match
+//     nextMatchButton.onclick = () => {
+//         console.log("Next Match button clicked");
+//         modal.style.display = 'none';
+//         startNextMatch();
+//     };
+// }
 
-function startNextMatch() {
-    const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
-    console.log("startNextMatch in winMsgModal!");
-
-    if (!matchQueue || matchQueue.length === 0) {
-        alert("Tournament Complete!");
-        window.history.pushState({}, "", "/home");
-        handleLocation();
-        return;
-    }
-
-    const { player1, player2 } = matchQueue.shift();
-    localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-
-    console.log(`Next match: ${player1} vs ${player2}`);
-
-    if (player2 === "AI")
-        window.history.pushState({}, "", "/1player-2d");
-    else
-        window.history.pushState({}, "", "/2players-2d");
-    handleLocation();
-}
+// export function initializeWinMsgTournament() {
+//     const nextMatchButton = document.getElementById('nextMatchButton');
+//     if (nextMatchButton) {
+//         nextMatchButton.addEventListener('click', () => {
+//             const modal = document.getElementById('winMsgModal');
+//             console.log("initializeWinMsgTournament: Closing modal and starting next match");
+//             modal.style.display = 'none';
+//             startNextMatch();
+//         });
+//     }
+// }

@@ -2,16 +2,67 @@
 
 export let isTournament = false;
 
+/****************************** Tournament Match Management ******************************/
+
+export function startNextMatch() {
+    const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
+    console.log("Current match queue:", matchQueue);
+
+    if (matchQueue.length === 0) {
+        alert("Tournament Complete!");
+        isTournament = false;
+        window.history.pushState({}, "", "/home");
+        handleLocation();
+        return;
+    }
+
+    const { player1, player2 } = matchQueue.shift();
+    localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
+
+    console.log(`Starting next match: ${player1} vs ${player2}`);
+
+    if (player2 === "AI") {
+        window.history.pushState({}, "", "/1player-2d");
+    } else {
+        window.history.pushState({}, "", "/2players-2d");
+    }
+
+    handleLocation();
+}
+
+/****************************** Tournament Initialization ******************************/
+
+export function handleStartTournamentClick() {
+    let hasInvalidNames = false;
+    const playerNames = [];
+    const inputs = document.querySelectorAll('#playerFields input');
+
+    inputs.forEach(input => {
+        const name = input.value.trim();
+        if (!validatePlayerName(name)) hasInvalidNames = true;
+        playerNames.push(name);
+    });
+
+    if (hasInvalidNames) 
+        return;
+
+    isTournament = true;
+
+    localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
+    createTournamentMatches(playerNames);
+
+    console.log("Start the first match of the tournament");
+    startNextMatch();
+}
+
 export function initializeMulti2D() {
-
     const homeIcon = document.getElementById('homeIcon');
-
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
-
+    
     window.addEventListener('popstate', function(event) {
         console.log("Retour arrière du navigateur détecté !");
     });
@@ -50,9 +101,9 @@ export function initializeMulti2D() {
             if (i === 1) {
                 input.value = loggedInUsername;
                 input.readOnly = true;
-            }
-            else if (currentValues[`player${i}`])
+            } else if (currentValues[`player${i}`]) {
                 input.value = currentValues[`player${i}`];
+            }
 
             input.addEventListener('input', () => {
                 if (!validatePlayerName(input.value)) {
@@ -91,7 +142,7 @@ export function initializeMulti2D() {
         let hasInvalidNames = false;
         const playerNames = [];
         const inputs = document.querySelectorAll('#playerFields input');
-        
+
         inputs.forEach(input => {
             const name = input.value.trim();
             if (!validatePlayerName(name))
@@ -101,18 +152,19 @@ export function initializeMulti2D() {
 
         if (hasInvalidNames) return;
 
-        // Set tournament mode to true
         isTournament = true;
 
         localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
         createTournamentMatches(playerNames);
+        console.log("Start the first match of the tournament");
+        startNextMatch();
     });
 
     /****************************** Tournament Match Setup ******************************/
 
     function createTournamentMatches(playerNames) {
         const matchQueue = [];
-        
+
         // Logic to create a round-robin schedule for all players
         for (let i = 0; i < playerNames.length; i++) {
             for (let j = i + 1; j < playerNames.length; j++) {
@@ -122,45 +174,45 @@ export function initializeMulti2D() {
 
         // Save match queue in localStorage
         localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
+        console.log("Tournament matches created:", matchQueue);
     }
-
-    /****************************** Helper Functions ******************************/
-
-    // function shuffleArray(array) {
-    //     for (let i = array.length - 1; i > 0; i--) {
-    //         const j = Math.floor(Math.random() * (i + 1));
-    //         [array[i], array[j]] = [array[j], array[i]];
-    //     }
-    // }
 }
 
-/* 
+/****************************** Tournament Modal Logic ******************************/
 
-    si je vais sur tournament, que je clique sur le bouton "start Tournament" rien ne se passe,
-    par contre si ensuite je vais dans un match 1 player, ca m envoir le modal showWinMessageTournament, je pense que le bout on n est pas delate propprement, par exemple dans 1 player je fais 
+export function showWinMessageTournament(winnerName) {
+    const modal = document.getElementById('winMsgModal');
+    const winnerMessage = document.getElementById('winnerMessage');
+    const nextMatchButton = document.getElementById('nextMatchButton');
 
-        function cleanup1Player2D() {
-        cancelAnimationFrame(animationId2D1P);
-
-        document.removeEventListener('keydown', handleKeydown);
-        document.removeEventListener('keyup', handleKeyup);
-        document.removeEventListener('keypress', handleKeyPress2D);
-        window.removeEventListener('resize', onResizeCanvas);
-        
-        setPlayer1Score2D(0);
-        setPlayer2Score2D(0);
-        setIsGameOver2D(false);
-    
-        hidePowerUp(powerUpImageElement);
-        resetRallyCount2D();
-    
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        isGameActive2d = false;
-        setGameStarted2D(true);
+    if (!modal || !winnerMessage || !nextMatchButton) {
+        console.error("Tournament modal elements are missing in the DOM");
+        return;
     }
 
-    aussi, pourquoi je ne suis pas redirigee vers la page de jeu et que mon clique ne redirige vers rien ? 
+    winnerMessage.textContent = `Congratulations, ${winnerName || 'Player'}!`;
+    modal.style.display = 'block';
+
+    // Ajouter un écouteur temporaire pour le bouton, et le retirer une fois cliqué
+    const handleNextMatchClick = () => {
+        console.log("Next Match button clicked");
+        modal.style.display = 'none';
+        nextMatchButton.removeEventListener('click', handleNextMatchClick); // Suppression de l'écouteur
+        // startNextMatch();
+    };
+
+    nextMatchButton.addEventListener('click', handleNextMatchClick);
+}
 
 
-*/
+export function initializeWinMsgTournament() {
+    const nextMatchButton = document.getElementById('nextMatchButton');
+    if (nextMatchButton) {
+        nextMatchButton.addEventListener('click', () => {
+            const modal = document.getElementById('winMsgModal');
+            console.log("initializeWinMsgTournament: Closing modal and starting next match");
+            modal.style.display = 'none';
+            startNextMatch();
+        });
+    }
+}
