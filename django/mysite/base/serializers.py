@@ -64,7 +64,7 @@ class User_List_Serializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_connected', 'is_active', 'received_invites', 'avatar', 'friends', 'games']
+        fields = ['id', 'username', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games']
 
 class User_Update_Serializer(serializers.ModelSerializer):
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)

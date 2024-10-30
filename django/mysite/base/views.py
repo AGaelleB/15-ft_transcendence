@@ -75,7 +75,10 @@ class User_remove_friend(generics.UpdateAPIView):
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
         friend_username = self.kwargs.get('friend')
-        friend_id = User.objects.get(username=friend_username).id
+        try:
+            friend_id = User.objects.get(username=friend_username).id
+        except User.DoesNotExist:
+            return Response({"status": "Unknown friend user"}, status=status.HTTP_400_BAD_REQUEST)
         for f in instance.friends.all():
             if f.id == friend_id:
                 instance.friends.remove(friend_id)

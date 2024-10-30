@@ -39,7 +39,7 @@ class UserListCreatePermission(BasePermission):
         if request.method in ['GET', 'OPTIONS', 'HEAD']:
             return request.user.is_authenticated and request.user.is_connected
         if request.method in ['POST']:
-            return request.user.is_authenticated and request.user.is_superuser
+            return request.user.is_authenticated and request.user.is_connected and request.user.is_superuser
         return False
 
 class UserRUDPermission(BasePermission):
