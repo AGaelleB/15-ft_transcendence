@@ -21,14 +21,10 @@ export function startNextMatch() {
 
     console.log(`Starting next match: ${player1} vs ${player2}`);
 
-    if (player2 === "AI") {
-        // console.log(`-----> Navigating to 1-player mode for next match}`);
+    if (player2 === "AI")
         window.history.pushState({}, "", "/1player-2d");
-    }
-    else {
-        // console.log(`-----> Navigating to 2-player mode for next match}`);
+    else
         window.history.pushState({}, "", "/2players-2d");
-    }
     handleLocation();
 }
 
@@ -136,7 +132,6 @@ export function initializeMulti2D() {
 
         localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
         createTournamentMatches(playerNames);
-        // console.log("Start the first match of the tournament");
         startNextMatch();
     });
 
@@ -150,7 +145,6 @@ export function initializeMulti2D() {
         if (playerNames.length % 2 !== 0)
             playerNames.push("AI");
     
-        // Create matches by pairing shuffled players
         for (let i = 0; i < playerNames.length; i += 2) {
             matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
         }
