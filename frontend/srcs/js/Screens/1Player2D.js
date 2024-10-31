@@ -14,6 +14,7 @@ import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/ral
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { isTournament } from './multiPlayers2D.js';
+import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
 
 export let animationId2D1P;
 
@@ -34,7 +35,8 @@ export function initialize1Player2D() {
 
     loadLanguages(storedLang);
     loadPlayerInfos();
-
+    setTwoPlayerMode2D(false); 
+    
     let isGameActive2d = true;
     
     homeIcon.addEventListener('click', (event) => {
@@ -62,7 +64,8 @@ export function initialize1Player2D() {
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
         setIsGameOver2D(false);
-    
+        setTwoPlayerMode2D(false);  
+
         hidePowerUp(powerUpImageElement);
         resetRallyCount2D();
     

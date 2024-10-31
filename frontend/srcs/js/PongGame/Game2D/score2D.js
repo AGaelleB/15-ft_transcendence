@@ -1,8 +1,8 @@
-// frontend/srcs/js/score3D.js
+// frontend/srcs/js/PongGame/Game2D/score2D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { isTournament, showWinMessageTournament } from '../../Screens/multiPlayers2D.js';
-import { showWinMessage } from '../../Modals/winMsgModal.js';
+import { currentMatchPlayers, isTournament, showWinMessageTournament } from '../../Screens/multiPlayers2D.js';
+import { isTwoPlayerMode2D, showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score2D = 0;
 export let player2Score2D = 0;
@@ -17,28 +17,32 @@ export const setPlayer2Score2D = (value) => {
     updateScore2D();
 };
 
-// export function updateScore2D() {
-//     const winningScore = gameSettings2D.winningScore;
-//     document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
-//     document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
-// }
-
 export function updateScore2D() {
     const winningScore = gameSettings2D.winningScore;
 
-    if (isTournament) {
-        const tournamentPlayers = JSON.parse(localStorage.getItem("tournamentPlayers")) || [];
-        const player1Name = tournamentPlayers[0] || "Player 1";
-        const player2Name = tournamentPlayers[1] || "Player 2";
+    // Determine player names based on game context
+    let player1Name;
+    let player2Name;
 
-        document.getElementById('player1Score2D').textContent = `${player1Name}: ${player1Score2D} / ${winningScore}`;
-        document.getElementById('player2Score2D').textContent = `${player2Name}: ${player2Score2D} / ${winningScore}`;
+    if (isTournament) {
+        player1Name = currentMatchPlayers.player1;
+        player2Name = currentMatchPlayers.player2;
     }
     else {
-        document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
-        document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
+        player1Name = getUserFromStorage();
+        if (isTwoPlayerMode2D)
+            player2Name = "Player 2";
+        else
+            player2Name = "Mr Robot";
     }
+
+    document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
+    document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
+
+    document.querySelector('.score-container.left .username').textContent = player1Name;
+    document.querySelector('.score-container.right .username').textContent = player2Name;
 }
+
 
 let gameOver2D = false;
 
@@ -53,43 +57,29 @@ export function setIsGameOver2D(value) {
         console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
-// export function checkGameEnd2D() {
-//     const winningScore = gameSettings2D.winningScore;
-//     let username = "Player";
-
-//     const savedUser = localStorage.getItem('user');
-//     if (savedUser) {
-//         const user = JSON.parse(savedUser);
-//         if (user.username) username = user.username;
-//     }
-
-//     if (player1Score2D >= winningScore) {
-//         gameOver2D = true;
-//         // console.log("checkGameEnd2D isTournament = ", isTournament);
-//         if (isTournament)
-//             showWinMessageTournament(username);
-//         else
-//             showWinMessage("player", username);
-//         return true;
-//     } 
-//     else if (player2Score2D >= winningScore) {
-//         gameOver2D = true;
-//         if (isTournament)
-//             showWinMessageTournament("2");
-//         else
-//             showWinMessage("2");
-//         return true;
-//     }
-//     return false;
-// }
+function getUserFromStorage() {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    return userData && userData.username ? userData.username : "Player 1";
+}
 
 export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
 
-    // Charger les noms des joueurs du tournoi
-    const tournamentPlayers = JSON.parse(localStorage.getItem("tournamentPlayers")) || [];
-    const player1Name = tournamentPlayers[0] || "Player 1";
-    const player2Name = tournamentPlayers[1] || "Player 2";
+    // Determine player names based on game context
+    let player1Name;
+    let player2Name;
+
+    if (isTournament) {
+        player1Name = currentMatchPlayers.player1;
+        player2Name = currentMatchPlayers.player2;
+    }
+    else {
+        player1Name = getUserFromStorage();
+        if (isTwoPlayerMode2D)
+            player2Name = "Player 2";
+        else
+            player2Name = "Mr Robot";
+    }
 
     if (player1Score2D >= winningScore) {
         gameOver2D = true;

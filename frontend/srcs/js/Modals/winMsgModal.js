@@ -1,14 +1,28 @@
 // frontend/srcs/js/Modals/winMsgModal.js
 
-export function showWinMessage(winner, username = 'Player') {
+export let isTwoPlayerMode2D = false;
+
+export function setTwoPlayerMode2D(value) {
+    isTwoPlayerMode2D = value;
+}
+
+export function showWinMessage(winner, username = null) {
     const modal = document.querySelector('.modal');
     const messageElement = modal.querySelector('.message');
 
-    const opponentName = document.getElementById('opponentName') ? "Mr Robot" : `Player ${winner}`;
+    if (!username) {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        username = userData && userData.username ? userData.username : "Player";
+    }
+
+    // name based on game mode
+    const opponentName = isTwoPlayerMode2D ? "Player 2" : "Mr Robot";
+    const player1Name = username;
 
     let winnerText;
+
     if (winner === "player")
-        winnerText = `${username} Wins!`;
+        winnerText = `${player1Name} Wins!`;
     else if (winner === "2")
         winnerText = `${opponentName} Wins!`;
     else
@@ -63,7 +77,6 @@ export function initializeWinMsgTournament() {
     if (nextMatchButton) {
         nextMatchButton.addEventListener('click', () => {
             const modal = document.getElementById('winMsgModal');
-            // console.log("initializeWinMsgTournament: Closing modal and starting next match");
             modal.style.display = 'none';
         });
     }

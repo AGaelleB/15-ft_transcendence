@@ -12,6 +12,8 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
+import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
+import { isTournament } from './multiPlayers2D.js';
 
 export let animationId2D2P;
 
@@ -51,6 +53,7 @@ export function initialize2Players2D() {
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
         setIsGameOver2D(false);
+        setTwoPlayerMode2D(false);
 
         hidePowerUp(powerUpImageElement);
         resetRallyCount2D();
@@ -58,8 +61,10 @@ export function initialize2Players2D() {
 
         isGameActive2d = false;
     }
-
     let isGameActive2d = true;
+
+    if (!isTournament)
+        setTwoPlayerMode2D(true);
     setIsGameOver2D(false);
 
     function setIsGameActive2d(value) {

@@ -1,6 +1,8 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
 export let isTournament = false;
+export let tournamentPlayers = []; // player names for tournament
+export let currentMatchPlayers = {}; // current players for each match
 
 /************************** Tournament Match Management **************************/
 
@@ -16,12 +18,13 @@ export function startNextMatch() {
         return;
     }
 
+    // next match and update current players
     const { player1, player2 } = matchQueue.shift();
+    currentMatchPlayers = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-
     console.log(`Starting next match: ${player1} vs ${player2}`);
 
-    if (player2 === "AI")
+    if (player2 === "Mr Robot")
         window.history.pushState({}, "", "/1player-2d");
     else
         window.history.pushState({}, "", "/2players-2d");
@@ -121,14 +124,16 @@ export function initializeMulti2D() {
 
         inputs.forEach(input => {
             const name = input.value.trim();
-            if (!validatePlayerName(name))
+            if (!validatePlayerName(name)) {
                 hasInvalidNames = true;
+            }
             playerNames.push(name);
         });
 
         if (hasInvalidNames) return;
 
         isTournament = true;
+        tournamentPlayers = playerNames; // Store player names for tournament
 
         localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
         createTournamentMatches(playerNames);
@@ -142,8 +147,9 @@ export function initializeMulti2D() {
     
         playerNames = shuffleArray(playerNames);
     
-        if (playerNames.length % 2 !== 0)
-            playerNames.push("AI");
+        if (playerNames.length % 2 !== 0) {
+            playerNames.push("Mr Robot");
+        }
     
         for (let i = 0; i < playerNames.length; i += 2) {
             matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
@@ -152,7 +158,7 @@ export function initializeMulti2D() {
         localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
         console.log("Tournament matches created:", matchQueue);
     }
-    
+
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -166,7 +172,6 @@ export function initializeMulti2D() {
 
 export function handleNextMatchClick() {
     const modal = document.getElementById('winMsgModal');
-    // console.log("Next Match button clicked - proceeding to next match");
     modal.style.display = 'none';
     startNextMatch();
 }
@@ -181,7 +186,7 @@ export function showWinMessageTournament(winnerName) {
         return;
     }
 
-    winnerMessage.textContent = `Congratulations, ${winnerName} wins this match!`;
+    winnerMessage.textContent = `${winnerName} wins this match!`;
     modal.style.display = 'block';
 
     nextMatchButton.addEventListener('click', handleNextMatchClick);
