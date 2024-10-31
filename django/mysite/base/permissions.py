@@ -44,7 +44,7 @@ class UserListCreatePermission(BasePermission):
 
 class UserRUDPermission(BasePermission):
     """
-    PUT/DELETE: auth user must be owner. Others methods: only auth
+    PUT/DELETE: auth user must be owner. Others methods: only auth.is_superuser
     """
     def has_permission(self, request, view):
         if request.method in ['GET', 'OPTIONS', 'HEAD']:
@@ -82,18 +82,3 @@ class FriendRequestCreatePermission(BasePermission):
                 return True
             return str(request.user.id) == sender and request.user.is_connected
 
-'''
-class FriendRequestAcceptDeclinePermission(BasePermission):
-    """
-    authenticated user must be the receiver
-    if missing receiver, we let it pass to get the serializer error
-    WE DONT HAVE RECEIVER IN BODY
-    We can check from pk of request : request.object.filter(pk).receiver
-    """
-    def has_permission(self, request, view):
-        if request.method == 'POST':
-            receiver = request.data.get('receiver')
-            if not receiver:
-                return True
-            return request.user.id == receiver and request.user.is_connected
-'''

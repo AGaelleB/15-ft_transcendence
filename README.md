@@ -110,6 +110,11 @@ note: since docker settings, **local launch don't work anymore**
 `POST 127.0.0.1:8001/logout/ "Authorization: Bearer AccesJWT" {refresh=RefreshJWT}`  
 note: since I check authentication a user can only blacklist himself. It may be unnecessary ; simple-jwt blacklisting does not check authentication
 
+### `reset-password/` : POST
+* POST: change old_password to new_password. Protection: change the password of the authenticated user  
+`POST 127.0.0.1:8001/reset-password/ "Authorization: Bearer AccesJWT" {old_password=blabla, new_password=blibli}`  
+note: old!=new, serializer check password validity. no need to regen tokens
+
 ### `/users/` : GET, POST
 * GET: list all users. Protection: any authenticated user  
 `GET 127.0.0.1:8001/users/ "Authorization: Bearer AccesJWT"`
@@ -166,6 +171,15 @@ note: delete the request, and if str=='accept', add both users as friends
 
 
 ## Journal
+#### 31/10/2024 19h00:
+* reset-password/
+* To do:
+  * friend-request: try to use username for sender/receiver if possible
+  * front end in ssl
+  * try ssl in google
+  * ssl certif that would be accepted without the need to put the CA into browser (how remote player would)
+  * more password validity ?
+
 #### 30/10/2024 19h00:
 * bugs friend-remove corrected
 * superuser must be connected 

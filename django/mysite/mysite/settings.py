@@ -136,10 +136,10 @@ DATABASES = {
 }
 
 #SSL 
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 60
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+#SECURE_SSL_REDIRECT = True
+#SECURE_HSTS_SECONDS = 60
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_HSTS_PRELOAD = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

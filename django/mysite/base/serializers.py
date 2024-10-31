@@ -82,9 +82,13 @@ class User_avatar_serializer(serializers.ModelSerializer):
 class UserLoginSerializer(TokenObtainPairSerializer):
     """
     redefining validate to update our user as connected
-    first check if user is already connected (which require check DoesNotExist) not to re-issue tokens
-    data=super : ensure simple-JWT checks are executed before turning user.is_connected (+issue tokens)
+    check if user is already connected not to re-issue tokens
     """
+    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
     def validate(self, attrs):
         try:
             user = User.objects.get(username=attrs[self.username_field])
@@ -114,6 +118,14 @@ class UserLogoutSerializer(serializers.Serializer):
             refresh.verify()
         except Exception:
             raise serializers.ValidationError("Invalid refresh token.")
+        return attrs
+
+class ResetPasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
+    new_password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
+    def validate(self, attrs):
+        if attrs.get('new_password') == attrs.get('old_password'):
+            raise serializers.ValidationError("New password must be different from old password")
         return attrs
 
 ################################################################################
