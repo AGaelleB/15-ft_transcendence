@@ -63,7 +63,7 @@ export function initializeWinMsgTournament() {
     if (nextMatchButton) {
         nextMatchButton.addEventListener('click', () => {
             const modal = document.getElementById('winMsgModal');
-            console.log("initializeWinMsgTournament: Closing modal and starting next match");
+            // console.log("initializeWinMsgTournament: Closing modal and starting next match");
             modal.style.display = 'none';
         });
     }

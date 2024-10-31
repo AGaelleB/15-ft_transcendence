@@ -22,11 +22,11 @@ export function startNextMatch() {
     console.log(`Starting next match: ${player1} vs ${player2}`);
 
     if (player2 === "AI") {
-        console.log(`-----> Navigating to 1-player mode for next match}`);
+        // console.log(`-----> Navigating to 1-player mode for next match}`);
         window.history.pushState({}, "", "/1player-2d");
     }
     else {
-        console.log(`-----> Navigating to 2-player mode for next match}`);
+        // console.log(`-----> Navigating to 2-player mode for next match}`);
         window.history.pushState({}, "", "/2players-2d");
     }
     handleLocation();
@@ -136,7 +136,7 @@ export function initializeMulti2D() {
 
         localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
         createTournamentMatches(playerNames);
-        console.log("Start the first match of the tournament");
+        // console.log("Start the first match of the tournament");
         startNextMatch();
     });
 
@@ -144,17 +144,27 @@ export function initializeMulti2D() {
 
     function createTournamentMatches(playerNames) {
         const matchQueue = [];
-
-        // Logic to create a round-robin schedule for all players
-        for (let i = 0; i < playerNames.length; i++) {
-            for (let j = i + 1; j < playerNames.length; j++) {
-                matchQueue.push({ player1: playerNames[i], player2: playerNames[j] });
-            }
+    
+        playerNames = shuffleArray(playerNames);
+    
+        if (playerNames.length % 2 !== 0)
+            playerNames.push("AI");
+    
+        // Create matches by pairing shuffled players
+        for (let i = 0; i < playerNames.length; i += 2) {
+            matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
         }
-
-        // Save match queue in localStorage
+    
         localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
         console.log("Tournament matches created:", matchQueue);
+    }
+    
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 }
 
@@ -162,7 +172,7 @@ export function initializeMulti2D() {
 
 export function handleNextMatchClick() {
     const modal = document.getElementById('winMsgModal');
-    console.log("Next Match button clicked - proceeding to next match");
+    // console.log("Next Match button clicked - proceeding to next match");
     modal.style.display = 'none';
     startNextMatch();
 }
