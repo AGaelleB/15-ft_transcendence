@@ -122,21 +122,21 @@ export function createTournamentMatches2D(playerNames) {
     const matchQueue = [];
     playerNames = shuffleArray(playerNames);
 
-    // Met "Mr Robot" si impair
-    if (playerNames.length % 2 !== 0)
+    // "Mr Robot" si impair
+    if (playerNames.length % 2 !== 0) {
         playerNames.push("Mr Robot");
+    }
 
     for (let i = 0; i < playerNames.length; i += 2) {
-        const player1 = playerNames[i];
-        const player2 = playerNames[i + 1];
+        let player1 = playerNames[i];
+        let player2 = playerNames[i + 1];
 
-        // Evite les matchs "Mr Robot" vs "Mr Robot"
-        if (player1 === "Mr Robot" && player2 === "Mr Robot")
-            continue;
+        // rendre "Mr Robot" toujours `player2` 
+        if (player1 === "Mr Robot")
+            [player1, player2] = [player2, player1];
 
         matchQueue.push({ player1, player2 });
     }
-
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
     console.log("Tournament matches created:", matchQueue);
 }
@@ -240,4 +240,7 @@ export function showWinMessageEndTournament2D(championName) {
 
 /* 
     voir pour les settings dans les tournois 
+    gerer les erreurs avec clean si retour arriere
+    idee : mettre un isTournament pour clear dans 1Player et 2Player.js
+    revoir le css du modal press enter car je crois que j ai decalé aussi le pong en baissant le modal
 */
