@@ -92,23 +92,25 @@ export function initializeMulti2D() {
 
     document.getElementById('startTournamentButton').addEventListener('click', () => {
         let hasInvalidNames = false;
-        const playerNames = [];
+        const playerNames = new Set();
         const inputs = document.querySelectorAll('#playerFields input');
-
+    
         inputs.forEach(input => {
             const name = input.value.trim();
-            if (!validatePlayerName(name)) {
+            if (!validatePlayerName(name) || playerNames.has(name)) {
                 hasInvalidNames = true;
+                alert(`Invalid name: ${name}. Player names must be unique.`);
             }
-            playerNames.push(name);
+            playerNames.add(name);
         });
-
-        if (hasInvalidNames) return;
-
+    
+        if (hasInvalidNames)
+            return;
+    
         isTournament = true;
-        tournamentPlayers = playerNames;
-        localStorage.setItem('tournamentPlayers', JSON.stringify(playerNames));
-        createTournamentMatches(playerNames);
+        tournamentPlayers = Array.from(playerNames); 
+        localStorage.setItem('tournamentPlayers', JSON.stringify(tournamentPlayers));
+        createTournamentMatches(tournamentPlayers);
         startNextMatch();
     });
 }
@@ -121,9 +123,8 @@ export function createTournamentMatches(playerNames) {
 
     playerNames = shuffleArray(playerNames);
 
-    if (playerNames.length % 2 !== 0) {
+    if (playerNames.length % 2 !== 0)
         playerNames.push("Mr Robot");
-    }
 
     for (let i = 0; i < playerNames.length; i += 2) {
         matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
@@ -148,8 +149,14 @@ export function startNextMatch() {
     const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
     console.log("Current match queue at start:", matchQueue);
 
-    // si la premiere serie de tournoi est finie
     if (matchQueue.length === 0) {
+        if (winners.length === 1) {
+            console.log("Tournament Complete - Champion is:", winners[0]);
+            showWinMessageEndTournament(winners[0]);
+            isTournament = false;
+            winners = [];
+            return;
+        }
         if (winners.length > 1) {
             console.log("Starting next round with winners:", winners);
             createTournamentMatches(winners);
@@ -157,19 +164,8 @@ export function startNextMatch() {
             startNextMatch();
             return;
         }
-        // If only one winner remains, tournament is complete
-        if (winners.length === 1) {
-            console.log("Tournament Complete - Champion is:", winners[0]);
-            alert(`Congratulations! Tournament Champion: ${winners[0]}`);
-            isTournament = false;
-            winners = [];
-            window.history.pushState({}, "", "/home");
-            handleLocation();
-            return;
-        }
     }
 
-    // next match and update players
     const { player1, player2 } = matchQueue.shift();
     currentMatchPlayers = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
@@ -181,6 +177,7 @@ export function startNextMatch() {
         window.history.pushState({}, "", "/2players-2d");
     handleLocation();
 }
+
 
 /****************************** Tournament Modal Logic ******************************/
 
@@ -203,9 +200,35 @@ export function showWinMessageTournament(winnerName) {
     winnerMessage.textContent = `${winnerName} wins this match!`;
     modal.style.display = 'block';
 
-    // Add the winner to the array
     winners.push(winnerName);
     console.log("winnerName is: ", winnerName);
 
     nextMatchButton.addEventListener('click', handleNextMatchClick, { once: true });
 }
+
+export function showWinMessageEndTournament(championName) {
+    const endTournamentModal = document.getElementById('endTournamentModal');
+    const championNameElement = document.getElementById('championName');
+    const homeButton = document.getElementById('homeButton');
+
+    if (!endTournamentModal || !championNameElement || !homeButton) {
+        console.error("End tournament modal elements are missing in the DOM");
+        return;
+    }
+
+    championNameElement.textContent = championName;
+    endTournamentModal.style.display = 'flex';
+
+    // Add click event to the home button with `{ once: true }`
+    homeButton.addEventListener('click', () => {
+        endTournamentModal.style.display = 'none';
+        window.history.pushState({}, "", '/home');
+        handleLocation();
+    }, { once: true });
+}
+
+
+/* 
+    si robot redir vers 1players 
+    bouton cassé
+*/

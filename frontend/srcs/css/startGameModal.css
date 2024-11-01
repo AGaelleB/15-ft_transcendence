@@ -28,3 +28,22 @@
     margin: auto;
     box-sizing: border-box;
 }
+
+
+.start-game-modal .modal-content p,
+.start-game-modal .modal-content button {
+    margin: 10px 0;
+}
+
+#homeButton {
+    padding: 10px 20px;
+    background-color: #a16935;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#homeButton:hover {
+    background-color: #d98a53;
+}
