@@ -28,7 +28,7 @@ export function initialize1Player2D() {
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     const opponentNameElement = document.getElementById('opponentName');
-    const nextMatchButton = document.getElementById('nextMatchButton'); // test
+    // const nextMatchButton = document.getElementById('nextMatchButton'); // test
 
     if (opponentNameElement)
         opponentNameElement.textContent = "Mr Robot";
@@ -58,7 +58,7 @@ export function initialize1Player2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-        nextMatchButton.removeEventListener('click', handleNextMatchClick); // test
+        // nextMatchButton.removeEventListener('click', handleNextMatchClick); // test
         // startTournamentButton.removeEventListener('click', handleStartTournamentClick); // test
 
         setPlayer1Score2D(0);

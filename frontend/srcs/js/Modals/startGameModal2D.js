@@ -1,9 +1,22 @@
 // frontend/srcs/js/Modals/startGameModal2D.js
 
 import { getIsSettingsOpen2D } from './gameSettingsModal2D.js';
-import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
+import { getUserFromStorage, setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
+import { currentMatchPlayers, isTournament } from '../Screens/multiPlayers2D.js';
+import { isTwoPlayerMode2D } from './winMsgModal.js';
 
 export let gameStarted2D = false;
+
+export function isGameStarted2D() {
+    return gameStarted2D;
+}
+
+export function setGameStarted2D(value) {
+    if (typeof value === 'boolean')
+        gameStarted2D = value;
+    else
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+}
 
 function startGame2D(startGameMessage2D, settingsIcon, homeIcon) {
     startGameMessage2D.style.display = 'none';
@@ -28,16 +41,23 @@ export function handleKeyPress2D(e) {
 }
 
 export function initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon) {
+    let player1Name;
+    let player2Name;
+
+    if (isTournament) {
+        player1Name = currentMatchPlayers.player1;
+        player2Name = currentMatchPlayers.player2;
+    }
+    else {
+        player1Name = getUserFromStorage(); 
+        player2Name = isTwoPlayerMode2D ? "Player 2" : "Mr Robot";
+    }
+
+    const player1NameElement = document.getElementById('player1Name');
+    const player2NameElement = document.getElementById('player2Name');
+    if (player1NameElement) player1NameElement.textContent = player1Name;
+    if (player2NameElement) player2NameElement.textContent = player2Name;
+
+    startGameMessage2D.style.display = 'block';
     document.addEventListener('keypress', handleKeyPress2D);
-}
-
-export function isGameStarted2D() {
-    return gameStarted2D;
-}
-
-export function setGameStarted2D(value) {
-    if (typeof value === 'boolean')
-        gameStarted2D = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
 }

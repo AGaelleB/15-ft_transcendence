@@ -13,15 +13,18 @@
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.7);
 	z-index: 999;
-	font-size: calc(2vw + 2vh);
-	color: #a16935;
-	font-family: 'Jersey', sans-serif;
+	padding: 300px;
+	box-sizing: border-box;
 }
 
-.start-game-modal p {
-	margin: 0;
-	padding: 20px;
-	background-color: #2f213a;
-	border-radius: 10px;
-	text-align: center;
+.modal-content {
+    background-color: #2f213a;
+    border-radius: 10px;
+    text-align: center;
+    font-size: calc(2vw + 2vh);
+    color: #a16935;
+    font-family: 'Jersey', sans-serif;
+    max-width: 80%;
+    margin: auto;
+    box-sizing: border-box;
 }

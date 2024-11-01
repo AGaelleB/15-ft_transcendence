@@ -57,7 +57,7 @@ export function setIsGameOver2D(value) {
         console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
-function getUserFromStorage() {
+export function getUserFromStorage() {
     const userData = JSON.parse(localStorage.getItem('user'));
     return userData && userData.username ? userData.username : "Player 1";
 }

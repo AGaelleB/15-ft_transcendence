@@ -1,8 +1,8 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
 export let isTournament = false;
-export let tournamentPlayers = []; // player names for tournament
-export let currentMatchPlayers = {}; // current players for each match
+export let tournamentPlayers = [];
+export let currentMatchPlayers = {};
 
 /************************** Tournament Match Management **************************/
 
