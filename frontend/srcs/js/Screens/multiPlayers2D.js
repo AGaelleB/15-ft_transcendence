@@ -209,26 +209,24 @@ export function showWinMessageTournament(winnerName) {
 export function showWinMessageEndTournament(championName) {
     const endTournamentModal = document.getElementById('endTournamentModal');
     const championNameElement = document.getElementById('championName');
-    const homeButton = document.getElementById('homeButton');
+    const homeButtonTournament = document.getElementById('homeButtonTournament');
 
-    if (!endTournamentModal || !championNameElement || !homeButton) {
+    if (!endTournamentModal || !championNameElement || !homeButtonTournament) {
         console.error("End tournament modal elements are missing in the DOM");
         return;
     }
 
     championNameElement.textContent = championName;
-    endTournamentModal.style.display = 'flex';
+    endTournamentModal.style.display = 'block';
 
-    // Add click event to the home button with `{ once: true }`
-    homeButton.addEventListener('click', () => {
+    homeButtonTournament.addEventListener('click', () => {
         endTournamentModal.style.display = 'none';
         window.history.pushState({}, "", '/home');
         handleLocation();
-    }, { once: true });
+    });
 }
 
 
 /* 
     si robot redir vers 1players 
-    bouton cassé
 */
