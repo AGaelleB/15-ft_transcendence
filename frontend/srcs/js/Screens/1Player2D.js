@@ -180,7 +180,7 @@ export function initialize1Player2D() {
             () => setPlayer1Score2D(player1Score2D + 1), 
             () => setPlayer2Score2D(player2Score2D + 1))) {
                 resetRallyCount2D(); 
-                const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
+                // const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D); // double appel pas necessaire normalement 
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;

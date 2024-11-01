@@ -65,7 +65,6 @@ export function getUserFromStorage() {
 export function checkGameEnd2D() {
     const winningScore = gameSettings2D.winningScore;
 
-    // Determine player names based on game context
     let player1Name;
     let player2Name;
 
@@ -99,3 +98,4 @@ export function checkGameEnd2D() {
     }
     return false;
 }
+

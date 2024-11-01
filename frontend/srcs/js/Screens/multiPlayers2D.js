@@ -188,7 +188,7 @@ export function showWinMessageTournament(winnerName) {
 
     winnerMessage.textContent = `${winnerName} wins this match!`;
     modal.style.display = 'block';
-
+    console.log("winnerName is: ", winnerName);
     nextMatchButton.addEventListener('click', handleNextMatchClick);
 }
-
+ 
