@@ -110,29 +110,38 @@ export function initializeMulti2D() {
         isTournament = true;
         tournamentPlayers = Array.from(playerNames); 
         localStorage.setItem('tournamentPlayers', JSON.stringify(tournamentPlayers));
-        createTournamentMatches(tournamentPlayers);
-        startNextMatch();
+        createTournamentMatches2D(tournamentPlayers);
+        startNextMatch2D();
     });
 }
 
 
 /**************************** Tournament Match Setup ****************************/
 
-export function createTournamentMatches(playerNames) {
+export function createTournamentMatches2D(playerNames) {
     const matchQueue = [];
-
     playerNames = shuffleArray(playerNames);
 
+    // Met "Mr Robot" si impair
     if (playerNames.length % 2 !== 0)
         playerNames.push("Mr Robot");
 
     for (let i = 0; i < playerNames.length; i += 2) {
-        matchQueue.push({ player1: playerNames[i], player2: playerNames[i + 1] });
+        const player1 = playerNames[i];
+        const player2 = playerNames[i + 1];
+
+        // Evite les matchs "Mr Robot" vs "Mr Robot"
+        if (player1 === "Mr Robot" && player2 === "Mr Robot")
+            continue;
+
+        matchQueue.push({ player1, player2 });
     }
 
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
     console.log("Tournament matches created:", matchQueue);
 }
+
+
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -145,33 +154,35 @@ function shuffleArray(array) {
 
 /************************** Tournament Match Management **************************/
 
-export function startNextMatch() {
+export function startNextMatch2D() {
     const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
-    console.log("Current match queue at start:", matchQueue);
+    // console.log("Current match queue at start:", matchQueue);
 
     if (matchQueue.length === 0) {
         if (winners.length === 1) {
-            console.log("Tournament Complete - Champion is:", winners[0]);
-            showWinMessageEndTournament(winners[0]);
+            console.log("%cTournament Complete - Champion is: " + winners[0], "color: yellow; font-weight: bold;");
+            showWinMessageEndTournament2D(winners[0]);
             isTournament = false;
             winners = [];
             return;
         }
         if (winners.length > 1) {
             console.log("Starting next round with winners:", winners);
-            createTournamentMatches(winners);
+            createTournamentMatches2D(winners);
             winners = [];
-            startNextMatch();
+            startNextMatch2D();
             return;
         }
     }
 
+    // next match and set the players
     const { player1, player2 } = matchQueue.shift();
     currentMatchPlayers = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
     console.log(`Starting next match: ${player1} vs ${player2}`);
 
-    if (player2 === "Mr Robot")
+    // Redirect "Mr Robot" 
+    if (player2 === "Mr Robot" || player1 === "Mr Robot")
         window.history.pushState({}, "", "/1player-2d");
     else
         window.history.pushState({}, "", "/2players-2d");
@@ -181,13 +192,13 @@ export function startNextMatch() {
 
 /****************************** Tournament Modal Logic ******************************/
 
-export function handleNextMatchClick() {
+export function handleNextMatchClick2D() {
     const modal = document.getElementById('winMsgModal');
     modal.style.display = 'none';
-    startNextMatch();
+    startNextMatch2D();
 }
 
-export function showWinMessageTournament(winnerName) {
+export function showWinMessageTournament2D(winnerName) {
     const modal = document.getElementById('winMsgModal');
     const winnerMessage = document.getElementById('winnerMessage');
     const nextMatchButton = document.getElementById('nextMatchButton');
@@ -201,12 +212,12 @@ export function showWinMessageTournament(winnerName) {
     modal.style.display = 'block';
 
     winners.push(winnerName);
-    console.log("winnerName is: ", winnerName);
+    console.log("%c*** winnerName is: " + winnerName + " ***", "color: magenta; font-weight: bold;");
 
-    nextMatchButton.addEventListener('click', handleNextMatchClick, { once: true });
+    nextMatchButton.addEventListener('click', handleNextMatchClick2D, { once: true });
 }
 
-export function showWinMessageEndTournament(championName) {
+export function showWinMessageEndTournament2D(championName) {
     const endTournamentModal = document.getElementById('endTournamentModal');
     const championNameElement = document.getElementById('championName');
     const homeButtonTournament = document.getElementById('homeButtonTournament');
@@ -228,5 +239,5 @@ export function showWinMessageEndTournament(championName) {
 
 
 /* 
-    si robot redir vers 1players 
+    voir pour les settings dans les tournois 
 */

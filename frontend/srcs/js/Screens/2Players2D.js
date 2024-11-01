@@ -48,7 +48,7 @@ export function initialize2Players2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-        // nextMatchButton.removeEventListener('click', handleNextMatchClick); // test
+        // nextMatchButton.removeEventListener('click', handleNextMatchClick2D); // test
 
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);

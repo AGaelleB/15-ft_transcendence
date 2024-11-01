@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game2D/score2D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { currentMatchPlayers, isTournament, showWinMessageTournament } from '../../Screens/multiPlayers2D.js';
+import { currentMatchPlayers, isTournament, showWinMessageTournament2D } from '../../Screens/multiPlayers2D.js';
 import { isTwoPlayerMode2D, showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score2D = 0;
@@ -83,7 +83,7 @@ export function checkGameEnd2D() {
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
         if (isTournament)
-            showWinMessageTournament(player1Name);
+            showWinMessageTournament2D(player1Name);
         else
             showWinMessage("player", player1Name);
         return true;
@@ -91,7 +91,7 @@ export function checkGameEnd2D() {
     else if (player2Score2D >= winningScore) {
         gameOver2D = true;
         if (isTournament)
-            showWinMessageTournament(player2Name);
+            showWinMessageTournament2D(player2Name);
         else
             showWinMessage("2", player2Name);
         return true;

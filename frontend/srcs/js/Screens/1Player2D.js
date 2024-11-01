@@ -58,7 +58,7 @@ export function initialize1Player2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-        // nextMatchButton.removeEventListener('click', handleNextMatchClick); // test
+        // nextMatchButton.removeEventListener('click', handleNextMatchClick2D); // test
         // startTournamentButton.removeEventListener('click', handleStartTournamentClick); // test
 
         setPlayer1Score2D(0);
@@ -201,9 +201,9 @@ export function initialize1Player2D() {
     const keys = {};
 
     function updatePaddleDirection() {
-        if (keys['ArrowUp'])
+        if (keys['ArrowUp'] || keys['w'] || keys['W'] )
             paddleLeft.dy = -window.paddleSpeed;
-        else if (keys['ArrowDown'])
+        else if (keys['ArrowDown'] || keys['s'] || keys['S'] )
             paddleLeft.dy = window.paddleSpeed;
         else
             paddleLeft.dy = 0;
