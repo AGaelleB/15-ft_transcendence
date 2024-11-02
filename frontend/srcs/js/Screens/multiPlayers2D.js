@@ -6,15 +6,21 @@ export let currentMatchPlayers = {};
 export let winners = []; 
 
 export function initializeMulti2D() {
+    
+    function cleanup1PlayerTournament2D() {
+        isTournament = false;
+    }
 
     const homeIcon = document.getElementById('homeIcon');
     homeIcon.addEventListener('click', (event) => {
+        cleanup1PlayerTournament2D();
         event.preventDefault();
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
     
     window.addEventListener('popstate', function(event) {
+        cleanup1PlayerTournament2D();
         console.log("Retour arrière du navigateur détecté !");
     });
 
@@ -245,6 +251,11 @@ export function showWinMessageEndTournament2D(championName) {
 
 /* 
     mettre les langues 
+
     voir pour les settings dans les tournois 
+
     revoir le css du modal press enter car je crois que j ai decalé aussi le pong en baissant le modal
-    */
+    
+    peut etre lors du tournoi, faire un bouton au lieu de home qui dirait :
+    "vous etes sur de vouloi quitter le tournoi ? perte des donnees"
+*/

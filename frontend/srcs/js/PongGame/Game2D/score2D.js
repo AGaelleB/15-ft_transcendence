@@ -36,13 +36,19 @@ export function updateScore2D() {
             player2Name = "Mr Robot";
     }
 
-    if (isTournament) {
-        document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
-        document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
+    player1Score2D = 0;
+    player2Score2D = 0;
     
+    document.getElementById('player1Score2D').textContent = `${player1Score2D} / ${winningScore}`;
+    document.getElementById('player2Score2D').textContent = `${player2Score2D} / ${winningScore}`;
+
+    if (isTournament) {
         document.querySelector('.score-container.left .username').textContent = player1Name;
         document.querySelector('.score-container.right .username').textContent = player2Name;
     }
+
+
+
 }
 
 let gameOver2D = false;

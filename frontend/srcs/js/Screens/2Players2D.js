@@ -48,8 +48,12 @@ export function initialize2Players2D() {
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
 
-        setPlayer1Score2D(0);
-        setPlayer2Score2D(0);
+        const player1ScoreElement = document.getElementById('player1Score');
+        const player2ScoreElement = document.getElementById('player2Score');
+        
+        if (player1ScoreElement) player1ScoreElement.textContent = "0";
+        if (player2ScoreElement) player2ScoreElement.textContent = "0";
+    
         setIsGameOver2D(false);
         setTwoPlayerMode2D(false);
 
@@ -59,6 +63,7 @@ export function initialize2Players2D() {
 
         isGameActive2d = false;
     }
+
     let isGameActive2d = true;
 
     if (!isTournament)

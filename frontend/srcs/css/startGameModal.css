@@ -13,8 +13,11 @@
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.7);
 	z-index: 999;
+	font-size: calc(2vw + 2vh);
+	color: #a16935;
+	font-family: 'Jersey', sans-serif;
 	padding: 300px;
-	box-sizing: border-box;
+	/* box-sizing: border-box; */
 }
 
 .modal-content {
@@ -33,17 +36,6 @@
 .start-game-modal .modal-content p,
 .start-game-modal .modal-content button {
     margin: 10px 0;
-}
+    padding: 20px;
 
-#homeButton {
-    padding: 10px 20px;
-    background-color: #a16935;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#homeButton:hover {
-    background-color: #d98a53;
 }
