@@ -13,7 +13,6 @@ import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPower
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
-import { isTournament } from './multiPlayers2D.js';
 import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
 
 export let animationId2D1P;
@@ -28,7 +27,6 @@ export function initialize1Player2D() {
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     const opponentNameElement = document.getElementById('opponentName');
-    // const nextMatchButton = document.getElementById('nextMatchButton'); // test
 
     if (opponentNameElement)
         opponentNameElement.textContent = "Mr Robot";
@@ -58,8 +56,6 @@ export function initialize1Player2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-        // nextMatchButton.removeEventListener('click', handleNextMatchClick2D); // test
-        // startTournamentButton.removeEventListener('click', handleStartTournamentClick); // test
 
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
@@ -72,7 +68,6 @@ export function initialize1Player2D() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         isGameActive2d = false;
-        isTournament = false;
         setGameStarted2D(true);
     }
 
@@ -180,7 +175,7 @@ export function initialize1Player2D() {
             () => setPlayer1Score2D(player1Score2D + 1), 
             () => setPlayer2Score2D(player2Score2D + 1))) {
                 resetRallyCount2D(); 
-                // const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D); // double appel pas necessaire normalement 
+                const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;

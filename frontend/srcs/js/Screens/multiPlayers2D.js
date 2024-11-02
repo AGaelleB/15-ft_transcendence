@@ -122,26 +122,29 @@ export function createTournamentMatches2D(playerNames) {
     const matchQueue = [];
     playerNames = shuffleArray(playerNames);
 
-    // "Mr Robot" si impair
-    if (playerNames.length % 2 !== 0) {
+    const robotExists = playerNames.includes("Mr Robot");
+    if (playerNames.length % 2 !== 0 && robotExists)
+        playerNames = playerNames.filter(name => name !== "Mr Robot"); // retire "Mr Robot" si pas necessaire
+
+    if (playerNames.length % 2 !== 0)
         playerNames.push("Mr Robot");
-    }
 
     for (let i = 0; i < playerNames.length; i += 2) {
         let player1 = playerNames[i];
         let player2 = playerNames[i + 1];
 
-        // rendre "Mr Robot" toujours `player2` 
+        // swap "Mr Robot" to be `player2`
         if (player1 === "Mr Robot")
             [player1, player2] = [player2, player1];
 
-        matchQueue.push({ player1, player2 });
+        // Skip if 2 * "Mr Robot"
+        if (!(player1 === "Mr Robot" && player2 === "Mr Robot"))
+            matchQueue.push({ player1, player2 });
     }
+
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
     console.log("Tournament matches created:", matchQueue);
 }
-
-
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -211,8 +214,10 @@ export function showWinMessageTournament2D(winnerName) {
     winnerMessage.textContent = `${winnerName} wins this match!`;
     modal.style.display = 'block';
 
-    winners.push(winnerName);
-    console.log("%c*** winnerName is: " + winnerName + " ***", "color: magenta; font-weight: bold;");
+    if (winners[winners.length - 1] !== winnerName) {
+        winners.push(winnerName);
+        console.log(`%c*** winnerName added: ${winnerName} ***`, "color: magenta; font-weight: bold;");
+    }
 
     nextMatchButton.addEventListener('click', handleNextMatchClick2D, { once: true });
 }
@@ -239,8 +244,7 @@ export function showWinMessageEndTournament2D(championName) {
 
 
 /* 
+    mettre les langues 
     voir pour les settings dans les tournois 
-    gerer les erreurs avec clean si retour arriere
-    idee : mettre un isTournament pour clear dans 1Player et 2Player.js
     revoir le css du modal press enter car je crois que j ai decalé aussi le pong en baissant le modal
-*/
+    */

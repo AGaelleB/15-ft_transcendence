@@ -25,7 +25,6 @@ export function initialize2Players2D() {
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement2D();
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-    // const nextMatchButton = document.getElementById('nextMatchButton'); // test
 
     loadLanguages(storedLang);
     loadPlayerInfos();
@@ -48,7 +47,6 @@ export function initialize2Players2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-        // nextMatchButton.removeEventListener('click', handleNextMatchClick2D); // test
 
         setPlayer1Score2D(0);
         setPlayer2Score2D(0);
@@ -168,7 +166,7 @@ export function initialize2Players2D() {
             () => setPlayer1Score2D(player1Score2D + 1), 
             () => setPlayer2Score2D(player2Score2D + 1))) {
                 resetRallyCount2D();
-                // const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D); // double appel pas necessaire normalement 
+                const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
                     paddleRight.y = (canvas.height - paddleRight.height) / 2;
