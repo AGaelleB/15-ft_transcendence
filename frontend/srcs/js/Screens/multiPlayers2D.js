@@ -253,8 +253,6 @@ export function showWinMessageEndTournament2D(championName) {
     mettre les langues 
 
     voir pour les settings dans les tournois 
-
-    revoir le css du modal press enter car je crois que j ai decalé aussi le pong en baissant le modal
     
     peut etre lors du tournoi, faire un bouton au lieu de home qui dirait :
     "vous etes sur de vouloi quitter le tournoi ? perte des donnees"

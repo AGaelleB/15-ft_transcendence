@@ -57,12 +57,6 @@ export function initialize1Player2D() {
         document.removeEventListener('keyup', handleKeyup);
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
-
-        const player1ScoreElement = document.getElementById('player1Score');
-        const player2ScoreElement = document.getElementById('player2Score');
-        
-        if (player1ScoreElement) player1ScoreElement.textContent = "0";
-        if (player2ScoreElement) player2ScoreElement.textContent = "0";
     
         setIsGameOver2D(false);
         setTwoPlayerMode2D(false);  
