@@ -253,7 +253,9 @@ export function showWinMessageEndTournament2D(championName) {
     mettre les langues 
 
     voir pour les settings dans les tournois 
-    
-    peut etre lors du tournoi, faire un bouton au lieu de home qui dirait :
-    "vous etes sur de vouloi quitter le tournoi ? perte des donnees"
+
+
+
 */
+/* reste du code */
+

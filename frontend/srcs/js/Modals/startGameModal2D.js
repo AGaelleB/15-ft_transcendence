@@ -44,6 +44,9 @@ export function initializeGameStartListener2D(startGameMessage2D, settingsIcon, 
     let player1Name;
     let player2Name;
 
+    if (isTournament)
+        homeIcon.style.display = 'none';
+
     if (isTournament) {
         player1Name = currentMatchPlayers.player1;
         player2Name = currentMatchPlayers.player2;

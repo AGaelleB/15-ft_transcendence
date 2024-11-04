@@ -5,6 +5,7 @@ import { updateScore2D } from '../PongGame/Game2D/score2D.js';
 import { resetGame2D } from './startGameModal2D.js';
 import { animationId2D1P } from '../Screens/1Player2D.js';
 import { animationId2D2P } from '../Screens/2Players2D.js';
+import { isTournament } from '../Screens/multiPlayers2D.js';
 
 let isSettingsOpen2D = false;
 let ballSizeValue = 3;
@@ -138,44 +139,7 @@ export function initializeGameSettings2D() {
 
     settingsModal.style.display = 'none';
 
-    settingsIcon.addEventListener('click', () => {
-        if (!isSettingsOpen2D) {
-            document.querySelector('.settings-modal-container').classList.add('active');
-            settingsModal.style.display = 'flex';
-            updateSettingsModal2D();
-            isSettingsOpen2D = true;
-        }
-        else {
-            cancelAnimationFrame(animationId2D1P);
-            cancelAnimationFrame(animationId2D2P);
-            document.querySelector('.settings-modal-container').classList.remove('active');
-            settingsModal.style.display = 'none';
-            saveGameSettings2D();
-            loadGameSettings2D();
-            isSettingsOpen2D = false;
-            const gameMode = localStorage.getItem('gameMode');
-            let targetPath = '/home';
-            if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
-                targetPath = '/1player-2d';
-            else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
-                targetPath = '/1player-3d';
-            else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
-                targetPath = '/2players-2d';
-            else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
-                targetPath = '/2players-3d';
-            else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
-                targetPath = '/multi-2d';
-            else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
-                targetPath = '/multi-3d';
-            else
-                console.error('Error: Mode de jeu non défini');
-
-            window.history.pushState({}, "", targetPath);
-            handleLocation();
-        }
-    });
-
-    closeSettingsButton.addEventListener('click', () => {
+    function closeSettingsModal() {
         cancelAnimationFrame(animationId2D1P);
         cancelAnimationFrame(animationId2D2P);
         document.querySelector('.settings-modal-container').classList.remove('active');
@@ -183,9 +147,13 @@ export function initializeGameSettings2D() {
         saveGameSettings2D();
         loadGameSettings2D();
         isSettingsOpen2D = false;
-        const gameMode = localStorage.getItem('gameMode');
+
         let targetPath = '/home';
-        if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
+        const gameMode = localStorage.getItem('gameMode');
+
+        if (isTournament)
+            targetPath = window.location.pathname;
+        else if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
             targetPath = '/1player-2d';
         else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
             targetPath = '/1player-3d';
@@ -202,7 +170,20 @@ export function initializeGameSettings2D() {
 
         window.history.pushState({}, "", targetPath);
         handleLocation();
+    }
+
+    settingsIcon.addEventListener('click', () => {
+        if (!isSettingsOpen2D) {
+            document.querySelector('.settings-modal-container').classList.add('active');
+            settingsModal.style.display = 'flex';
+            updateSettingsModal2D();
+            isSettingsOpen2D = true;
+        }
+        else
+            closeSettingsModal();
     });
+
+    closeSettingsButton.addEventListener('click', closeSettingsModal);
 
     settingsModal.addEventListener('keydown', (e) => {
         if (isSettingsOpen2D && (e.code === 'Space' || e.code === 'Enter')) {
