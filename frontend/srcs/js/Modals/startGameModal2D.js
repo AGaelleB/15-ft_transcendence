@@ -43,7 +43,7 @@ export function handleKeyPress2D(e) {
 export function initializeGameStartListener2D(startGameMessage2D, settingsIcon, homeIcon) {
     let player1Name;
     let player2Name;
-
+    
     if (isTournament)
         homeIcon.style.display = 'none';
 

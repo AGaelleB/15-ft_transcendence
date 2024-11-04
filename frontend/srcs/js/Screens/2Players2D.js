@@ -116,10 +116,12 @@ export function initialize2Players2D() {
         ball.dx = 0;
         ball.dy = 0;
 
-        resetPowerUpEffects2D(paddleLeft, paddleRight);
-        hidePowerUp(powerUpImageElement);
-        resetPowerUpTimer2D();
-    
+        if (gameSettings2D.setPowerUps) {
+            resetPowerUpEffects2D(paddleLeft, paddleRight);
+            hidePowerUp(powerUpImageElement);
+            resetPowerUpTimer2D();
+        }
+
         startCountdown(() => {
             const direction = Math.floor(Math.random() * 2);
             if (direction === 0)
@@ -236,7 +238,7 @@ export function initialize2Players2D() {
     document.addEventListener('keyup', handleKeyup);
 
     function gameLoop2Players2D() {
-        if (gameStarted2D === true && isGameActive2d && isGameStarted2D()) {
+        if (isGameActive2d && isGameStarted2D()) {
             update();
             movePaddles();
             if (gameSettings2D.setPowerUps)
@@ -247,6 +249,12 @@ export function initialize2Players2D() {
                 resetPowerUpTimer2D();
             }
         }
+        else if (!isGameActive2d)
+            return;
+        else {
+            hidePowerUp(powerUpImageElement);
+            resetPowerUpTimer2D();
+        }    
         animationId2D2P = requestAnimationFrame(gameLoop2Players2D);
     }
     gameLoop2Players2D();

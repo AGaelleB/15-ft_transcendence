@@ -124,10 +124,12 @@ export function initialize1Player2D() {
         ball.dx = 0;
         ball.dy = 0;
 
-        resetPowerUpEffects2D(paddleLeft, paddleRight);
-        hidePowerUp(powerUpImageElement);
-        resetPowerUpTimer2D();
-    
+        if (gameSettings2D.setPowerUps) {
+            resetPowerUpEffects2D(paddleLeft, paddleRight);
+            hidePowerUp(powerUpImageElement);
+            resetPowerUpTimer2D();
+        }
+
         startCountdown(() => {
             const direction = Math.floor(Math.random() * 2);
             if (direction === 0)
@@ -172,7 +174,7 @@ export function initialize1Player2D() {
         if (checkBallOutOfBounds2D(ball, canvas, 
             () => setPlayer1Score2D(player1Score2D + 1), 
             () => setPlayer2Score2D(player2Score2D + 1))) {
-                resetRallyCount2D(); 
+                resetRallyCount2D();     
                 const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
                 if (gameSettings2D.resetPaddlePosition && !gameEnded) {
                     paddleLeft.y = (canvas.height - paddleLeft.height) / 2;
@@ -237,17 +239,24 @@ export function initialize1Player2D() {
     document.addEventListener('keyup', handleKeyup);
 
     function gameLoop1Player2D() {
-        if (gameStarted2D === true && isGameActive2d && isGameStarted2D()) {
+        if (isGameActive2d && isGameStarted2D()) {
             update();
             movePaddles();
             if (gameSettings2D.setPowerUps)
                 generatePowerUp2D(powerUpImageElement, canvas);
+            
             else {
                 resetPowerUpEffects2D(paddleLeft, paddleRight);
                 hidePowerUp(powerUpImageElement);
                 resetPowerUpTimer2D();
             }
-        } 
+        }
+        else if (!isGameActive2d)
+            return;
+        else {
+            hidePowerUp(powerUpImageElement);
+            resetPowerUpTimer2D();
+        }
         animationId2D1P = requestAnimationFrame(gameLoop1Player2D);
     }
     gameLoop1Player2D();
