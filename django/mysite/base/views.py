@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse, FileResponse, Http404
 from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
@@ -12,6 +13,39 @@ from .models import *
 from .serializers import *
 from .utils import *
 from .permissions import *
+
+
+##########################################################
+#       Expired token tests 
+##########################################################
+from jwt import ExpiredSignatureError, InvalidTokenError, decode
+
+class TokenExpTest(APIView):
+    def get(self, request):
+        auth_header = request.headers.get('Authorization')
+        
+        if not auth_header: 
+            return Response({'error': 'Token missing.'}, status=400)
+        if not auth_header.startswith('Bearer '):
+            return Response({'error': 'Token improperly formatted.'}, status=400)
+        
+        token = auth_header.split(' ')[1]
+
+        try:
+            decoded_token = decode(token, algorithms=settings.SIMPLE_JWT['ALGORITHM'], key=settings.SIMPLE_JWT['SIGNING_KEY'])
+            print(decoded_token)
+            return Response(decoded_token, status=200)
+        
+        except ExpiredSignatureError:
+            return Response({'error': 'Token expired'}, status=401)
+        
+        except InvalidTokenError as e:
+            return Response({'error': f'Invalid token:{e}'}, status=401)
+        
+        except Exception as e:
+            print(f"This error '{e}' occured while decoding token.")
+            return Response({'error': 'An error occured while decoding token.'}, status=401)
+
 
 ##########################################################
 #       USER 

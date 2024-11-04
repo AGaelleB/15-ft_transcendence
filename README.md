@@ -175,12 +175,24 @@ note: delete the request, and if str=='accept', add both users as friends
 
 
 ## Journal
-#### 04/11/2024 14h00:
+#### 04/11/2024 19h00:
 * friends-request/create : username instead of user_id; str representation: "id:, from:, to:"
 * userRUD/ : removed password from serializer
 * users/connected/ : list all connected users
 * user_friends_seria : add is_connected and rm id
+* differentiate : token invalid vs token expired (only TokenExptest for now)
+  * for the front to know if it should try to refresh or just discard  
+  * need to override (unset from settings) default behaviour of simple-jwt (does not diff between expired and invalid)
+  * must implement same logic for refresh
+  * make it a middleware OR : 
+  * a whole authentication custom from JWT: 
+    * no more TokenPairView etc, instead use of get_token_for_user()
+    * set it globally in settings (how to let login/ unauth?)
+    * make it look at cookie instead of header
+    * all customization VARIABLES in settings (as JWT). See people that custom JWT to get ideas
+
 * Todo: 
+  * token expiracy for all routes
   * tokens in cookie not auth header
 
 #### 31/10/2024 19h00:

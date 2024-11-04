@@ -30,8 +30,8 @@ https://docs.djangoproject.com/en/5.1/topics/security/
 |PLAN|
 ######
 	- nginx to serve frontend on 8000
-	- django on 8001 (maybe via nginx too? why? the same as front?)
-	- https everywhere. same certif front and back? each front client its own certif? 
+	- django on 8001 (maybe via nginx too for http/s proxy). Maybe I need API and front on 8000 for crsf same domain. 
+	- https everywhere. same certif front and back? yep
 	- CRSF/XSS protection is probably needed
 	- CORS if front/back served separetly? see django-cors-headers, you can set allowed	  origin (ie django 8001 accept 127.0.0.1:8000, our front)
 	- any info into cookie (token etc) should be ok since htpps?
@@ -55,3 +55,7 @@ see:
 - SESSION_COOKIE_SECURE = True		--> https only
 - django_cors_headers
 	- CORS_ALLOWED_ORIGINS
+
+JWT : storage vs cookie
+ - https://stackoverflow.com/questions/27067251/where-to-store-jwt-in-browser-how-to-protect-against-csrf
+ - 
