@@ -11,10 +11,10 @@ let powerUpTimeoutId;
 
 // si docker nginx
 const powerUpsImages = [
-    './images/power-ups/sizeUpPaddle.png',
-    './images/power-ups/sizeDownPaddle.png',
-    './images/power-ups/speedPaddle.png',
-    './images/power-ups/slowPaddle.png'
+    '../images/power-ups/sizeUpPaddle.png',
+    '../images/power-ups/sizeDownPaddle.png',
+    '../images/power-ups/speedPaddle.png',
+    '../images/power-ups/slowPaddle.png'
 ];
 
 export function resetPowerUpTimer2D() {
