@@ -251,6 +251,5 @@ export function showWinMessageEndTournament2D(championName) {
 
 /* 
     mettre les langues 
-    pour les powers ups sur les tournois et game 1p ou 2p, je sais pas pourquoi marche mal
 */
 

@@ -9,7 +9,6 @@ import { getLastTouchedPaddle2D } from './ballCollision2D.js';
 let nextPowerUpTime = Date.now() + getRandomInterval2D(gameSettings2D.powerUpStart2D, gameSettings2D.powerUpEnd2D); // Délai pour le 1er affichage
 let powerUpTimeoutId;
 
-// si docker nginx
 const powerUpsImages = [
     '../images/power-ups/sizeUpPaddle.png',
     '../images/power-ups/sizeDownPaddle.png',
