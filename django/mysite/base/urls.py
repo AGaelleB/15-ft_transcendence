@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 urlpatterns = [
     # users data
     path('users/', UserListCreate.as_view(), name='all users'),
+    path('users/connected/', UserListConnected.as_view(), name='all users'),
     path('users/<str:username>/', UserRUD.as_view(), name='single user'),
     path('users/<str:username>/avatar/', User_avatar.as_view(), name='user avatar full image'),
     path('users/<str:username>/remove-friend/<str:friend>/', User_remove_friend.as_view(), name='user remove single friend'),

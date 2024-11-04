@@ -47,7 +47,7 @@ class User_friends_Serializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['username', 'is_connected']
 
 class Game_easy_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -69,10 +69,9 @@ class User_List_Serializer(serializers.ModelSerializer):
 class User_Update_Serializer(serializers.ModelSerializer):
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     friends = User_friends_Serializer(many=True, read_only=True)
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
+        fields = ['id', 'username', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
 
 class User_avatar_serializer(serializers.ModelSerializer):
     class Meta:
@@ -132,20 +131,39 @@ class ResetPasswordSerializer(serializers.Serializer):
 #               Friend invites
 ################################################################################
 class FriendRequest_create_Serializer(serializers.ModelSerializer):
+
+    sender_username = serializers.CharField(write_only=True)
+    receiver_username = serializers.CharField(write_only=True)
+
+    sender = serializers.StringRelatedField(read_only=True)
+    receiver = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = FriendRequest
-        fields = ['sender', 'receiver']
+        fields = ['sender_username', 'receiver_username', 'sender', 'receiver']
 
     def validate(self, data):
-        sender = data['sender']
-        receiver = data['receiver']
+        try: 
+            sender = User.objects.get(username=data['sender_username'])
+            receiver = User.objects.get(username=data['receiver_username'])
+        except User.DoesNotExist:
+            raise serializers.ValidationError("Friend invite: invalid username")
+
         if sender == receiver:
             raise serializers.ValidationError("Friend invite: sender is same user as receiver")
         if FriendRequest.objects.filter(sender=sender, receiver=receiver) or FriendRequest.objects.filter(sender=receiver, receiver=sender):
             raise serializers.ValidationError("Friend invite: exists already")
         if receiver in sender.friends.all():
             raise serializers.ValidationError("Friend invite: friends already")
+        
+        data['sender'] = sender
+        data['receiver'] = receiver
         return data
+    
+    def create(self, validated_data):
+        validated_data.pop('sender_username')
+        validated_data.pop('receiver_username')
+        return super().create(validated_data)
 
 
 class FriendRequest_show_Serializer(serializers.ModelSerializer):

@@ -33,6 +33,13 @@ class UserListCreate(generics.ListCreateAPIView):
             return User_Create_Serializer
 
 
+class UserListConnected(generics.ListAPIView):
+    authentication_classes  =   [JWTAuthentication]
+    permission_classes      =   [IsUserConnectedPermission]
+    queryset                =   User.objects.filter(is_superuser=False, is_connected=True)
+    serializer_class        =   User_friends_Serializer
+
+
 class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
     individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
@@ -179,8 +186,6 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
 
     def put(self, request, *args, **kwargs):
         friend_request = self.get_object()
-        print(friend_request.receiver.id)
-        print(request.user.id)
         if str(friend_request.receiver.id) != str(request.user.id):
             return Response({"status": "Only receiver can accept/decline friend request"}, status=status.HTTP_401_UNAUTHORIZED)
         action = self.kwargs.get('action')

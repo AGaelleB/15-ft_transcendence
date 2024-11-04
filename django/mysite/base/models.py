@@ -34,7 +34,7 @@ class FriendRequest(models.Model):
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="receiver")
 
     def __str__(self):
-        return f"{self.sender} --> {self.receiver}"
+        return f"id:{self.id}, from:{self.sender}, to:{self.receiver}"
 
     def accept_request(self):
         self.sender.friends.add(self.receiver)

@@ -121,6 +121,10 @@ note: old!=new, serializer check password validity. no need to regen tokens
 * POST: create new user. Protection: only authenticated superuser  
 `POST 127.0.0.1:8000/users/ "Authorization: Bearer AccesJWT" {"username": "user", password="blabla" "email": "user@gmail.com", "is_2fa": false}`
 
+### `/users/connected/` : GET
+* GET: list all connected users (name + id). Protection: any authenticated user  
+`GET 127.0.0.1:8001/users/connected/ "Authorization: Bearer AccesJWT"`
+
 ### `/users/<str:username>/` : GET, PUT, DELETE
 * GET: retrieve one user infos. Protection: any authenticated user  
 `GET 127.0.0.1:8001/users/username/ "Authorization: Bearer AccesJWT"`
@@ -145,8 +149,8 @@ note: it is symetrical (user2 removed from user1 firends, and user1 removed from
 
 ### `/friend-request/create/` : POST
 * POST: create request from sender to receiver. Protection: auth user must be sender  
-`POST 127.0.0.1:8001/friend-request/ sender=1 receiver=2`  
-note: provide user_id for sender/receiver. sender cannot resend a request to user2, neither user2 towards user1. if they are friends already, it fails.  
+`POST 127.0.0.1:8001/friend-request/ sender_username=user1 receiver_username=user2`  
+note: sender cannot resend a request to user2, neither user2 towards user1. if they are friends already, it fails.  
 
 ### `/friend-request/<int:pk>/` : GET
 * GET: retrieve request. Protection: any authenticated user  
@@ -171,6 +175,14 @@ note: delete the request, and if str=='accept', add both users as friends
 
 
 ## Journal
+#### 04/11/2024 14h00:
+* friends-request/create : username instead of user_id; str representation: "id:, from:, to:"
+* userRUD/ : removed password from serializer
+* users/connected/ : list all connected users
+* user_friends_seria : add is_connected and rm id
+* Todo: 
+  * tokens in cookie not auth header
+
 #### 31/10/2024 19h00:
 * reset-password/
 * To do:
@@ -179,6 +191,7 @@ note: delete the request, and if str=='accept', add both users as friends
   * try ssl in google
   * ssl certif that would be accepted without the need to put the CA into browser (how remote player would)
   * more password validity ?
+  * avatar file check ; try to break it
 
 #### 30/10/2024 19h00:
 * bugs friend-remove corrected
