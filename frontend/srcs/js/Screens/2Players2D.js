@@ -236,14 +236,16 @@ export function initialize2Players2D() {
     document.addEventListener('keyup', handleKeyup);
 
     function gameLoop2Players2D() {
-        if (isGameActive2d && isGameStarted2D()) {
+        if (gameStarted2D === true && isGameActive2d && isGameStarted2D()) {
             update();
             movePaddles();
-            generatePowerUp2D(powerUpImageElement, canvas);
-        }
-        else {
-            hidePowerUp(powerUpImageElement);
-            resetPowerUpTimer2D();
+            if (gameSettings2D.setPowerUps)
+                generatePowerUp2D(powerUpImageElement, canvas);
+            else {
+                resetPowerUpEffects2D(paddleLeft, paddleRight);
+                hidePowerUp(powerUpImageElement);
+                resetPowerUpTimer2D();
+            }
         }
         animationId2D2P = requestAnimationFrame(gameLoop2Players2D);
     }

@@ -240,13 +240,16 @@ export function initialize1Player2D() {
         if (gameStarted2D === true && isGameActive2d && isGameStarted2D()) {
             update();
             movePaddles();
-            generatePowerUp2D(powerUpImageElement, canvas);
-        }
-        else {
-            hidePowerUp(powerUpImageElement);
-            resetPowerUpTimer2D();
-        }
+            if (gameSettings2D.setPowerUps)
+                generatePowerUp2D(powerUpImageElement, canvas);
+            else {
+                resetPowerUpEffects2D(paddleLeft, paddleRight);
+                hidePowerUp(powerUpImageElement);
+                resetPowerUpTimer2D();
+            }
+        } 
         animationId2D1P = requestAnimationFrame(gameLoop1Player2D);
     }
     gameLoop1Player2D();
 }
+
