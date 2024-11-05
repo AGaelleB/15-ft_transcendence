@@ -29,9 +29,8 @@ nginx is running with root dir /www, all front end files put in /www in docker f
 - [] Major module: Implement Two-Factor Authentication (2FA) and JWT.
 
 ## Graphics
-- [en cours] Major module: Implementing Advanced 3D Techniques
+- [x] Major module: Implementing Advanced 3D Techniques
 
 ## Accessibility
 - [] Minor module: Expanding Browser Compatibility.
 - [x] Minor module: Multiple language supports.
-- [] Minor module: Add accessibility for Visually Impaired Users

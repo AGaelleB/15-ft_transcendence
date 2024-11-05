@@ -4,7 +4,7 @@ import { currentMatchPlayers, isTournament } from "../Screens/multiPlayers2D.js"
 
 export function loadPlayerInfos() {
 
-    // pour les tournois, noms dans le localstorage
+    // pour tournois, noms dans le localstorage
     const tournamentPlayers = JSON.parse(localStorage.getItem('tournamentPlayers'));
     const userData = JSON.parse(localStorage.getItem('user'));
 

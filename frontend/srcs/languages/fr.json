@@ -47,7 +47,7 @@
     "mode_multi": "Mode multijoueurs",
     "robot": "M. Robot",
 
-    "winner": "Joueur ${winner} a gagné!",
+    "winner": "${winner} a gagné!",
     "home": "Accueil",
     "play_again": "Rejouer",
 
@@ -58,5 +58,5 @@
 
     "win_message": "${winnerName} gagne ce match !",
     "start_next_match": "Démarrer le prochain match",
-    "champion_name": "Félicitations, ${championName} est le champion du tournoi!"
+    "champion_name": "Félicitations, ${championName} a gagné le tournoi!"
 }
