@@ -145,10 +145,10 @@
         </section>
     </div>
 
-    <!-- ========== Winner Message Modal ========== -->
+    <!-- ========== Win Message Modal ========== -->
     <div class="modal">
         <p class="message">
-            <span data-lang-key="winner"> Player ${winner} Wins! </span>
+            <span data-lang-key="winner">Player ${winner} Wins!</span>
             <i class="bi bi-emoji-sunglasses"></i>
         </p>
         <div class="options">
@@ -160,24 +160,23 @@
     <!-- ========== Win Message Modal for tournament ========== -->
     <div class="modal" id="winMsgModal" style="display: none;">
         <p class="message">
-            <span id="winnerMessage" data-lang-key="winner">Congratulations, ${winnerName} win this match!</span>
+            <span id="winnerMessage" data-lang-key="win_message">Congratulations, ${winnerName} win this match!</span>
             <i class="bi bi-emoji-sunglasses"></i>
         </p>
         <div class="options">
             <button id="nextMatchButton" class="btn btn-primary" data-lang-key="Start next match">Next Match</button>
         </div>
     </div>
-
+    
     <!-- ========== End of Tournament Winner Modal ========== -->
     <div class="modal" id="endTournamentModal" style="display: none;">
         <p class="message">
-            <span id="endTournamentMessage">Congratulations, <span id="championName"></span> is the Tournament Champion!</span>
+            <span id="endTournamentMessage">Congratulations, <span id="champion_name"></span> is the Tournament Champion!</span>
             <i class="bi bi-emoji-sunglasses"></i>
         </p>
         <div class="options">
             <button id="homeButtonTournament" class="btn btn-primary">Go to Home</button>
         </div>
-    </div>
-    
+    </div>    
 
 </div>

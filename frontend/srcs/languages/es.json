@@ -9,6 +9,11 @@
     "email": "Correo electrónico",
     "password": "Contraseña",
 
+    "userPlaceholder": "Nombre de usuario",
+    "emailPlaceholder": "Correo electrónico",
+    "passwordPlaceholder": "Contraseña",
+    "confirmPasswordPlaceholder": "Confirmar contraseña",
+ 
     "start_game": "Comenzar",
     "1_player2D": "1 jugador 2D",
     "1_player3D": "1 jugador 3D",
@@ -50,6 +55,9 @@
     "pongTournament": "TORNEO DE PONG",
     "tournamentPlayersNames": "Nombres de jugadores del torneo",
     "startTournament": "Iniciar torneo",
-    "playerNamePlaceholder": "Nombre del jugador"
- 
+    "playerNamePlaceholder": "Nombre del jugador",
+
+    "win_message": "¡${winnerName} gana este partido!",
+    "start_next_match": "Comenzar el siguiente partido",
+    "champion_name": "¡Felicidades, ${championName} es el campeón del torneo!"
 }

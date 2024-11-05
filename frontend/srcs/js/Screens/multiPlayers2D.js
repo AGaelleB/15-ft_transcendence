@@ -80,7 +80,7 @@ export async function initializeMulti2D() {
 
             playerFieldsContainer.appendChild(field);
         }
-        updatePlaceholdersTournament(translations); // Update placeholders with loaded translations
+        updatePlaceholdersTournament(translations);
     }
             
     updatePlayerFields(playerCount);
@@ -259,8 +259,6 @@ export function showWinMessageEndTournament2D(championName) {
 
 
 /* 
-    mettre les langues 
-    traduire placeholder et winmessages
-    enlever les msg d alerte
+    traduire winmessages
 */
 
