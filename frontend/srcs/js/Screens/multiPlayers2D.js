@@ -103,6 +103,7 @@ export async function initializeMulti2D() {
 
     updatePlayerFields(playerCount);
 
+
     /****************************** Start Tournament ******************************/
 
     document.getElementById('startTournamentButton').addEventListener('click', () => {
@@ -216,38 +217,60 @@ export function handleNextMatchClick2D() {
     startNextMatch2D();
 }
 
-export function showWinMessageTournament2D(winnerName) {
+export async function showWinMessageTournament2D(winnerName) {
     const modal = document.getElementById('winMsgModal');
     const winnerMessage = document.getElementById('winnerMessage');
     const nextMatchButton = document.getElementById('nextMatchButton');
+    let translations = {};
 
     if (!modal || !winnerMessage || !nextMatchButton) {
         console.error("Tournament modal elements are missing in the DOM");
         return;
     }
 
-    winnerMessage.textContent = `${winnerName} wins this match!`;
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error('Erreur lors du chargement des traductions :', error);
+    }
+
+    winnerMessage.textContent = translations.win_message.replace("${winnerName}", winnerName);
+    nextMatchButton.textContent = translations.start_next_match;
     modal.style.display = 'block';
 
     if (winners[winners.length - 1] !== winnerName) {
         winners.push(winnerName);
-        console.log(`%c*** winnerName added: ${winnerName} ***`, "color: magenta; font-weight: bold;");
+        console.log(`%c*** winnerName ajouté : ${winnerName} ***`, "color: magenta; font-weight: bold;");
     }
 
     nextMatchButton.addEventListener('click', handleNextMatchClick2D, { once: true });
 }
 
-export function showWinMessageEndTournament2D(championName) {
+export async function showWinMessageEndTournament2D(championName) {
     const endTournamentModal = document.getElementById('endTournamentModal');
-    const championNameElement = document.getElementById('championName');
+    const championNameElement = document.getElementById('champion_name');
     const homeButtonTournament = document.getElementById('homeButtonTournament');
+    let translations = {};
 
     if (!endTournamentModal || !championNameElement || !homeButtonTournament) {
         console.error("End tournament modal elements are missing in the DOM");
         return;
     }
 
-    championNameElement.textContent = championName;
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error('Erreur lors du chargement des traductions :', error);
+    }
+
+    championNameElement.textContent = translations.champion_name.replace("${championName}", championName);
+    homeButtonTournament.textContent = translations.home || "Go to Home";
     endTournamentModal.style.display = 'block';
 
     homeButtonTournament.addEventListener('click', () => {
@@ -256,9 +279,3 @@ export function showWinMessageEndTournament2D(championName) {
         handleLocation();
     });
 }
-
-
-/* 
-    traduire winmessages
-*/
-

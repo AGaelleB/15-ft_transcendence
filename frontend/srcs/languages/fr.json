@@ -56,7 +56,7 @@
     "startTournament": "Démarrer le tournoi",
     "playerNamePlaceholder": "Nom du joueur",
 
-    "win_message": "${winnerName} wins this match!",
-    "start_next_match": "Start Next Match",
-    "champion_name": "Congratulations, ${championName} is the Tournament Champion!"
+    "win_message": "${winnerName} gagne ce match !",
+    "start_next_match": "Démarrer le prochain match",
+    "champion_name": "Félicitations, ${championName} est le champion du tournoi!"
 }
