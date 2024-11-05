@@ -45,5 +45,10 @@
 
     "winner": "¡El jugador ${winner} gana!",
     "home": "Inicio",
-    "play_again": "Jugar de nuevo"
+    "play_again": "Jugar de nuevo",
+
+    "pongTournament": "TORNEO DE PONG",
+    "tournamentPlayersNames": "Nombres de jugadores del torneo",
+    "startTournament": "Iniciar torneo"
+  
 }

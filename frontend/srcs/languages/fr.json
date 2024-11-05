@@ -44,5 +44,9 @@
 
     "winner": "Joueur ${winner} a gagné!",
     "home": "Accueil",
-    "play_again": "Rejouer"
+    "play_again": "Rejouer",
+
+    "pongTournament": "TOURNOI PONG",
+    "tournamentPlayersNames": "Noms des joueurs du tournoi",
+    "startTournament": "Démarrer le tournoi"
 }
