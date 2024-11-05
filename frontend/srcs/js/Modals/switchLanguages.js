@@ -41,7 +41,7 @@ export function updatePlaceholders(translations) {
 	});
 }
 
-function applyLanguages(languages) {
+export function applyLanguages(languages) {
     document.querySelectorAll("[data-lang-key]").forEach(element => {
       const key = element.getAttribute("data-lang-key");
       element.textContent = languages[key] || key;

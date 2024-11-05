@@ -56,7 +56,7 @@
     "pongTournament": "PONG TOURNAMENT",
     "tournamentPlayersNames": "Tournament Players names",
     "startTournament": "Start Tournament",
-    "playerNamePlaceholder": "Nom du joueur",
+    "playerNamePlaceholder": "Player name",
 
     "win_message": "${winnerName} wins this match!",
     "start_next_match": "Start Next Match",

@@ -6,30 +6,38 @@ export function setTwoPlayerMode2D(value) {
     isTwoPlayerMode2D = value;
 }
 
-export function showWinMessage(winner, username = null) {
+export async function showWinMessage(winner, username = null) {
     const modal = document.querySelector('.modal');
     const messageElement = modal.querySelector('.message');
+    let translations = {};
 
     if (!username) {
         const userData = JSON.parse(localStorage.getItem('user'));
         username = userData && userData.username ? userData.username : "Player";
     }
 
-    // name based on game mode
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error('Erreur lors du chargement des traductions :', error);
+    }
+
     const opponentName = isTwoPlayerMode2D ? "Player 2" : "Mr Robot";
     const player1Name = username;
 
-    let winnerText;
-
+    let winnerText = "";
     if (winner === "player")
-        winnerText = `${player1Name} Wins!`;
+        winnerText = translations.winner.replace("${winner}", player1Name);
     else if (winner === "2")
-        winnerText = `${opponentName} Wins!`;
+        winnerText = translations.winner.replace("${winner}", opponentName);
     else
-        winnerText = `${winner} Wins!`;
+        winnerText = translations.winner.replace("${winner}", winner);
 
     messageElement.innerHTML = `
-        <span data-lang-key="winner">${winnerText}</span>
+        <span>${winnerText}</span>
         <i class="bi bi-emoji-sunglasses"></i>
     `;
 
