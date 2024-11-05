@@ -14,8 +14,6 @@ const routes = {
     "/2players-3d": "./templates/2Players3D.html",
     "/multi-2d": "./templates/multiPlayers2D.html",
     "/multi-3d": "./templates/multiPlayers3D.html",
-    "/tournament-1p-2d": "./templates/tournament1Player2D.html",
-    "/tournament-2p-2d": "./templates/tournament2Players2D.html"
 };
 
 const route = (event) => {
@@ -120,22 +118,6 @@ const handleLocation = async () => {
             .catch(err => console.error('Failed to load multiPlayers2D.js:', err));
             break;
     
-        case '/tournament-1p-2d':
-            import('./Screens/tournament1Player2D.js')
-            .then(module => {
-                module.initializeTounament1Player2D();
-            })
-            .catch(err => console.error('Failed to load initializeTounament1Player2D.js:', err));
-            break;
-
-        case '/tournament-2p-2d':
-            import('./Screens/tournament2Players2D.js')
-            .then(module => {
-                module.initializeTounament2Players2D();
-            })
-            .catch(err => console.error('Failed to load initializeTounament2Players2D.js:', err));
-            break;
-
         case '/multi-3d':
             import('./Screens/multiPlayers3D.js')
             .then(module => {

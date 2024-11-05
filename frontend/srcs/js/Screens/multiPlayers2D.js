@@ -1,5 +1,7 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
+// import { loadLanguages } from "../Modals/switchLanguages"; // fait bugger 
+
 export let isTournament = false;
 export let tournamentPlayers = [];
 export let currentMatchPlayers = {};
@@ -7,6 +9,9 @@ export let winners = [];
 
 export function initializeMulti2D() {
     
+    // const storedLang = localStorage.getItem('preferredLanguage') || 'en'; // fait bugger 
+    // loadLanguages(storedLang); // fait bugger 
+
     function cleanup1PlayerTournament2D() {
         isTournament = false;
     }
