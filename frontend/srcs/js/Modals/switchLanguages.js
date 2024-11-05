@@ -62,3 +62,14 @@ export function updatePlaceholders(selectedLang) {
   });
 }
 
+export function updatePlaceholdersTournament(translations) {
+  if (!translations) {
+      console.error("Translations data missing.");
+      return;
+  }
+
+  document.querySelectorAll('#playerFields input[type="text"]').forEach((input, index) => {
+      input.placeholder = `${translations.playerNamePlaceholder} ${index + 1}`;
+  });
+}
+

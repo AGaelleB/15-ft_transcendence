@@ -48,5 +48,7 @@
 
     "pongTournament": "TOURNOI PONG",
     "tournamentPlayersNames": "Noms des joueurs du tournoi",
-    "startTournament": "Démarrer le tournoi"
+    "startTournament": "Démarrer le tournoi",
+    "playerNamePlaceholder": "Player Name"
+
 }

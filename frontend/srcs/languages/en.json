@@ -50,6 +50,7 @@
 
     "pongTournament": "PONG TOURNAMENT",
     "tournamentPlayersNames": "Tournament Players names",
-    "startTournament": "Start Tournament"
-  
+    "startTournament": "Start Tournament",
+    "playerNamePlaceholder": "Nom du joueur"
+ 
 }

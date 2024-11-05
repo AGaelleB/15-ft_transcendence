@@ -1,16 +1,23 @@
 // frontend/srcs/js/Screens/multiPlayers2D.js
 
-// import { loadLanguages } from "../Modals/switchLanguages"; // fait bugger 
+import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
 
 export let isTournament = false;
 export let tournamentPlayers = [];
 export let currentMatchPlayers = {};
 export let winners = []; 
 
-export function initializeMulti2D() {
-    
-    // const storedLang = localStorage.getItem('preferredLanguage') || 'en'; // fait bugger 
-    // loadLanguages(storedLang); // fait bugger 
+export async function initializeMulti2D() {
+    let translations = {};
+
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error('Erreur lors du chargement des traductions :', error);
+    }
 
     function cleanup1PlayerTournament2D() {
         isTournament = false;
@@ -58,27 +65,24 @@ export function initializeMulti2D() {
             const field = template.cloneNode(true);
             const input = field.querySelector('input');
             input.setAttribute('name', `player${i}`);
-            input.setAttribute('placeholder', `Player ${i} Name`);
+            input.value = currentValues[`player${i}`] || "";
 
             if (i === 1) {
-                input.value = loggedInUsername;
+                input.value = savedUser ? savedUser.username : "Player 1";
                 input.readOnly = true;
-            }
-            else if (currentValues[`player${i}`]) {
-                input.value = currentValues[`player${i}`];
             }
 
             input.addEventListener('input', () => {
                 if (!validatePlayerName(input.value)) {
-                    alert("Player names must be alphanumeric and between 1 and 20 characters.");
                     input.value = input.value.slice(0, -1);
                 }
             });
 
             playerFieldsContainer.appendChild(field);
         }
+        updatePlaceholdersTournament(translations); // Update placeholders with loaded translations
     }
-
+            
     updatePlayerFields(playerCount);
 
     document.getElementById('increasePlayers').addEventListener('click', function () {
@@ -110,7 +114,7 @@ export function initializeMulti2D() {
             const name = input.value.trim();
             if (!validatePlayerName(name) || playerNames.has(name)) {
                 hasInvalidNames = true;
-                alert(`Invalid name: ${name}. Player names must be unique.`);
+                // alert(`Invalid name: ${name}. Player names must be unique.`);
             }
             playerNames.add(name);
         });
@@ -256,5 +260,7 @@ export function showWinMessageEndTournament2D(championName) {
 
 /* 
     mettre les langues 
+    traduire placeholder et winmessages
+    enlever les msg d alerte
 */
 

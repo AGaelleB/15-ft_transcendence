@@ -24,9 +24,10 @@ export function initialize2Players2D() {
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement2D();
-    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
 
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
+
     loadPlayerInfos();
 
     homeIcon.addEventListener('click', (event) => {

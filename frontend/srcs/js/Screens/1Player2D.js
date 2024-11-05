@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player2D.js
 
-import { gameStarted2D, handleKeyPress2D, initializeGameStartListener2D, isGameStarted2D, setGameStarted2D } from '../Modals/startGameModal2D.js';
+import { handleKeyPress2D, initializeGameStartListener2D, isGameStarted2D, setGameStarted2D } from '../Modals/startGameModal2D.js';
 import { initializeButton2D } from '../Modals/settingsModal.js';
 import { resizeCanvas } from '../PongGame/Game2D/resizeCanvas2D.js';
 import { updateAI2D } from '../PongGame/Game2D/computerAI2D.js';
@@ -25,13 +25,13 @@ export function initialize1Player2D() {
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
     const powerUpImageElement = createPowerUpImageElement2D();
-    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     const opponentNameElement = document.getElementById('opponentName');
-
     if (opponentNameElement)
         opponentNameElement.textContent = "Mr Robot";
-
+    
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
+
     loadPlayerInfos();
     setTwoPlayerMode2D(false); 
     
