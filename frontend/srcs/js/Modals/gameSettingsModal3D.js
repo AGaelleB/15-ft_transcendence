@@ -200,30 +200,28 @@ export function initializeGameSettings3D() {
         document.querySelector('.settings-modal-container').classList.remove('active');
         settingsModal.style.display = 'none';
         saveGameSettings3D();
-        loadGameSettings3D();  // Charger les paramètres sauvegardés
+        loadSettingsStorage3D();
         isSettingsOpen3D = false;
 
-        // Définir le chemin de redirection basé sur le mode de jeu
         let targetPath = '/home';
         const gameMode = localStorage.getItem('gameMode');
 
-        if (isTournament3D) {
+        if (isTournament3D)
             targetPath = window.location.pathname;
-        } else if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D') {
+        else if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
             targetPath = '/1player-2d';
-        } else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D') {
+        else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
             targetPath = '/1player-3d';
-        } else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D') {
+        else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
             targetPath = '/2players-2d';
-        } else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D') {
+        else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
             targetPath = '/2players-3d';
-        } else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D') {
+        else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
             targetPath = '/multi-2d';
-        } else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D') {
+        else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
             targetPath = '/multi-3d';
-        } else {
+        else
             console.error('Error: Mode de jeu non défini');
-        }
 
         // Rediriger vers la bonne page
         window.history.pushState({}, "", targetPath);

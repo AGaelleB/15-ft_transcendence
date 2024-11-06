@@ -108,13 +108,14 @@
             <p data-lang-key="press_start">Press Space/Enter to begin the match</p>
         </div>
     </div>
+
     <!-- ========== Game Screen ========== -->
     <div class="game-screen">
         <!-- ========== Game Header ========== -->
         <div class="game-header">
             <div class="game-title">
                 <h1>PONG</h1>
-                <h2 data-lang-key="mode_2">2 Players mode</h2>
+                <h2 data-lang-key="mode_1">1 Player mode</h2>
             </div>
         </div>
 
@@ -122,11 +123,11 @@
         <section class="score-section">
             <div class="score-container left">
                 <h2 id="player1Score3D" class="score">0 / 3</h2>
-                <p class="username">Player 1</p>
+                <p class="username" id="playerName">Player 1</p>
             </div>
             <div class="score-container right">
                 <h2 id="player2Score3D" class="score">0 / 3</h2>
-                <p class="username">Player 2</p>
+                <p class="username" id="opponentName" data-lang-key="robot">Mr Robot</p>
             </div>
         </section>
 
@@ -135,7 +136,7 @@
 
         <!-- ========== Game Container ========== -->
         <div class="game-container">
-            <div id="pongCanvas"></div>
+            <div id="pongCanvas"></div> <!-- Container pour Three.js -->
         </div>
     </div>
 
@@ -150,4 +151,26 @@
             <button data-lang-key="play_again" id="againButton" class="btn">Play Again</button>
         </div>
     </div>
+
+    <!-- ========== Win Message Modal for tournament ========== -->
+    <div class="modal" id="winMsgModal" style="display: none;">
+        <p class="message">
+            <span id="winnerMessage" data-lang-key="win_message">Congratulations, ${winnerName} win this match!</span>
+            <i class="bi bi-emoji-sunglasses"></i>
+        </p>
+        <div class="options">
+            <button id="nextMatchButton" class="btn btn-primary" data-lang-key="Start next match">Next Match</button>
+        </div>
+    </div>
+    
+    <!-- ========== End of Tournament Winner Modal ========== -->
+    <div class="modal" id="endTournamentModal" style="display: none;">
+        <p class="message">
+            <span id="endTournamentMessage"><span id="champion_name"></span> </span>
+            <i class="bi bi-emoji-sunglasses"></i>
+        </p>
+        <div class="options">
+            <button id="homeButtonTournament" class="btn btn-primary">Go to Home</button>
+        </div>
+    </div>    
 </div>

@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <!-- ========== Start Game Message Modal ========== -->
+    <!-- ========== Start Game Modal ========== -->
     <div id="startGameMessage3D" class="start-game-modal">
         <div class="modal-content">
             <p id="matchInfo"> <span id="player1Name"></span> vs <span id="player2Name"></span></p>
@@ -122,7 +122,6 @@
                 <h2 data-lang-key="mode_1">1 Player mode</h2>
             </div>
         </div>
-        <div></div>
 
         <!-- ========== Score Section ========== -->
         <section class="score-section">
@@ -140,12 +139,9 @@
         <div id="countdown" class="countdown"></div>
 
         <!-- ========== Game Container ========== -->
-        <section id="gameContainer" class="game-container">
-            <canvas id="pongCanvas"></canvas>
-            <div id="winMessage" class="win-message">
-                <h1></h1>
-            </div>
-        </section>
+        <div class="game-container">
+            <div id="pongCanvas"></div> <!-- Container pour Three.js -->
+        </div>
     </div>
 
     <!-- ========== Win Message Modal ========== -->
