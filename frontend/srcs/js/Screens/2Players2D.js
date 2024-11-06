@@ -13,7 +13,7 @@ import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/ral
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
-import { isTournament } from './multiPlayers2D.js';
+import { isTournament2D } from './multiPlayers2D.js';
 
 export let animationId2D2P;
 
@@ -61,7 +61,7 @@ export function initialize2Players2D() {
 
     let isGameActive2d = true;
 
-    if (!isTournament)
+    if (!isTournament2D)
         setTwoPlayerMode2D(true);
     setIsGameOver2D(false);
 

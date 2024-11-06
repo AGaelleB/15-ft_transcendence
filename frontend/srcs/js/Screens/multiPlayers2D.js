@@ -2,9 +2,9 @@
 
 import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
 
-export let isTournament = false;
+export let isTournament2D = false;
 export let tournamentPlayers = [];
-export let currentMatchPlayers = {};
+export let currentMatchPlayers2D = {};
 export let winners = []; 
 
 export async function initializeMulti2D() {
@@ -20,7 +20,7 @@ export async function initializeMulti2D() {
     }
 
     function cleanup1PlayerTournament2D() {
-        isTournament = false;
+        isTournament2D = false;
     }
 
     const homeIcon = document.getElementById('homeIcon');
@@ -123,7 +123,7 @@ export async function initializeMulti2D() {
         if (hasInvalidNames)
             return;
     
-        isTournament = true;
+        isTournament2D = true;
         tournamentPlayers = Array.from(playerNames); 
         localStorage.setItem('tournamentPlayers', JSON.stringify(tournamentPlayers));
         createTournamentMatches2D(tournamentPlayers);
@@ -181,7 +181,7 @@ export function startNextMatch2D() {
         if (winners.length === 1) {
             console.log("%cTournament Complete - Champion is: " + winners[0], "color: yellow; font-weight: bold;");
             showWinMessageEndTournament2D(winners[0]);
-            isTournament = false;
+            isTournament2D = false;
             winners = [];
             return;
         }
@@ -196,7 +196,7 @@ export function startNextMatch2D() {
 
     // next match and set the players
     const { player1, player2 } = matchQueue.shift();
-    currentMatchPlayers = { player1, player2 };
+    currentMatchPlayers2D = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
     console.log(`Starting next match: ${player1} vs ${player2}`);
 

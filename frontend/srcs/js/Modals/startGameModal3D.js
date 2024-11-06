@@ -1,11 +1,25 @@
-// frontend/srcs/js/Modals/startGameModal2D.js
+// frontend/srcs/js/Modals/startGameModal3D.js
 
 import { getIsSettingsOpen3D } from './gameSettingsModal3D.js';
-import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { getUserFromStorage3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
+import { currentMatchPlayers3D, isTournament3D } from '../Screens/multiPlayers3D.js';
+import { isTwoPlayerMode3D } from './winMsgModal.js';
 
-let gameStarted3D = false;
+
+export let gameStarted3D = false;
+
+export function isGameStarted3D() {
+    return gameStarted3D;
+}
+
+export function setGameStarted3D(value) {
+    if (typeof value === 'boolean')
+        gameStarted3D = value;
+    else
+        console.warn("Invalid value. Please provide a boolean (true or false).");
+}
 
 function startGame3D(startGameMessage3D, settingsIcon, homeIcon) {
     startGameMessage3D.style.display = 'none';
@@ -35,10 +49,32 @@ export function handleKeyPress3D(e) {
     }
 }
 
+// export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
+//     document.addEventListener('keypress', handleKeyPress3D);
+// }
+
 export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
+    let player1Name;
+    let player2Name;
+    
+    if (isTournament3D)
+        homeIcon.style.display = 'none';
+
+    if (isTournament3D) {
+        player1Name = currentMatchPlayers3D.player1;
+        player2Name = currentMatchPlayers3D.player2;
+    }
+    else {
+        player1Name = getUserFromStorage3D(); 
+        player2Name = isTwoPlayerMode3D ? "Player 2" : "Mr Robot";
+    }
+
+    const player1NameElement = document.getElementById('player1Name');
+    const player2NameElement = document.getElementById('player2Name');
+    if (player1NameElement) player1NameElement.textContent = player1Name;
+    if (player2NameElement) player2NameElement.textContent = player2Name;
+
+    startGameMessage3D.style.display = 'block';
     document.addEventListener('keypress', handleKeyPress3D);
 }
 
-export function isGameStarted3D() {
-    return gameStarted3D;
-}

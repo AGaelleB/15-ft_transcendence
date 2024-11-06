@@ -12,6 +12,7 @@ import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D, resetPowerUpTimer3D } from '../PongGame/Game3D/power-ups3D.js';
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
+import { setTwoPlayerMode3D } from '../Modals/winMsgModal.js';
 
 export let isGameActive3D = true;
 export let animationId3D1P;
@@ -20,15 +21,17 @@ export function initialize1Player3D() {
     const startGameMessage3D = document.getElementById('startGameMessage3D');
     const settingsIcon = document.getElementById('settingsIcon');
     const homeIcon = document.getElementById('homeIcon');
-    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     const opponentNameElement = document.getElementById('opponentName');
     if (opponentNameElement) {
         opponentNameElement.textContent = "Mr Robot";
     }
-
-    loadLanguages(storedLang);
-    loadPlayerInfos();
     
+    const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+    loadLanguages(storedLang);
+
+    loadPlayerInfos();
+    setTwoPlayerMode3D(false);
+
     homeIcon.addEventListener('click', (event) => {
         setIsGameActive(false);
         event.preventDefault();
@@ -59,6 +62,7 @@ export function initialize1Player3D() {
         setPlayer1Score3D(0);
         setPlayer2Score3D(0);
         setIsGameOver3D(false);
+        setTwoPlayerMode3D(false);
 
         hidePowerUp3D(scene);
         resetRallyCount3D();

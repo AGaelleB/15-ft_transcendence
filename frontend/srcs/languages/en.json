@@ -53,7 +53,8 @@
     "home": "Home",
     "play_again": "Play Again",
 
-    "pongTournament": "PONG TOURNAMENT",
+    "pongTournament2D": "PONG TOURNAMENT",
+    "pongTournament3D": "PONG TOURNAMENT",
     "tournamentPlayersNames": "Tournament Players names",
     "startTournament": "Start Tournament",
     "playerNamePlaceholder": "Player name",

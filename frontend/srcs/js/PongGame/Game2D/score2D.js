@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game2D/score2D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { currentMatchPlayers, isTournament, showWinMessageTournament2D } from '../../Screens/multiPlayers2D.js';
+import { currentMatchPlayers2D, isTournament2D, showWinMessageTournament2D } from '../../Screens/multiPlayers2D.js';
 import { isTwoPlayerMode2D, showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score2D = 0;
@@ -24,12 +24,12 @@ export function updateScore2D() {
     let player1Name;
     let player2Name;
 
-    if (isTournament) {
-        player1Name = currentMatchPlayers.player1;
-        player2Name = currentMatchPlayers.player2;
+    if (isTournament2D) {
+        player1Name = currentMatchPlayers2D.player1;
+        player2Name = currentMatchPlayers2D.player2;
     }
     else {
-        player1Name = getUserFromStorage();
+        player1Name = getUserFromStorage2D();
         if (isTwoPlayerMode2D)
             player2Name = "Player 2";
         else
@@ -57,7 +57,7 @@ export function setIsGameOver2D(value) {
         console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
-export function getUserFromStorage() {
+export function getUserFromStorage2D() {
     const userData = JSON.parse(localStorage.getItem('user'));
     return userData && userData.username ? userData.username : "Player 1";
 }
@@ -68,12 +68,12 @@ export function checkGameEnd2D() {
     let player1Name;
     let player2Name;
 
-    if (isTournament) {
-        player1Name = currentMatchPlayers.player1;
-        player2Name = currentMatchPlayers.player2;
+    if (isTournament2D) {
+        player1Name = currentMatchPlayers2D.player1;
+        player2Name = currentMatchPlayers2D.player2;
     }
     else {
-        player1Name = getUserFromStorage();
+        player1Name = getUserFromStorage2D();
         if (isTwoPlayerMode2D)
             player2Name = "Player 2";
         else
@@ -82,7 +82,7 @@ export function checkGameEnd2D() {
 
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
-        if (isTournament)
+        if (isTournament2D)
             showWinMessageTournament2D(player1Name);
         else
             showWinMessage("player", player1Name);
@@ -90,7 +90,7 @@ export function checkGameEnd2D() {
     } 
     else if (player2Score2D >= winningScore) {
         gameOver2D = true;
-        if (isTournament)
+        if (isTournament2D)
             showWinMessageTournament2D(player2Name);
         else
             showWinMessage("2", player2Name);

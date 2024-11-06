@@ -5,7 +5,7 @@ import { updateScore2D } from '../PongGame/Game2D/score2D.js';
 import { resetGame2D } from './startGameModal2D.js';
 import { animationId2D1P } from '../Screens/1Player2D.js';
 import { animationId2D2P } from '../Screens/2Players2D.js';
-import { isTournament } from '../Screens/multiPlayers2D.js';
+import { isTournament2D } from '../Screens/multiPlayers2D.js';
 
 let isSettingsOpen2D = false;
 let ballSizeValue = 3;
@@ -151,7 +151,7 @@ export function initializeGameSettings2D() {
         let targetPath = '/home';
         const gameMode = localStorage.getItem('gameMode');
 
-        if (isTournament)
+        if (isTournament2D)
             targetPath = window.location.pathname;
         else if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
             targetPath = '/1player-2d';
@@ -190,7 +190,7 @@ export function initializeGameSettings2D() {
             e.stopPropagation();
             e.preventDefault();
         }
-    });
+    }); 
 
     updateScore2D();
 

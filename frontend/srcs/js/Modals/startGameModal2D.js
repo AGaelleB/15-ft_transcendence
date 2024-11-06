@@ -1,8 +1,8 @@
 // frontend/srcs/js/Modals/startGameModal2D.js
 
 import { getIsSettingsOpen2D } from './gameSettingsModal2D.js';
-import { getUserFromStorage, setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
-import { currentMatchPlayers, isTournament } from '../Screens/multiPlayers2D.js';
+import { getUserFromStorage2D, setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
+import { currentMatchPlayers2D, isTournament2D } from '../Screens/multiPlayers2D.js';
 import { isTwoPlayerMode2D } from './winMsgModal.js';
 
 export let gameStarted2D = false;
@@ -44,15 +44,15 @@ export function initializeGameStartListener2D(startGameMessage2D, settingsIcon, 
     let player1Name;
     let player2Name;
     
-    if (isTournament)
+    if (isTournament2D)
         homeIcon.style.display = 'none';
 
-    if (isTournament) {
-        player1Name = currentMatchPlayers.player1;
-        player2Name = currentMatchPlayers.player2;
+    if (isTournament2D) {
+        player1Name = currentMatchPlayers2D.player1;
+        player2Name = currentMatchPlayers2D.player2;
     }
     else {
-        player1Name = getUserFromStorage(); 
+        player1Name = getUserFromStorage2D(); 
         player2Name = isTwoPlayerMode2D ? "Player 2" : "Mr Robot";
     }
 

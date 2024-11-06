@@ -11,6 +11,8 @@ import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D, resetPowerUpTimer3D } from '../PongGame/Game3D/power-ups3D.js';
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
+import { setTwoPlayerMode3D } from '../Modals/winMsgModal.js';
+import { isTournament3D } from './multiPlayers3D.js';
 
 export let isGameActive3D = true;
 export let animationId3D2P;
@@ -53,12 +55,16 @@ export function initialize2Players3D() {
         setPlayer1Score3D(0);
         setPlayer2Score3D(0);
         setIsGameOver3D(false);
+        setTwoPlayerMode3D(false);
 
         hidePowerUp3D(scene);
         resetRallyCount3D();
 
         isGameActive3D = false;
     }
+
+    if (!isTournament3D)
+        setTwoPlayerMode3D(true);
 
     initializeButton3D();
     initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon);
