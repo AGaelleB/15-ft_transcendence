@@ -49,10 +49,6 @@ export function handleKeyPress3D(e) {
     }
 }
 
-// export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
-//     document.addEventListener('keypress', handleKeyPress3D);
-// }
-
 export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, homeIcon) {
     let player1Name;
     let player2Name;

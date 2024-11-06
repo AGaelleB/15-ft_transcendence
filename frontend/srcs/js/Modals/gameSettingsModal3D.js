@@ -116,77 +116,6 @@ export function updateSettingsModal3D() {
     document.getElementById('setRally').checked = gameSettings3D.setRally3D;
 }
 
-// export function initializeGameSettings3D() {
-//     const settingsIcon = document.getElementById('settingsIcon');
-//     const settingsModal = document.getElementById('settingsModal');
-//     const closeSettingsButton = document.getElementById('closeSettings');
-
-//     settingsModal.style.display = 'none';
-
-//     settingsIcon.addEventListener('click', () => {
-//         if (!isSettingsOpen3D) {
-//             document.querySelector('.settings-modal-container').classList.add('active');
-//             settingsModal.style.display = 'flex';
-//             updateSettingsModal3D();
-//             isSettingsOpen3D = true;
-//         }
-//         else {
-//             cancelAnimationFrame(animationId3D1P);
-//             cancelAnimationFrame(animationId3D2P);
-//             document.querySelector('.settings-modal-container').classList.remove('active');
-//             settingsModal.style.display = 'none';
-//             saveGameSettings3D();
-//             isSettingsOpen3D = false;
-//             const gameMode = localStorage.getItem('gameMode');
-//             let targetPath = '/home';
-//             if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
-//                 targetPath = '/1player-2d';
-//             else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
-//                 targetPath = '/1player-3d';
-//             else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
-//                 targetPath = '/2players-2d';
-//             else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
-//                 targetPath = '/2players-3d';
-//             else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
-//                 targetPath = '/multi-2d';
-//             else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
-//                 targetPath = '/multi-3d';
-//             else
-//                 console.error('Error: Mode de jeu non défini');
-
-//             window.history.pushState({}, "", targetPath);
-//             handleLocation();
-//         }
-//     });
-
-//     closeSettingsButton.addEventListener('click', () => {
-//         cancelAnimationFrame(animationId3D1P);
-//         cancelAnimationFrame(animationId3D2P);
-//         document.querySelector('.settings-modal-container').classList.remove('active');
-//         settingsModal.style.display = 'none';
-//         saveGameSettings3D();
-//         isSettingsOpen3D = false;
-//         const gameMode = localStorage.getItem('gameMode');
-//         let targetPath = '/home';
-//         if (gameMode === '1 PLAYER 2D' || gameMode === '1 joueur 2D' || gameMode === '1 jugador 2D')
-//             targetPath = '/1player-2d';
-//         else if (gameMode === '1 PLAYER 3D' || gameMode === '1 joueur 3D' || gameMode === '1 jugador 3D')
-//             targetPath = '/1player-3d';
-//         else if (gameMode === '2 PLAYERS 2D' || gameMode === '2 joueurs 2D' || gameMode === '2 jugadores 2D')
-//             targetPath = '/2players-2d';
-//         else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
-//             targetPath = '/2players-3d';
-//         else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
-//             targetPath = '/multi-2d';
-//         else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
-//             targetPath = '/multi-3d';
-//         else
-//             console.error('Error: Mode de jeu non défini');
-
-//         window.history.pushState({}, "", targetPath);
-//         handleLocation();
-//     });
-
 export function initializeGameSettings3D() {
     const settingsIcon = document.getElementById('settingsIcon');
     const settingsModal = document.getElementById('settingsModal');
@@ -223,27 +152,23 @@ export function initializeGameSettings3D() {
         else
             console.error('Error: Mode de jeu non défini');
 
-        // Rediriger vers la bonne page
         window.history.pushState({}, "", targetPath);
         handleLocation();
     }
 
-    // Ouvrir et fermer le modal de paramètres en 3D
     settingsIcon.addEventListener('click', () => {
         if (!isSettingsOpen3D) {
             document.querySelector('.settings-modal-container').classList.add('active');
             settingsModal.style.display = 'flex';
-            updateSettingsModal3D();  // Mettre à jour les paramètres de la modale
+            updateSettingsModal3D();
             isSettingsOpen3D = true;
         } else {
             closeSettingsModal3D();
         }
     });
 
-    // Fermer le modal de paramètres en cliquant sur le bouton de fermeture
     closeSettingsButton.addEventListener('click', closeSettingsModal3D);
 
-    // Empêcher les événements de propagation dans le modal
     settingsModal.addEventListener('keydown', (e) => {
         if (isSettingsOpen3D && (e.code === 'Space' || e.code === 'Enter')) {
             e.stopPropagation();
@@ -252,7 +177,6 @@ export function initializeGameSettings3D() {
     });
 
     updateScore3D();
-
     
     document.getElementById('resetSettings').addEventListener('click', () => {
         resetToDefaultSettings3D();

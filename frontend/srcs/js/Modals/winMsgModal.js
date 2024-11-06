@@ -11,45 +11,6 @@ export function setTwoPlayerMode3D(value) {
     isTwoPlayerMode3D = value;
 }
 
-// export async function showWinMessage(winner, username = null) {
-//     const modal = document.querySelector('.modal');
-//     const messageElement = modal.querySelector('.message');
-//     let translations = {};
-
-//     if (!username) {
-//         const userData = JSON.parse(localStorage.getItem('user'));
-//         username = userData && userData.username ? userData.username : "Player";
-//     }
-
-//     try {
-//         const { loadLanguages } = await import('../Modals/switchLanguages.js');
-//         const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-//         translations = await loadLanguages(storedLang);
-//     }
-//     catch (error) {
-//         console.error('Erreur lors du chargement des traductions :', error);
-//     }
-
-//     const opponentName = isTwoPlayerMode2D ? "Player 2" : "Mr Robot";
-//     const player1Name = username;
-
-//     let winnerText = "";
-//     if (winner === "player")
-//         winnerText = translations.winner.replace("${winner}", player1Name);
-//     else if (winner === "2")
-//         winnerText = translations.winner.replace("${winner}", opponentName);
-//     else
-//         winnerText = translations.winner.replace("${winner}", winner);
-
-//     messageElement.innerHTML = `
-//         <span>${winnerText}</span>
-//         <i class="bi bi-emoji-sunglasses"></i>
-//     `;
-
-//     modal.style.display = 'block';
-// }
-
-
 export async function showWinMessage(winner, username = null) {
     const modal = document.querySelector('.modal');
     const messageElement = modal.querySelector('.message');
@@ -68,38 +29,31 @@ export async function showWinMessage(winner, username = null) {
         console.error('Erreur lors du chargement des traductions :', error);
     }
 
-    // Déterminer le nom de l'adversaire en fonction du mode de jeu
     let opponentName;
-    if (isTwoPlayerMode2D) {
+    if (isTwoPlayerMode2D)
         opponentName = "Player 2";
-    } else if (isTwoPlayerMode3D) {
+    else if (isTwoPlayerMode3D)
         opponentName = "Player 2";
-    } else {
+    else
         opponentName = "Mr Robot";
-    }
 
     const player1Name = username;
 
-    // Définir le message du gagnant en fonction de `winner`
     let winnerText = "";
-    if (winner === "player") {
+    if (winner === "player")
         winnerText = translations.winner.replace("${winner}", player1Name);
-    } else if (winner === "2") {
+    else if (winner === "2")
         winnerText = translations.winner.replace("${winner}", opponentName);
-    } else {
+    else
         winnerText = translations.winner.replace("${winner}", winner);
-    }
 
-    // Mettre à jour le contenu du message avec la traduction
     messageElement.innerHTML = `
         <span>${winnerText}</span>
         <i class="bi bi-emoji-sunglasses"></i>
     `;
 
-    // Afficher le modal
     modal.style.display = 'block';
 }
-
 
 export function initializeWinMsg() {
     const homeButton = document.getElementById('homeButton');
