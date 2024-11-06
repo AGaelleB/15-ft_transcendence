@@ -45,14 +45,14 @@
     "mode_1": "Modo 1 jugador",
     "mode_2": "Modo 2 jugadores",
     "mode_multi": "Modo multijugadores",
-
     "robot": "Mr Robot",
 
     "winner": "¡El jugador ${winner} gana!",
     "home": "Inicio",
     "play_again": "Jugar de nuevo",
 
-    "pongTournament2D": "TORNEO DE PONG",
+    "pongTournament2D": "TORNEO DE PONG 2D",
+    "pongTournament3D": "TORNEO DE PONG 3D",
     "tournamentPlayersNames": "Nombres de jugadores del torneo",
     "startTournament": "Iniciar torneo",
     "playerNamePlaceholder": "Nombre del jugador",

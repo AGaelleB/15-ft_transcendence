@@ -51,7 +51,8 @@
     "home": "Accueil",
     "play_again": "Rejouer",
 
-    "pongTournament2D": "TOURNOI PONG",
+    "pongTournament2D": "TOURNOI PONG 2D",
+    "pongTournament3D": "TOURNOI PONG 3D",
     "tournamentPlayersNames": "Noms des joueurs du tournoi",
     "startTournament": "Démarrer le tournoi",
     "playerNamePlaceholder": "Nom du joueur",

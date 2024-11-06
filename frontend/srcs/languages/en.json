@@ -45,16 +45,14 @@
     "mode_1": "1 Player mode",
     "mode_2": "2 Players mode",
     "mode_multi": "Multi Players mode",
-    "mode_multi_settings": "Settings for multi players game",
-
     "robot": "Mr Robot",
 
     "winner": "Player ${winner} Wins!",
     "home": "Home",
     "play_again": "Play Again",
 
-    "pongTournament2D": "PONG TOURNAMENT",
-    "pongTournament3D": "PONG TOURNAMENT",
+    "pongTournament2D": "PONG TOURNAMENT 2D",
+    "pongTournament3D": "PONG TOURNAMENT 3D",
     "tournamentPlayersNames": "Tournament Players names",
     "startTournament": "Start Tournament",
     "playerNamePlaceholder": "Player name",

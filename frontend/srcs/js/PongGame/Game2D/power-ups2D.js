@@ -150,7 +150,7 @@ export function applyPowerUpEffect2D(powerUpSrc, paddleLeft, paddleRight) {
     else if (powerUpSrc.includes('speedPaddle.png'))
         affectedPaddle.speedFactor *= 5;
     else if (powerUpSrc.includes('slowPaddle.png'))
-        affectedPaddle.speedFactor *= 0.25;
+        affectedPaddle.speedFactor *= 0.15;
 
     setTimeout(() => {
         affectedPaddle.height = originalHeight;

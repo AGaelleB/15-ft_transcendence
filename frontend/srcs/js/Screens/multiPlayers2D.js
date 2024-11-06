@@ -179,7 +179,7 @@ export function startNextMatch2D() {
 
     if (matchQueue.length === 0) {
         if (winners.length === 1) {
-            console.log("%cTournament Complete - Champion is: " + winners[0], "color: yellow; font-weight: bold;");
+            console.log("%c>>> Tournament Complete - Champion is: " + winners[0] + " <<<", "color: yellow; font-weight: bold;");
             showWinMessageEndTournament2D(winners[0]);
             isTournament2D = false;
             winners = [];
@@ -198,7 +198,7 @@ export function startNextMatch2D() {
     const { player1, player2 } = matchQueue.shift();
     currentMatchPlayers2D = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-    console.log(`Starting next match: ${player1} vs ${player2}`);
+    // console.log(`Starting next match: ${player1} vs ${player2}`);
 
     // Redirect "Mr Robot" 
     if (player2 === "Mr Robot" || player1 === "Mr Robot")
@@ -243,7 +243,7 @@ export async function showWinMessageTournament2D(winnerName) {
 
     if (winners[winners.length - 1] !== winnerName) {
         winners.push(winnerName);
-        console.log(`%c*** winnerName ajouté : ${winnerName} ***`, "color: magenta; font-weight: bold;");
+        console.log(`%cwinnerName is : ${winnerName}`, "color: magenta; font-weight: bold;");
     }
 
     nextMatchButton.addEventListener('click', handleNextMatchClick2D, { once: true });

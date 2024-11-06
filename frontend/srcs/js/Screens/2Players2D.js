@@ -216,14 +216,14 @@ export function initialize2Players2D() {
     
     function movePaddles() {
         // Player 1
-        paddleLeft.y += paddleLeft.dy;
+        paddleLeft.y += paddleLeft.dy * paddleLeft.speedFactor;
         if (paddleLeft.y < 0)
             paddleLeft.y = 0;
         if (paddleLeft.y > canvas.height - paddleLeft.height)
             paddleLeft.y = canvas.height - paddleLeft.height; 
     
         // Player 2
-        paddleRight.y += paddleRight.dy;
+        paddleRight.y += paddleRight.dy * paddleRight.speedFactor;
         if (paddleRight.y < 0)
             paddleRight.y = 0;
         if (paddleRight.y > canvas.height - paddleRight.height)
