@@ -33,9 +33,9 @@ export function initializeHome() {
             return '/2players-2d';
         else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
             return '/2players-3d';
-        else if (gameMode === 'TOURNAMENT 2D' || gameMode === 'tournoi 2D' || gameMode === 'Torneo 2D')
+        else if (gameMode === 'TOURNAMENT 2D' || gameMode === 'Tournoi 2D' || gameMode === 'Torneo 2D')
             return '/tournament-2d';
-        else if (gameMode === 'TOURNAMENT 3D' || gameMode === 'tournoi 3D' || gameMode === 'Torneo 3D')
+        else if (gameMode === 'TOURNAMENT 3D' || gameMode === 'Tournoi 3D' || gameMode === 'Torneo 3D')
             return '/tournament-3d';
         else
             console.error('Error: Mode de jeu non défini');
