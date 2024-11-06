@@ -19,8 +19,8 @@
     "1_player3D": "1 PLAYER 3D",
     "2_players2D": "2 PLAYERS 2D",
     "2_players3D": "2 PLAYERS 3D",
-    "multi2D": "MULTI PLAYERS 2D",
-    "multi3D": "MULTI PLAYERS 3D",
+    "tournament2D": "TOURNAMENT 2D",
+    "tournament3D": "TOURNAMENT 3D",
     "confirmation": "Confirm Logout",
     "confirmation_text": "Are you sure you want to log out?",
     "yes": "Yes",
@@ -44,7 +44,6 @@
 
     "mode_1": "1 Player mode",
     "mode_2": "2 Players mode",
-    "mode_multi": "Multi Players mode",
     "robot": "Mr Robot",
 
     "winner": "Player ${winner} Wins!",

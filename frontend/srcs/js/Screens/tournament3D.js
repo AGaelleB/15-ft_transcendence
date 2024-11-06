@@ -1,4 +1,4 @@
-// frontend/srcs/js/Screens/multiPlayers3D.js
+// frontend/srcs/js/Screens/tournament3D.js
 
 import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
 
@@ -7,7 +7,7 @@ export let tournamentPlayers = [];
 export let currentMatchPlayers3D = {};
 export let winners = []; 
 
-export async function initializeMulti3D() {
+export async function initializeTournament3D() {
     let translations = {};
 
     try {

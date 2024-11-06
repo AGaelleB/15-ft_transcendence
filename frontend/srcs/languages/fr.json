@@ -19,8 +19,8 @@
     "1_player3D": "1 joueur 3D",
     "2_players2D": "2 joueurs 2D",
     "2_players3D": "2 joueurs 3D",
-    "multi2D": "Multijoueur 2D",
-    "multi3D": "Multijoueur 3D",
+    "tournament2D": "Tournoi 2D",
+    "tournament3D": "Tournoi 3D",
     "confirmation": "Confirmer la déconnexion",
     "confirmation_text": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "yes": "Oui",
@@ -44,7 +44,6 @@
 
     "mode_1": "Mode 1 joueur",
     "mode_2": "Mode 2 joueurs",
-    "mode_multi": "Mode multijoueurs",
     "robot": "Mr Robot",
 
     "winner": "${winner} a gagné!",

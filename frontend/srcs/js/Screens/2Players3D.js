@@ -12,7 +12,7 @@ import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hideP
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode3D } from '../Modals/winMsgModal.js';
-import { isTournament3D } from './multiPlayers3D.js';
+import { isTournament3D } from './tournament3D.js';
 
 export let isGameActive3D = true;
 export let animationId3D2P;

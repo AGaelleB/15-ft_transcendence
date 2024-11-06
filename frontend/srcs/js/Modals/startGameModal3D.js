@@ -4,7 +4,7 @@ import { getIsSettingsOpen3D } from './gameSettingsModal3D.js';
 import { getUserFromStorage3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { ball, paddleLeft, paddleRight } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
-import { currentMatchPlayers3D, isTournament3D } from '../Screens/multiPlayers3D.js';
+import { currentMatchPlayers3D, isTournament3D } from '../Screens/tournament3D.js';
 import { isTwoPlayerMode3D } from './winMsgModal.js';
 
 

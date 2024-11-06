@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game3D/score3D.js
 
 import { gameSettings3D } from '../gameSettings.js';
-import { currentMatchPlayers3D, isTournament3D, showWinMessageTournament3D } from '../../Screens/multiPlayers3D.js';
+import { currentMatchPlayers3D, isTournament3D, showWinMessageTournament3D } from '../../Screens/tournament3D.js';
 import { isTwoPlayerMode3D, showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score3D = 0;

@@ -19,8 +19,8 @@
     "1_player3D": "1 jugador 3D",
     "2_players2D": "2 jugadores 2D",
     "2_players3D": "2 jugadores 3D",
-    "multi2D": "multijugadores 2D",
-    "multi3D": "multijugadores 3D",
+    "tournament2D": "Torneo 2D",
+    "tournament3D": "Torneo 3D",
     "confirmation": "Confirmar Cierre de Sesión",
     "confirmation_text": "¿Estás seguro de que quieres cerrar sesión?",
     "yes": "Sí",
@@ -44,7 +44,6 @@
 
     "mode_1": "Modo 1 jugador",
     "mode_2": "Modo 2 jugadores",
-    "mode_multi": "Modo multijugadores",
     "robot": "Mr Robot",
 
     "winner": "¡El jugador ${winner} gana!",

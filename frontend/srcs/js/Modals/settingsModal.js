@@ -5,8 +5,8 @@ import { loadSettingsOnPageLoad3D, initializeGameSettings3D, saveGameSettings3D 
 import { initializeWinMsg, initializeWinMsgTournament } from './winMsgModal.js';
 import { resetGame2D } from './startGameModal2D.js';
 import { resetGame3D } from './startGameModal3D.js';
-import { isTournament2D } from '../Screens/multiPlayers2D.js';
-import { isTournament3D } from '../Screens/multiPlayers3D.js';
+import { isTournament2D } from '../Screens/tournament2D.js';
+import { isTournament3D } from '../Screens/tournament3D.js';
 
 export function initializeButton2D() {
     loadSettingsOnPageLoad2D();

@@ -2,7 +2,7 @@
 
 import { getIsSettingsOpen2D } from './gameSettingsModal2D.js';
 import { getUserFromStorage2D, setPlayer1Score2D, setPlayer2Score2D, updateScore2D } from '../PongGame/Game2D/score2D.js';
-import { currentMatchPlayers2D, isTournament2D } from '../Screens/multiPlayers2D.js';
+import { currentMatchPlayers2D, isTournament2D } from '../Screens/tournament2D.js';
 import { isTwoPlayerMode2D } from './winMsgModal.js';
 
 export let gameStarted2D = false;

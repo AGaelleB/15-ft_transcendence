@@ -1,4 +1,4 @@
-// frontend/srcs/js/Screens/multiPlayers2D.js
+// frontend/srcs/js/Screens/tournament2D.js
 
 import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
 
@@ -7,7 +7,7 @@ export let tournamentPlayers = [];
 export let currentMatchPlayers2D = {};
 export let winners = []; 
 
-export async function initializeMulti2D() {
+export async function initializeTournament2D() {
     let translations = {};
 
     try {

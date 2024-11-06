@@ -1,7 +1,7 @@
 // frontend/srcs/js/PongGame/Game2D/score2D.js
 
 import { gameSettings2D } from '../gameSettings.js';
-import { currentMatchPlayers2D, isTournament2D, showWinMessageTournament2D } from '../../Screens/multiPlayers2D.js';
+import { currentMatchPlayers2D, isTournament2D, showWinMessageTournament2D } from '../../Screens/tournament2D.js';
 import { isTwoPlayerMode2D, showWinMessage } from '../../Modals/winMsgModal.js';
 
 export let player1Score2D = 0;

@@ -77,10 +77,10 @@ export function initializeWinMsg() {
             targetPath = '/2players-2d';
         else if (gameMode === '2 PLAYERS 3D' || gameMode === '2 joueurs 3D' || gameMode === '2 jugadores 3D')
             targetPath = '/2players-3d';
-        else if (gameMode === 'MULTI PLAYERS 2D' || gameMode === 'Multijoueur 2D' || gameMode === 'multijugadores 2D')
-            targetPath = '/multi-2d';
-        else if (gameMode === 'MULTI PLAYERS 3D' || gameMode === 'Multijoueur 3D' || gameMode === 'multijugadores 3D')
-            targetPath = '/multi-3d';
+        else if (gameMode === 'TOURNAMENT 2D' || gameMode === 'tournoi 2D' || gameMode === 'Torneo 2D')
+            targetPath = '/tournament-2d';
+        else if (gameMode === 'TOURNAMENT 3D' || gameMode === 'tournoi 3D' || gameMode === 'Torneo 3D')
+            targetPath = '/tournament-3d';
         else
             console.error('Error: Mode de jeu non défini');
 

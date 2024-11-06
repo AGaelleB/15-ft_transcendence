@@ -12,8 +12,8 @@ const routes = {
     "/1player-3d": "./templates/1Player3D.html",
     "/2players-2d": "./templates/2Players2D.html",
     "/2players-3d": "./templates/2Players3D.html",
-    "/multi-2d": "./templates/multiPlayers2D.html",
-    "/multi-3d": "./templates/multiPlayers3D.html",
+    "/tournament-2d": "./templates/tournament2D.html",
+    "/tournament-3d": "./templates/tournament3D.html",
 };
 
 const route = (event) => {
@@ -110,20 +110,20 @@ const handleLocation = async () => {
             .catch(err => console.error('Failed to load 2Players3D.js:', err));
             break;
 
-        case '/multi-2d':
-            import('./Screens/multiPlayers2D.js')
+        case '/tournament-2d':
+            import('./Screens/tournament2D.js')
             .then(module => {
-                module.initializeMulti2D();
+                module.initializeTournament2D();
             })
-            .catch(err => console.error('Failed to load multiPlayers2D.js:', err));
+            .catch(err => console.error('Failed to load tournament2D.js:', err));
             break;
     
-        case '/multi-3d':
-            import('./Screens/multiPlayers3D.js')
+        case '/tournament-3d':
+            import('./Screens/tournament3D.js')
             .then(module => {
-                module.initializeMulti3D();
+                module.initializeTournament3D();
             })
-            .catch(err => console.error('Failed to load multiPlayers3D.js:', err));
+            .catch(err => console.error('Failed to load tournament3D.js:', err));
             break;
 
         default:
@@ -132,7 +132,6 @@ const handleLocation = async () => {
     }
 };
 
-// détecte les changements de route
 window.onpopstate = handleLocation;
 
 window.addEventListener('DOMContentLoaded', () => {
