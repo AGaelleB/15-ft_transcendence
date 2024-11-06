@@ -10,9 +10,7 @@ ENV PYTHONUNBUFFERED=1
 # django files
 RUN mkdir /djangodir
 
-# dev: only req.txt, prod: all files
-#COPY ./django/. /djangodir/
-COPY ./django/requirements.txt /djangodir/
+COPY ./django/. /djangodir/
 
 RUN pip install -r /djangodir/requirements.txt
 

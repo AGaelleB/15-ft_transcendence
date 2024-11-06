@@ -17,9 +17,6 @@ services:
     env_file: ".env"
     depends_on:
       - db
-# dev only django volume
-    volumes:
-      - ./django:/djangodir
 
 #  front:
 #    build: ./frontend/srcs

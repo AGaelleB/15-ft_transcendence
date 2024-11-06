@@ -56,6 +56,21 @@ see:
 - django_cors_headers
 	- CORS_ALLOWED_ORIGINS
 
+#######
+| JWT |
+#######
+
 JWT : storage vs cookie
+ - https://stackoverflow.com/questions/66247988/how-to-store-jwt-tokens-in-httponly-cookies-with-drf-djangorestframework-simplej
  - https://stackoverflow.com/questions/27067251/where-to-store-jwt-in-browser-how-to-protect-against-csrf
+
+JWT: from auth header to cookie
+ - https://github.com/jazzband/djangorestframework-simplejwt/issues/71
+ - https://github.com/schlunsen/django-rest-framework-simplejwt/blob/master/rest_framework_simplejwt/tokens.py
+ - https://github.com/lorenzocelli/jwtauth/blob/main/src/jwtauth/tokens.py
+ - 
+
+Cookie: 
+ - https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
+ - https://stackoverflow.com/questions/30760213/save-cookies-between-two-curl-requests
  - 

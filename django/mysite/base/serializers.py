@@ -182,11 +182,10 @@ class Game_list_Serializer(serializers.ModelSerializer):
     player = User_friends_Serializer(read_only=True)
     class Meta:
         model = Game
-        fields = ['id', 'date', 'score', 'opp_score', 'player', 'opp_ia']
+        fields = ['id', 'date', 'score', 'opp_score', 'player', 'game_mode', 'game_played', 'result']
 
 class Game_create_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'date', 'score', 'opp_score', 'player', 'opp_ia']
-
+        fields = ['score', 'opp_score', 'player', 'game_mode', 'game_played', 'result']
 
