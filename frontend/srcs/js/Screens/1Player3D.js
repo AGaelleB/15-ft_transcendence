@@ -91,11 +91,11 @@ export function initialize1Player3D() {
     // limites du mouvement des paddles
     function movePaddles1Player() {
         const paddleMovementLimit = (ground.geometry.parameters.height / 2.30) - (paddleLeft.paddleDepth3D / 2.30);
-        if (keys['ArrowUp']) {
+        if (keys['ArrowUp'] || keys['w'] || keys['W']) {
             if (paddleLeft.position.z > -paddleMovementLimit)
                 paddleLeft.position.z -= paddleLeft.speedFactor;
         }
-        if (keys['ArrowDown']) {
+        if (keys['ArrowDown'] || keys['s'] || keys['S']) {
             if (paddleLeft.position.z < paddleMovementLimit)
                 paddleLeft.position.z += paddleLeft.speedFactor;
         }

@@ -196,9 +196,9 @@ export function initialize1Player2D() {
     const keys = {};
 
     function updatePaddleDirection() {
-        if (keys['ArrowUp'] || keys['w'] || keys['W'] )
+        if (keys['ArrowUp'] || keys['w'] || keys['W'])
             paddleLeft.dy = -window.paddleSpeed;
-        else if (keys['ArrowDown'] || keys['s'] || keys['S'] )
+        else if (keys['ArrowDown'] || keys['s'] || keys['S'])
             paddleLeft.dy = window.paddleSpeed;
         else
             paddleLeft.dy = 0;
