@@ -40,24 +40,31 @@ class FriendRequest(models.Model):
         self.delete()
 
 
-class Tournament(models.Model):
-    name = models.CharField(max_length=25, null=False)
-    date = models.DateTimeField()
-    nb_player = models.IntegerField(null=False)
-    
-    def __str__(self):
-        return self.id
-    
 class Game(models.Model):
     date = models.DateTimeField(auto_now_add=True, editable=False)
     player = models.ForeignKey(User, on_delete=models.CASCADE, related_name="player")
-    score = models.PositiveIntegerField()
-    opp_score = models.PositiveIntegerField()
-    opp_ia = models.BooleanField(default=True)
+
+    MODE_CHOICES = {
+        "2d": "2d graphics",
+        "3d": "3d graphics"
+    }
+    game_mode = models.CharField(max_length=2, choices=MODE_CHOICES, default="2d")
+
+    played_CHOICES = {
+        "1": "1 player against IA",
+        "2": "2 players",
+        "T": "Tournament game"
+    }
+    game_played = models.CharField(max_length=1, choices=played_CHOICES, default="1")
+
+    RESULT_CHOICES = {
+        "V": "Victory",
+        "D": "Defeat"
+    }
+    result = models.CharField(max_length=1, choices=RESULT_CHOICES, default="V")
+
+    score = models.PositiveIntegerField(default=0)
+    opp_score = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.id
-
-
-
-
