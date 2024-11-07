@@ -29,9 +29,9 @@ class User(AbstractUser):
 
 
 class FriendRequest(models.Model):
-    date = models.DateTimeField(auto_now_add=True, editable=False)
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="sender")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="receiver")
+    date        = models.DateTimeField(auto_now_add=True, editable=False)
+    sender      = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="sender")
+    receiver    = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, related_name="receiver")
 
     def __str__(self):
         return f"id:{self.id}, from:{self.sender}, to:{self.receiver}"
@@ -44,31 +44,22 @@ class FriendRequest(models.Model):
         self.delete()
 
     
+
 class Game(models.Model):
-    date = models.DateTimeField(auto_now_add=True, editable=False)
-    player = models.ForeignKey(User, on_delete=models.CASCADE, related_name="player")
+    date            = models.DateTimeField(auto_now_add=True, editable=False)
+    player          = models.ForeignKey(User, on_delete=models.CASCADE, related_name="player")
+    score           = models.PositiveIntegerField(default=0)
+    opp_score       = models.PositiveIntegerField(default=0)
 
-    MODE_CHOICES = {
-        "2d": "2d graphics",
-        "3d": "3d graphics"
-    }
-    game_mode = models.CharField(max_length=2, choices=MODE_CHOICES, default="2d")
+    MODE_CHOICES    = {"2d":"2d graphics", "3d":"3d graphics"}
+    game_mode       = models.CharField(max_length=2, choices=MODE_CHOICES, default="2d")
 
-    played_CHOICES = {
-        "1": "1 player against IA",
-        "2": "2 players",
-        "T": "Tournament game"
-    }
-    game_played = models.CharField(max_length=1, choices=played_CHOICES, default="1")
+    PLAYED_CHOICES  = {"1":"1 player against IA", "2":"2 players", "T":"Tournament game"}
+    game_played     = models.CharField(max_length=1, choices=PLAYED_CHOICES, default="1")
 
-    RESULT_CHOICES = {
-        "V": "Victory",
-        "D": "Defeat"
-    }
-    result = models.CharField(max_length=1, choices=RESULT_CHOICES, default="V")
+    RESULT_CHOICES  = {"V":"Victory", "D":"Defeat"}
+    result          = models.CharField(max_length=1, choices=RESULT_CHOICES, default="V")
 
-    score = models.PositiveIntegerField(default=0)
-    opp_score = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.id
