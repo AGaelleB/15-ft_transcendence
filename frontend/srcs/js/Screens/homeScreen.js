@@ -161,7 +161,7 @@ export function initializeHome() {
         }
     
         const user = JSON.parse(savedUser);
-        const userId = user.id;
+        const username = user.username;
         // console.log("user ID: ", userId);
         // console.log("user name: ", user.username);
     
@@ -175,7 +175,7 @@ export function initializeHome() {
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8001/users/${userId}/logout/`, {
+            const response = await fetch(`http://127.0.0.1:8001/users/${username}/logout/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -205,6 +205,22 @@ export function initializeHome() {
         }
     });
     
+    function loadProfileLinkAvatar() {
+        const savedUser = localStorage.getItem('user');
+        if (!savedUser) {
+            console.warn("Aucun utilisateur connecté.");
+            return;
+        }
+    
+        const user = JSON.parse(savedUser);
+        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
+    
+        // Mettre à jour l'avatar dans le lien de profil
+        document.querySelector('.profile-link img').src = avatarUrl;
+        console.log("Avatar URL dans le lien de profil:", avatarUrl);
+    }
+    
+    loadProfileLinkAvatar();
 
     profileLink.addEventListener('click', function(event) {
         event.preventDefault();

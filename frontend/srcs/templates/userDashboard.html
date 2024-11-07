@@ -1,13 +1,224 @@
 <!-- frontend/srcs/html/userDashboard.html -->
 
-<div class="content">
-    <!-- ========== Page Title ========== -->
-    <h1>User Dashboard to set</h1>
-
-    <!-- ========== Home Button to Return to Home Screen ========== -->
+<script src="../js/Modals/dashboardModal.js" defer></script>
+<script src="../js/Modals/friendsModal.js" defer></script>
+<div class="body-dash">
     <a class="home-link">
         <div id="homeIcon" class="home-icon">
             <i class="bi bi-house"></i>
         </div>
     </a>
+    <div class="dashboard">
+        <!-- Profil de l'utilisateur -->
+        <div class="profile-section">
+            <div class="profile-picture">
+                <img src="./images/icons/loginIcon2.png" alt="Photo de profil">
+                <button class="edit-button" onclick="openProfileModal()">
+                    <i class="bi bi-pencil"></i>
+                </button>
+            </div>
+            <div class="username-dash"></div>
+            <!-- Modale du profil -->
+            <div id="profileModal" class="profile-modal-container hidden">
+                <div class="profile-modal">
+                    <!-- Bouton de fermeture -->
+                    <span class="close-button">&times;</span>
+                    
+                    <div class="profile-content">
+                        <div class="profile-left">
+                            <div class="profile-picture-modal">
+                                <img src="./images/icons/loginIcon2.png" alt="Photo de profil" class="profile-modal-picture">
+                            </div>
+                            <button type="button" class="upload-button" onclick="document.getElementById('fileInput').click();">Upload a new picture</button>
+                            <input type="file" id="fileInput" class="hidden-file-input" accept="image/*" onchange="uploadNewProfilePicture(event)">
+                        </div>
+
+
+                        <div class="profile-right">
+                            <form id="profileForm" class="form-base">
+                                <div class="form-group">
+                                    <label for="username">Nom d'utilisateur :</label>
+                                    <input type="text" id="username" placeholder="Nouveau nom d'utilisateur">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email :</label>
+                                    <input type="email" id="email" placeholder="Nouvel email">
+                                </div>
+                                
+                                <!-- Groupes pour 2FA et le sélecteur de langue côte à côte -->
+                                <div class="form-group-horizontal">
+                                    <div class="form-group-inline">
+                                        <label for="2fa">Activer la 2FA :</label>
+                                        <input type="checkbox" id="2fa">
+                                    </div>
+                                    <div class="form-group-inline">
+                                        <label for="language-button">Langue par défaut :</label>
+                                        <div class="lang-selector-menu" id="lang-switcher">
+                                            <button id="language-button" type="button" data-lang="en">
+                                                <img src="./images/icons/usa.jpg" alt="English" class="lang-selector-flag-icon">
+                                            </button>
+                                            <ul id="language-dropdown" class="lang-selector-dropdown-menu">
+                                                <li>
+                                                    <a href="#" data-lang="fr" class="lang-selector-dropdown-item">
+                                                        <img src="./images/icons/france.png" alt="Français" class="lang-selector-flag-icon">
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" data-lang="es" class="lang-selector-dropdown-item">
+                                                        <img src="./images/icons/spain.png" alt="Español" class="lang-selector-flag-icon">
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <button type="button" id="changePasswordBtn" class="change-password-btn">Change Password</button>
+                            </form> 
+                        </div>
+                                               
+                        
+                    </div>
+                    <div class="save-info-container">
+                        <button type="button" class="save-info-btn">Save My Informations</button>
+                    </div>
+                    <div class="delete-container">
+                        <a href="#" class="delete">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>                                              
+                </div>
+            </div>
+                
+            <div id="delete-profil-modal" class="modal-delete-profil hidden">
+                <h2 class="message-delete-profil">Confirm Profile Deletion</h2>
+                <p class="message-delete-profil">Are you sure you want to delete your profile? This action is irreversible.</p>
+                <div class="options-delete-profil">
+                    <button id="confirm-delete" class="btn-delete-profil">Yes</button>
+                    <button id="cancel-delete" class="btn-delete-profil">No</button>
+                </div>
+            </div>   
+                
+            <!-- Nouvelle modale de changement de mot de passe -->
+            <div id="passwordModal" class="password-modal-container hidden">
+                <div class="password-modal">
+                    <!-- Bouton de fermeture -->
+                    <span class="close-password-button">&times;</span>
+
+                    <form id="passwordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Ancien mot de passe :</label>
+                            <input type="password" id="currentPassword" placeholder="Ancien mot de passe">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Nouveau mot de passe :</label>
+                            <input type="password" id="newPassword" placeholder="Nouveau mot de passe">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirmer le nouveau mot de passe :</label>
+                            <input type="password" id="confirmNewPassword" placeholder="Confirmer le nouveau mot de passe">
+                        </div>
+                        <button type="button" class="save-password-btn">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Liste des amis -->
+        <div class="friends-section">
+            <div class="section-header">
+                <h2 data-lang-key="myFriendsTitle">My Friends</h2>
+                <button class="expand-button-friends" id="expandFriendsBtn">
+                    <i class="bi bi-arrows-angle-expand"></i>
+                </button>
+            </div>
+            <div id="friendsList" class="friends-list">
+                <!-- Les amis seront ajoutés ici par le JS -->
+            </div>
+        </div>
+
+        <!-- friendsModal.html -->
+
+        <div id="friendsModal" class="friends-modal-container hidden">
+            <div class="friends-modal">
+                <div class="slide-controls-friends">
+                    <input type="radio" id="friends" name="friendsOptions" checked>
+                    <input type="radio" id="users" name="friendsOptions">
+                    <input type="radio" id="invitations" name="friendsOptions">
+                
+                    <label for="friends" class="slide">Mes amis</label>
+                    <label for="users" class="slide">Tous les utilisateurs</label>
+                    <label for="invitations" class="slide">Invitations en attente</label>
+                
+                    <div class="slider-tab"></div>
+                </div>                          
+
+                <div class="modal-separator"></div>
+                
+                <div id="friendsModalContent" class="modal-content">
+                    <!-- Les amis seront ajoutés ici par le JS -->
+                </div>
+                
+                <button class="close-button-friends">×</button>
+            </div>
+        </div>
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Historique des matchs -->
+        <div class="history-section">
+            <div class="section-header">
+                <button class="expand-button-stats">
+                    <i class="bi bi-arrows-angle-expand"></i>
+                </button>
+            </div>
+            <div class="history-content">
+                <div class="history-chart">
+                    <canvas id="victoryChart"></canvas>
+                </div>
+                <div class="history-details"></div>
+            </div>
+        </div>
+        
+    </div>
 </div>

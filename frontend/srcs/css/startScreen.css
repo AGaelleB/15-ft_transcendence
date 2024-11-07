@@ -147,3 +147,26 @@
 	max-height: calc(15vw + 15vh);
 }
 
+/* Couleur de la piste de la barre de défilement */
+::-webkit-scrollbar {
+    width: 12px; /* Largeur de la barre verticale */
+    height: 12px; /* Hauteur de la barre horizontale */
+}
+
+/* Couleur du fond de la barre de défilement */
+::-webkit-scrollbar-track {
+    background: #2f213a; /* Utiliser une couleur de fond */
+    border-radius: 10px; /* Coins arrondis */
+}
+
+/* Couleur de la barre de défilement elle-même */
+::-webkit-scrollbar-thumb {
+    background-color: #a16935; /* Couleur de la barre */
+    border-radius: 10px; /* Coins arrondis */
+    border: 2px solid #2f213a; /* Pour l'effet de marge autour */
+}
+
+/* Ajouter un effet au survol */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #d47f5a; /* Une teinte plus claire au survol */
+}

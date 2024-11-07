@@ -1,9 +1,182 @@
 /* frontend/srcs/css/userDashboard.css */
 
-/* ========== Text Styling ========== */
-h1 {
-	font-size: calc(4vw + 4vh);
-	color: #a16935;
-	font-weight: normal;
-	margin-top: calc(2.5vw + 2vh);
+.body-dash {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes de largeur égale */
+    grid-template-rows: auto auto; /* 2 lignes pour contrôler la hauteur */
+    gap: calc(1.5vh + 1.5vw); /* Espacement entre les sections */
+    width: calc(65vw + 1vh); /* Largeur globale de la grille */
+    border-radius: calc(0.8vh + 0.8vw);
+    margin-top: calc(7vh + 2vw); /* Ajoute une marge en haut pour abaisser les cases */
+    height: calc(5vw + 70vh);
+}
+
+.profile-section,
+.friends-section,
+.history-section {
+    position: relative;
+    background-color: #2f213a;
+    border-radius: calc(1vh + 1vw);
+    padding: calc(2vh + 2vw);
+}
+
+/******************************** Section Profil *********************************/
+.profile-section {
+    height: calc(15vh + 12vw);
+    padding: calc(0.5vh + 0.5vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.profile-picture {
+    width: 50%;
+    height: auto;
+    max-width: calc(8vh + 8vw);
+}
+
+.profile-picture img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: calc(0.2vh + 0.2vw) solid #a16935;
+}
+
+.edit-button {
+    position: absolute;
+    top: calc(0.8vh + 0.8vw);
+    right: calc(0.8vh + 0.8vw);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-button i {
+    color: #a16935;
+    font-size: calc(1.5vh + 1.5vw);
+}
+
+.username-dash {
+    color: #a16935;
+    font-size: calc(3vh + 3vw);
+    text-align: center;
+    margin-top: calc(0.3vh + 0.3vw);
+    max-width: 90%;
+    word-wrap: break-word;
+}
+
+/********************************** Section Amis ***********************************/
+.friends-section {
+    height: calc(15vh + 12vw);
+    font-size: calc(30vh + 3vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    padding: calc(2vh + 2vw);
+    text-align: center;
+}
+
+.section-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #a16935;
+    margin-bottom: calc(1vh + 1vw);
+}
+
+.friends-list {
+    display: flex;
+    gap: calc(1vh + 1vw);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.friends-list img {
+    width: calc(3vh + 3vw);
+    height: calc(3vh + 3vw);
+    border-radius: 50%;
+    border: calc(0.15vh + 0.15vw) solid #a16935;
+}
+
+.expand-button-stats {
+    position: absolute;
+    top: calc(0.8vh + 0.8vw);
+    right: calc(0.8vh + 0.8vw);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.expand-button-stats i {
+    color: #a16935; /* Couleur orange pour l'icône */
+    font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
+}
+
+.expand-button-friends {
+    position: absolute;
+    top: calc(0.8vh + 0.8vw);
+    right: calc(0.8vh + 0.8vw);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.expand-button-friends i {
+    color: #a16935; /* Couleur orange pour l'icône */
+    font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
+}
+/************************** Section Historique des matchs **************************/
+
+.history-section {
+    display: flex;
+    align-items: center; /* Centre verticalement le contenu */
+    grid-column: 1 / span 2;
+    height: calc(13vh + 12vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    position: relative;
+    overflow: hidden;
+    padding: calc(1vh + 1vw); /* Espace autour du contenu */
+}
+
+.history-content {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Remplit la hauteur de la section */
+    width: 100%;
+}
+
+.history-chart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligne le graphique à gauche */
+    width: 25%; /* Ajuste la largeur pour garder le graphique à gauche */
+    height: 90%; /* Maintient une marge haute/basse équilibrée */
+}
+
+#victoryChart {
+    width: 100%; /* Remplit la largeur de .history-chart */
+    height: 100%; /* Remplit la hauteur de .history-chart */
+}
+
+.hidden {
+    display: none;
 }

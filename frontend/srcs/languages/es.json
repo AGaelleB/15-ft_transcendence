@@ -58,5 +58,7 @@
 
     "win_message": "¡${winnerName} gana este partido!",
     "start_next_match": "Comenzar el siguiente partido",
-    "champion_name": "¡Felicidades, ${championName} es el campeón del torneo!"
+    "champion_name": "¡Felicidades, ${championName} es el campeón del torneo!",
+
+    "myFriendsTitle": "Mi AMIGOS"
 }

@@ -4,7 +4,6 @@ import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js'
 
 export async function initializeLogin() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-    
     try {
         const translations = await loadLanguages(storedLang);
         updatePlaceholders(translations);
@@ -44,13 +43,6 @@ export async function initializeLogin() {
     switchFormBasedOnHash();
     
     window.addEventListener('hashchange', switchFormBasedOnHash);
-    
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'ArrowRight')
-            signupBtn.click();
-        else if (event.key === 'ArrowLeft')
-            loginBtn.click();
-    });
 
     // loginSubmitButton.addEventListener('click', async function(event) {
     //     event.preventDefault();
@@ -131,10 +123,10 @@ export async function initializeLogin() {
 document.querySelector("form.signup").addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const username = document.querySelector("form.signup input[placeholder='User Name']").value;
-    const email = document.querySelector("form.signup input[placeholder='Email Address']").value;
-    const password = document.querySelector("form.signup input[placeholder='Password']").value;
-    const confirmPassword = document.querySelector("form.signup input[placeholder='Confirm password']").value;
+    const username = document.getElementById("signup-username").value;
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
+    const confirmPassword = document.getElementById("signup-confirm-password").value;
 
     if (password !== confirmPassword) {
         alert("Passwords do not match");
@@ -165,15 +157,15 @@ document.querySelector("form.signup").addEventListener("submit", async function(
             alert('Signup failed: ' + JSON.stringify(errorData));
         }
         else {
-            // Récupère les données
             const userResponse = await response.json();
 
-            // Sav les infos de l'utilisateur dans le localStorage
             localStorage.setItem('user', JSON.stringify({
                 id: userResponse.id,
                 username: userResponse.username,
                 email: userResponse.email,
                 is_2fa: userResponse.is_2fa,
+                profileImageUrl: '/srcs/images/icons/loginIcon3.png',
+
             }));
 
             alert('Signup successful!');

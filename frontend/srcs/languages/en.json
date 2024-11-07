@@ -58,7 +58,9 @@
 
     "win_message": "${winnerName} wins this match!",
     "start_next_match": "Start Next Match",
-    "champion_name": "Congratulations, ${championName} is the Tournament Champion!" 
+    "champion_name": "Congratulations, ${championName} is the Tournament Champion!",
+
+    "myFriendsTitle": "My Friends"
 }
 
 

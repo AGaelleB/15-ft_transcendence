@@ -1,0 +1,781 @@
+/* Conteneur du modale caché par défaut */
+.profile-modal-container.hidden {
+    display: none;
+}
+
+/* Styles du conteneur modal */
+.profile-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+}
+
+/* Styles du modal */
+.profile-modal {
+    width: calc(70vw + 10vh); /* Ajustement de la largeur en fonction de la hauteur et de la largeur de la fenêtre */
+    max-width: calc(90vw); /* Largeur maximale adaptée à l'écran */
+    padding: calc(2vh + 2vw); /* Marges internes adaptatives */
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    color: #a16935;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Organisation en deux colonnes pour le contenu */
+    
+.profile-content {
+    display: flex;
+    width: 100%;
+    gap: calc(0.5vh, 0.5vw);
+}
+
+/*************** Section gauche (photo de profil et upload) ***************/
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.profile-picture-modal {
+    width: calc(10vh + 10vw);
+    height: auto;
+    margin-bottom: calc(1vh + 1vw);
+}
+
+.profile-picture-modal img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: calc(0.2vh + 0.2vw) solid #a16935;
+    margin-top: 1vh;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.upload-button {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+}
+
+.upload-button:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.upload-button:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.upload-button-primary:focus, .upload-button-primary.focus, .upload-button:focus, .upload-button.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+/************************ Section droite (champs de remplissage) ************************/
+.profile-right {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(1.5vh + 1.5vw);
+}
+
+.form-base {
+    width: 100%;
+    margin-right: calc(1vw +  1vh);
+}
+
+/* Flex container pour les labels et les champs */
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0; /* Supprimez toute marge verticale qui pourrait restreindre la largeur */
+    margin-bottom: calc(1.5vh + 1.5vw);
+    margin-right: calc(1vw +  1vh);
+    gap: 1vw;
+}
+
+.form-group label {
+    width: 25%; /* Ajustez en fonction de vos besoins */
+    min-width: 0; /* Supprimez les valeurs minimales si elles causent un décalage */
+    text-align: right;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+    width: 70%; /* Ajustez pour équilibrer avec la largeur du label */
+    min-width: 0;    
+    padding: calc(0.6vh + 0.6vw);
+    background-color: #302a66;
+    color: #a16935;
+    border: none;
+    border-radius: calc(0.5vh + 0.5vw);
+    /* font-size: calc(1vh + 1vw); */
+}
+
+.form-group-2fa {
+    display: flex;
+    align-items: center;
+    margin-bottom: calc(1vh + 1vw);
+    width: 100%;
+}
+
+.form-group-2fa label {
+    margin: 0;
+    color: #ffcc00;
+    font-weight: bold;
+    font-size: calc(1.2vh + 1.2vw);
+}
+
+.form-group-2fa input[type="checkbox"] {
+    transform: scale(calc(0.1vh + 0.1vw));
+    margin: 0;
+    background-color: #302a66;
+    border: calc(0.15vh + 0.15vw) solid #a16935;
+    border-radius: calc(0.3vh + 0.3vw);
+    cursor: pointer;
+}
+
+/**************************** Bouton de fermeture ******************************/
+
+.close-button {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.1vw + 0.1vh) calc(0.4vw + 0.4vh);
+	border: calc(0.2vw + 0.2vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+
+    position: absolute;
+    top: calc(0.5vh + 0.5vw);
+    right: calc(0.5vh + 0.5vw);
+}
+
+.close-button:hover {
+	box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+	transform: translate(calc(-0.2vw), calc(-0.2vh));
+}
+
+.close-button:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.close-button-primary:focus, .close-button-primary.focus, .close-button:focus, .close-button.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+/**************************** Bouton de saving  ******************************/
+
+.change-password-btn {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+    margin-bottom: calc(1vw + 1vh);
+}
+
+.change-password-btn:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.change-password-btn:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.change-password-btn-primary:focus, .change-password-btn-primary.focus, .change-password-btn:focus, .change-password-btn.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+.save-info-btn {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+}
+
+.save-info-btn:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.save-info-btn:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.save-info-btn-primary:focus, .save-info-btn-primary.focus, .save-info-btn:focus, .save-info-btn.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+/********************** Modale de changement de mot de passe **********************/
+.password-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 21000;
+}
+
+.password-modal {
+    width: calc(20vh +  vw);
+    padding: calc(2vh + 2vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    color: #a16935;
+    display: flex;
+    flex-direction: column;
+    gap: calc(1vh + 1vw);
+    position: relative;
+}
+
+/***********************************/
+.save-password-btn {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+    margin: 0 auto; /* Centre le bouton horizontalement */
+    display: block; /* Assure le centrage */
+}
+
+.save-password-btn:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.save-password-btn:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.save-password-btn-primary:focus, .save-password-btn-primary.focus, .save-password-btn:focus, .save-password-btn.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+.close-password-button {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.1vw + 0.1vh) calc(0.4vw + 0.4vh);
+	border: calc(0.2vw + 0.2vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+
+    position: absolute;
+    top: calc(1vh + 1vw);
+    right: calc(1vh + 1vw);
+}
+
+.close-password-button:hover {
+	box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+	transform: translate(calc(-0.2vw), calc(-0.2vh));
+}
+
+.close-password-button:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.close-password-button-primary:focus, .close-password-button-primary.focus, .close-password-button:focus, .close-password-button.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+
+/***** delete icon ******/
+
+.delete-container {
+    position: absolute;
+    bottom: calc(2vh + 2vw);
+    right: calc(2vh + 2vw);
+    z-index: 31101;
+}
+
+.delete {
+    font-size: calc(2vh + 2vw);
+    color: #ed1c24;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.delete:hover {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.modal-delete-profil {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(30vw + 20vh);
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(2vh + 2vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    z-index: 100000;
+}
+
+/* ========== Modal Text and Buttons ========== */
+.message-delete-profil {
+	font-size: calc(1.8vw + 1.8vh);
+	text-align: center;
+	margin-bottom: calc(2vh);
+	color: #a16935;
+}
+
+.options-delete-profil {
+	display: flex;
+	justify-content: center;
+	gap: calc(2vw);
+	width: 100%;
+}
+
+/* ========== Button Styling ========== */
+.btn-delete-profil {
+	font-size: calc(1.3vw + 1.3vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+}
+
+.btn-delete-profil:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.btn-delete-profil:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.btn-delete-profil-primary:focus, .btn-delete-profil-primary.focus, .btn-delete-profil:focus, .btn-delete-profil.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
+
+/*********************************** ici **************************************/
+
+/* ========== Modal Styling ========== */
+/* friendsModal.css */
+
+/* Modal Styling */
+.friends-modal-container.hidden {
+    display: none;
+}
+
+.friends-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+}
+
+.friends-modal {
+    width: calc(60vw + 10vh);
+    max-width: calc(90vw);
+    padding: calc(2vh + 2vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    color: #a16935;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.modal-content {
+    width: 100%;
+    height: calc(13vh + 10vw);
+    overflow-y: auto;
+    padding: calc(1vh + 1vw);
+    background-color: #302a66;
+    border-radius: calc(0.5vh + 0.5vw);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacement entre les utilisateurs */
+}
+
+.friend-container {
+    text-align: center;
+    width: 80px;
+    margin: 0 2px; /* Ajuste l'espacement horizontal entre les amis */
+}
+
+.friend-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+
+/* Slider Container Styling */
+.slide-controls-friends {
+    position: relative;
+    display: flex;
+    height: 5vh;
+    width: calc(100% - 2vw);
+    margin: 0 1vw;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0;
+}
+
+.slide-controls-friends .slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #a16935;
+    font-size: calc(1vw + 2vh);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.6s ease;
+    overflow: hidden;
+}
+
+.slide-controls-friends .slider-tab {
+    position: absolute;
+    height: 100%;
+    width: 33.33%;
+    left: 0;
+    z-index: 0;
+    background: #a16935;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    overflow: hidden;
+}
+
+#users:checked ~ .slider-tab {
+    left: 33.33%;
+}
+
+#invitations:checked ~ .slider-tab {
+    left: 66.66%;
+}
+
+#friends:checked ~ label[for="friends"],
+#users:checked ~ label[for="users"],
+#invitations:checked ~ label[for="invitations"] {
+    color: #302a66;
+    cursor: default;
+    user-select: none;
+}
+
+#friends:checked ~ label[for="users"],
+#friends:checked ~ label[for="invitations"],
+#users:checked ~ label[for="friends"],
+#users:checked ~ label[for="invitations"],
+#invitations:checked ~ label[for="friends"],
+#invitations:checked ~ label[for="users"] {
+    color: #a16935;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+/* Content Display for Each Tab in Friends Modal */
+.friends-content-container {
+    margin-top: 2vh;
+    width: 100%;
+    text-align: center;
+    font-size: calc(2vw + 2vh);
+    color: #a16935;
+}
+
+.friends-content {
+    display: none;
+}
+
+#friends:checked ~ .friends-content-container #content1 {
+    display: block;
+}
+
+#users:checked ~ .friends-content-container #content2 {
+    display: block;
+}
+
+#invitations:checked ~ .friends-content-container #content3 {
+    display: block;
+}
+
+/* ========== Additional Modal Styling ========== */
+.modal-separator {
+    width: 100%;
+    height: calc(0.3vh + 0.3vw);
+    background-color: #a16935;
+    margin: calc(1vh + 1vw) 0;
+}
+
+.close-button-friends {
+    font-size: calc(1.5vw + 1.5vh);
+    position: absolute;
+    top: calc(1vh + 1vw);
+    right: calc(1vh + 1vw);
+    cursor: pointer;
+    color: #a16935;
+    background: none;
+    border: none;
+}
+
+.close-button-friends:hover {
+    box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+    transform: translate(calc(-0.2vw), calc(-0.2vh));
+}
+
+.close-button-friends:active {
+    box-shadow: none;
+    transform: translate(0, 0);
+}
+
+/************* USERS ********************/
+
+.request-button {
+    font-size: 24px; /* Taille de l'icône */
+    margin-left: auto; /* Aligne l'icône à droite */
+}
+.request-button:hover {
+    transform: scale(1.1); /* Effet de zoom au survol */
+}
+
+.invitation-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.sender-info {
+    display: flex;
+    align-items: center;
+}
+
+.sender-info .user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.sender-name {
+    font-size: 1rem;
+    color: #a16935;
+}
+
+.accept-button,
+.decline-button {
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.user-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #40356d;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.add-button {
+    font-size: 1.5em; /* Ajustez la taille selon votre besoin */
+    margin-left: 15px;
+}
+
+.user-row .user-avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #2f213a; /* Couleur de bordure pour s'intégrer à l'avatar */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.user-name {
+    font-size: 1em;
+    color: #a16935;
+}
+
+.show-profile-button {
+    background-color: #2f213a;
+    color: #a16935;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.show-profile-button:hover {
+    background-color: #40356d;
+}
+
+.bi-arrow-right-circle-fill {
+    font-size: 1.5em;
+    margin-left: 15px;
+    transition: transform 0.3s ease;
+}
+
+.bi-arrow-right-circle-fill:hover {
+    transform: scale(1.1);
+}
+
+/**********************************************************************************************/
+.lang-selector-menu {
+    position: relative;
+    display: inline-block;
+}
+
+#language-button {
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.lang-selector-flag-icon {
+    width: 24px;
+    height: 16px;
+}
+
+.lang-selector-dropdown-menu {
+    display: none; /* Caché par défaut */
+    position: absolute;
+    background-color: #302a66;
+    border-radius: 0.5rem;
+    padding: 0;
+    list-style: none;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+}
+
+.lang-selector-dropdown-menu.open {
+    display: flex; /* Affiche le menu en mode horizontal */
+    flex-direction: row;
+}
+
+
+.lang-selector-dropdown-item {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.lang-selector-dropdown-item:hover {
+    background-color: #40356d;
+}
+
+
