@@ -8,6 +8,8 @@ from rest_framework.request import Request
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
 
+from jwtauth import login, logout
+from django.contrib.auth import authenticate
 
 from .models import *
 from .serializers import *
@@ -55,8 +57,8 @@ class UserListCreate(generics.ListCreateAPIView):
     list all users, except superuser (GET) or create a new one (POST)
     no JWT returned on creation: you must then login
     """
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [UserListCreatePermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [UserListCreatePermission]
     queryset                =   User.objects.filter(is_superuser=False)
     serializer_class        =   User_Create_Serializer
 
@@ -68,8 +70,8 @@ class UserListCreate(generics.ListCreateAPIView):
 
 
 class UserListConnected(generics.ListAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [IsUserConnectedPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [IsUserConnectedPermission]
     queryset                =   User.objects.filter(is_superuser=False, is_connected=True)
     serializer_class        =   User_friends_Serializer
 
@@ -78,8 +80,8 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
     individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
     """
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [UserRUDPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [UserRUDPermission]
     queryset                =   User.objects.all()
     serializer_class        =   User_Update_Serializer
     lookup_field            =   'username'
@@ -95,8 +97,8 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
 
 
 class User_avatar(generics.RetrieveAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [IsUserConnectedPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [IsUserConnectedPermission]
     queryset                =   User.objects.all()
     lookup_field            =   'username'
 
@@ -110,8 +112,8 @@ class User_avatar(generics.RetrieveAPIView):
 
 
 class User_remove_friend(generics.UpdateAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [UserRUDPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [UserRUDPermission]
     queryset                =   User.objects.all()
     serializer_class        =   User_List_Serializer
     lookup_field            =   'username'
@@ -131,35 +133,36 @@ class User_remove_friend(generics.UpdateAPIView):
             return Response({"status": "Invalid friend id."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserLogin(TokenObtainPairView):
+class UserLogin(APIView):
     """
-    redifining simple-JWT view to integrate: user.is_connected=True via the serializer
     2FA later: maybe also via serializer? if not we can redefine here the post method
-    source code: https://github.com/jazzband/djangorestframework-simplejwt/blob/master/rest_framework_simplejwt/views.py
     """
-    serializer_class    =   UserLoginSerializer
+    def post(self, request, *args, **kwargs):
+        serializer = UserLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
+        if user is None:
+            return Response({"status": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
+        # 2fa here
+        user.is_connected = True
+        user.save()
+        login(request, user)
+        return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
+
 
 
 class UserLogout(APIView):
-    """
-    using APIView to manually get the refresh in body (generics wont check it)
-    not sure i need to try/cacth the refresh.blacklist bc token presence and validity checked in seria
-    """
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [UserLogoutPermission]
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated == False:
+            return Response({"status": "unauthenticated user"}, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_connected == False:
+            return Response({"status": "user not connected"}, status=status.HTTP_400_BAD_REQUEST)
+        
 
-    def post(self, request):
-        serializer = UserLogoutSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = request.user
-        refresh = RefreshToken(serializer.validated_data['refresh'])
-        try:
-            refresh.blacklist()
-            user.is_connected = False
-            user.save()
-            return Response({"status": "Logout succes, refresh token blacklisted"}, status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            return Response({"status": f"Error blacklisting tokens: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        request.user.is_connected = False
+        request.user.save()
+        logout(request)
+        return Response({"status": "log out success"}, status=status.HTTP_204_NO_CONTENT)
 
 
 class ResetPassword(generics.GenericAPIView):
@@ -167,8 +170,8 @@ class ResetPassword(generics.GenericAPIView):
     since generics.view, do we need to specify serializer in post? try
     old != new done in seria
     """
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [IsUserConnectedPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [IsUserConnectedPermission]
     serializer_class        =   ResetPasswordSerializer
 
     def post(self, request):
@@ -189,22 +192,22 @@ class FriendRequest_create(generics.CreateAPIView):
     """
     create a single Request, sender/receiver id must be provided, auth user must be sender
     """
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [FriendRequestCreatePermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [FriendRequestCreatePermission]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_create_Serializer
 
 
 class FriendRequest_list(generics.ListAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [IsUserConnectedPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [IsUserConnectedPermission]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_show_Serializer
 
 
 class FriendRequest_retrieve(generics.RetrieveAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [IsUserConnectedPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [IsUserConnectedPermission]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_show_Serializer
 
@@ -214,7 +217,7 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
     accept/refuse via model methods, auth.user must be revceiver
     cant use permission to detect if request.user is receiver.id (cant get pk in permissions)
     """
-    authentication_classes  =   [JWTAuthentication]
+    #authentication_classes  =   [JWTAuthentication]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_show_Serializer
 
@@ -237,8 +240,8 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
 #       GAME API VIEWS 
 ##########################################################
 class GameListCreate(generics.ListCreateAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [UserListCreatePermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [UserListCreatePermission]
     queryset                =   Game.objects.all()
     serializer_class        =   Game_list_Serializer
 
@@ -250,8 +253,8 @@ class GameListCreate(generics.ListCreateAPIView):
 
 
 class GameRetrieve(generics.RetrieveAPIView):
-    authentication_classes  =   [JWTAuthentication]
-    permission_classes      =   [IsUserConnectedPermission]
+    #authentication_classes  =   [JWTAuthentication]
+    #permission_classes      =   [IsUserConnectedPermission]
     queryset                =   Game.objects.all()
     serializer_class        =   Game_list_Serializer
 

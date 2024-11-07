@@ -21,8 +21,9 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 INSTALLED_APPS = [
+    'jwtauth',
     'rest_framework',
-    'rest_framework_simplejwt.token_blacklist',
+    #'rest_framework_simplejwt.token_blacklist',
     'base.apps.BaseConfig',
     'corsheaders',
     'django_extensions',
@@ -36,7 +37,7 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'base.User'
 
-SIMPLE_JWT = {
+"""SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 
@@ -47,18 +48,25 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    #"USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+}"""
+
+JWTAUTH = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_COOKIE_NAME": "access_token",
+    "REFRESH_TOKEN_COOKIE_NAME": "refresh_token",
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
 }
 
-# those settings are applied globally: we better set them per view (ie not requiering JWT on Admin user)
-# ie need to deactivate JWT to let the my custom token expiracy/invalid code respond
-# however i dont know how it passes whith the login/ route (special route in simple-jwt??)
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'jwtauth.JwtAuthentication',
         #'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
@@ -74,6 +82,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'jwtauth.middleware.AuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

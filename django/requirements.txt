@@ -9,3 +9,4 @@ pyOpenSSL==24.2.1
 httpie==3.2.3
 psycopg==3.2.3
 Werkzeug==3.0.6
+drf-cookie-jwtauth==0.0.7

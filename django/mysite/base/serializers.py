@@ -77,46 +77,19 @@ class User_avatar_serializer(serializers.ModelSerializer):
         model   = User
         fields  = ['avatar']
 
-class UserLoginSerializer(TokenObtainPairSerializer):
-    """
-    redefining validate to update our user as connected
-    check if user is already connected not to re-issue tokens
-    """
+class UserLoginSerializer(serializers.Serializer):
+    username    = serializers.CharField(required=True)
     password    = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
-    class Meta:
-        model   = User
-        fields  = ['username', 'password']
 
-    def validate(self, attrs):
-        try:
-            user = User.objects.get(username=attrs[self.username_field])
-        except User.DoesNotExist:
-            raise serializers.ValidationError(f"{attrs[self.username_field]}: unknown username.")
-        if user.is_connected:
-            raise serializers.ValidationError(f"{attrs[self.username_field]} is already log in.")
-        data = super().validate(attrs)
-        user = User.objects.get(username=attrs[self.username_field])
-        user.is_connected = True
-        user.save()
+    def validate(self, data):
+        user = User.objects.filter(username=data.get('username')).first()
+        if user is None:
+            raise ValidationError({"status": "Unknown user"})
+        if user and user.is_connected:
+            raise ValidationError({"status": "User is already connected."})
         return data
-    
-class UserLogoutSerializer(serializers.Serializer):
-    """
-    redefining validate to check refresh token presence + validity
-    is_connected is updated in the view
-    """
-    refresh = serializers.CharField()
 
-    def validate(self, attrs):
-        try:
-            refresh = RefreshToken(attrs.get('refresh'))
-        except Exception:
-            raise serializers.ValidationError("Missing refresh token.")
-        try:
-            refresh.verify()
-        except Exception:
-            raise serializers.ValidationError("Invalid refresh token.")
-        return attrs
+
 
 class ResetPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
