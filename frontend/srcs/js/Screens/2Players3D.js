@@ -49,7 +49,6 @@ export function initialize2Players3D() {
     });
 
     function cleanup2Players3D() {
-        // cancelAnimationFrame(animationId3D2P);
 
         document.removeEventListener('keydown', (e) => { keys[e.key] = true; });
         document.removeEventListener('keyup', (e) => { keys[e.key] = false; });
