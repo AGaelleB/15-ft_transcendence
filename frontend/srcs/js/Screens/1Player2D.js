@@ -8,12 +8,13 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle2D, handleWallCollision2D, checkBallOutOfBounds2D, checkPaddleCollision2D } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D, setIsGameOver2D } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D, setIsGameOver2D, isGameOver2D } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPowerUpTimer2D, applyPowerUpEffect2D, checkPowerUpCollision2D, resetPowerUpEffects2D} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
+import { setIsGameOver3D } from '../PongGame/Game3D/score3D.js';
 
 export let animationId2D1P;
 
@@ -57,19 +58,20 @@ export function initialize1Player2D() {
         document.removeEventListener('keypress', handleKeyPress2D);
         window.removeEventListener('resize', onResizeCanvas);
     
-        setIsGameOver2D(false);
         setTwoPlayerMode2D(false);  
-
+        
         hidePowerUp(powerUpImageElement);
         resetRallyCount2D();
-    
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        
         isGameActive2d = false;
+        setIsGameOver2D(false);
         setGameStarted2D(true);
     }
 
     setIsGameOver2D(false);
+    setIsGameOver3D(false);
 
     function setIsGameActive2d(value) {
         if (typeof value === 'boolean')

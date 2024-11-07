@@ -6,13 +6,14 @@ import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resiz
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { setIsGameOver3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D, resetPowerUpTimer3D } from '../PongGame/Game3D/power-ups3D.js';
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode3D } from '../Modals/winMsgModal.js';
 import { isTournament3D } from './tournament3D.js';
+import { setIsGameOver2D } from '../PongGame/Game2D/score2D.js';
 
 export let isGameActive3D = true;
 export let animationId3D2P;
@@ -34,6 +35,7 @@ export function initialize2Players3D() {
 
     isGameActive3D = true;
     setIsGameOver3D(false);
+    setIsGameOver2D(false);
 
     function setIsGameActive(value) {
         if (typeof value === 'boolean')

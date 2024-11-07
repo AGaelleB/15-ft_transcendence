@@ -14,6 +14,7 @@ import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
 import { isTournament2D } from './tournament2D.js';
+import { setIsGameOver3D } from '../PongGame/Game3D/score3D.js';
 
 export let animationId2D2P;
 
@@ -63,7 +64,9 @@ export function initialize2Players2D() {
 
     if (!isTournament2D)
         setTwoPlayerMode2D(true);
+
     setIsGameOver2D(false);
+    setIsGameOver3D(false);
 
     function setIsGameActive2d(value) {
         if (typeof value === 'boolean')

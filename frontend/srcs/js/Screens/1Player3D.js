@@ -7,12 +7,13 @@ import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallW
 import { gameSettings3D } from '../PongGame/gameSettings.js';
 import { updateAI3D } from '../PongGame/Game3D/computerAI3D.js';
 import { checkPaddleCollision3D, checkBallOutOfBounds3D } from '../PongGame/Game3D/ballCollision3D.js';
-import { setIsGameOver3D, setPlayer1Score3D, setPlayer2Score3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
+import { setIsGameOver3D, updateScore3D } from '../PongGame/Game3D/score3D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { applyPowerUpEffect3D, checkPowerUpCollision3D, generatePowerUp3D, hidePowerUp3D, powerUpObject3D, resetPowerUpTimer3D } from '../PongGame/Game3D/power-ups3D.js';
 import { resetRallyCount3D } from '../PongGame/Game3D/rallyEffect3D.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode3D } from '../Modals/winMsgModal.js';
+import { setIsGameOver2D } from '../PongGame/Game2D/score2D.js';
 
 export let isGameActive3D = true;
 export let animationId3D1P;
@@ -41,6 +42,7 @@ export function initialize1Player3D() {
 
     isGameActive3D = true;
     setIsGameOver3D(false);
+    setIsGameOver2D(false);
 
     function setIsGameActive(value) {
         if (typeof value === 'boolean')
@@ -150,3 +152,10 @@ export function initialize1Player3D() {
     }
     gameLoop1Player3D();
 }
+
+
+
+/* 
+    petit flag 
+
+*/
