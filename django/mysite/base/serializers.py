@@ -86,10 +86,10 @@ class UserLoginSerializer(serializers.Serializer):
         if user is None:
             raise ValidationError({"status": "Unknown user"})
         if user and user.is_connected:
-            raise ValidationError({"status": "User is already connected."})
+            raise ValidationError({"status": "User is already connected."}) 
+        # maybe we may let it (ie the user closes tab, lost its cookies, but still is_connected==true )
+        # we could also check if the request is authenticated : if so we logout the user !!!! yep nice idea
         return data
-
-
 
 class ResetPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'}, validators=[validate_password])
@@ -113,11 +113,11 @@ class FriendRequest_create_Serializer(serializers.ModelSerializer):
         receiver    = data['receiver']
 
         if sender == receiver:
-            raise serializers.ValidationError("Friend invite: sender is same user as receiver")
+            raise ValidationError("Friend invite: sender is same user as receiver")
         if FriendRequest.objects.filter(sender=sender, receiver=receiver) or FriendRequest.objects.filter(sender=receiver, receiver=sender):
-            raise serializers.ValidationError("Friend invite: exists already")
+            raise ValidationError("Friend invite: exists already")
         if receiver in sender.friends.all():
-            raise serializers.ValidationError("Friend invite: friends already")
+            raise ValidationError("Friend invite: friends already")
         return data
 
 

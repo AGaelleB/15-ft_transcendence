@@ -39,13 +39,13 @@ note: since docker settings, **local launch don't work anymore**
 ## Authentication vs Permission
 ### Authentication
 * Meaning: validating your idendity with the server (without user to input credentials everytime)
-* How: via JWToken given at login, sent as authorization header in any following request, so Django can identify a request.user
+* How: via JWToken given at login, sent as authorization header or cookie in any following request, so Django can identify a request.user
 ### Permission
 * Meaning: what a authenticated user can do
 * How: per view, using class that customize rest_framework.permissions.BasePermissions (cf permissions.py) 
 * there is also a way of setting permissions per user, but I dont know if interesting here (all normal users have same type of rights)
 
-## How to get a token, and use it?
+## How to get a token, and use it? (SIMPLE-JWT, outdated)
 * create a user via a POST at 127.0.0.1:8001/users/ (you first need to login the superuser)
 * get a token: POST at 127.0.0.1:8001/login/ with username and password in body (json format)
 * the server should reply a body with an acces and a refresh one. Store both.
@@ -53,7 +53,7 @@ note: since docker settings, **local launch don't work anymore**
 * include the access token in all requests for that user, in a header formatted as **"Authorization: Bearer JWT"** (JWT is the access token string)
 * note that "login" and "getting a token" is the same thing. you post username and password at login/, it makes the user connected and you got both tokens in the body response. 
 
-## Token security
+## Token security (SIMPLE-JWT, JWTauth)
 * They must be stored somewhere in the front. LocalSession vs LocalStorage? Cookie possible?
 * Access and Refresh token are related to a specific user (user.id and username in the token payload when decoded) 
 * The refresh token is blacklisted on user logout --> it wont work for any new refresh demand
@@ -62,7 +62,7 @@ note: since docker settings, **local launch don't work anymore**
   * on logout, we set user.is_connected to False
   * on every route that requires an access token, we add a check on user.is_connected == True
 
-## How to use superuser
+## How to use superuser (NO NEED ANYMORE)
 * created by django at startup, with username and password in env file
 * front end can login it like a normal user (POST 127.0.0.1:8001/login/ with username and password), and must use its access token in any request
   * this means that we need to share the username and password to the front (via env file), and store its tokens too
@@ -90,7 +90,7 @@ note: since docker settings, **local launch don't work anymore**
   * without Werkzeug (not tried yet):
     * nginx proxy: listen on 443 ssl with mkcert certif/key, and proxy-pass https to http to django
     * django responses should then be converted to https before going out of nginx 
-### testing backend
+### testing backend (SIMPLE-JWT, outdated)
 *authentication + ssl makes it harder to test*
 * browser needed for ssl testing, and the only available route without token is : **https://127.0.0.1:8001/login/**
 * connect a user, copy the access token from the response  
@@ -175,6 +175,43 @@ note: delete the request, and if str=='accept', add both users as friends
 
 
 ## Journal
+#### 07/11/2024 21h00:
+* JWT : use of JWTauth instead of simple-JWT: 
+  * both tokens set as cookies when login/ 
+  * both tokens removed from cookies when logout/ + refresh blacklisted
+  * acces token is "silently refreshed" when expired (100% serverside, frontend does and sees nothing)
+  * superuser: 
+    * pb to connect it (front need password) and for tokens (must have different names than user's, and sent with all requests)
+    * it does not seem super secure, plus it is kind of useless (user creation and game creation) :
+    * create user: any unauthenticated user (ie anyone reaching the website that has not login yet)
+    * create game: the connected user (==the player of the game)
+    * we might set throttle on user creation and game creation to avoid exploding db for nothing? ie 400/hour?
+    * i guess with csrf token a human connected as user could not even uses its tokens to send via curl? 
+    * all of that must be tested with siege !!
+  * token cookie security :
+    * jwtauth put httponly, samesite=strict and path=/
+    * if DEBUG is false, it also set Secure (cookie only sent via https)
+    * crsf token must be done. there is one when using the browsable api, we may replciate that?
+  * login:
+    * to avoid multiple login from same client without logout (pb with is_connected), we may logout any authenticated user that ask to login
+  * 401 unauthorized return to the front:
+    * refresh token is expired (not common but we have to handle it): back to login
+    * someone tried to request the API without login, that should never happened except fraudulent: we can also get back to login
+    * I dont see any other way to get a 401? if the user removed its cookie? then back to login
+  * re-check if it is ok to use that package because it kinda does everything for us ... simple-jwt was the same
+    * maybe i should rewrite my own token maker using pyJWT ; but it would be an easy copycat of JWTAuth ... 
+* new fields for games/
+* friend request create back to id (not username)
+* tests browsable API done:
+  * if one user connected, a new tab keeps sending cookies (the same user is auth in all tabs)
+  * when private window, cookies are not sent so new user can connect
+* Todo:
+  * login: logout any auth user
+  * remove superuser (permisisons, management)
+  * test games/create/ with player==user
+  * trhottle on user/game creation : 400/hour?
+  * PB WITH USER DELETE because tokens still references user ... --> try to logout first? nope the problem is now link to the refresh blacklisted ...
+  
 #### 04/11/2024 19h00:
 * friends-request/create : username instead of user_id; str representation: "id:, from:, to:"
 * userRUD/ : removed password from serializer

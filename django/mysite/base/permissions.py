@@ -33,13 +33,15 @@ class IsUserConnectedPermission(BasePermission):
 ##########################################################
 class UserListCreatePermission(BasePermission):
     """
-    create user: superuser only; list all users: any authenticated user
+    POST: superuser only; GET: any authenticated user
     """
     def has_permission(self, request, view):
         if request.method in ['GET', 'OPTIONS', 'HEAD']:
             return request.user.is_authenticated and request.user.is_connected
         if request.method in ['POST']:
-            return request.user.is_authenticated and request.user.is_connected and request.user.is_superuser
+            return True
+            #return request.user.is_authenticated and request.user.is_connected #and request.user.is_superuser
+            # just check that request.user.is_authenticated == FALSE ?? 
         return False
 
 class UserRUDPermission(BasePermission):
@@ -53,22 +55,6 @@ class UserRUDPermission(BasePermission):
             return request.user.is_authenticated and request.user.is_connected and request.user.username == view.kwargs.get('username')
         return False
     
-class UserLogoutPermission(BasePermission):
-    """
-    auth user must be owner of the refresh (request.user.id is actually obtained from acces token)
-    permissions are checked before seria: missing refresh return True to let seria raise its own error
-    """
-    def has_permission(self, request, view):
-        if request.method == 'POST':
-            refresh_token = request.data.get('refresh')
-            if not refresh_token:
-                return True
-            try:
-                refresh = RefreshToken(refresh_token)
-                user_id = refresh.payload.get('user_id')
-                return request.user.id == user_id and request.user.is_connected
-            except Exception:
-                return False
 
 class FriendRequestCreatePermission(BasePermission):
     """
@@ -76,9 +62,22 @@ class FriendRequestCreatePermission(BasePermission):
     if missing sender, we let it pass to get the serializer error
     """
     def has_permission(self, request, view):
+        if request.method in ['GET', 'OPTIONS']:
+            return request.user.is_authenticated and request.user.is_connected
         if request.method == 'POST':
             sender = request.data.get('sender')
             if not sender:
                 return True
             return str(request.user.id) == sender and request.user.is_connected
 
+
+class GameListCreatePermission(BasePermission):
+    """
+    POST: user must be player; GET: any authenticated user
+    """
+    def has_permission(self, request, view):
+        if request.method in ['GET', 'OPTIONS', 'HEAD']:
+            return request.user.is_authenticated and request.user.is_connected
+        if request.method in ['POST']:
+            return request.user.is_authenticated and request.user.is_connected #and request.data.get['player'] == request.user
+        return False

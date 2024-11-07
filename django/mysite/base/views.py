@@ -18,38 +18,6 @@ from .permissions import *
 
 
 ##########################################################
-#       Expired token tests 
-##########################################################
-from jwt import ExpiredSignatureError, InvalidTokenError, decode
-
-class TokenExpTest(APIView):
-    def get(self, request):
-        auth_header = request.headers.get('Authorization')
-        
-        if not auth_header: 
-            return Response({'error': 'Token missing.'}, status=400)
-        if not auth_header.startswith('Bearer '):
-            return Response({'error': 'Token improperly formatted.'}, status=400)
-        
-        token = auth_header.split(' ')[1]
-
-        try:
-            decoded_token = decode(token, algorithms=settings.SIMPLE_JWT['ALGORITHM'], key=settings.SIMPLE_JWT['SIGNING_KEY'])
-            print(decoded_token)
-            return Response(decoded_token, status=200)
-        
-        except ExpiredSignatureError:
-            return Response({'error': 'Token expired'}, status=401)
-        
-        except InvalidTokenError as e:
-            return Response({'error': f'Invalid token:{e}'}, status=401)
-        
-        except Exception as e:
-            print(f"This error '{e}' occured while decoding token.")
-            return Response({'error': 'An error occured while decoding token.'}, status=401)
-
-
-##########################################################
 #       USER 
 ##########################################################
 class UserListCreate(generics.ListCreateAPIView):
@@ -57,8 +25,7 @@ class UserListCreate(generics.ListCreateAPIView):
     list all users, except superuser (GET) or create a new one (POST)
     no JWT returned on creation: you must then login
     """
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [UserListCreatePermission]
+    permission_classes      =   [UserListCreatePermission]
     queryset                =   User.objects.filter(is_superuser=False)
     serializer_class        =   User_Create_Serializer
 
@@ -70,8 +37,7 @@ class UserListCreate(generics.ListCreateAPIView):
 
 
 class UserListConnected(generics.ListAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [IsUserConnectedPermission]
+    permission_classes      =   [IsUserConnectedPermission]
     queryset                =   User.objects.filter(is_superuser=False, is_connected=True)
     serializer_class        =   User_friends_Serializer
 
@@ -80,8 +46,7 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
     individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
     """
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [UserRUDPermission]
+    permission_classes      =   [UserRUDPermission]
     queryset                =   User.objects.all()
     serializer_class        =   User_Update_Serializer
     lookup_field            =   'username'
@@ -94,11 +59,14 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        logout(request)
+        return self.destroy(request, *args, **kwargs)
 
 
 class User_avatar(generics.RetrieveAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [IsUserConnectedPermission]
+    permission_classes      =   [IsUserConnectedPermission]
     queryset                =   User.objects.all()
     lookup_field            =   'username'
 
@@ -112,8 +80,7 @@ class User_avatar(generics.RetrieveAPIView):
 
 
 class User_remove_friend(generics.UpdateAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [UserRUDPermission]
+    permission_classes      =   [UserRUDPermission]
     queryset                =   User.objects.all()
     serializer_class        =   User_List_Serializer
     lookup_field            =   'username'
@@ -135,6 +102,7 @@ class User_remove_friend(generics.UpdateAPIView):
 
 class UserLogin(APIView):
     """
+    see serializer: if request.user.is_authenticated: logout user, then login(username, password)
     2FA later: maybe also via serializer? if not we can redefine here the post method
     """
     def post(self, request, *args, **kwargs):
@@ -158,7 +126,6 @@ class UserLogout(APIView):
         if request.user.is_connected == False:
             return Response({"status": "user not connected"}, status=status.HTTP_400_BAD_REQUEST)
         
-
         request.user.is_connected = False
         request.user.save()
         logout(request)
@@ -170,8 +137,7 @@ class ResetPassword(generics.GenericAPIView):
     since generics.view, do we need to specify serializer in post? try
     old != new done in seria
     """
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [IsUserConnectedPermission]
+    permission_classes      =   [IsUserConnectedPermission]
     serializer_class        =   ResetPasswordSerializer
 
     def post(self, request):
@@ -192,22 +158,19 @@ class FriendRequest_create(generics.CreateAPIView):
     """
     create a single Request, sender/receiver id must be provided, auth user must be sender
     """
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [FriendRequestCreatePermission]
+    permission_classes      =   [FriendRequestCreatePermission]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_create_Serializer
 
 
 class FriendRequest_list(generics.ListAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [IsUserConnectedPermission]
+    permission_classes      =   [IsUserConnectedPermission]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_show_Serializer
 
 
 class FriendRequest_retrieve(generics.RetrieveAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [IsUserConnectedPermission]
+    permission_classes      =   [IsUserConnectedPermission]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_show_Serializer
 
@@ -217,7 +180,6 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
     accept/refuse via model methods, auth.user must be revceiver
     cant use permission to detect if request.user is receiver.id (cant get pk in permissions)
     """
-    #authentication_classes  =   [JWTAuthentication]
     queryset                =   FriendRequest.objects.all()
     serializer_class        =   FriendRequest_show_Serializer
 
@@ -240,8 +202,7 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
 #       GAME API VIEWS 
 ##########################################################
 class GameListCreate(generics.ListCreateAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [UserListCreatePermission]
+    #permission_classes      =   [GameListCreatePermission] not tested yet, might be on error 
     queryset                =   Game.objects.all()
     serializer_class        =   Game_list_Serializer
 
@@ -253,8 +214,7 @@ class GameListCreate(generics.ListCreateAPIView):
 
 
 class GameRetrieve(generics.RetrieveAPIView):
-    #authentication_classes  =   [JWTAuthentication]
-    #permission_classes      =   [IsUserConnectedPermission]
+    permission_classes      =   [IsUserConnectedPermission]
     queryset                =   Game.objects.all()
     serializer_class        =   Game_list_Serializer
 

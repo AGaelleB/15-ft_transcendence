@@ -37,21 +37,9 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'base.User'
 
-"""SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id",
-}"""
 
 JWTAUTH = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=3),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ACCESS_TOKEN_COOKIE_NAME": "access_token",
     "REFRESH_TOKEN_COOKIE_NAME": "refresh_token",
@@ -67,18 +55,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'jwtauth.JwtAuthentication',
-        #'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.authentication.RemoteUserAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-        # 'rest_framework.permissions.IsAuthenticated',
-        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        # 'rest_framework.permissions.IsAdminUser',
-        # 'rest_framework.permissions.AllowAny',
-    ]
 }
 
 MIDDLEWARE = [
