@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/1Player3D.js
 
-import { handleKeyPress3D, initializeGameStartListener3D, isGameStarted3D, resetGame3D } from '../Modals/startGameModal3D.js';
+import { handleKeyPress3D, initializeGameStartListener3D, isGameStarted3D, resetGame3D, setGameStarted3D } from '../Modals/startGameModal3D.js';
 import { initializeButton3D } from '../Modals/settingsModal.js';
 import { initializeRenderer3D, renderer, camera } from '../PongGame/Game3D/resizeRenderer3D.js';
 import { scene, ground, ball, paddleLeft, paddleRight, groundGeometry, drawBallWithSmokeTrail3D } from '../PongGame/Game3D/draw3D.js';
@@ -59,8 +59,7 @@ export function initialize1Player3D() {
         document.removeEventListener('keydown', (e) => { keys[e.key] = true; });
         document.removeEventListener('keyup', (e) => { keys[e.key] = false; });
         document.removeEventListener('keypress', handleKeyPress3D);
-        setPlayer1Score3D(0);
-        setPlayer2Score3D(0);
+
         setIsGameOver3D(false);
         setTwoPlayerMode3D(false);
 
@@ -68,6 +67,7 @@ export function initialize1Player3D() {
         resetRallyCount3D();
 
         isGameActive3D = false;
+        setGameStarted3D(true);
     }
 
     initializeButton3D();
