@@ -99,6 +99,17 @@ export function initializeModalEvents() {
     const closeProfileButton = profileModal.querySelector(".close-button");
 
     closeProfileButton.addEventListener("click", closeProfileModal);
+    const langSwitcher = document.getElementById("lang-switcher");
+
+    langSwitcher.addEventListener("click", (event) => {
+        if (event.target.classList.contains("flag")) {
+            const selectedFlag = document.getElementById("selected-flag");
+            selectedFlag.src = event.target.src;
+            selectedFlag.alt = event.target.alt;
+            // Sauvegarder la langue sélectionnée dans localStorage
+            localStorage.setItem("preferredLanguage", event.target.dataset.lang);
+        }
+    });
 
     document.getElementById('changePasswordBtn').addEventListener('click', () => {
         document.getElementById('passwordModal').classList.remove('hidden');
