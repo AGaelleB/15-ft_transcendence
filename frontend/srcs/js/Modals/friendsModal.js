@@ -279,47 +279,50 @@ export async function loadFriendsModalContent(option) {
         const userDetails = username ? await fetchUserDetails(username) : null;
 
         if (userDetails && userDetails.friends.length > 0) {
-            // Trier les amis par ordre alphabétique
             const sortedFriends = userDetails.friends.sort((a, b) => a.username.localeCompare(b.username));
 
-            sortedFriends.forEach(friend => {
+            for (const friend of sortedFriends) {
                 const friendRow = document.createElement("div");
                 friendRow.classList.add("user-row");
 
                 const friendInfo = document.createElement("div");
                 friendInfo.classList.add("user-info");
 
-                // Avatar
+                const avatarContainer = document.createElement("div");
+                avatarContainer.classList.add("avatar-container");
+
                 const avatar = document.createElement("img");
                 avatar.src = getAvatarUrl(friend.username);
                 avatar.alt = `${friend.username}'s avatar`;
                 avatar.classList.add("user-avatar");
 
-                // Nom d'utilisateur
+                const statusDot = document.createElement("span");
+                statusDot.classList.add("status-dot");
+                statusDot.style.backgroundColor = friend.is_connected ? "green" : "gray";
+
+                avatarContainer.appendChild(avatar);
+                avatarContainer.appendChild(statusDot);
+
                 const usernameElement = document.createElement("p");
                 usernameElement.textContent = friend.username;
                 usernameElement.classList.add("user-name");
 
-                friendInfo.appendChild(avatar);
+                friendInfo.appendChild(avatarContainer);
                 friendInfo.appendChild(usernameElement);
 
-                // Bouton "Show Profile"
                 const showProfileButton = document.createElement("button");
                 showProfileButton.textContent = "Show Profile";
                 showProfileButton.classList.add("show-profile-button");
                 showProfileButton.addEventListener("click", () => {
                     console.log(`Show profile of ${friend.username}`);
-                    // Fonctionnalité pour afficher le profil
                 });
 
-                // Icône de flèche verte pour le profil
                 const profileArrow = document.createElement("i");
                 profileArrow.classList.add("bi", "bi-arrow-right-circle-fill");
                 profileArrow.style.color = "green";
                 profileArrow.style.cursor = "pointer";
                 profileArrow.addEventListener("click", () => {
                     console.log(`Redirect to profile of ${friend.username}`);
-                    // Fonctionnalité pour rediriger vers la page de profil
                 });
 
                 friendRow.appendChild(friendInfo);
@@ -327,33 +330,29 @@ export async function loadFriendsModalContent(option) {
                 friendRow.appendChild(profileArrow);
 
                 contentContainer.appendChild(friendRow);
-            });
-        }
-        else
+            }
+        } else {
             contentContainer.innerHTML = "<p>No friends found</p>";
-    }
-    else if (option === "users") {
+        }
+    } else if (option === "users") {
         const savedUser = localStorage.getItem('user');
-        const currentUser = savedUser ? JSON.parse(savedUser) : null;
+        const currentUser = savedUser ? JSON.parse(savedUser).username : null;
 
         if (!currentUser) {
             console.error("Utilisateur non connecté.");
             return;
         }
 
-        // Récupérer les informations complètes de l'utilisateur connecté pour obtenir la liste d'amis
-        const currentUserDetails = await fetchUserDetails(currentUser.username);
+        const currentUserDetails = await fetchUserDetails(currentUser);
         const friendsUsernames = currentUserDetails && currentUserDetails.friends
             ? currentUserDetails.friends.map(friend => friend.username)
             : [];
 
-        // Récupérer la liste de tous les utilisateurs
         const users = await fetchAllUsers();
 
         if (users && users.length > 0) {
-            // Trier les utilisateurs par ordre alphabétique et exclure l'utilisateur connecté
             users.sort((a, b) => a.username.localeCompare(b.username));
-            const filteredUsers = users.filter(user => user.id !== currentUser.id);
+            const filteredUsers = users.filter(user => user.id !== currentUserDetails.id);
 
             for (const user of filteredUsers) {
                 const userRow = document.createElement("div");
@@ -362,44 +361,44 @@ export async function loadFriendsModalContent(option) {
                 const userInfo = document.createElement("div");
                 userInfo.classList.add("user-info");
 
-                // Avatar
+                const avatarContainer = document.createElement("div");
+                avatarContainer.classList.add("avatar-container");
+
                 const avatar = document.createElement("img");
                 avatar.src = getAvatarUrl(user.username);
                 avatar.alt = `${user.username}'s avatar`;
                 avatar.classList.add("user-avatar");
 
-                // Nom d'utilisateur
+                const statusDot = document.createElement("span");
+                statusDot.classList.add("status-dot");
+                statusDot.style.backgroundColor = user.is_connected ? "green" : "gray";
+
+                avatarContainer.appendChild(avatar);
+                avatarContainer.appendChild(statusDot);
+
                 const usernameElement = document.createElement("p");
                 usernameElement.textContent = user.username;
                 usernameElement.classList.add("user-name");
 
-                userInfo.appendChild(avatar);
+                userInfo.appendChild(avatarContainer);
                 userInfo.appendChild(usernameElement);
 
-                // Bouton d'ajout d'ami
                 const addButton = document.createElement("i");
                 addButton.classList.add("bi", "add-button");
                 addButton.style.cursor = "pointer";
 
-                // Vérifier si l'utilisateur est déjà un ami
                 if (friendsUsernames.includes(user.username)) {
-                    // Afficher l'icône d'ami en gris
                     addButton.classList.add("bi-person-check");
                     addButton.style.color = "gray";
-                    addButton.style.pointerEvents = "none"; // Icône désactivée
-                }
-                else {
-                    // Vérification si une demande d'ami est en attente
+                    addButton.style.pointerEvents = "none";
+                } else {
                     const isPendingRequest = await checkPendingRequest(user.id);
 
                     if (isPendingRequest) {
-                        // Icône orange et non cliquable pour les demandes en attente
                         addButton.classList.add("bi-person-plus");
                         addButton.style.color = "orange";
                         addButton.style.pointerEvents = "none";
-                    }
-                    else {
-                        // Icône verte pour ajouter un ami si pas de demande en cours et pas encore ami
+                    } else {
                         addButton.classList.add("bi-person-add");
                         addButton.style.color = "green";
                         addButton.addEventListener("click", () => {
@@ -413,10 +412,10 @@ export async function loadFriendsModalContent(option) {
 
                 contentContainer.appendChild(userRow);
             }
-        }
-        else
+        } else {
             contentContainer.innerHTML = "<p>Aucun utilisateur trouvé</p>";
-    } 
-    else if (option === "invitations")
+        }
+    } else if (option === "invitations") {
         await loadPendingInvitations();
+    }
 }
