@@ -82,6 +82,7 @@ export function checkGameEnd2D() {
 
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
+        //ici
         if (isTournament2D)
             showWinMessageTournament2D(player1Name);
         else
@@ -90,6 +91,7 @@ export function checkGameEnd2D() {
     } 
     else if (player2Score2D >= winningScore) {
         gameOver2D = true;
+        //ici
         if (isTournament2D)
             showWinMessageTournament2D(player2Name);
         else

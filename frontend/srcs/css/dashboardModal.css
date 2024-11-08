@@ -466,7 +466,7 @@
     position: relative;
 }
 
-.modal-content {
+.modal-content-friends {
     width: 100%;
     height: calc(13vh + 10vw);
     overflow-y: auto;
@@ -732,50 +732,376 @@ input[type="radio"] {
 }
 
 /**********************************************************************************************/
+
+.form-group-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; /* Ajuste l'espace entre les deux groupes */
+}
+
+.form-group-inline {
+    display: flex;
+    align-items: center;
+}
+
+.form-group-inline label {
+    margin-right: 8px; /* Ajuste l'espace entre le label et l'élément */
+}
+
 .lang-selector-menu {
-    position: relative;
     display: inline-block;
 }
 
-#language-button {
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
+.lang-selector {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.lang-selector .flag {
+    width: 30px;
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.lang-selector-flag-icon {
-    width: 24px;
-    height: 16px;
+.lang-selector #selected-flag {
+    display: block;
 }
 
-.lang-selector-dropdown-menu {
-    display: none; /* Caché par défaut */
+.lang-selector .other-flags {
     position: absolute;
-    background-color: #302a66;
-    border-radius: 0.5rem;
-    padding: 0;
-    list-style: none;
-    z-index: 1;
-    top: 100%;
+    display: flex;
+    gap: 5px;
+    top: 0;
+    left: 35px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.lang-selector:hover .other-flags {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/***********************ICIICICICIC*************************/
+
+.history-modal-container.hidden {
+    display: none;
+}
+
+.history-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
     left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
 }
 
-.lang-selector-dropdown-menu.open {
-    display: flex; /* Affiche le menu en mode horizontal */
-    flex-direction: row;
+.history-modal {
+    width: calc(70vw + 10vh);
+    max-width: calc(90vw);
+    padding: calc(2vh + 2vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    color: #a16935;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.close-button-history {
+    font-size: calc(1.5vw + 1.5vh);
+    position: absolute;
+    top: calc(1vh + 1vw);
+    right: calc(1vh + 1vw);
+    cursor: pointer;
+    color: #a16935;
+    background: none;
+    border: none;
+}
 
-.lang-selector-dropdown-item {
-    padding: 0.5rem;
+.close-button-history:hover {
+    box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+    transform: translate(calc(-0.2vw), calc(-0.2vh));
+}
+
+.close-button-history:active {
+    box-shadow: none;
+    transform: translate(0, 0);
+}
+
+/***************************** Boutons de filtrage ************************/
+
+/* Container des boutons */
+.slide-controls-mode {
+    position: relative;
+    display: flex;
+    height: 5vh;
+    width: 100%;
+    margin: 0 auto 2vh auto; /* Ajout d'un espace en bas */
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    background-color: #2f213a;
+    border-radius: calc(0.5vw);
+}
+
+/* Style des boutons */
+.slide-controls-mode .slide {
     display: flex;
     align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #a16935;
+    font-size: calc(1vw + 1.5vh);
+    font-weight: 500;
+    text-align: center;
     cursor: pointer;
+    z-index: 1;
+    transition: color 0.3s ease;
 }
 
-.lang-selector-dropdown-item:hover {
+/* Barre de sélection dynamique */
+.slide-controls-mode .slider-tab {
+    position: absolute;
+    height: 100%;
+    width: 33.33%; /* Ajustement pour 3 boutons */
+    background: #a16935;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: calc(0.5vw); /* Bordures arrondies pour un effet de glissement */
+    z-index: 0;
+}
+
+/* Positionnement de la barre pour chaque bouton */
+#allMode:checked ~ .slider-tab {
+    left: 0;
+}
+#mode2d:checked ~ .slider-tab {
+    left: 33.33%;
+}
+#mode3d:checked ~ .slider-tab {
+    left: 66.66%;
+}
+
+/* Couleurs des boutons en fonction de la sélection */
+#allMode:checked ~ label[for="allMode"],
+#mode2d:checked ~ label[for="mode2d"],
+#mode3d:checked ~ label[for="mode3d"] {
+    color: #302a66; /* Couleur du texte lorsqu'un bouton est sélectionné */
+    cursor: default;
+    user-select: none;
+}
+
+#allMode:checked ~ label[for="mode2d"],
+#allMode:checked ~ label[for="mode3d"],
+#mode2d:checked ~ label[for="allMode"],
+#mode2d:checked ~ label[for="mode3d"],
+#mode3d:checked ~ label[for="allMode"],
+#mode3d:checked ~ label[for="mode2d"] {
+    color: #a16935; /* Couleur du texte pour les boutons non sélectionnés */
+}
+
+/* Cacher les inputs radio */
+input[type="radio"] {
+    display: none;
+}
+
+/***************************** Boutons de sélection pour le type de jeu ************************/
+
+/* Container des boutons */
+.slide-controls-type {
+    position: relative;
+    display: flex;
+    height: 5vh;
+    width: calc(100% - 2vw);
+    margin: 0 1vw;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2f213a;
+    border-radius: calc(0.5vw);
+    overflow: hidden;
+}
+
+/* Style des boutons */
+.slide-controls-type .slide {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #a16935;
+    font-size: calc(1vw + 1.5vh);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 2; /* Assure que le texte reste au-dessus de la barre de sélection */
+}
+
+/* Barre de sélection dynamique */
+.slide-controls-type .slider-tab {
+    position: absolute;
+    height: 100%;
+    width: 25%;
+    background: #a16935;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: calc(0.5vw);
+    z-index: 1; /* Place la barre de sélection sous le texte */
+}
+
+/* Positionnement de la barre pour chaque bouton */
+#typeAll:checked ~ .slider-tab {
+    left: 0;
+}
+#type1Player:checked ~ .slider-tab {
+    left: 25%;
+}
+#type2Players:checked ~ .slider-tab {
+    left: 50%;
+}
+#typeTournament:checked ~ .slider-tab {
+    left: 75%;
+}
+
+/* Couleurs des boutons en fonction de la sélection */
+#typeAll:checked ~ label[for="typeAll"],
+#type1Player:checked ~ label[for="type1Player"],
+#type2Players:checked ~ label[for="type2Players"],
+#typeTournament:checked ~ label[for="typeTournament"] {
+    color: #302a66;
+    cursor: default;
+    user-select: none;
+}
+
+#typeAll:checked ~ label[for="type1Player"],
+#typeAll:checked ~ label[for="type2Players"],
+#typeAll:checked ~ label[for="typeTournament"],
+#type1Player:checked ~ label[for="typeAll"],
+#type1Player:checked ~ label[for="type2Players"],
+#type1Player:checked ~ label[for="typeTournament"],
+#type2Players:checked ~ label[for="typeAll"],
+#type2Players:checked ~ label[for="type1Player"],
+#type2Players:checked ~ label[for="typeTournament"],
+#typeTournament:checked ~ label[for="typeAll"],
+#typeTournament:checked ~ label[for="type1Player"],
+#typeTournament:checked ~ label[for="type2Players"] {
+    color: #a16935;
+}
+
+/* Cacher les inputs radio */
+input[type="radio"] {
+    display: none;
+}
+
+/*********************************************************************************/
+
+.stats-bar {
+    width: 100%;
+    height: 25px;
+    background-color: #dc3545; /* Rouge pour les défaites */
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+/* Barre de victoires */
+.victory-bar {
+    height: 100%;
+    background-color: #28a745; /* Vert pour les victoires */
+    color: white;
+    font-size: 2em; /* Taille du texte pour les victoires */
+    text-align: center;
+    line-height: 25px;
+    transition: width 0.5s ease;
+    border-radius: 12px 0 0 12px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Barre de défaites */
+.defeat-bar {
+    height: 100%;
+    background-color: transparent;
+    color: white;
+    font-size: 2em; /* Même taille de texte que victory-bar */
+    text-align: center;
+    line-height: 25px;
+    transition: width 0.5s ease;
+    z-index: 1;
+}
+
+.history-details {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1vh + 1vw);
+    width: 100%;
+    padding: calc(1vh + 1vw);
+    background-color: #302a66;
+    border-radius: calc(0.5vh + 0.5vw);
+    height: calc(30vh); /* Hauteur fixe pour le conteneur */
+    overflow-y: auto; /* Active le défilement si le contenu dépasse la hauteur */
+}
+
+.game-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(0.5vh + 0.5vw);
     background-color: #40356d;
+    border-radius: calc(0.5vh + 0.5vw);
+    color: #a16935;
+    font-size: calc(0.8vw + 0.8vh);
+    min-height: calc(5vh); /* Assure une taille minimale pour chaque case */
 }
 
+.history-details::-webkit-scrollbar {
+    width: 8px;
+}
 
+.history-details::-webkit-scrollbar-thumb {
+    background-color: #a16935;
+    border-radius: 4px;
+}
+
+.history-details::-webkit-scrollbar-track {
+    background: #2f213a;
+}
+
+/* Ajuste les éléments à l'intérieur de chaque case */
+.game-detail p {
+    margin: 0;
+    padding: 0 calc(0.5vw);
+    white-space: nowrap;
+}
+
+/* Style pour chaque case de partie jouée */
+.game-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c0a8e6; /* Violet clair */
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+}
+
+/* Style pour chaque élément d'information dans une partie */
+.game-info {
+    font-size: 1em;
+    color: #2f213a; /* Couleur du texte */
+    margin: 0 5px;
+    white-space: nowrap; /* Pour éviter les retours à la ligne */
+}

@@ -152,10 +152,3 @@ export function initialize1Player3D() {
     }
     gameLoop1Player3D();
 }
-
-
-
-/* 
-    petit flag 
-
-*/
