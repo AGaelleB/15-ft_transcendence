@@ -70,5 +70,12 @@
     "changePasswordBtn": "Changer le mot de passe",
     "saveInfoBtn": "Enregistrer mes informations",
     
-    "myFriendsTitle": "Mes Amis"
+    "myFriendsTitle": "Mes Amis",
+    "friendsLabel": "Mes amis",
+    "allUsersLabel": "Tous les utilisateurs",
+    "invitationsLabel": "Invitations en attente",
+    "noInvitationPending": "Aucune invitation en attente",
+    "noFriendsFound": "Aucun ami trouvé",
+    "noUsersFound": "Aucun utilisateur trouvé"
+
 }

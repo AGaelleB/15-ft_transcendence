@@ -70,5 +70,12 @@
     "changePasswordBtn": "Cambiar la contraseña",
     "saveInfoBtn": "Guardar mi información",
     
-    "myFriendsTitle": "Mi AMIGOS"
+    "myFriendsTitle": "Mi AMIGOS",
+    "friendsLabel": "Mis amigos",
+    "allUsersLabel": "Todos los usuarios",
+    "invitationsLabel": "Invitaciones pendientes",
+    "noInvitationPending": "Ninguna invitación pendiente",
+    "noFriendsFound": "No se encontraron amigos",
+    "noUsersFound": "No se encontraron usuarios"
+
 }

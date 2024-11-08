@@ -70,7 +70,13 @@
     "changePasswordBtn": "Change Password",
     "saveInfoBtn": "Save My Informations",
     
-    "myFriendsTitle": "My Friends"
+    "myFriendsTitle": "My Friends",
+    "friendsLabel": "My Friends",
+    "allUsersLabel": "All users",
+    "invitationsLabel": "Invitations pending",
+    "noInvitationPending": "No invitation pending",
+    "noFriendsFound": "No friends found",
+    "noUsersFound": "No users found"
 
 }
 
