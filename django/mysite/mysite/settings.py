@@ -15,28 +15,12 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
+AUTH_USER_MODEL = 'base.User'
+
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://localhost:8000'
 ]
-
-INSTALLED_APPS = [
-    'jwtauth',
-    'rest_framework',
-    #'rest_framework_simplejwt.token_blacklist',
-    'base.apps.BaseConfig',
-    'corsheaders',
-    'django_extensions',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
-
-AUTH_USER_MODEL = 'base.User'
-
 
 JWTAUTH = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=3),
@@ -47,6 +31,19 @@ JWTAUTH = {
     "SIGNING_KEY": SECRET_KEY,
 }
 
+INSTALLED_APPS = [
+    'jwtauth',
+    'rest_framework',
+    'base.apps.BaseConfig',
+    'corsheaders',
+    'django_extensions',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
@@ -59,12 +56,12 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'django.middleware.csrf.CsrfViewMiddleware',
     'jwtauth.middleware.AuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

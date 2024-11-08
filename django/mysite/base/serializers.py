@@ -84,11 +84,7 @@ class UserLoginSerializer(serializers.Serializer):
     def validate(self, data):
         user = User.objects.filter(username=data.get('username')).first()
         if user is None:
-            raise ValidationError({"status": "Unknown user"})
-        if user and user.is_connected:
-            raise ValidationError({"status": "User is already connected."}) 
-        # maybe we may let it (ie the user closes tab, lost its cookies, but still is_connected==true )
-        # we could also check if the request is authenticated : if so we logout the user !!!! yep nice idea
+            raise ValidationError("status: Unknown user")
         return data
 
 class ResetPasswordSerializer(serializers.Serializer):

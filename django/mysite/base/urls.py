@@ -3,8 +3,6 @@ from .views import *
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    # expired token test 
-    #path('tokens/', TokenExpTest.as_view(), name='exp token test'),
     # users data
     path('users/', UserListCreate.as_view(), name='all users'),
     path('users/connected/', UserListConnected.as_view(), name='all users'),
@@ -14,7 +12,6 @@ urlpatterns = [
     # JWT - login - password
     path('login/', UserLogin.as_view(), name='login_and_get_tokens'),
     path('logout/', UserLogout.as_view(), name='logout_and_blacklist_tokens'),
-    #path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('reset-password/', ResetPassword.as_view(), name='reset_password'),
     # friend request
     path('friend-request/', FriendRequest_list.as_view(), name='all friend requests'),
