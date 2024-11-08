@@ -1,7 +1,7 @@
 // frontend/srcs/js/Screens/userDashboard.js
 
 import { openProfileModal, initializeModalEvents } from "../Modals/dashboardModal.js";
-import { initializeFriendsModalEvents, initializePreviewStats, openFriendsModal } from "../Modals/friendsModal.js";
+import { initializeFriendsModalEvents, initializeFriendsPreview, initializePreviewStats, openFriendsModal } from "../Modals/friendsModal.js";
 import { loadLanguages } from "../Modals/switchLanguages.js";
 import { initializeHistoryModal } from "../Modals/historyModal.js";
 
@@ -65,6 +65,7 @@ export function initializeProfil() {
         saveUserProfileToLocalStorage();
     });
     
+    initializeFriendsPreview();
     initializePreviewStats();
     initializeHistoryModal();
     initializeModalEvents();

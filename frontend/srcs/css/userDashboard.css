@@ -79,39 +79,21 @@
     word-wrap: break-word;
 }
 
-/********************************** Section Amis ***********************************/
-.friends-section {
-    height: calc(15vh + 12vw);
-    font-size: calc(30vh + 3vw);
+
+/************************** Section Historique des matchs **************************/
+
+.history-section {
+    display: flex;
+    align-items: center; /* Centre verticalement le contenu */
+    grid-column: 1 / span 2;
+    height: calc(13vh + 12vw);
     border: calc(0.3vh + 0.3vw) solid #a16935;
     border-radius: calc(0.5vw);
     background: #2f213a;
     box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
-    padding: calc(2vh + 2vw);
-    text-align: center;
-}
-
-.section-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #a16935;
-    margin-bottom: calc(1vh + 1vw);
-}
-
-.friends-list {
-    display: flex;
-    gap: calc(1vh + 1vw);
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.friends-list img {
-    width: calc(3vh + 3vw);
-    height: calc(3vh + 3vw);
-    border-radius: 50%;
-    border: calc(0.15vh + 0.15vw) solid #a16935;
+    position: relative;
+    overflow: hidden;
+    padding: calc(1vh + 1vw); /* Espace autour du contenu */
 }
 
 .expand-button-stats {
@@ -129,55 +111,164 @@
     font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
 }
 
-.expand-button-friends {
-    position: absolute;
-    top: calc(0.8vh + 0.8vw);
-    right: calc(0.8vh + 0.8vw);
-    background: transparent;
-    border: none;
-    cursor: pointer;
+.hidden {
+    display: none;
 }
 
-.expand-button-friends i {
-    color: #a16935; /* Couleur orange pour l'icône */
-    font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
-}
-/************************** Section Historique des matchs **************************/
+/********************************** Section Amis ***********************************/
 
-.history-section {
+.friends-section {
     display: flex;
-    align-items: center; /* Centre verticalement le contenu */
-    grid-column: 1 / span 2;
-    height: calc(13vh + 12vw);
+    flex-direction: column;
+    gap: calc(1vh + 1vw);
+    height: calc(15vh + 12vw);
     border: calc(0.3vh + 0.3vw) solid #a16935;
     border-radius: calc(0.5vw);
     background: #2f213a;
     box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    padding: calc(0.5vh + 0.5vw);
+    text-align: center;
+    align-items: center;
+}
+
+/* Header de la section avec le titre et le bouton d'expansion */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a16935;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: calc(1.5vh + 1.5vw);
+    text-align: center;
+}
+
+/* Bouton d'expansion */
+.expand-button-friends {
+    background: none;
+    border: none;
+    color: #a16935;
+    font-size: calc(1.5vh + 1.5vw);
+    cursor: pointer;
+    position: absolute;
+    top: calc(0.8vh + 0.8vw);
+    right: calc(0.8vh + 0.8vw);
+    transition: transform 0.2s ease;
+}
+
+.expand-button-friends:hover {
+    transform: scale(1.1);
+}
+
+.expand-button-friends i {
+    color: #a16935;
+    font-size: inherit; /* Utilise la taille du bouton */
+}
+
+
+/* Conteneur principal des amis */
+.friends-container {
+    width: calc(25vw);
+    height: calc(40vh);
+    background-color: #302a66;
+    padding: calc(1vh + 1vw);
+    border-radius: calc(0.5vh + 0.5vw);
+    display: flex;
+    flex-direction: column;
+    gap: calc(0.5vh + 0.5vw);
     position: relative;
     overflow: hidden;
-    padding: calc(1vh + 1vw); /* Espace autour du contenu */
 }
 
-.history-content {
+/* Liste de prévisualisation des amis */
+.friends-list-preview {
     display: flex;
+    gap: calc(1vh + 1vw);
+    justify-content: center;
     align-items: center;
-    height: 100%; /* Remplit la hauteur de la section */
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.friends-list-preview::-webkit-scrollbar {
+    width: 8px;
+}
+
+.friends-list-preview::-webkit-scrollbar-thumb {
+    background-color: #a16935;
+    border-radius: 4px;
+}
+
+.friends-list-preview::-webkit-scrollbar-track {
+    background: #2f213a;
+}
+
+.friends-container:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    height: 20%; /* Intensité du dégradé */
+    background: linear-gradient(to bottom, rgba(48, 42, 102, 0) 0%, rgba(48, 42, 102, 1) 100%);
+    pointer-events: none;
 }
 
-.history-chart {
+/* Chaque ami dans la liste */
+.friend-item {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Aligne le graphique à gauche */
-    width: 25%; /* Ajuste la largeur pour garder le graphique à gauche */
-    height: 90%; /* Maintient une marge haute/basse équilibrée */
+    padding: calc(0.5vh + 0.5vw);
+    gap: calc(1vw);
+    background-color: #40356d;
+    border-radius: calc(0.5vh + 0.5vw);
+    color: #a16935;
 }
 
-#victoryChart {
-    width: 100%; /* Remplit la largeur de .history-chart */
-    height: 100%; /* Remplit la hauteur de .history-chart */
+/* Nom d'utilisateur des amis */
+.friend-username {
+    font-size: calc(1vh + 1vw);
 }
 
-.hidden {
-    display: none;
+/* Chaque ami dans la liste */
+.friend-preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(0.5vh + 0.5vw);
+    text-align: center;
+    color: #a16935;
+}
+
+.friend-avatar-container {
+    position: relative;
+    width: calc(4vh + 4vw);
+    height: calc(4vh + 4vw);
+}
+
+.friend-avatar-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: calc(0.15vh + 0.15vw) solid #a16935;
+}
+
+/* Pastille de statut (statusDot) */
+.status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: calc(1vh + 1vw);
+    height: calc(1vh + 1vw);
+    border-radius: 50%;
+    border: 2px solid #302a66; /* Bordure de la pastille pour contraste */
+}
+
+/* Nom d'utilisateur */
+.friend-username-preview {
+    font-size: calc(1vh + 1vw);
+    margin-top: calc(0.2vh + 0.2vw);
 }

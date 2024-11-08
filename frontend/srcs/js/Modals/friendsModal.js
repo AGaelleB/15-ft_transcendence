@@ -525,3 +525,99 @@ function createVictoryDefeatChart(victories, defeats) {
     });
 }
 
+export async function initializeFriendsPreview() {
+    const expandButton = document.getElementById('expandFriendsBtn');
+    if (expandButton) {
+        expandButton.addEventListener('click', () => {
+            document.getElementById('friendsModal').classList.remove('hidden');
+            // Charger ici la liste complète des amis si nécessaire
+        });
+    }
+    
+    // Charger la prévisualisation des amis
+    loadFriendsPreview();
+}
+
+async function loadFriendsPreview() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.username) {
+        console.warn("Aucun utilisateur connecté ou le nom d'utilisateur est manquant.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            console.error("Erreur lors de la récupération de la liste des amis:", response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+        const sortedFriends = data.friends.sort((a, b) => a.username.localeCompare(b.username));
+
+        // Pour chaque ami, obtenir son statut `is_connected`
+        const friendsWithStatus = await Promise.all(sortedFriends.map(async (friend) => {
+            const friendDetails = await fetchUserDetails(friend.username);
+            return {
+                ...friend,
+                is_connected: friendDetails.is_connected  // Ajoute le statut `is_connected`
+            };
+        }));
+
+        // Sélectionner les 6 premiers amis pour l'aperçu
+        const latestFriends = friendsWithStatus.slice(0, 6);
+        displayFriendsPreview(latestFriends);
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données:", error);
+    }
+}
+
+function displayFriendsPreview(friends) {
+    const friendsListPreview = document.querySelector('.friends-list-preview');
+    friendsListPreview.innerHTML = ''; // Vide le contenu précédent
+
+    friends.forEach(friend => {
+        const friendItem = document.createElement('div');
+        friendItem.classList.add('friend-preview-item');
+
+        // Conteneur pour l'avatar et la pastille de statut
+        const avatarContainer = document.createElement('div');
+        avatarContainer.classList.add('friend-avatar-container');
+
+        // Avatar
+        const avatar = document.createElement('img');
+        avatar.src = getAvatarUrl(friend.username);
+        avatar.alt = `${friend.username}'s avatar`;
+        avatar.classList.add('friend-avatar-preview');
+
+        // Pastille de statut
+        const statusDot = document.createElement('span');
+        statusDot.classList.add('status-dot');
+        statusDot.style.backgroundColor = friend.is_connected ? "green" : "gray"; // Indicateur en ligne ou hors ligne
+
+        // Ajout de l'avatar et de la pastille dans le conteneur
+        avatarContainer.appendChild(avatar);
+        avatarContainer.appendChild(statusDot);
+
+        // Nom d'utilisateur
+        const username = document.createElement('p');
+        username.textContent = friend.username;
+        username.classList.add('friend-username-preview');
+
+        // Ajout des éléments dans `friendItem`
+        friendItem.appendChild(avatarContainer);
+        friendItem.appendChild(username);
+
+        friendsListPreview.appendChild(friendItem);
+    });
+}
+
+
