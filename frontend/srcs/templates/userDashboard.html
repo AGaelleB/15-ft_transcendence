@@ -84,11 +84,11 @@
             </div>
                 
             <div id="delete-profil-modal" class="modal-delete-profil hidden">
-                <h2 class="message-delete-profil">Confirm Profile Deletion</h2>
-                <p class="message-delete-profil">Are you sure you want to delete your profile? This action is irreversible.</p>
+                <h2 class="message-delete-profil" data-lang-key="confirmProfileDeletion">Confirm Profile Deletion</h2>
+                <p class="message-delete-profil" data-lang-key="areYouSureDelete">Are you sure you want to delete your profile? This action is irreversible</p>
                 <div class="options-delete-profil">
-                    <button id="confirm-delete" class="btn-delete-profil">Yes</button>
-                    <button id="cancel-delete" class="btn-delete-profil">No</button>
+                    <button id="confirm-delete" class="btn-delete-profil" data-lang-key="yesButton">Yes</button>
+                    <button id="cancel-delete" class="btn-delete-profil" data-lang-key="noButton">No</button>
                 </div>
             </div>   
                 
@@ -96,22 +96,22 @@
             <div id="passwordModal" class="password-modal-container hidden">
                 <div class="password-modal">
                     <!-- Bouton de fermeture -->
-                    <span class="close-password-button">&times;</span>
+                    <span class="close-password-button" data-lang-key="closePasswordModal">&times;</span>
 
                     <form id="passwordForm">
                         <div class="form-group">
-                            <label for="currentPassword">Ancien mot de passe :</label>
-                            <input type="password" id="currentPassword" placeholder="Ancien mot de passe">
+                            <label for="currentPassword" data-lang-key="oldPasswordLabel">Old password: </label>
+                            <input type="password" id="currentPassword" placeholder="Old password" data-lang-key="oldPasswordPlaceholder">
                         </div>
                         <div class="form-group">
-                            <label for="newPassword">Nouveau mot de passe :</label>
-                            <input type="password" id="newPassword" placeholder="Nouveau mot de passe">
+                            <label for="newPassword" data-lang-key="newPasswordLabel">New password: </label>
+                            <input type="password" id="newPassword" placeholder="New password" data-lang-key="newPasswordPlaceholder">
                         </div>
                         <div class="form-group">
-                            <label for="confirmNewPassword">Confirmer le nouveau mot de passe :</label>
-                            <input type="password" id="confirmNewPassword" placeholder="Confirmer le nouveau mot de passe">
+                            <label for="confirmNewPassword"></label>
+                            <input type="password" id="confirmNewPassword" placeholder="Confirm new password" data-lang-key="confirmNewPasswordPlaceholder">
                         </div>
-                        <button type="button" class="save-password-btn">Save</button>
+                        <button type="button" class="save-password-btn" data-lang-key="saveButton">Save</button>
                     </form>
                 </div>
             </div>
@@ -211,16 +211,16 @@
             <div class="history-modal">
                 <!-- <button class="close-button-history" id="closeHistoryModal">&times;</button> -->
                 <button class="close-button-history" id="closeHistoryModal">×</button>
-                
+
                 <!-- Boutons de filtrage -->
                 <div class="slide-controls-mode">
                     <input type="radio" id="allMode" name="gameMode" checked>
                     <input type="radio" id="mode2d" name="gameMode">
                     <input type="radio" id="mode3d" name="gameMode">
                     
-                    <label for="allMode" class="slide">ALL</label>
-                    <label for="mode2d" class="slide">2D</label>
-                    <label for="mode3d" class="slide">3D</label>
+                    <label for="allMode" class="slide" data-lang-key="all">ALL</label>
+                    <label for="mode2d" class="slide" data-lang-key="mode2d">2D</label>
+                    <label for="mode3d" class="slide" data-lang-key="mode3d">3D</label>
                     
                     <div class="slider-tab"></div>
                 </div>                
@@ -231,10 +231,10 @@
                     <input type="radio" id="type2Players" name="playerMode">
                     <input type="radio" id="typeTournament" name="playerMode">
                 
-                    <label for="typeAll" class="slide">ALL</label>
-                    <label for="type1Player" class="slide">1PLAYER</label>
-                    <label for="type2Players" class="slide">2PLAYERS</label>
-                    <label for="typeTournament" class="slide">TOURNAMENT</label>
+                    <label for="typeAll" class="slide" data-lang-key="typeAll">ALL</label>
+                    <label for="type1Player" class="slide" data-lang-key="type1Player">1PLAYER</label>
+                    <label for="type2Players" class="slide" data-lang-key="type2Players">2PLAYERS</label>
+                    <label for="typeTournament" class="slide" data-lang-key="typeTournament">TOURNAMENT</label>
                 
                     <div class="slider-tab"></div>
                 </div>
@@ -244,8 +244,8 @@
         
                 <!-- Graphique en barres pour les victoires et défaites -->
                 <div class="stats-bar">
-                    <div class="victory-bar" id="victoryBar">70%</div>
-                    <div class="defeat-bar" id="defeatBar">30%</div>
+                    <div class="victory-bar" id="victoryBar"></div>
+                    <div class="defeat-bar" id="defeatBar"></div>
                 </div>                                                      
         
                 <div class="history-details" id="historyDetails">

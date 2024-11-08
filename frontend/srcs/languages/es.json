@@ -70,12 +70,36 @@
     "changePasswordBtn": "Cambiar la contraseña",
     "saveInfoBtn": "Guardar mi información",
     
+    "confirmProfileDeletion": "Confirmar la eliminación del perfil",
+    "areYouSureDelete": "¿Está seguro de que desea eliminar su perfil? Esta acción es irreversible",
+    "yesButton": "Sí",
+    "noButton": "No",
+    "closePasswordModal": "Cerrar",
+    "oldPasswordLabel": "Contraseña antigua:",
+    "oldPasswordPlaceholder": "Contraseña antigua",
+    "newPasswordLabel": "Nueva contraseña:",
+    "newPasswordPlaceholder": "Nueva contraseña",
+    "confirmNewPasswordPlaceholder": "Confirmar nueva contraseña",
+    "saveButton": "Guardar",
+
     "myFriendsTitle": "Mi AMIGOS",
     "friendsLabel": "Mis amigos",
     "allUsersLabel": "Todos los usuarios",
     "invitationsLabel": "Invitaciones pendientes",
     "noInvitationPending": "Ninguna invitación pendiente",
     "noFriendsFound": "No se encontraron amigos",
-    "noUsersFound": "No se encontraron usuarios"
+    "noUsersFound": "No se encontraron usuarios",
+
+    "all": "TODO",
+    "mode2d": "2D",
+    "mode3d": "3D",
+    "typeAll": "TODO",
+    "type1Player": "1 JUGADOR",
+    "type2Players": "2 JUGADORES",
+    "typeTournament": "TORNEO",
+    "noGamesFound": "No se encontraron juegos",
+    "victories": "Victoria(s)",
+    "defeats": "Derrota(s)"
+
 
 }

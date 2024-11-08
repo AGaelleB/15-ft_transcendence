@@ -70,14 +70,35 @@
     "changePasswordBtn": "Change Password",
     "saveInfoBtn": "Save My Informations",
     
+    "confirmProfileDeletion": "Confirm Profile Deletion",
+    "areYouSureDelete": "Are you sure you want to delete your profile? This action is irreversible",
+    "yesButton": "Yes",
+    "noButton": "No",
+    "closePasswordModal": "Close",
+    "oldPasswordLabel": "Old password:",
+    "oldPasswordPlaceholder": "Old password",
+    "newPasswordLabel": "New password:",
+    "newPasswordPlaceholder": "New password",
+    "confirmNewPasswordPlaceholder": "Confirm new password",
+    "saveButton": "Save",
+
     "myFriendsTitle": "My Friends",
     "friendsLabel": "My Friends",
     "allUsersLabel": "All users",
     "invitationsLabel": "Invitations pending",
     "noInvitationPending": "No invitation pending",
     "noFriendsFound": "No friends found",
-    "noUsersFound": "No users found"
+    "noUsersFound": "No users found",
+
+    "all": "ALL",
+    "mode2d": "2D",
+    "mode3d": "3D",
+    "typeAll": "ALL",
+    "type1Player": "1 PLAYER",
+    "type2Players": "2 PLAYERS",
+    "typeTournament": "TOURNAMENT",
+    "noGamesFound": "No games found",
+    "victories": "Victorie(s)",
+    "defeats": "Defeat(s)"
 
 }
-
-

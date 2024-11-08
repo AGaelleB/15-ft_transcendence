@@ -1,5 +1,6 @@
 // frontend/srcs/js/Modals/dashboardModal.js
 
+
 export async function openProfileModal() {
     const modal = document.getElementById("profileModal");
     const savedUser = localStorage.getItem('user');
@@ -117,20 +118,29 @@ window.openProfileModal = openProfileModal;
 window.uploadNewProfilePicture = uploadNewProfilePicture;
 
 // Initialiser les événements des modales
-export function initializeModalEvents() {
+export async function initializeModalEvents() {
     const profileModal = document.getElementById("profileModal");
     const closeProfileButton = profileModal.querySelector(".close-button");
 
     closeProfileButton.addEventListener("click", closeProfileModal);
     const langSwitcher = document.getElementById("lang-switcher");
 
+    try {
+        const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+        const translations = await loadLanguages(preferredLanguage);
+        updatePlaceholdersPassword(translations);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
     langSwitcher.addEventListener("click", (event) => {
         if (event.target.classList.contains("flag")) {
             const selectedFlag = document.getElementById("selected-flag");
             selectedFlag.src = event.target.src;
             selectedFlag.alt = event.target.alt;
-            // Sauvegarder la langue sélectionnée dans localStorage
-            localStorage.setItem("preferredLanguage", event.target.dataset.lang);
+            localStorage.setItem("preferredLanguage", event.target.dataset.lang);         
         }
     });
 
