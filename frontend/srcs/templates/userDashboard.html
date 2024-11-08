@@ -197,12 +197,27 @@
 
 
 
-        <!-- Historique des matchs -->
         <div class="history-section">
             <div class="section-header">
                 <button class="expand-button-stats" id="expand-button-stats">
                     <i class="bi bi-arrows-angle-expand"></i>
                 </button>
+            </div>
+            <div class="stats-preview-container">
+                <!-- Graphique à gauche -->
+                <div class="chart-container">
+                    <canvas id="victoryDefeatChart"></canvas>
+                </div>
+                
+                <!-- Aperçu des dernières parties à droite -->
+                <div class="latest-games-container">
+                    <div class="title-container">
+                        <h3>Dernières parties</h3>
+                    </div>
+                    <div class="latest-games">
+                        <!-- Les trois dernières parties seront injectées ici -->
+                    </div>
+                </div>
             </div>
         </div>
 

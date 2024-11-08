@@ -1124,3 +1124,74 @@ input[type="radio"] {
     margin: 0 5px;
     white-space: nowrap; /* Pour éviter les retours à la ligne */
 }
+
+.stats-preview-container {
+    display: flex;
+    gap: calc(1vw + 1vh); /* Espacement adaptatif entre le graphique et l'aperçu */
+    padding: calc(1vw + 1vh);
+}
+
+.chart-container {
+    width: calc(13vw + 5vh); /* Taille adaptative pour le graphique */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Empêche le redimensionnement */
+}
+
+.title-container {
+    text-align: center;
+    padding-bottom: calc(0.5vh + 0.5vw); /* Espacement sous le titre */
+    color: #a16935; /* Couleur du texte */
+
+}
+
+.latest-games-container {
+    width: calc(40vw); /* Largeur personnalisable pour l'historique */
+    height: calc(10vh + 10vw); /* Hauteur personnalisable pour l'historique */
+    background-color: #302a66; /* Arrière-plan similaire à l'historique */
+    padding: calc(1vh + 1vw);
+    border-radius: calc(0.5vh + 0.5vw);
+    display: flex;
+    flex-direction: column;
+    gap: calc(0.5vh + 0.5vw);
+    overflow: hidden; /* Enlève la barre de défilement */
+    position: relative; /* Nécessaire pour le pseudo-élément */
+}
+
+.latest-games {
+    display: flex;
+    flex-direction: column;
+    gap: calc(0.5vh + 0.5vw); /* Espacement entre les entrées de parties */
+    max-height: 100%; /* Limite la hauteur pour rester dans le conteneur */
+    overflow-y: auto; /* Permet de scroller en interne sans montrer de barre de défilement */
+    padding-right: 10px; /* Espace pour le dégradé */
+}
+
+.latest-games-container:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%; /* Ajustez selon l'intensité du dégradé souhaitée */
+    background: linear-gradient(to bottom, rgba(48, 42, 102, 0) 0%, rgba(48, 42, 102, 1) 100%);
+    pointer-events: none; /* Permet de cliquer sur les éléments en dessous */
+}
+
+.game-summary {
+    display: flex;
+    justify-content: space-between;
+    padding: calc(0.5vh + 0.5vw);
+    gap: calc(1vw); /* Espacement adaptatif entre les éléments dans chaque entrée */
+    background-color: #40356d; /* Fond pour chaque entrée */
+    border-radius: calc(0.5vh + 0.5vw);
+    color: #a16935;
+}
+
+.victory-defeat-chart {
+    width: calc(13vw + 5vh); /* Taille fixe pour le graphique avec une adaptation à l'écran */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

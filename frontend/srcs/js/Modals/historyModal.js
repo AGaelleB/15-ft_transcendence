@@ -49,7 +49,6 @@ async function loadMatchHistory() {
 
         const data = await response.json();
         allGames = data.games; // Stocke toutes les parties
-        console.log("Parties chargées:", allGames); // Vérification des données chargées
         applyFilters(); // Applique les filtres après avoir chargé les données
 
     } catch (error) {

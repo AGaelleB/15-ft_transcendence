@@ -38,7 +38,6 @@ export function initialize2Players2D() {
     });
 
     window.addEventListener('popstate', function(event) {
-        console.log("Retour arrière du navigateur détecté !");
         cleanup2Players2D();
     });
 

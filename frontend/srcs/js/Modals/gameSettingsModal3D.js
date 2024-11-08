@@ -27,7 +27,6 @@ export function loadSettingsStorage3D() {
     const savedSettings = localStorage.getItem('gameSettings3D');
     if (savedSettings) {
         Object.assign(gameSettings3D, JSON.parse(savedSettings));
-        // console.log('Loaded game settings:', gameSettings3D);
     }
 }
 

@@ -27,7 +27,6 @@ export function initializeFriendsModalEvents() {
     radioButtons.forEach(radio => {
         radio.addEventListener('change', () => {
             loadFriendsModalContent(radio.id); // Passe l'ID du bouton sélectionné
-            console.log(`Onglet sélectionné : ${radio.id}`); // Log pour suivre l'onglet
         });
     });
 }
@@ -101,8 +100,6 @@ async function sendFriendRequest(receiverId) {
         if (!response.ok) {
             throw new Error("Failed to send friend request");
         }
-
-        console.log("Friend request sent successfully");
     }
     catch (error) {
         console.error("Error sending friend request:", error);
@@ -211,7 +208,6 @@ async function handleFriendRequestAction(requestId, action) {
         });
 
         if (response.ok) {
-            console.log(`Demande ${action === "accept" ? "acceptée" : "refusée"} avec succès.`);
             loadPendingInvitations();
         }
         else {
@@ -229,19 +225,16 @@ function updateFriendButtonStatus(button, status) {
     button.style.pointerEvents = "auto"; // Réactive les clics par défaut
 
     if (status === "pending") {
-        console.log("Status is pending, setting to orange.");
         button.classList.add("bi-person-plus"); // Icone d'attente
         button.style.color = "orange";
         button.style.pointerEvents = "none"; // Empêche complètement les clics
     }
     else if (status === "accepted") {
-        console.log("Status is accepted, setting to person-check icon.");
         button.classList.add("bi-person-check"); // Icon pour les amis
         button.style.color = "gray";
         button.style.pointerEvents = "none"; // Empêche les clics pour les amis aussi
     }
     else {
-        console.log("Default add-friend icon");
         button.classList.add("bi-person-add"); // Icon pour ajouter un ami
         button.style.color = "green";
         button.style.pointerEvents = "auto"; // Active les clics uniquement pour ajouter
@@ -252,7 +245,6 @@ async function handleFriendRequest(userId, button) {
     try {
         await sendFriendRequest(userId);
         updateFriendButtonStatus(button, "pending");
-        console.log("Demande d'ami envoyée.");
     }
     catch (error) {
         console.error("Erreur lors de l'envoi de la demande d'ami:", error);
@@ -315,7 +307,6 @@ export async function loadFriendsModalContent(option) {
                 statusDot.classList.add("status-dot");
                 
                 // Utiliser `is_connected` du détail complet de l'ami
-                console.log(`FROM FRIENDS User: ${friend.username}, is_connected: ${friendDetails.is_connected}`);
                 statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
                 
                 avatarContainer.appendChild(avatar);
@@ -389,7 +380,6 @@ export async function loadFriendsModalContent(option) {
 
                 const statusDot = document.createElement("span");
                 statusDot.classList.add("status-dot");
-                console.log(`FROM USERS User: ${user.username}, is_connected: ${user.is_connected}`);
 
                 statusDot.style.backgroundColor = user.is_connected ? "green" : "gray";
 
@@ -443,3 +433,95 @@ export async function loadFriendsModalContent(option) {
         await loadPendingInvitations();
     }
 }
+
+export function initializePreviewStats() {
+    loadPreviewStats();
+
+    const expandButton = document.getElementById('expand-button-stats');
+    if (expandButton) {
+        expandButton.addEventListener('click', () => {
+            document.getElementById('historyModal').classList.remove('hidden');
+        });
+    }
+    else {
+        console.warn("Expand button not found in DOM.");
+    }
+}
+
+async function loadPreviewStats() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.username) {
+        console.warn("No user logged in or username missing.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            console.error("Error fetching match stats:", response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+        const games = data.games.sort((a, b) => new Date(b.date) - new Date(a.date)); // Tri par date décroissante
+
+        const latestGames = games.slice(0, 3); // Les 3 dernières parties
+        displayLatestGames(latestGames);
+
+        const victories = games.filter(game => game.result === 'V').length;
+        const defeats = games.length - victories;
+        createVictoryDefeatChart(victories, defeats);
+
+    } catch (error) {
+        console.error("Error loading preview stats:", error);
+    }
+}
+
+function displayLatestGames(latestGames) {
+    const latestGamesContainer = document.querySelector('.latest-games');
+    latestGamesContainer.innerHTML = ''; // Vide le contenu précédent
+
+    latestGames.forEach(game => {
+        const gameSummary = document.createElement('div');
+        gameSummary.classList.add('game-summary');
+
+        gameSummary.innerHTML = `
+            <span>${new Date(game.date).toLocaleDateString()}</span>
+            <span>Mode: ${game.game_mode.toUpperCase()}</span>
+            <span>Type: ${game.game_played === "1" ? "1PLAYER" : game.game_played === "2" ? "2PLAYERS" : "TOURNAMENT"}</span>
+            <span>Résultat: ${game.result === 'V' ? 'Victoire' : 'Défaite'}</span>
+        `;
+
+        latestGamesContainer.appendChild(gameSummary);
+    });
+}
+
+function createVictoryDefeatChart(victories, defeats) {
+    const ctx = document.getElementById('victoryDefeatChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Victoires', 'Défaites'],
+            datasets: [{
+                data: [victories, defeats],
+                backgroundColor: ['#28a745', '#dc3545']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+

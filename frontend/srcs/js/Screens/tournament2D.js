@@ -34,7 +34,6 @@ export async function initializeTournament2D() {
     
     window.addEventListener('popstate', function(event) {
         cleanup1PlayerTournament2D();
-        console.log("Retour arrière du navigateur détecté !");
     });
 
     /****************************** Player Setup *****************************/
@@ -176,7 +175,6 @@ function shuffleArray(array) {
 
 export function startNextMatch2D() {
     const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
-    // console.log("Current match queue at start:", matchQueue);
 
     if (matchQueue.length === 0) {
         if (winners.length === 1) {
@@ -210,7 +208,6 @@ export function startNextMatch2D() {
     const { player1, player2 } = matchQueue.shift();
     currentMatchPlayers2D = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-    // console.log(`Starting next match: ${player1} vs ${player2}`);
 
     // Redirect "Mr Robot" 
     if (player2 === "Mr Robot" || player1 === "Mr Robot")

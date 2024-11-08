@@ -55,7 +55,7 @@ export function initializeHome() {
         item.addEventListener('click', function(event) {
             event.preventDefault();
     
-            const mode = item.innerText.trim();  // "1 PLAYER", "2 PLAYERS", "TOURNAMENT"
+            const mode = item.innerText.trim();
             localStorage.setItem('gameMode', mode);
     
             const targetPath = getTargetPath(mode);
@@ -82,7 +82,6 @@ export function initializeHome() {
             const mode = selectedItem.innerText.trim();
             localStorage.setItem('gameMode', mode);
     
-            // Utilise également pushState pour la navigation par clavier
             const targetPath = getTargetPath(mode);
             window.history.pushState({}, "", targetPath);
     
@@ -153,7 +152,6 @@ export function initializeHome() {
     confirmLogoutButton.addEventListener('click', async function(event) {
         event.preventDefault();
     
-        // Récupère les données de l'utilisateur depuis le localStorage
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
             alert("No user logged in.");
@@ -162,10 +160,6 @@ export function initializeHome() {
     
         const user = JSON.parse(savedUser);
         const username = user.username;
-        // console.log("user ID: ", userId);
-        // console.log("user name: ", user.username);
-    
-        // Construire les données à envoyer dans la requête PUT pour déconnexion
         const userData = {
             "username": user.username,
             "first_name": "",
@@ -190,10 +184,8 @@ export function initializeHome() {
                 alert('Logout failed: ' + JSON.stringify(errorData));
             }
             else {
-                // Supprimer les informations de l'utilisateur du localStorage
                 localStorage.removeItem('user');
                 
-                // Fermer le modal et rediriger vers la page de démarrage
                 closeModal();
                 alert('Logout successful!');
                 window.history.pushState({}, "", "/start");
@@ -215,9 +207,7 @@ export function initializeHome() {
         const user = JSON.parse(savedUser);
         const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
     
-        // Mettre à jour l'avatar dans le lien de profil
         document.querySelector('.profile-link img').src = avatarUrl;
-        // console.log("Avatar URL dans le lien de profil:", avatarUrl);
     }
     
     loadProfileLinkAvatar();
