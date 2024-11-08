@@ -146,7 +146,6 @@ async function displayFilteredGames(games) {
     const historyDetails = document.getElementById('historyDetails');
     historyDetails.innerHTML = '';
 
-    // Dynamically import translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
