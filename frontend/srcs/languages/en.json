@@ -99,6 +99,18 @@
     "typeTournament": "TOURNAMENT",
     "noGamesFound": "No games found",
     "victories": "Victorie(s)",
-    "defeats": "Defeat(s)"
+    "defeats": "Defeat(s)",
+
+    "dateLabel": "Date",
+    "modeLabel": "Mode",
+    "typeLabel": "Type",
+    "scoreLabel": "Score",
+    "resultLabel": "Result",
+    "onePlayer": "1 PLAYER",
+    "twoPlayers": "2 PLAYERS",
+    "tournament": "TOURNAMENT",
+    "victoriesStats": "Victory",
+    "defeatsStats": "Defeat"
+
 
 }

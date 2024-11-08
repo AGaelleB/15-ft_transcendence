@@ -172,23 +172,23 @@ async function displayFilteredGames(games) {
 
         // Date de la partie
         const date = document.createElement('p');
-        date.textContent = `Date: ${new Date(game.date).toLocaleDateString()}`;
+        date.textContent = `${translations.dateLabel}: ${new Date(game.date).toLocaleDateString()}`;
 
         // Mode de jeu
         const mode = document.createElement('p');
-        mode.textContent = `Mode: ${game.game_mode.toUpperCase()}`;
+        mode.textContent = `${translations.modeLabel}: ${game.game_mode.toUpperCase()}`;
 
         // Type de jeu
         const type = document.createElement('p');
-        type.textContent = `Type: ${game.game_played === "1" ? "1PLAYER" : game.game_played === "2" ? "2PLAYERS" : "TOURNAMENT"}`;
-        
+        type.textContent = `${translations.typeLabel}: ${game.game_played === "1" ? translations.onePlayer : game.game_played === "2" ? translations.twoPlayers : translations.tournament}`;
+
         // Score de la partie
         const score = document.createElement('p');
-        score.textContent = `Score: ${game.game_played === "1" || game.game_played === "2" ? `${game.score} - ${game.opp_score}` : '-'}`;
+        score.textContent = `${translations.scoreLabel}: ${game.game_played === "1" || game.game_played === "2" ? `${game.score} - ${game.opp_score}` : '-'}`;
 
         // Résultat de la partie
         const result = document.createElement('p');
-        result.textContent = `Résultat: ${game.result === 'V' ? 'Victories' : 'Defeats'}`;
+        result.textContent = `${translations.resultLabel}: ${game.result === 'V' ? translations.victoriesStats : translations.defeatsStats}`;
 
         // Ajoute chaque élément dans la case
         gameDetail.appendChild(date);
