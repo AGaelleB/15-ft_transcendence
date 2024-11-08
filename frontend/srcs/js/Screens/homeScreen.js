@@ -217,7 +217,7 @@ export function initializeHome() {
     
         // Mettre à jour l'avatar dans le lien de profil
         document.querySelector('.profile-link img').src = avatarUrl;
-        console.log("Avatar URL dans le lien de profil:", avatarUrl);
+        // console.log("Avatar URL dans le lien de profil:", avatarUrl);
     }
     
     loadProfileLinkAvatar();

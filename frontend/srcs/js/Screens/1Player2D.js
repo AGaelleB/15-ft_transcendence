@@ -8,13 +8,14 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle2D, handleWallCollision2D, checkBallOutOfBounds2D, checkPaddleCollision2D } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D, setIsGameOver2D, isGameOver2D } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D, setIsGameOver2D, isGameOver2D, sendGameResult } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPowerUpTimer2D, applyPowerUpEffect2D, checkPowerUpCollision2D, resetPowerUpEffects2D} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 import { loadPlayerInfos } from '../PongGame/playerInfos.js';
 import { setTwoPlayerMode2D } from '../Modals/winMsgModal.js';
 import { setIsGameOver3D } from '../PongGame/Game3D/score3D.js';
+import { isTournament2D } from './tournament2D.js';
 
 export let animationId2D1P;
 
@@ -151,8 +152,19 @@ export function initialize1Player2D() {
         updateScore2D(); 
         const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
         if (gameEnded) {
+
             setIsGameActive2d(false);
             hidePowerUp(powerUpImageElement);
+
+            const savedUser = localStorage.getItem('user');
+            const user = JSON.parse(savedUser);
+            let result;
+            if (player1Score2D > player2Score2D)
+                result = "V";
+            else
+                result = "D";
+            if (!isTournament2D)
+                sendGameResult(player1Score2D, player2Score2D, user.id, "2d", "1", result);
             return;
         }
     

@@ -7,7 +7,7 @@ import { gameSettings2D } from '../PongGame/gameSettings.js';
 import { startCountdown } from '../PongGame/chrono.js';
 import { drawDottedLine, drawBall, drawPaddle } from '../PongGame/Game2D/draw2D.js';
 import { setLastTouchedPaddle2D, handleWallCollision2D, checkBallOutOfBounds2D, checkPaddleCollision2D } from '../PongGame/Game2D/ballCollision2D.js';
-import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D, setIsGameOver2D } from '../PongGame/Game2D/score2D.js';
+import { setPlayer1Score2D, setPlayer2Score2D, updateScore2D, checkGameEnd2D, player1Score2D, player2Score2D, setIsGameOver2D, sendGameResult } from '../PongGame/Game2D/score2D.js';
 import { createPowerUpImageElement2D, generatePowerUp2D, hidePowerUp, resetPowerUpTimer2D, applyPowerUpEffect2D, checkPowerUpCollision2D, resetPowerUpEffects2D} from '../PongGame/Game2D/power-ups2D.js';
 import { incrementRallyCount2D, resetRallyCount2D } from '../PongGame/Game2D/rallyEffect2D.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
@@ -140,19 +140,30 @@ export function initialize2Players2D() {
             ballOutOfBounds = false;
         });
     }
-    
+
     function update() {
         updateScore2D(); 
         const gameEnded = checkGameEnd2D(player1Score2D, player2Score2D);
         if (gameEnded) {
+
             setIsGameActive2d(false);
             hidePowerUp(powerUpImageElement);
+
+            const savedUser = localStorage.getItem('user');
+            const user = JSON.parse(savedUser);
+            let result;
+            if (player1Score2D > player2Score2D)
+                result = "V";
+            else
+                result = "D";
+            if (!isTournament2D)
+                sendGameResult(player1Score2D, player2Score2D, user.id, "2d", "2", result);
             return;
         }
-    
+
         ball.x += ball.dx;
         ball.y += ball.dy;
-    
+
         handleWallCollision2D(ball, canvas);
         checkPaddleCollision2D(ball, paddleLeft, paddleRight, () => {
             ballOutOfBounds = false;

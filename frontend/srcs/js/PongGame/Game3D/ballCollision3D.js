@@ -5,8 +5,9 @@ import { setPlayer1Score3D, setPlayer2Score3D, updateScore3D, checkGameEnd3D, pl
 import { gameSettings3D } from '../gameSettings.js';
 import { ball, groundGeometry, paddleLeft, paddleRight, resetPaddlePosition, scene } from './draw3D.js';
 import { hidePowerUp3D, resetPowerUpEffects3D, resetPowerUpTimer3D } from './power-ups3D.js';
-import { clearSmokeTrail3D, resetRallyCount3D } from './rallyEffect3D.js';
-import { setRallyCount3D } from './rallyEffect3D.js';
+import { clearSmokeTrail3D, resetRallyCount3D, setRallyCount3D } from './rallyEffect3D.js';
+// import { isTournament3D } from '../../Screens/tournament3D.js';
+// import { sendGameResult } from '../Game2D/score2D.js';
 
 let lastTouchedPaddle = null;
 const ballMovementLimitX = groundGeometry.parameters.width / 2 - gameSettings3D.ballRadius3D;

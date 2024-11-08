@@ -97,5 +97,38 @@ export function checkGameEnd2D() {
         return true;
     }
     return false;
+    
 }
 
+export async function sendGameResult(score, opp_score, player, game_mode, game_played, result) {
+    const gameData = {
+        "score": score,
+        "opp_score": opp_score,
+        "player": player,
+        "game_mode": game_mode,
+        "game_played": game_played,
+        "result": result,
+    };
+
+    try {
+        const response = await fetch('http://127.0.0.1:8001/games/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(gameData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error sending game result:', errorData);
+            alert('Failed to save game result');
+        }
+        else
+            console.log('Game result saved successfully!');
+    }
+    catch (error) {
+        console.error('Network error when sending game result:', error);
+    }
+}
