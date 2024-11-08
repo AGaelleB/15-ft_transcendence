@@ -594,33 +594,34 @@ input[type="radio"] {
 }
 
 .close-button-friends {
-    font-size: calc(1.5vw + 1.5vh); /* Taille ajustée */
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.1vw + 0.1vh) calc(0.4vw + 0.4vh);
+	border: calc(0.2vw + 0.2vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+
     position: absolute;
-    top: calc(1vh + 1vw);
-    right: calc(1vh + 1vw);
-    cursor: pointer;
-    color: #a16935;
-    background: none;
-    border: none;
-    font-weight: bold;
-    padding: calc(0.2vw); /* Ajoute plus de surface autour de la croix */
-    width: calc(1.5vw + 1.5vh); /* Largeur pour créer un carré */
-    height: calc(1.5vw + 1.5vh); /* Hauteur pour équilibrer le carré */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: calc(0.5vh + 0.5vw);
+    right: calc(0.5vh + 0.5vw);
 }
 
 .close-button-friends:hover {
-    box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
-    transform: translate(calc(-0.2vw), calc(-0.2vh));
+	box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+	transform: translate(calc(-0.2vw), calc(-0.2vh));
 }
 
 .close-button-friends:active {
-    box-shadow: none;
-    transform: translate(0, 0);
+	box-shadow: none;
+	transform: translate(0, 0);
 }
 
+.close-button-friends-primary:focus, .close-button-friends-primary.focus, .close-button-friends:focus, .close-button-friends.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
 
 /************* USERS ********************/
 
@@ -825,27 +826,37 @@ input[type="radio"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* Ajoutez cette ligne */
 }
 
 .close-button-history {
-    font-size: calc(1.5vw + 1.5vh);
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.1vw + 0.1vh) calc(0.4vw + 0.4vh);
+	border: calc(0.2vw + 0.2vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+
     position: absolute;
-    top: calc(1vh + 1vw);
-    right: calc(1vh + 1vw);
-    cursor: pointer;
-    color: #a16935;
-    background: none;
-    border: none;
+    top: calc(0.5vh + 0.5vw);
+    right: calc(0.5vh + 0.5vw);
 }
 
 .close-button-history:hover {
-    box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
-    transform: translate(calc(-0.2vw), calc(-0.2vh));
+	box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+	transform: translate(calc(-0.2vw), calc(-0.2vh));
 }
 
 .close-button-history:active {
-    box-shadow: none;
-    transform: translate(0, 0);
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.close-button-history-primary:focus, .close-button-history-primary.focus, .close-button-history:focus, .close-button-history.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
 }
 
 /***************************** Boutons de filtrage ************************/

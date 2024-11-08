@@ -200,7 +200,7 @@
         <!-- Historique des matchs -->
         <div class="history-section">
             <div class="section-header">
-                <button id="expand-button-stats">
+                <button class="expand-button-stats" id="expand-button-stats">
                     <i class="bi bi-arrows-angle-expand"></i>
                 </button>
             </div>
@@ -208,9 +208,7 @@
 
         <div class="history-modal-container hidden" id="historyModal">
             <div class="history-modal">
-                <!-- <button class="close-button-history" id="closeHistoryModal">&times;</button> -->
-                <button class="close-button-history" id="closeHistoryModal">×</button>
-                
+
                 <!-- Boutons de filtrage -->
                 <div class="slide-controls-mode">
                     <input type="radio" id="allMode" name="gameMode" checked>
@@ -223,50 +221,36 @@
                     
                     <div class="slider-tab"></div>
                 </div>                
-        
+                
                 <div class="slide-controls-type">
                     <input type="radio" id="typeAll" name="playerMode" checked>
                     <input type="radio" id="type1Player" name="playerMode">
                     <input type="radio" id="type2Players" name="playerMode">
                     <input type="radio" id="typeTournament" name="playerMode">
-                
+                    
                     <label for="typeAll" class="slide">ALL TYPE</label>
                     <label for="type1Player" class="slide">1PLAYER TYPE</label>
                     <label for="type2Players" class="slide">2PLAYERS TYPE</label>
                     <label for="typeTournament" class="slide">TOURNAMENT TYPE</label>
-                
+                    
                     <div class="slider-tab"></div>
                 </div>
                 
                 <!-- Séparateur -->
                 <div class="modal-separator"></div>
-        
+                
                 <!-- Graphique en barres pour les victoires et défaites -->
                 <div class="stats-bar">
                     <div class="victory-bar" id="victoryBar">70%</div>
                     <div class="defeat-bar" id="defeatBar">30%</div>
                 </div>                                                      
-        
+                
                 <div class="history-details" id="historyDetails">
                     <!-- Liste des parties jouées -->
                 </div>
+                <button class="close-button-history" id="closeHistoryModal">&times;</button>
             </div>
         </div>
-        
-        <script>
-            document.querySelectorAll('input[name="playerMode"]').forEach((input) => {
-                input.addEventListener('change', () => {
-                    console.log(`${input.id} sélectionné`);
-                });
-            });
-        </script>
-        
-
-
-
-
-
-
 
     </div>
 </div>
