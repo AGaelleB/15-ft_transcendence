@@ -60,5 +60,15 @@
     "start_next_match": "Démarrer le prochain match",
     "champion_name": "Félicitations, ${championName} a gagné le tournoi!",
 
+    "uploadButton": "Télécharger une nouvelle photo",
+    "usernameLabel": "Nom d'utilisateur",
+    "newUsernamePlaceholder": "Nouveau nom d'utilisateur",
+    "emailLabel": "Email",
+    "newEmailPlaceholder": "Nouvel email",
+    "enable2faLabel": "Activer 2FA",
+    "defaultLanguageLabel": "Langue par défaut",
+    "changePasswordBtn": "Changer le mot de passe",
+    "saveInfoBtn": "Enregistrer mes informations",
+    
     "myFriendsTitle": "Mes Amis"
 }

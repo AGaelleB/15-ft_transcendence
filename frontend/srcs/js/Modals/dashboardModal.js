@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/dashboardModal.js
 
-export function openProfileModal() {
+export async function openProfileModal() {
     const modal = document.getElementById("profileModal");
     const savedUser = localStorage.getItem('user');
     
@@ -17,8 +17,31 @@ export function openProfileModal() {
         }
     }
 
+    try {
+        const { loadLanguages, updatePlaceholdersProfil } = await import("./switchLanguages.js");
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+        const translations = await loadLanguages(preferredLanguage);
+        updatePlaceholdersProfil(translations);
+    }
+    catch (error) {
+        console.error("Erreur lors de l'importation des traductions :", error);
+    }
+
     modal.classList.remove("hidden");
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const editButton = document.querySelector(".edit-button");
+    if (editButton) {
+        editButton.addEventListener("click", () => {
+            console.log("Bouton cliqué");
+            openProfileModal();
+        });
+    }
+    else {
+        console.error("Le bouton de modification n'a pas été trouvé.");
+    }
+});
 
 export function closeProfileModal() {
     const modal = document.getElementById("profileModal");

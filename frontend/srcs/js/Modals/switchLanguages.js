@@ -59,3 +59,17 @@ export function updatePlaceholdersTournament(translations) {
 	});
 }
 
+export function updatePlaceholdersProfil(translations) {
+    if (!translations) {
+        console.error("Translations data missing.");
+        return;
+    }
+
+    document.querySelectorAll('#username').forEach(input => {
+        input.placeholder = translations.newUsernamePlaceholder || input.placeholder;
+    });
+
+    document.querySelectorAll('#email').forEach(input => {
+        input.placeholder = translations.newEmailPlaceholder || input.placeholder;
+    });
+}

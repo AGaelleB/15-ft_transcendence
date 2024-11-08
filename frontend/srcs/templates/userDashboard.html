@@ -16,7 +16,8 @@
         <div class="profile-section">
             <div class="profile-picture">
                 <img src="./images/icons/loginIcon2.png" alt="Photo de profil">
-                <button class="edit-button" onclick="openProfileModal()">
+                <!-- <button class="edit-button" onclick="openProfileModal()"> -->
+                <button class="edit-button">
                     <i class="bi bi-pencil"></i>
                 </button>
             </div>
@@ -32,30 +33,29 @@
                             <div class="profile-picture-modal">
                                 <img src="./images/icons/loginIcon2.png" alt="Photo de profil" class="profile-modal-picture">
                             </div>
-                            <button type="button" class="upload-button" onclick="document.getElementById('fileInput').click();">Upload a new picture</button>
+                            <button type="button" class="upload-button" onclick="document.getElementById('fileInput').click();" data-lang-key="uploadButton">Upload a new picture</button>
                             <input type="file" id="fileInput" class="hidden-file-input" accept="image/*" onchange="uploadNewProfilePicture(event)">
                         </div>
-
 
                         <div class="profile-right">
                             <form id="profileForm" class="form-base">
                                 <div class="form-group">
-                                    <label for="username">Nom d'utilisateur :</label>
-                                    <input type="text" id="username" placeholder="Nouveau nom d'utilisateur">
+                                    <label for="username" data-lang-key="usernameLabel">User name :</label>
+                                    <input type="text" id="username" placeholder="New User name" data-lang-key="newUsernamePlaceholder">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email :</label>
-                                    <input type="email" id="email" placeholder="Nouvel email">
+                                    <label for="email" data-lang-key="emailLabel">Email :</label>
+                                    <input type="email" id="email" placeholder="new email" data-lang-key="newEmailPlaceholder">
                                 </div>
                                 
                                 <!-- Groupes pour 2FA et le sélecteur de langue côte à côte -->
                                 <div class="form-group-horizontal">
                                     <div class="form-group-inline">
-                                        <label for="2fa">Activer la 2FA :</label>
+                                        <label for="2fa" data-lang-key="enable2faLabel">Enable 2FA: </label>
                                         <input type="checkbox" id="2fa">
                                     </div>
                                     <div class="form-group-inline">
-                                        <label for="language-button">Langue par défaut :</label>
+                                        <label for="language-button" data-lang-key="defaultLanguageLabel">Default language: </label>
                                         <div class="lang-selector-menu" id="lang-switcher">
                                             <div class="lang-selector">
                                                 <img src=" ./images/icons/usa.jpg" id="selected-flag" alt="English" class="flag" data-lang="en">
@@ -68,12 +68,12 @@
                                     </div>
                                 </div>
                         
-                                <button type="button" id="changePasswordBtn" class="change-password-btn">Change Password</button>
+                                <button type="button" id="changePasswordBtn" class="change-password-btn" data-lang-key="changePasswordBtn">Change Password</button>
                             </form> 
                         </div>
                     </div>
                     <div class="save-info-container">
-                        <button type="button" class="save-info-btn">Save My Informations</button>
+                        <button type="button" class="save-info-btn" data-lang-key="saveInfoBtn">Save My Informations</button>
                     </div>
                     <div class="delete-container">
                         <a href="#" class="delete">
@@ -231,10 +231,10 @@
                     <input type="radio" id="type2Players" name="playerMode">
                     <input type="radio" id="typeTournament" name="playerMode">
                 
-                    <label for="typeAll" class="slide">ALL TYPE</label>
-                    <label for="type1Player" class="slide">1PLAYER TYPE</label>
-                    <label for="type2Players" class="slide">2PLAYERS TYPE</label>
-                    <label for="typeTournament" class="slide">TOURNAMENT TYPE</label>
+                    <label for="typeAll" class="slide">ALL</label>
+                    <label for="type1Player" class="slide">1PLAYER</label>
+                    <label for="type2Players" class="slide">2PLAYERS</label>
+                    <label for="typeTournament" class="slide">TOURNAMENT</label>
                 
                     <div class="slider-tab"></div>
                 </div>

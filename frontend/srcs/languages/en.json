@@ -60,7 +60,18 @@
     "start_next_match": "Start Next Match",
     "champion_name": "Congratulations, ${championName} is the Tournament Champion!",
 
+    "uploadButton": "Upload a new picture",
+    "usernameLabel": "User name",
+    "newUsernamePlaceholder": "New User name",
+    "emailLabel": "Email",
+    "newEmailPlaceholder": "New email",
+    "enable2faLabel": "Enable 2FA",
+    "defaultLanguageLabel": "Default language",
+    "changePasswordBtn": "Change Password",
+    "saveInfoBtn": "Save My Informations",
+    
     "myFriendsTitle": "My Friends"
+
 }
 
 
