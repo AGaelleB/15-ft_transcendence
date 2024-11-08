@@ -594,7 +594,7 @@ input[type="radio"] {
 }
 
 .close-button-friends {
-    font-size: calc(1.5vw + 1.5vh);
+    font-size: calc(1.5vw + 1.5vh); /* Taille ajustée */
     position: absolute;
     top: calc(1vh + 1vw);
     right: calc(1vh + 1vw);
@@ -602,6 +602,13 @@ input[type="radio"] {
     color: #a16935;
     background: none;
     border: none;
+    font-weight: bold;
+    padding: calc(0.2vw); /* Ajoute plus de surface autour de la croix */
+    width: calc(1.5vw + 1.5vh); /* Largeur pour créer un carré */
+    height: calc(1.5vw + 1.5vh); /* Hauteur pour équilibrer le carré */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .close-button-friends:hover {
@@ -613,6 +620,7 @@ input[type="radio"] {
     box-shadow: none;
     transform: translate(0, 0);
 }
+
 
 /************* USERS ********************/
 
