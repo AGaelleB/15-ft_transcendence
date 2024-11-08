@@ -17,7 +17,8 @@ export function initializeFriendsModalEvents() {
 
     if (closeProfileButtonFriends) {
         closeProfileButtonFriends.addEventListener("click", closeFriendsModal);
-    } else {
+    }
+    else {
         console.error("Le bouton de fermeture du modal n'a pas été trouvé.");
     }
 
@@ -45,7 +46,8 @@ async function fetchUserDetails(username) {
         }
         const userDetails = await response.json();
         return userDetails;
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error fetching user details:", error);
         return null;
     }
@@ -65,7 +67,8 @@ async function fetchAllUsers() {
             },
         });
         return response.ok ? await response.json() : [];
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error fetching users:", error);
         return [];
     }
@@ -100,7 +103,8 @@ async function sendFriendRequest(receiverId) {
         }
 
         console.log("Friend request sent successfully");
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error sending friend request:", error);
     }
 }
@@ -123,7 +127,8 @@ async function fetchAllFriendRequests() {
 
         const friendRequests = await response.json();
         return friendRequests;
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Erreur lors de la récupération des demandes d'amis :", error);
         return [];
     }
@@ -188,7 +193,8 @@ export async function loadPendingInvitations() {
 
             contentContainer.appendChild(inviteRow);
         });
-    } else {
+    }
+    else {
         contentContainer.innerHTML = "<p>Aucune invitation en attente</p>";
     }
 }
@@ -207,10 +213,12 @@ async function handleFriendRequestAction(requestId, action) {
         if (response.ok) {
             console.log(`Demande ${action === "accept" ? "acceptée" : "refusée"} avec succès.`);
             loadPendingInvitations();
-        } else {
+        }
+        else {
             console.error(`Échec de la demande ${action}`);
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Erreur lors de la mise à jour de la demande d'ami :", error);
     }
 }
@@ -225,12 +233,14 @@ function updateFriendButtonStatus(button, status) {
         button.classList.add("bi-person-plus"); // Icone d'attente
         button.style.color = "orange";
         button.style.pointerEvents = "none"; // Empêche complètement les clics
-    } else if (status === "accepted") {
+    }
+    else if (status === "accepted") {
         console.log("Status is accepted, setting to person-check icon.");
         button.classList.add("bi-person-check"); // Icon pour les amis
         button.style.color = "gray";
         button.style.pointerEvents = "none"; // Empêche les clics pour les amis aussi
-    } else {
+    }
+    else {
         console.log("Default add-friend icon");
         button.classList.add("bi-person-add"); // Icon pour ajouter un ami
         button.style.color = "green";
@@ -243,7 +253,8 @@ async function handleFriendRequest(userId, button) {
         await sendFriendRequest(userId);
         updateFriendButtonStatus(button, "pending");
         console.log("Demande d'ami envoyée.");
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Erreur lors de l'envoi de la demande d'ami:", error);
     }
 }
@@ -279,9 +290,13 @@ export async function loadFriendsModalContent(option) {
         const userDetails = username ? await fetchUserDetails(username) : null;
 
         if (userDetails && userDetails.friends.length > 0) {
+            // Trier les amis par ordre alphabétique
             const sortedFriends = userDetails.friends.sort((a, b) => a.username.localeCompare(b.username));
 
             for (const friend of sortedFriends) {
+                // Récupérer les détails complets de chaque ami pour obtenir `is_connected`
+                const friendDetails = await fetchUserDetails(friend.username);
+
                 const friendRow = document.createElement("div");
                 friendRow.classList.add("user-row");
 
@@ -298,8 +313,11 @@ export async function loadFriendsModalContent(option) {
 
                 const statusDot = document.createElement("span");
                 statusDot.classList.add("status-dot");
-                statusDot.style.backgroundColor = friend.is_connected ? "green" : "gray";
-
+                
+                // Utiliser `is_connected` du détail complet de l'ami
+                console.log(`FROM FRIENDS User: ${friend.username}, is_connected: ${friendDetails.is_connected}`);
+                statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
+                
                 avatarContainer.appendChild(avatar);
                 avatarContainer.appendChild(statusDot);
 
@@ -371,6 +389,8 @@ export async function loadFriendsModalContent(option) {
 
                 const statusDot = document.createElement("span");
                 statusDot.classList.add("status-dot");
+                console.log(`FROM USERS User: ${user.username}, is_connected: ${user.is_connected}`);
+
                 statusDot.style.backgroundColor = user.is_connected ? "green" : "gray";
 
                 avatarContainer.appendChild(avatar);
@@ -391,14 +411,16 @@ export async function loadFriendsModalContent(option) {
                     addButton.classList.add("bi-person-check");
                     addButton.style.color = "gray";
                     addButton.style.pointerEvents = "none";
-                } else {
+                } 
+                else {
                     const isPendingRequest = await checkPendingRequest(user.id);
 
                     if (isPendingRequest) {
                         addButton.classList.add("bi-person-plus");
                         addButton.style.color = "orange";
                         addButton.style.pointerEvents = "none";
-                    } else {
+                    } 
+                    else {
                         addButton.classList.add("bi-person-add");
                         addButton.style.color = "green";
                         addButton.addEventListener("click", () => {
@@ -412,10 +434,12 @@ export async function loadFriendsModalContent(option) {
 
                 contentContainer.appendChild(userRow);
             }
-        } else {
+        }
+        else {
             contentContainer.innerHTML = "<p>Aucun utilisateur trouvé</p>";
         }
-    } else if (option === "invitations") {
+    }
+    else if (option === "invitations") {
         await loadPendingInvitations();
     }
 }
