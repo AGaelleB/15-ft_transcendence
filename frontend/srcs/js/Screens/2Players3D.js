@@ -125,15 +125,14 @@ export function initialize2Players3D() {
         if (checkBallOutOfBounds3D(scene) === false) {
             setIsGameActive(false);
 
+            // send game stats 
             const savedUser = localStorage.getItem('user');
             const user = JSON.parse(savedUser);
-                        
             let result;
             if (player1Score3D > player2Score3D)
                 result = "V";
             else
-            result = "D";
-
+                result = "D";
             if (!isTournament3D)
                 sendGameResult(player1Score3D, player2Score3D, user.id, "3d", "2", result);
         }

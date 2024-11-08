@@ -1,6 +1,7 @@
 // frontend/srcs/js/Screens/tournament3D.js
 
 import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
+import { sendGameResult } from '../PongGame/Game2D/score2D.js';
 
 export let isTournament3D = false;
 export let tournamentPlayers = [];
@@ -181,6 +182,17 @@ export function startNextMatch3D() {
         if (winners.length === 1) {
             console.log("%c>>> Tournament Complete - Champion is: " + winners[0] + " <<<", "color: yellow; font-weight: bold;");
             showWinMessageEndTournament3D(winners[0]);
+
+            // send game stats 
+            const savedUser = localStorage.getItem('user');
+            const user = JSON.parse(savedUser);
+            let result;
+            if (winners[0] === user.username)
+                result = "V";
+            else
+                result = "D";         
+            sendGameResult(0, 0, user.id, "3d", "T", result);
+
             isTournament3D = false;
             winners = [];
             return;
