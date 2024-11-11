@@ -61,9 +61,9 @@
     "champion_name": "¡Felicidades, ${championName} es el campeón del torneo!",
 
     "uploadButton": "Subir una nueva imagen",
-    "usernameLabel": "Nombre de usuario",
+    "usernameLabel": "Nombre de usuario : ",
     "newUsernamePlaceholder": "Nuevo nombre de usuario",
-    "emailLabel": "Correo electrónico",
+    "emailLabel": "Correo electrónico : ",
     "newEmailPlaceholder": "Nuevo correo electrónico",
     "enable2faLabel": "Activar 2FA",
     "defaultLanguageLabel": "Idioma predeterminado",
