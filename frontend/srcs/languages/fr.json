@@ -60,5 +60,57 @@
     "start_next_match": "Démarrer le prochain match",
     "champion_name": "Félicitations, ${championName} a gagné le tournoi!",
 
-    "myFriendsTitle": "Mes Amis"
+    "uploadButton": "Télécharger une nouvelle photo",
+    "usernameLabel": "Nom d'utilisateur",
+    "newUsernamePlaceholder": "Nouveau nom d'utilisateur",
+    "emailLabel": "Email",
+    "newEmailPlaceholder": "Nouvel email",
+    "enable2faLabel": "Activer 2FA",
+    "defaultLanguageLabel": "Langue par défaut",
+    "changePasswordBtn": "Changer le mot de passe",
+    "saveInfoBtn": "Enregistrer mes informations",
+    
+    "confirmProfileDeletion": "Confirmer la suppression du profil",
+    "areYouSureDelete": "Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible",
+    "yesButton": "Oui",
+    "noButton": "Non",
+    "closePasswordModal": "Fermer",
+    "oldPasswordLabel": "Ancien mot de passe :",
+    "oldPasswordPlaceholder": "Ancien mot de passe",
+    "newPasswordLabel": "Nouveau mot de passe :",
+    "newPasswordPlaceholder": "Nouveau mot de passe",
+    "confirmNewPasswordPlaceholder": "Confirmer le nouveau mot de passe",
+    "saveButton": "Enregistrer",
+
+    "myFriendsTitle": "Mes Amis",
+    "friendsLabel": "Mes amis",
+    "allUsersLabel": "Tous les utilisateurs",
+    "invitationsLabel": "Invitations en attente",
+    "noInvitationPending": "Aucune invitation en attente",
+    "noFriendsFound": "Aucun ami trouvé",
+    "noUsersFound": "Aucun utilisateur trouvé",
+
+    "all": "TOUT",
+    "mode2d": "2D",
+    "mode3d": "3D",
+    "typeAll": "TOUT",
+    "type1Player": "1 JOUEUR",
+    "type2Players": "2 JOUEURS",
+    "typeTournament": "TOURNAMENT",
+    "noGamesFound": "Aucune partie trouvée",
+    "victories": "Victoire(s)",
+    "defeats": "Défaite(s)",
+
+    "dateLabel": "Date",
+    "modeLabel": "Mode",
+    "typeLabel": "Type",
+    "scoreLabel": "Score",
+    "resultLabel": "Résultat",
+    "onePlayer": "1 JOUEUR",
+    "twoPlayers": "2 JOUEURS",
+    "tournament": "TOURNOI",
+    "victoriesStats": "Victoire",
+    "defeatsStats": "Défaite"
+
+
 }

@@ -138,6 +138,17 @@ export async function loadPendingInvitations() {
 
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
+    // translations
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
     // Récupère toutes les demandes d'amis
     const friendRequests = await fetchAllFriendRequests();
 
@@ -192,7 +203,7 @@ export async function loadPendingInvitations() {
         });
     }
     else {
-        contentContainer.innerHTML = "<p>Aucune invitation en attente</p>";
+        contentContainer.innerHTML = `<p>${translations.noInvitationPending}</p>`;
     }
 }
 
@@ -245,6 +256,7 @@ async function handleFriendRequest(userId, button) {
     try {
         await sendFriendRequest(userId);
         updateFriendButtonStatus(button, "pending");
+        console.log("Demande d'ami envoyée.");
     }
     catch (error) {
         console.error("Erreur lors de l'envoi de la demande d'ami:", error);
@@ -275,6 +287,17 @@ async function checkPendingRequest(userId) {
 export async function loadFriendsModalContent(option) {
     const contentContainer = document.getElementById("friendsModalContent");
     contentContainer.innerHTML = "";
+
+    // translations
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
 
     if (option === "friends") {
         const savedUser = localStorage.getItem('user');
@@ -339,11 +362,13 @@ export async function loadFriendsModalContent(option) {
                 friendRow.appendChild(profileArrow);
 
                 contentContainer.appendChild(friendRow);
-            }
-        } else {
-            contentContainer.innerHTML = "<p>No friends found</p>";
+            });
         }
-    } else if (option === "users") {
+        else {
+            contentContainer.innerHTML = `<p>${translations.noFriendsFound}</p>`;
+        }
+    }
+    else if (option === "users") {
         const savedUser = localStorage.getItem('user');
         const currentUser = savedUser ? JSON.parse(savedUser).username : null;
 
@@ -426,10 +451,10 @@ export async function loadFriendsModalContent(option) {
             }
         }
         else {
-            contentContainer.innerHTML = "<p>Aucun utilisateur trouvé</p>";
+            contentContainer.innerHTML = `<p>${translations.noUsersFound}</p>`;
         }
-    }
-    else if (option === "invitations") {
+    } 
+    else if (option === "invitations")
         await loadPendingInvitations();
     }
 }

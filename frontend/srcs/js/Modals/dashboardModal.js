@@ -1,6 +1,7 @@
 // frontend/srcs/js/Modals/dashboardModal.js
 
-export function openProfileModal() {
+
+export async function openProfileModal() {
     const modal = document.getElementById("profileModal");
     const savedUser = localStorage.getItem('user');
     
@@ -17,8 +18,31 @@ export function openProfileModal() {
         }
     }
 
+    try {
+        const { loadLanguages, updatePlaceholdersProfil } = await import("./switchLanguages.js");
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+        const translations = await loadLanguages(preferredLanguage);
+        updatePlaceholdersProfil(translations);
+    }
+    catch (error) {
+        console.error("Erreur lors de l'importation des traductions :", error);
+    }
+
     modal.classList.remove("hidden");
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const editButton = document.querySelector(".edit-button");
+    if (editButton) {
+        editButton.addEventListener("click", () => {
+            console.log("Bouton cliqué");
+            openProfileModal();
+        });
+    }
+    else {
+        console.error("Le bouton de modification n'a pas été trouvé.");
+    }
+});
 
 export function closeProfileModal() {
     const modal = document.getElementById("profileModal");
@@ -94,20 +118,29 @@ window.openProfileModal = openProfileModal;
 window.uploadNewProfilePicture = uploadNewProfilePicture;
 
 // Initialiser les événements des modales
-export function initializeModalEvents() {
+export async function initializeModalEvents() {
     const profileModal = document.getElementById("profileModal");
     const closeProfileButton = profileModal.querySelector(".close-button");
 
     closeProfileButton.addEventListener("click", closeProfileModal);
     const langSwitcher = document.getElementById("lang-switcher");
 
+    try {
+        const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+        const translations = await loadLanguages(preferredLanguage);
+        updatePlaceholdersPassword(translations);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
     langSwitcher.addEventListener("click", (event) => {
         if (event.target.classList.contains("flag")) {
             const selectedFlag = document.getElementById("selected-flag");
             selectedFlag.src = event.target.src;
             selectedFlag.alt = event.target.alt;
-            // Sauvegarder la langue sélectionnée dans localStorage
-            localStorage.setItem("preferredLanguage", event.target.dataset.lang);
+            localStorage.setItem("preferredLanguage", event.target.dataset.lang);         
         }
     });
 

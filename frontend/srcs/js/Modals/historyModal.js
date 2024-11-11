@@ -97,41 +97,67 @@ function applyFilters() {
     updateVictoryDefeatBars(victoryPercentage, victories, defeats);
 }
 
-function updateVictoryDefeatBars(victoryPercentage, victories, defeats) {
+async function updateVictoryDefeatBars(victoryPercentage, victories, defeats) {
     const defeatPercentage = 100 - victoryPercentage;
 
     const victoryBar = document.getElementById('victoryBar');
     const defeatBar = document.getElementById('defeatBar');
 
-    // Définir les largeurs et les textes par défaut
+    // translations
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
+    const victoryText = translations.victories || "Victories";
+    const defeatText = translations.defeats || "Defeats";
+
+    // Set widths and default text with translations
     victoryBar.style.width = `${victoryPercentage}%`;
-    victoryBar.textContent = `${victoryPercentage}% Victoires`;
+    victoryBar.textContent = `${victoryPercentage}% ${victoryText}`;
 
     defeatBar.style.width = `${defeatPercentage}%`;
-    defeatBar.textContent = `${defeatPercentage}% Défaites`;
+    defeatBar.textContent = `${defeatPercentage}% ${defeatText}`;
 
-    // Ajout des événements de survol pour afficher le nombre de parties
+    // Add hover events to show detailed game counts
     victoryBar.addEventListener('mouseover', () => {
-        victoryBar.textContent = `${victories} Victoires`;
+        victoryBar.textContent = `${victories} ${victoryText}`;
     });
     victoryBar.addEventListener('mouseout', () => {
-        victoryBar.textContent = `${victoryPercentage}% Victoires`;
+        victoryBar.textContent = `${victoryPercentage}% ${victoryText}`;
     });
 
     defeatBar.addEventListener('mouseover', () => {
-        defeatBar.textContent = `${defeats} Défaites`;
+        defeatBar.textContent = `${defeats} ${defeatText}`;
     });
     defeatBar.addEventListener('mouseout', () => {
-        defeatBar.textContent = `${defeatPercentage}% Défaites`;
+        defeatBar.textContent = `${defeatPercentage}% ${defeatText}`;
     });
 }
 
-function displayFilteredGames(games) {
-    const historyDetails = document.getElementById('historyDetails');
-    historyDetails.innerHTML = ''; // Vide le contenu précédent
 
+async function displayFilteredGames(games) {
+    const historyDetails = document.getElementById('historyDetails');
+    historyDetails.innerHTML = '';
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
+    const noGamesFoundMessage = translations.noGamesFound;
     if (games.length === 0) {
-        historyDetails.innerHTML = '<p>Aucune partie trouvée pour ce filtre.</p>';
+        historyDetails.innerHTML = `<p>${noGamesFoundMessage}</p>`;
         return;
     }
 
@@ -144,23 +170,23 @@ function displayFilteredGames(games) {
 
         // Date de la partie
         const date = document.createElement('p');
-        date.textContent = `Date: ${new Date(game.date).toLocaleDateString()}`;
+        date.textContent = `${translations.dateLabel}: ${new Date(game.date).toLocaleDateString()}`;
 
         // Mode de jeu
         const mode = document.createElement('p');
-        mode.textContent = `Mode: ${game.game_mode.toUpperCase()}`;
+        mode.textContent = `${translations.modeLabel}: ${game.game_mode.toUpperCase()}`;
 
         // Type de jeu
         const type = document.createElement('p');
-        type.textContent = `Type: ${game.game_played === "1" ? "1PLAYER" : game.game_played === "2" ? "2PLAYERS" : "TOURNAMENT"}`;
-        
+        type.textContent = `${translations.typeLabel}: ${game.game_played === "1" ? translations.onePlayer : game.game_played === "2" ? translations.twoPlayers : translations.tournament}`;
+
         // Score de la partie
         const score = document.createElement('p');
-        score.textContent = `Score: ${game.game_played === "1" || game.game_played === "2" ? `${game.score} - ${game.opp_score}` : '-'}`;
+        score.textContent = `${translations.scoreLabel}: ${game.game_played === "1" || game.game_played === "2" ? `${game.score} - ${game.opp_score}` : '-'}`;
 
         // Résultat de la partie
         const result = document.createElement('p');
-        result.textContent = `Résultat: ${game.result === 'V' ? 'Victoire' : 'Défaite'}`;
+        result.textContent = `${translations.resultLabel}: ${game.result === 'V' ? translations.victoriesStats : translations.defeatsStats}`;
 
         // Ajoute chaque élément dans la case
         gameDetail.appendChild(date);
