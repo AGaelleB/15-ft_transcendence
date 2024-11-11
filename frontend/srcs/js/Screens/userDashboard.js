@@ -1,9 +1,9 @@
 // frontend/srcs/js/Screens/userDashboard.js
 
 import { openProfileModal, initializeModalEvents } from "../Modals/dashboardModal.js";
-import { initializeFriendsModalEvents, initializeFriendsPreview, initializePreviewStats, openFriendsModal } from "../Modals/friendsModal.js";
+import { initializeFriendsModalEvents, initializeFriendsPreview, openFriendsModal } from "../Modals/friendsModal.js";
 import { loadLanguages } from "../Modals/switchLanguages.js";
-import { initializeHistoryModal } from "../Modals/historyModal.js";
+import { initializeHistoryModal, initializePreviewStats } from "../Modals/historyModal.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     initializeProfil();

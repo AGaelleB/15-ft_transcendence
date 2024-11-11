@@ -257,7 +257,7 @@
 }
 
 /* Pastille de statut (statusDot) */
-.status-dot {
+.status-dot-preview {
     position: absolute;
     bottom: 0;
     right: 0;

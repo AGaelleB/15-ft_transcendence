@@ -199,3 +199,134 @@ async function displayFilteredGames(games) {
         historyDetails.appendChild(gameDetail);
     });
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export function initializePreviewStats() {
+    loadPreviewStats();
+
+    const expandButton = document.getElementById('expand-button-stats');
+    if (expandButton) {
+        expandButton.addEventListener('click', () => {
+            document.getElementById('historyModal').classList.remove('hidden');
+        });
+    }
+    else {
+        console.warn("Expand button not found in DOM.");
+    }
+}
+
+async function loadPreviewStats() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.username) {
+        console.warn("No user logged in or username missing.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            console.error("Error fetching match stats:", response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+        const games = data.games.sort((a, b) => new Date(b.date) - new Date(a.date)); // Tri par date décroissante
+
+        const latestGames = games.slice(0, 3); // Les 3 dernières parties
+        displayLatestGames(latestGames);
+
+        const victories = games.filter(game => game.result === 'V').length;
+        const defeats = games.length - victories;
+        createVictoryDefeatChart(victories, defeats);
+
+    } catch (error) {
+        console.error("Error loading preview stats:", error);
+    }
+}
+
+async function displayLatestGames(latestGames) {
+    const latestGamesContainer = document.querySelector('.latest-games');
+    latestGamesContainer.innerHTML = '';
+
+    // translations
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
+    const noGamesFoundMessage = translations.noGamesFound;
+    if (latestGames.length === 0) {
+        latestGamesContainer.innerHTML = `<p style="color: #a16935; text-align: center;">${noGamesFoundMessage}</p>`;
+        return;
+    }
+
+    latestGames.forEach(game => {
+        const gameSummary = document.createElement('div');
+        gameSummary.classList.add('game-summary');
+
+        gameSummary.innerHTML = `
+            <span>${new Date(game.date).toLocaleDateString()}</span>
+            <span>Mode: ${game.game_mode.toUpperCase()}</span>
+            <span>Type: ${game.game_played === "1" ? "1PLAYER" : game.game_played === "2" ? "2PLAYERS" : "TOURNAMENT"}</span>
+            <span>Résultat: ${game.result === 'V' ? 'Victoire' : 'Défaite'}</span>
+        `;
+
+        latestGamesContainer.appendChild(gameSummary);
+    });
+}
+
+function createVictoryDefeatChart(victories, defeats) {
+    const ctx = document.getElementById('victoryDefeatChart').getContext('2d');
+    const totalGames = victories + defeats;
+
+    const chartData = totalGames > 0 ? [victories, defeats] : [1];
+    const chartColors = totalGames > 0 ? ['#28a745', '#dc3545'] : ['#808080'];
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: chartData,
+                backgroundColor: chartColors
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false // Désactive complètement la légende
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            if (totalGames === 0) {
+                                return '0 games played';
+                            } else {
+                                // Affiche le nombre de victoires ou de défaites selon la section survolée
+                                const labelIndex = context.dataIndex;
+                                if (labelIndex === 0) {
+                                    return `${victories} Victoires`;
+                                } else if (labelIndex === 1) {
+                                    return `${defeats} Défaites`;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
