@@ -362,7 +362,7 @@ export async function loadFriendsModalContent(option) {
                 friendRow.appendChild(profileArrow);
 
                 contentContainer.appendChild(friendRow);
-            });
+            }
         }
         else {
             contentContainer.innerHTML = `<p>${translations.noFriendsFound}</p>`;
@@ -378,9 +378,7 @@ export async function loadFriendsModalContent(option) {
         }
 
         const currentUserDetails = await fetchUserDetails(currentUser);
-        const friendsUsernames = currentUserDetails && currentUserDetails.friends
-            ? currentUserDetails.friends.map(friend => friend.username)
-            : [];
+        const friendsUsernames = currentUserDetails && currentUserDetails.friends ? currentUserDetails.friends.map(friend => friend.username) : [];
 
         const users = await fetchAllUsers();
 
@@ -450,13 +448,11 @@ export async function loadFriendsModalContent(option) {
                 contentContainer.appendChild(userRow);
             }
         }
-        else {
+        else
             contentContainer.innerHTML = `<p>${translations.noUsersFound}</p>`;
-        }
     } 
     else if (option === "invitations")
         await loadPendingInvitations();
-    }
 }
 
 export function initializePreviewStats() {
