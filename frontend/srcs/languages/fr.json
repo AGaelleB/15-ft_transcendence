@@ -61,12 +61,12 @@
     "champion_name": "Félicitations, ${championName} a gagné le tournoi!",
 
     "uploadButton": "Télécharger une nouvelle photo",
-    "usernameLabel": "Nom d'utilisateur",
+    "usernameLabel": "Nom d'utilisateur : ",
     "newUsernamePlaceholder": "Nouveau nom d'utilisateur",
-    "emailLabel": "Email",
+    "emailLabel": "Email : ",
     "newEmailPlaceholder": "Nouvel email",
-    "enable2faLabel": "Activer 2FA",
-    "defaultLanguageLabel": "Langue par défaut",
+    "enable2faLabel": "Activer 2FA : ",
+    "defaultLanguageLabel": "Langue par défaut : ",
     "changePasswordBtn": "Changer le mot de passe",
     "saveInfoBtn": "Enregistrer mes informations",
     
@@ -74,7 +74,7 @@
     "areYouSureDelete": "Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible",
     "yesButton": "Oui",
     "noButton": "Non",
-    "closePasswordModal": "Fermer",
+    "closePasswordModal": "x",
     "oldPasswordLabel": "Ancien mot de passe :",
     "oldPasswordPlaceholder": "Ancien mot de passe",
     "newPasswordLabel": "Nouveau mot de passe :",
@@ -89,6 +89,9 @@
     "noInvitationPending": "Aucune invitation en attente",
     "noFriendsFound": "Aucun ami trouvé",
     "noUsersFound": "Aucun utilisateur trouvé",
+    "showProfileButton": "Voir le profil",
+
+    "latestGamesTitle": "Dernières parties",
 
     "all": "TOUT",
     "mode2d": "2D",
@@ -98,8 +101,8 @@
     "type2Players": "2 JOUEURS",
     "typeTournament": "TOURNAMENT",
     "noGamesFound": "Aucune partie trouvée",
-    "victories": "Victoire(s)",
-    "defeats": "Défaite(s)",
+    "victories": "Victoires",
+    "defeats": "Défaites",
 
     "dateLabel": "Date",
     "modeLabel": "Mode",

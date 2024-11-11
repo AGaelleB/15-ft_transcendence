@@ -1,5 +1,7 @@
 // frontend/srcs/js/Modals/friendsModal.js
 
+import { loadLanguages } from '../Modals/switchLanguages.js';
+
 export function openFriendsModal() {
     const modal = document.getElementById("friendsModal");
     modal.classList.remove("hidden");
@@ -343,7 +345,7 @@ export async function loadFriendsModalContent(option) {
                 friendInfo.appendChild(usernameElement);
 
                 const showProfileButton = document.createElement("button");
-                showProfileButton.textContent = "Show Profile";
+                showProfileButton.textContent = translations.showProfileButton || "Show Profile";
                 showProfileButton.classList.add("show-profile-button");
                 showProfileButton.addEventListener("click", () => {
                     console.log(`Show profile of ${friend.username}`);

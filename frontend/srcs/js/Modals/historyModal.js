@@ -202,6 +202,7 @@ async function displayFilteredGames(games) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 export function initializePreviewStats() {
     loadPreviewStats();
 
@@ -215,6 +216,7 @@ export function initializePreviewStats() {
         console.warn("Expand button not found in DOM.");
     }
 }
+
 
 async function loadPreviewStats() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -256,7 +258,6 @@ async function displayLatestGames(latestGames) {
     const latestGamesContainer = document.querySelector('.latest-games');
     latestGamesContainer.innerHTML = '';
 
-    // translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -266,6 +267,10 @@ async function displayLatestGames(latestGames) {
     catch (error) {
         console.error("Error loading translations:", error);
     }
+
+    const latestGamesTitleElement = document.querySelector('.title-container h3');
+    if (latestGamesTitleElement)
+        latestGamesTitleElement.textContent = translations.latestGamesTitle || "Latest Games";
 
     const noGamesFoundMessage = translations.noGamesFound;
     if (latestGames.length === 0) {
@@ -279,21 +284,30 @@ async function displayLatestGames(latestGames) {
 
         gameSummary.innerHTML = `
             <span>${new Date(game.date).toLocaleDateString()}</span>
-            <span>Mode: ${game.game_mode.toUpperCase()}</span>
-            <span>Type: ${game.game_played === "1" ? "1PLAYER" : game.game_played === "2" ? "2PLAYERS" : "TOURNAMENT"}</span>
-            <span>Résultat: ${game.result === 'V' ? 'Victoire' : 'Défaite'}</span>
+            <span>${translations.modeLabel}: ${game.game_mode.toUpperCase()}</span>
+            <span>${translations.typeLabel}: ${game.game_played === "1" ? translations.onePlayer : game.game_played === "2" ? translations.twoPlayers : translations.tournament}</span>
+            <span>${translations.resultLabel}: ${game.result === 'V' ? translations.victoriesStats : translations.defeatsStats}</span>
         `;
 
         latestGamesContainer.appendChild(gameSummary);
     });
 }
 
-function createVictoryDefeatChart(victories, defeats) {
+async function createVictoryDefeatChart(victories, defeats) {
     const ctx = document.getElementById('victoryDefeatChart').getContext('2d');
     const totalGames = victories + defeats;
 
     const chartData = totalGames > 0 ? [victories, defeats] : [1];
     const chartColors = totalGames > 0 ? ['#28a745', '#dc3545'] : ['#808080'];
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    } catch (error) {
+        console.error("Error loading translations:", error);
+    }
 
     new Chart(ctx, {
         type: 'pie',
@@ -307,20 +321,22 @@ function createVictoryDefeatChart(victories, defeats) {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false // Désactive complètement la légende
+                    display: false // Supprime la légende
                 },
                 tooltip: {
                     callbacks: {
                         label: function(context) {
                             if (totalGames === 0) {
-                                return '0 games played';
-                            } else {
+                                return translations.noGamesFound || '0 games played';
+                            }
+                            else {
                                 // Affiche le nombre de victoires ou de défaites selon la section survolée
                                 const labelIndex = context.dataIndex;
                                 if (labelIndex === 0) {
-                                    return `${victories} Victoires`;
-                                } else if (labelIndex === 1) {
-                                    return `${defeats} Défaites`;
+                                    return `${victories} ${translations.victories || 'Victoires'}`;
+                                }
+                                else if (labelIndex === 1) {
+                                    return `${defeats} ${translations.defeats || 'Défaites'}`;
                                 }
                             }
                         }
@@ -330,3 +346,5 @@ function createVictoryDefeatChart(victories, defeats) {
         }
     });
 }
+
+
