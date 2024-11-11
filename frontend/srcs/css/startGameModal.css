@@ -20,7 +20,7 @@
 	/* box-sizing: border-box; */
 }
 
-.modal-content {
+.modal-content-game {
     background-color: #2f213a;
     border-radius: 10px;
     text-align: center;
@@ -33,8 +33,8 @@
 }
 
 
-.start-game-modal .modal-content p,
-.start-game-modal .modal-content button {
+.start-game-modal .modal-content-game p,
+.start-game-modal .modal-content-game button {
     margin: 10px 0;
     padding: 20px;
 

@@ -2,6 +2,8 @@
 
 
 export async function openProfileModal() {
+    const homeIcon = document.getElementById('homeIcon');
+    homeIcon.classList.add('hidden');
     const modal = document.getElementById("profileModal");
     const savedUser = localStorage.getItem('user');
     
@@ -47,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 export function closeProfileModal() {
     const modal = document.getElementById("profileModal");
     modal.classList.add("hidden");
+    homeIcon.classList.remove('hidden');
 }
 
 export function openDeleteProfileModal() {
@@ -106,10 +109,85 @@ async function uploadNewProfilePicture(event) {
         localStorage.setItem('user', JSON.stringify(savedUser));
 
         console.log("Updated avatar URL in localStorage:", updatedUserData.avatar);
-        alert("Avatar mis à jour avec succès !");
+        event.preventDefault();
+        window.history.pushState({}, "", "/profil");
+        handleLocation();
     } catch (error) {
         console.error("Error during upload:", error);
         alert("An error occurred while uploading the avatar.");
+    }
+}
+
+async function fetchAllUsers() {
+    try {
+        const response = await fetch("http://127.0.0.1:8001/users/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return response.ok ? await response.json() : [];
+    }
+    catch (error) {
+        console.error("Error fetching users:", error);
+        return [];
+    }
+}
+
+async function isEmailAvailable(email) {
+    const allUsers = await fetchAllUsers();
+    return !allUsers.some(user => user.email === email);
+}
+
+export async function saveUserProfileToBackendAndLocalStorage() {
+    const savedUser = JSON.parse(localStorage.getItem('user'));
+    if (!savedUser) {
+        alert("No user logged in.");
+        return;
+    }
+
+    const usernameInput = document.getElementById('username').value;
+    const emailInput = document.getElementById('email').value;
+
+    // Vérification de la disponibilité de l'email
+    const isEmailAvailableForSave = await isEmailAvailable(emailInput);
+    if (!isEmailAvailableForSave && emailInput !== savedUser.email) {
+        alert("Cette adresse e-mail est déjà utilisée, veuillez en choisir une autre.");
+        return;
+    }
+
+    const userData = {
+        username: usernameInput,
+        email: emailInput,
+        profileImageUrl: `http://127.0.0.1:8001/users/${usernameInput}/avatar/`,
+    };
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${savedUser.username}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer <mettre_le_token_d_authentification>',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Échec de la mise à jour du profil:", errorData);
+            alert("La mise à jour du profil a échoué: " + JSON.stringify(errorData));
+            return;
+        }
+
+        const updatedUser = { ...savedUser, ...userData };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        window.history.pushState({}, "", "/profil");
+        handleLocation();
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert("Une erreur est survenue lors de la mise à jour du profil.");
     }
 }
 

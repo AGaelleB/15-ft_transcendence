@@ -1,6 +1,6 @@
 // frontend/srcs/js/Screens/userDashboard.js
 
-import { openProfileModal, initializeModalEvents } from "../Modals/dashboardModal.js";
+import { openProfileModal, initializeModalEvents, saveUserProfileToBackendAndLocalStorage } from "../Modals/dashboardModal.js";
 import { initializeFriendsModalEvents, initializeFriendsPreview, openFriendsModal } from "../Modals/friendsModal.js";
 import { loadLanguages } from "../Modals/switchLanguages.js";
 import { initializeHistoryModal, initializePreviewStats } from "../Modals/historyModal.js";
@@ -25,21 +25,6 @@ export function loadUserProfileFromLocalStorage() {
     document.getElementById('email').value = user.email || '';
 }
 
-export function saveUserProfileToLocalStorage() {
-    const savedUser = JSON.parse(localStorage.getItem('user'));
-    const username = document.getElementById('username').value;
-
-    const user = {
-        ...savedUser,
-        username,
-        email: document.getElementById('email').value,
-        profileImageUrl: `http://127.0.0.1:8001/users/${username}/avatar/`,
-    };
-
-    localStorage.setItem('user', JSON.stringify(user));
-    console.log("User data saved to localStorage:", user);
-}
-
 export function initializeProfil() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     loadLanguages(storedLang);
@@ -56,13 +41,7 @@ export function initializeProfil() {
 
     document.querySelector('.save-info-btn').addEventListener('click', async (event) => {
         event.preventDefault();
-        
-        if (!localStorage.getItem('user')) {
-            alert("No user logged in.");
-            return;
-        }
-        
-        saveUserProfileToLocalStorage();
+        await saveUserProfileToBackendAndLocalStorage();
     });
     
     initializeFriendsPreview();

@@ -1,8 +1,8 @@
 // frontend/srcs/js/Modals/friendsModal.js
 
-import { loadLanguages } from '../Modals/switchLanguages.js';
-
 export function openFriendsModal() {
+    const homeIcon = document.getElementById('homeIcon');
+    homeIcon.classList.add('hidden');
     const modal = document.getElementById("friendsModal");
     modal.classList.remove("hidden");
     loadFriendsModalContent("friends");
@@ -11,6 +11,7 @@ export function openFriendsModal() {
 export function closeFriendsModal() {
     const modal = document.getElementById("friendsModal");
     modal.classList.add("hidden");
+    homeIcon.classList.remove('hidden');
 }
 
 export function initializeFriendsModalEvents() {

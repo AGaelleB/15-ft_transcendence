@@ -16,8 +16,10 @@
 }
 
 ::selection {
-	background: #302a66;
-	color: #a16935;
+	/* background: #302a66; */
+	/* color: #a16935; */
+	background: #a16935;
+	color: #302a66;
 }
 
 html, body {

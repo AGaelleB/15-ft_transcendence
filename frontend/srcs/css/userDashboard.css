@@ -70,13 +70,37 @@
     font-size: calc(1.5vh + 1.5vw);
 }
 
+.username-dash-container {
+    width: 100%; /* Remplit l'espace du parent */
+    max-width: calc(13vh + 10vw); /* Taille maximale fixe pour le conteneur */
+    overflow-x: auto; /* Active le défilement horizontal */
+    overflow-y: hidden; /* Désactive le défilement vertical */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 2px; /* Ajustement de l'espace sous le texte */
+    box-sizing: border-box;
+}
+
+/* Personnalisation de la barre de défilement horizontal */
+.username-dash-container::-webkit-scrollbar {
+    height: 8px; /* Hauteur de la barre de défilement */
+}
+
+.username-dash-container::-webkit-scrollbar-thumb {
+    background-color: #a16935; /* Couleur de la barre */
+    border-radius: 4px;
+}
+
+.username-dash-container::-webkit-scrollbar-track {
+    background: #2f213a; /* Couleur de l'arrière-plan de la barre */
+}
+
 .username-dash {
     color: #a16935;
-    font-size: calc(3vh + 3vw);
-    text-align: center;
-    margin-top: calc(0.3vh + 0.3vw);
-    max-width: 90%;
-    word-wrap: break-word;
+    font-size: calc(2.5vh + 2.5vw); /* Ajustement de la taille de la police */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    display: inline-block; /* Nécessaire pour le défilement horizontal */
 }
 
 

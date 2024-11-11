@@ -4,12 +4,15 @@ export function initializeHistoryModal() {
     
     if (expandButton && closeButton) {
         expandButton.addEventListener('click', () => {
+            const homeIcon = document.getElementById('homeIcon');
+            homeIcon.classList.add('hidden');
             document.getElementById('historyModal').classList.remove('hidden');
             loadMatchHistory();
         });
 
         closeButton.addEventListener('click', () => {
             document.getElementById('historyModal').classList.add('hidden');
+            homeIcon.classList.remove('hidden');
         });
     } else {
         console.warn("Les éléments nécessaires pour le modal d'historique ne sont pas disponibles dans le DOM.");
@@ -60,26 +63,30 @@ function applyFilters() {
     const selectedGameMode = document.querySelector('input[name="gameMode"]:checked').id;
     const selectedPlayerMode = document.querySelector('input[name="playerMode"]:checked').id;
 
-    // Filtre les parties en fonction des options sélectionnées
     const filteredGames = allGames.filter((game) => {
         let matchesGameMode = false;
         let matchesPlayerMode = false;
 
         if (selectedGameMode === 'allMode') {
             matchesGameMode = true;
-        } else if (selectedGameMode === 'mode2d' && game.game_mode === '2d') {
+        }
+        else if (selectedGameMode === 'mode2d' && game.game_mode === '2d') {
             matchesGameMode = true;
-        } else if (selectedGameMode === 'mode3d' && game.game_mode === '3d') {
+        }
+        else if (selectedGameMode === 'mode3d' && game.game_mode === '3d') {
             matchesGameMode = true;
         }
 
         if (selectedPlayerMode === 'typeAll') {
             matchesPlayerMode = true;
-        } else if (selectedPlayerMode === 'type1Player' && game.game_played === "1") {
+        }
+        else if (selectedPlayerMode === 'type1Player' && game.game_played === "1") {
             matchesPlayerMode = true;
-        } else if (selectedPlayerMode === 'type2Players' && game.game_played === "2") {
+        }
+        else if (selectedPlayerMode === 'type2Players' && game.game_played === "2") {
             matchesPlayerMode = true;
-        } else if (selectedPlayerMode === 'typeTournament' && game.game_played === "T") {
+        }
+        else if (selectedPlayerMode === 'typeTournament' && game.game_played === "T") {
             matchesPlayerMode = true;
         }
 
@@ -88,22 +95,20 @@ function applyFilters() {
 
     displayFilteredGames(filteredGames);
 
-    // Calculer le nombre de victoires et de défaites pour les parties filtrées
     const victories = filteredGames.filter(game => game.result === 'V').length;
     const defeats = filteredGames.length - victories;
     const victoryPercentage = filteredGames.length > 0 ? Math.round((victories / filteredGames.length) * 100) : 0;
 
-    // Mettre à jour les barres de victoires et défaites en fonction des filtres
     updateVictoryDefeatBars(victoryPercentage, victories, defeats);
 }
 
 async function updateVictoryDefeatBars(victoryPercentage, victories, defeats) {
+    const totalGames = victories + defeats;
     const defeatPercentage = 100 - victoryPercentage;
 
     const victoryBar = document.getElementById('victoryBar');
     const defeatBar = document.getElementById('defeatBar');
 
-    // translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -117,29 +122,38 @@ async function updateVictoryDefeatBars(victoryPercentage, victories, defeats) {
     const victoryText = translations.victories || "Victories";
     const defeatText = translations.defeats || "Defeats";
 
-    // Set widths and default text with translations
-    victoryBar.style.width = `${victoryPercentage}%`;
-    victoryBar.textContent = `${victoryPercentage}% ${victoryText}`;
+    if (totalGames === 0) {
+        victoryBar.style.width = '100%';
+        defeatBar.style.width = '0';
+        victoryBar.style.backgroundColor = '#808080';
+        defeatBar.style.backgroundColor = '#808080';
+        victoryBar.textContent = "0 games played";
+        defeatBar.textContent = "";
+    }
+    else {
+        victoryBar.style.width = `${victoryPercentage}%`;
+        defeatBar.style.width = `${defeatPercentage}%`;
+        victoryBar.style.backgroundColor = '#28a745';
+        defeatBar.style.backgroundColor = '#dc3545';
 
-    defeatBar.style.width = `${defeatPercentage}%`;
-    defeatBar.textContent = `${defeatPercentage}% ${defeatText}`;
+        victoryBar.textContent = victoryPercentage > 0 ? `${victoryPercentage}% ${victoryText}` : '';
+        defeatBar.textContent = defeatPercentage > 0 ? `${defeatPercentage}% ${defeatText}` : '';
 
-    // Add hover events to show detailed game counts
-    victoryBar.addEventListener('mouseover', () => {
-        victoryBar.textContent = `${victories} ${victoryText}`;
-    });
-    victoryBar.addEventListener('mouseout', () => {
-        victoryBar.textContent = `${victoryPercentage}% ${victoryText}`;
-    });
+        victoryBar.addEventListener('mouseover', () => {
+            victoryBar.textContent = `${victories} ${victoryText}`;
+        });
+        victoryBar.addEventListener('mouseout', () => {
+            victoryBar.textContent = victoryPercentage > 0 ? `${victoryPercentage}% ${victoryText}` : '';
+        });
 
-    defeatBar.addEventListener('mouseover', () => {
-        defeatBar.textContent = `${defeats} ${defeatText}`;
-    });
-    defeatBar.addEventListener('mouseout', () => {
-        defeatBar.textContent = `${defeatPercentage}% ${defeatText}`;
-    });
+        defeatBar.addEventListener('mouseover', () => {
+            defeatBar.textContent = `${defeats} ${defeatText}`;
+        });
+        defeatBar.addEventListener('mouseout', () => {
+            defeatBar.textContent = defeatPercentage > 0 ? `${defeatPercentage}% ${defeatText}` : '';
+        });
+    }
 }
-
 
 async function displayFilteredGames(games) {
     const historyDetails = document.getElementById('historyDetails');
