@@ -1,5 +1,7 @@
 // frontend/srcs/js/Modals/friendsModal.js
 
+import { loadLanguages } from '../Modals/switchLanguages.js';
+
 export function openFriendsModal() {
     const modal = document.getElementById("friendsModal");
     modal.classList.remove("hidden");
@@ -343,7 +345,7 @@ export async function loadFriendsModalContent(option) {
                 friendInfo.appendChild(usernameElement);
 
                 const showProfileButton = document.createElement("button");
-                showProfileButton.textContent = "Show Profile";
+                showProfileButton.textContent = translations.showProfileButton || "Show Profile";
                 showProfileButton.classList.add("show-profile-button");
                 showProfileButton.addEventListener("click", () => {
                     console.log(`Show profile of ${friend.username}`);
@@ -505,9 +507,29 @@ async function loadPreviewStats() {
     }
 }
 
-function displayLatestGames(latestGames) {
+async function displayLatestGames(latestGames) {
     const latestGamesContainer = document.querySelector('.latest-games');
-    latestGamesContainer.innerHTML = ''; // Vide le contenu précédent
+    latestGamesContainer.innerHTML = '';
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
+    const latestGamesTitleElement = document.querySelector('.title-container h3');
+    if (latestGamesTitleElement)
+        latestGamesTitleElement.textContent = translations.latestGamesTitle || "Latest Games";
+
+    const noGamesFoundMessage = translations.noGamesFound;
+    if (latestGames.length === 0) {
+        latestGamesContainer.innerHTML = `<p>${noGamesFoundMessage}</p>`;
+        return;
+    }
 
     latestGames.forEach(game => {
         const gameSummary = document.createElement('div');
@@ -515,21 +537,34 @@ function displayLatestGames(latestGames) {
 
         gameSummary.innerHTML = `
             <span>${new Date(game.date).toLocaleDateString()}</span>
-            <span>Mode: ${game.game_mode.toUpperCase()}</span>
-            <span>Type: ${game.game_played === "1" ? "1PLAYER" : game.game_played === "2" ? "2PLAYERS" : "TOURNAMENT"}</span>
-            <span>Résultat: ${game.result === 'V' ? 'Victoire' : 'Défaite'}</span>
+            <span>${translations.modeLabel}: ${game.game_mode.toUpperCase()}</span>
+            <span>${translations.typeLabel}: ${game.game_played === "1" ? translations.onePlayer : game.game_played === "2" ? translations.twoPlayers : translations.tournament}</span>
+            <span>${translations.resultLabel}: ${game.result === 'V' ? translations.victoriesStats : translations.defeatsStats}</span>
         `;
 
         latestGamesContainer.appendChild(gameSummary);
     });
 }
 
-function createVictoryDefeatChart(victories, defeats) {
+async function createVictoryDefeatChart(victories, defeats) {
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
     const ctx = document.getElementById('victoryDefeatChart').getContext('2d');
     new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Victoires', 'Défaites'],
+            labels: [
+                translations.victories || 'Victoires',
+                translations.defeats || 'Défaites'
+            ],
             datasets: [{
                 data: [victories, defeats],
                 backgroundColor: ['#28a745', '#dc3545']

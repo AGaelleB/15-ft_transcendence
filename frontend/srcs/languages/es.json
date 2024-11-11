@@ -74,7 +74,7 @@
     "areYouSureDelete": "¿Está seguro de que desea eliminar su perfil? Esta acción es irreversible",
     "yesButton": "Sí",
     "noButton": "No",
-    "closePasswordModal": "Cerrar",
+    "closePasswordModal": "x",
     "oldPasswordLabel": "Contraseña antigua:",
     "oldPasswordPlaceholder": "Contraseña antigua",
     "newPasswordLabel": "Nueva contraseña:",
@@ -89,6 +89,9 @@
     "noInvitationPending": "Ninguna invitación pendiente",
     "noFriendsFound": "No se encontraron amigos",
     "noUsersFound": "No se encontraron usuarios",
+    "showProfileButton": "Ver perfil",
+
+    "latestGamesTitle": "Últimos juegos",
 
     "all": "TODO",
     "mode2d": "2D",
@@ -98,8 +101,8 @@
     "type2Players": "2 JUGADORES",
     "typeTournament": "TORNEO",
     "noGamesFound": "No se encontraron juegos",
-    "victories": "Victoria(s)",
-    "defeats": "Derrota(s)",
+    "victories": "Victorias",
+    "defeats": "Derrotas",
 
     "dateLabel": "Fecha",
     "modeLabel": "Modo",
