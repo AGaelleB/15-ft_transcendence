@@ -1287,7 +1287,7 @@ input[type="radio"] {
 .profile-modal-friends {
     width: calc(70vw + 10vh); /* Ajustement de la largeur en fonction de la hauteur et de la largeur de la fenêtre */
     max-width: calc(90vw); /* Largeur maximale adaptée à l'écran */
-    padding: calc(2vh + 2vw); /* Marges internes adaptatives */
+    padding: calc(0.5vh + 0.5vw); /* Marges internes adaptatives */
     border: calc(0.3vh + 0.3vw) solid #a16935;
     border-radius: calc(0.5vw);
     background: #2f213a;
@@ -1313,7 +1313,9 @@ input[type="radio"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: calc(1vh + 1vw); /* Marges internes adaptatives */
     width: 30%;
+    justify-content: center;
 }
 
 .profile-picture-modal-friends {
@@ -1330,6 +1332,39 @@ input[type="radio"] {
     margin-top: 1vh;
 }
 
+.username-dash-container-friends {
+    width: 100%; /* Remplit l'espace du parent */
+    max-width: calc(13vh + 10vw); /* Taille maximale fixe pour le conteneur */
+    overflow-x: auto; /* Active le défilement horizontal */
+    overflow-y: hidden; /* Désactive le défilement vertical */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 2px; /* Ajustement de l'espace sous le texte */
+    box-sizing: border-box;
+}
+
+/* Personnalisation de la barre de défilement horizontal */
+.username-dash-container-friends::-webkit-scrollbar {
+    height: 8px; /* Hauteur de la barre de défilement */
+}
+
+.username-dash-container-friends::-webkit-scrollbar-thumb {
+    background-color: #a16935; /* Couleur de la barre */
+    border-radius: 4px;
+}
+
+.username-dash-container-friends::-webkit-scrollbar-track {
+    background: #2f213a; /* Couleur de l'arrière-plan de la barre */
+}
+
+.username-dash-friends {
+    color: #a16935;
+    font-size: calc(2.5vh + 2.5vw); /* Ajustement de la taille de la police */
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    display: inline-block; /* Nécessaire pour le défilement horizontal */
+}
+
 /************************ Section droite ************************/
 
 .profile-right-friends {
@@ -1337,7 +1372,9 @@ input[type="radio"] {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: calc(1.5vh + 1.5vw);
+    gap: calc(1vh + 1vw);
+    padding: calc(1vh + 1vw); /* Marges internes adaptatives */
+    margin-top: calc(2vh + 2vw);
 }
 
 .stats-bar-friends {
@@ -1382,8 +1419,21 @@ input[type="radio"] {
     padding: calc(1vh + 1vw);
     background-color: #302a66;
     border-radius: calc(0.5vh + 0.5vw);
-    height: calc(30vh);
+    height: 30vh;
     overflow-y: auto;
+}
+
+.history-details-friends::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-details-friends::-webkit-scrollbar-thumb {
+    background-color: #a16935;
+    border-radius: 4px;
+}
+
+.history-details-friends::-webkit-scrollbar-track {
+    background: #2f213a;
 }
 
 .close-button-friends-profile {
@@ -1415,3 +1465,4 @@ input[type="radio"] {
 	background-color: #2f213a !important;
 	color: #a16935 !important;
 }
+

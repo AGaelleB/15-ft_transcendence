@@ -458,11 +458,20 @@ export async function loadFriendsModalContent(option) {
 
 async function initFriendsProfileModal(username) {
     const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
+    const friendDetails = await fetchUserDetails(username);
 
     closeProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
-    
-    const friendDetails = await fetchUserDetails(username);
-    
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+
     // Mise à jour de l'avatar
     const avatarElement = document.querySelector(".profile-modal-picture-friends");
     if (avatarElement) {
@@ -478,46 +487,58 @@ async function initFriendsProfileModal(username) {
 
     // Tri des jeux par date décroissante et extraction des derniers jeux
     const games = friendDetails.games ? friendDetails.games.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
-    const latestGames = games.slice(0, 3);
 
     // Calcul des victoires et défaites
     const victories = games.filter(game => game.result === 'V').length;
     const defeats = games.length - victories;
     const totalGames = victories + defeats;
-    const victoryPercentage = totalGames > 0 ? (victories / totalGames) * 100 : 0;
+    const victoryPercentage = totalGames > 0 ? Math.round((victories / totalGames) * 100) : 0;
     const defeatPercentage = 100 - victoryPercentage;
 
     // Mise à jour des barres de victoire et de défaite
     const victoryBarFriends = document.getElementById('victoryBarFriends');
     const defeatBarFriends = document.getElementById('defeatBarFriends');
-    
+
+    // Réinitialisation des barres et suppression des événements existants
+    victoryBarFriends.style.width = '0%';
+    defeatBarFriends.style.width = '0%';
+    victoryBarFriends.style.backgroundColor = '#28a745';
+    defeatBarFriends.style.backgroundColor = '#dc3545';
+    victoryBarFriends.textContent = '';
+    defeatBarFriends.textContent = '';
+
+    // Supprime les gestionnaires d’événements pour éviter la fuite de données
+    const cloneVictoryBar = victoryBarFriends.cloneNode(true);
+    const cloneDefeatBar = defeatBarFriends.cloneNode(true);
+    victoryBarFriends.parentNode.replaceChild(cloneVictoryBar, victoryBarFriends);
+    defeatBarFriends.parentNode.replaceChild(cloneDefeatBar, defeatBarFriends);
+
     if (totalGames === 0) {
-        victoryBarFriends.style.width = '100%';
-        defeatBarFriends.style.width = '0';
-        victoryBarFriends.style.backgroundColor = '#808080';
-        victoryBarFriends.textContent = '0 games played';
-    }
-    else {
-        victoryBarFriends.style.width = `${victoryPercentage}%`;
-        defeatBarFriends.style.width = `${defeatPercentage}%`;
-        victoryBarFriends.style.backgroundColor = '#28a745';
-        defeatBarFriends.style.backgroundColor = '#dc3545';
+        cloneVictoryBar.style.width = '100%';
+        cloneVictoryBar.style.backgroundColor = '#808080';
+        cloneVictoryBar.textContent = '0 games played';
+    } else {
+        cloneVictoryBar.style.width = `${victoryPercentage}%`;
+        cloneDefeatBar.style.width = `${defeatPercentage}%`;
 
-        victoryBarFriends.textContent = `${victoryPercentage.toFixed(1)}% Victories`;
-        defeatBarFriends.textContent = `${defeatPercentage.toFixed(1)}% Defeats`;
+        cloneVictoryBar.textContent = `${victoryPercentage}% ${translations.victories || "Victories"}`;
+        cloneDefeatBar.textContent = `${defeatPercentage}% ${translations.defeats || "Defeats"}`;
+
+        cloneVictoryBar.addEventListener('mouseover', () => {
+            cloneVictoryBar.textContent = `${victories} ${translations.victories || "Victories"}`;
+        });
+        cloneVictoryBar.addEventListener('mouseout', () => {
+            cloneVictoryBar.textContent = `${victoryPercentage}% ${translations.victories || "Victories"}`;
+        });
+
+        cloneDefeatBar.addEventListener('mouseover', () => {
+            cloneDefeatBar.textContent = `${defeats} ${translations.defeats || "Defeats"}`;
+        });
+        cloneDefeatBar.addEventListener('mouseout', () => {
+            cloneDefeatBar.textContent = `${defeatPercentage}% ${translations.defeats || "Defeats"}`;
+        });
     }
 
-    // Chargement des traductions
-    let translations = {};
-    try {
-        const { loadLanguages } = await import('../Modals/switchLanguages.js');
-        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-        translations = await loadLanguages(storedLang);
-    }
-    catch (error) {
-        console.error("Error loading translations:", error);
-    }
-    
     // Affichage de l'historique des jeux
     const latestGamesContainer = document.getElementById('historyDetailsFriends');
     latestGamesContainer.innerHTML = '';
@@ -539,15 +560,16 @@ async function initFriendsProfileModal(username) {
         gameSummary.classList.add('game-summary');
 
         gameSummary.innerHTML = `
-        <span>${new Date(game.date).toLocaleDateString()}</span>
-        <span>${translations.modeLabel || "Mode"}: ${game.game_mode.toUpperCase()}</span>
-        <span>${translations.typeLabel || "Type"}: ${game.game_played === "1" ? translations.onePlayer || "1 Player" : game.game_played === "2" ? translations.twoPlayers || "2 Players" : translations.tournament || "Tournament"}</span>
-        <span>${translations.resultLabel || "Result"}: ${game.result === 'V' ? translations.victoriesStats || "Victory" : translations.defeatsStats || "Defeat"}</span>
+            <span>${new Date(game.date).toLocaleDateString()}</span>
+            <span>${translations.modeLabel || "Mode"}: ${game.game_mode.toUpperCase()}</span>
+            <span>${translations.typeLabel || "Type"}: ${game.game_played === "1" ? translations.onePlayer || "1 Player" : game.game_played === "2" ? translations.twoPlayers || "2 Players" : translations.tournament || "Tournament"}</span>
+            <span>${translations.resultLabel || "Result"}: ${game.result === 'V' ? translations.victoriesStats || "Victory" : translations.defeatsStats || "Defeat"}</span>
         `;
         
         latestGamesContainer.appendChild(gameSummary);
     });
 }
+
 
 export async function initializeFriendsPreview() {
     const expandButton = document.getElementById('expandFriendsBtn');
