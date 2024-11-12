@@ -1,5 +1,6 @@
 // frontend/srcs/js/Modals/dashboardModal.js
 
+import { loadLanguages, updatePlaceholders } from './switchLanguages.js';
 
 export async function openProfileModal() {
     const homeIcon = document.getElementById('homeIcon');
@@ -198,10 +199,9 @@ window.uploadNewProfilePicture = uploadNewProfilePicture;
 // Initialiser les événements des modales
 export async function initializeModalEvents() {
     const profileModal = document.getElementById("profileModal");
-    const closeProfileButton = profileModal.querySelector(".close-button");
-
+    const closeProfileButton = profileModal ? profileModal.querySelector(".close-button") : null;
+    const langSwitcher = document.getElementById("lang-switcher-profile");
     closeProfileButton.addEventListener("click", closeProfileModal);
-    const langSwitcher = document.getElementById("lang-switcher");
 
     try {
         const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
@@ -212,15 +212,6 @@ export async function initializeModalEvents() {
     catch (error) {
         console.error("Error loading translations:", error);
     }
-
-    langSwitcher.addEventListener("click", (event) => {
-        if (event.target.classList.contains("flag")) {
-            const selectedFlag = document.getElementById("selected-flag");
-            selectedFlag.src = event.target.src;
-            selectedFlag.alt = event.target.alt;
-            localStorage.setItem("preferredLanguage", event.target.dataset.lang);         
-        }
-    });
 
     document.getElementById('changePasswordBtn').addEventListener('click', () => {
         document.getElementById('passwordModal').classList.remove('hidden');
@@ -289,4 +280,75 @@ export async function initializeModalEvents() {
             console.error('Error:', error);
         }
     });
+
+
+    // Vérifier si le bouton de fermeture du modal est présent
+    if (closeProfileButton) {
+        closeProfileButton.addEventListener("click", closeProfileModal);
+    } else {
+        console.warn("Le bouton de fermeture du modal n'a pas été trouvé.");
+    }
+
+    // Vérifier si le sélecteur de langue est présent
+    if (langSwitcher) {
+        try {
+            const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            const translations = await loadLanguages(preferredLanguage);
+            updatePlaceholdersPassword(translations);
+        } catch (error) {
+            console.error("Error loading translations:", error);
+        }
+
+        const languageButtonProfile = document.getElementById("language-button-profile");
+        const dropdownItemsProfile = document.querySelectorAll('#language-dropdown-profile .dropdown-item-profile');
+
+        if (languageButtonProfile && dropdownItemsProfile.length > 0) {
+            const storedLangProfile = localStorage.getItem('preferredLanguage') || 'en';
+            loadLanguages(storedLangProfile);
+            updatePlaceholders(storedLangProfile);
+
+            // Initialiser le drapeau en fonction de la langue enregistrée
+            function setInitialFlagProfile() {
+                const currentLang = languageButtonProfile.getAttribute("data-lang");
+                dropdownItemsProfile.forEach(item => {
+                    const itemLang = item.getAttribute("data-lang");
+                    if (itemLang === storedLangProfile) {
+                        const currentFlag = languageButtonProfile.innerHTML;
+                        languageButtonProfile.innerHTML = item.innerHTML;
+                        languageButtonProfile.setAttribute("data-lang", storedLangProfile);
+                        item.innerHTML = currentFlag;
+                        item.setAttribute("data-lang", currentLang);
+                    }
+                });
+            }
+            setInitialFlagProfile();
+
+            // Fonction pour basculer le drapeau et la langue sélectionnée
+            function switchFlagProfile(selectedItem) {
+                const currentFlag = languageButtonProfile.innerHTML;
+                const currentLang = languageButtonProfile.getAttribute("data-lang");
+                languageButtonProfile.innerHTML = selectedItem.innerHTML;
+                languageButtonProfile.setAttribute("data-lang", selectedItem.getAttribute("data-lang"));
+                selectedItem.innerHTML = currentFlag;
+                selectedItem.setAttribute("data-lang", currentLang);
+                const newLang = languageButtonProfile.getAttribute("data-lang");
+                localStorage.setItem('preferredLanguage', newLang);
+                loadLanguages(newLang);
+                updatePlaceholders(newLang);
+            }
+
+            // Ajouter les écouteurs d'événements pour chaque élément du menu déroulant
+            dropdownItemsProfile.forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    switchFlagProfile(item);
+                });
+            });
+        } else {
+            console.warn("Les éléments de sélection de langue n'ont pas été trouvés.");
+        }
+    } else {
+        console.warn("Le sélecteur de langue n'a pas été trouvé.");
+    }
 }

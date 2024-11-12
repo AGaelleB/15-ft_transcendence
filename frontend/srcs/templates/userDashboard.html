@@ -51,30 +51,43 @@
                                     <label for="email" data-lang-key="emailLabel">Email :</label>
                                     <input type="email" id="email" placeholder="new email" data-lang-key="newEmailPlaceholder">
                                 </div>
-                                
+                        
                                 <!-- Groupes pour 2FA et le sélecteur de langue côte à côte -->
                                 <div class="form-group-horizontal">
                                     <div class="form-group-inline">
-                                        <label for="2fa" data-lang-key="enable2faLabel">Enable 2FA: </label>
+                                        <label for="2fa" data-lang-key="enable2faLabel">Enable 2FA:</label>
                                         <input type="checkbox" id="2fa">
                                     </div>
-                                    <div class="form-group-inline">
-                                        <label for="language-button" data-lang-key="defaultLanguageLabel">Default language: </label>
-                                        <div class="lang-selector-menu" id="lang-switcher">
-                                            <div class="lang-selector">
-                                                <img src=" ./images/icons/usa.jpg" id="selected-flag" alt="English" class="flag" data-lang="en">
-                                                <div class="other-flags">
-                                                    <img src="./images/icons/france.png" alt="Français" class="flag" data-lang="fr">
-                                                    <img src="./images/icons/spain.png" alt="Español" class="flag" data-lang="es">
-                                                </div>
-                                            </div>
+                        
+                                    <div class="language-selector-wrapper">
+                                        <span class="language-label" data-lang-key="defaultLanguageLabel">Default language:</span>
+                                        <div class="language-menu-profile" id="lang-switcher-profile">
+                                            <!-- Bouton de langue par défaut (Anglais) -->
+                                            <button id="language-button-profile" type="button" data-lang="en">
+                                                <img src="./images/icons/usa.jpg" alt="English" class="flag-icon">
+                                            </button>
+                        
+                                            <!-- Menu déroulant pour les autres langues -->
+                                            <ul id="language-dropdown-profile" class="dropdown-menu">
+                                                <li>
+                                                    <a href="#" data-lang="fr" class="dropdown-item-profile">
+                                                        <img src="./images/icons/france.png" alt="Français" class="flag-icon">
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" data-lang="es" class="dropdown-item-profile">
+                                                        <img src="./images/icons/spain.png" alt="Español" class="flag-icon">
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                         
                                 <button type="button" id="changePasswordBtn" class="change-password-btn" data-lang-key="changePasswordBtn">Change Password</button>
-                            </form> 
+                            </form>
                         </div>
+                        
                     </div>
                     <div class="save-info-container">
                         <button type="button" class="save-info-btn" data-lang-key="saveInfoBtn">Save My Informations</button>

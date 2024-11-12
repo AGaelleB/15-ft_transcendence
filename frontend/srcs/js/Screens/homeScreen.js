@@ -65,30 +65,6 @@ export function initializeHome() {
         });
     });
 
-    document.addEventListener('keydown', function(event) {
-        if (!keyboardNavigationEnabled) return;
-    
-        if (event.key === 'ArrowDown' && currentIndex < menuItems.length - 1) {
-            currentIndex++;
-            updateSelection();
-        }
-        else if (event.key === 'ArrowUp' && currentIndex > 0) {
-            currentIndex--;
-            updateSelection();
-        }
-        else if (event.key === 'Enter') {
-            const selectedItem = menuItems[currentIndex];
-    
-            const mode = selectedItem.innerText.trim();
-            localStorage.setItem('gameMode', mode);
-    
-            const targetPath = getTargetPath(mode);
-            window.history.pushState({}, "", targetPath);
-    
-            handleLocation();
-        }
-    });
-
     const game2dRadio = document.getElementById('game2d');
     const game3dRadio = document.getElementById('game3d');
     const menu2d = document.querySelector('.menu-2d');
