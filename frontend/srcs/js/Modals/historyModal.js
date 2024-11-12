@@ -127,7 +127,7 @@ async function updateVictoryDefeatBars(victoryPercentage, victories, defeats) {
         defeatBar.style.width = '0';
         victoryBar.style.backgroundColor = '#808080';
         defeatBar.style.backgroundColor = '#808080';
-        victoryBar.textContent = "0 games played";
+        victoryBar.textContent = translations.noGamesPlayed || '0 games played';
         defeatBar.textContent = "";
     }
     else {
