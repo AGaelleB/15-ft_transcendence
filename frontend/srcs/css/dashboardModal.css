@@ -1196,9 +1196,6 @@ input[type="radio"] {
     align-items: center;
 }
 
-
-/*/////////////////////////////////////////////////////////////////////////////*/
-
 .language-selector-wrapper {
     display: flex;
     align-items: center;
@@ -1264,4 +1261,157 @@ input[type="radio"] {
     margin: 0;
     border: calc(0.1vw + 0.2vh) solid #a16935;
     border-radius: calc(0.3vw + 0.3vh);
+}
+
+
+/*/////////////////////////////////////////////////////////////////////////////*/
+
+.profile-modal-container-friends.hidden {
+    display: none;
+}
+
+.profile-modal-container-friends {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 20000;
+}
+
+.profile-modal-friends {
+    width: calc(70vw + 10vh); /* Ajustement de la largeur en fonction de la hauteur et de la largeur de la fenêtre */
+    max-width: calc(90vw); /* Largeur maximale adaptée à l'écran */
+    padding: calc(2vh + 2vw); /* Marges internes adaptatives */
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    color: #a16935;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-content-friends {
+    display: flex;
+    width: 100%;
+    gap: calc(0.5vh, 0.5vw);
+}
+
+
+/*************** Section gauche ***************/
+
+.profile-left-friends {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.profile-picture-modal-friends {
+    width: calc(10vh + 10vw);
+    height: auto;
+    margin-bottom: calc(1vh + 1vw);
+}
+
+.profile-picture-modal-friends img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: calc(0.2vh + 0.2vw) solid #a16935;
+    margin-top: 1vh;
+}
+
+/************************ Section droite ************************/
+
+.profile-right-friends {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(1.5vh + 1.5vw);
+}
+
+.stats-bar-friends {
+    width: 100%;
+    height: 25px;
+    background-color: #dc3545;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.victory-bar-friends {
+    height: 100%;
+    background-color: #28a745;
+    color: white;
+    font-size: 2em;
+    text-align: center;
+    line-height: 25px;
+    transition: width 0.5s ease;
+    border-radius: 12px 0 0 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.defeat-bar-friends {
+    height: 100%;
+    background-color: transparent;
+    color: white;
+    font-size: 2em;
+    text-align: center;
+    line-height: 25px;
+    transition: width 0.5s ease;
+    z-index: 1;
+}
+
+.history-details-friends {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1vh + 1vw);
+    width: 100%;
+    padding: calc(1vh + 1vw);
+    background-color: #302a66;
+    border-radius: calc(0.5vh + 0.5vw);
+    height: calc(30vh);
+    overflow-y: auto;
+}
+
+.close-button-friends-profile {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.1vw + 0.1vh) calc(0.4vw + 0.4vh);
+	border: calc(0.2vw + 0.2vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+
+    position: absolute;
+    top: calc(0.5vh + 0.5vw);
+    right: calc(0.5vh + 0.5vw);
+}
+
+.close-button-friends-profile:hover {
+	box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+	transform: translate(calc(-0.2vw), calc(-0.2vh));
+}
+
+.close-button-friends-profile:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.close-button-friends-profile-primary:focus, .close-button-friends-profile-primary.focus, .close-button-friends-profile:focus, .close-button-friends-profile.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
 }

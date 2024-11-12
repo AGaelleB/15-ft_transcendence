@@ -18,12 +18,7 @@ export function initializeFriendsModalEvents() {
     const friendsModal = document.getElementById("friendsModal");
     const closeProfileButtonFriends = friendsModal.querySelector(".close-button-friends");
 
-    if (closeProfileButtonFriends) {
-        closeProfileButtonFriends.addEventListener("click", closeFriendsModal);
-    }
-    else {
-        console.error("Le bouton de fermeture du modal n'a pas été trouvé.");
-    }
+    closeProfileButtonFriends.addEventListener("click", closeFriendsModal);
 
     // Attacher les événements de changement aux boutons radio
     const radioButtons = document.querySelectorAll('input[name="friendsOptions"]');
@@ -287,6 +282,16 @@ async function checkPendingRequest(userId) {
 
 /* =================== MAIN FUNCTION ==================== */
 
+export function openFriendsProfileModal() {
+    const friendsProfileModal = document.getElementById("profileModalfriends");
+    friendsProfileModal.classList.remove("hidden");
+}
+
+export function closeFriendsProfileModal() {
+    const friendsProfileModal = document.getElementById("profileModalfriends");
+    friendsProfileModal.classList.add("hidden");
+}
+
 export async function loadFriendsModalContent(option) {
     const contentContainer = document.getElementById("friendsModalContent");
     contentContainer.innerHTML = "";
@@ -349,20 +354,13 @@ export async function loadFriendsModalContent(option) {
                 showProfileButton.textContent = translations.showProfileButton || "Show Profile";
                 showProfileButton.classList.add("show-profile-button");
                 showProfileButton.addEventListener("click", () => {
+                    openFriendsProfileModal();
+                    initFriendsProfileModal(friend.username);
                     console.log(`Show profile of ${friend.username}`);
-                });
-
-                const profileArrow = document.createElement("i");
-                profileArrow.classList.add("bi", "bi-arrow-right-circle-fill");
-                profileArrow.style.color = "green";
-                profileArrow.style.cursor = "pointer";
-                profileArrow.addEventListener("click", () => {
-                    console.log(`Redirect to profile of ${friend.username}`);
                 });
 
                 friendRow.appendChild(friendInfo);
                 friendRow.appendChild(showProfileButton);
-                friendRow.appendChild(profileArrow);
 
                 contentContainer.appendChild(friendRow);
             }
@@ -456,6 +454,99 @@ export async function loadFriendsModalContent(option) {
     } 
     else if (option === "invitations")
         await loadPendingInvitations();
+}
+
+async function initFriendsProfileModal(username) {
+    const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
+
+    closeProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
+    
+    const friendDetails = await fetchUserDetails(username);
+    
+    // Mise à jour de l'avatar
+    const avatarElement = document.querySelector(".profile-modal-picture-friends");
+    if (avatarElement) {
+        avatarElement.src = getAvatarUrl(friendDetails.username);
+        avatarElement.alt = `${friendDetails.username}'s avatar`;
+    }
+
+    // Mise à jour du nom d'utilisateur
+    const usernameElement = document.querySelector(".username-dash-friends");
+    if (usernameElement) {
+        usernameElement.textContent = friendDetails.username;
+    }
+
+    // Tri des jeux par date décroissante et extraction des derniers jeux
+    const games = friendDetails.games ? friendDetails.games.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
+    const latestGames = games.slice(0, 3);
+
+    // Calcul des victoires et défaites
+    const victories = games.filter(game => game.result === 'V').length;
+    const defeats = games.length - victories;
+    const totalGames = victories + defeats;
+    const victoryPercentage = totalGames > 0 ? (victories / totalGames) * 100 : 0;
+    const defeatPercentage = 100 - victoryPercentage;
+
+    // Mise à jour des barres de victoire et de défaite
+    const victoryBarFriends = document.getElementById('victoryBarFriends');
+    const defeatBarFriends = document.getElementById('defeatBarFriends');
+    
+    if (totalGames === 0) {
+        victoryBarFriends.style.width = '100%';
+        defeatBarFriends.style.width = '0';
+        victoryBarFriends.style.backgroundColor = '#808080';
+        victoryBarFriends.textContent = '0 games played';
+    }
+    else {
+        victoryBarFriends.style.width = `${victoryPercentage}%`;
+        defeatBarFriends.style.width = `${defeatPercentage}%`;
+        victoryBarFriends.style.backgroundColor = '#28a745';
+        defeatBarFriends.style.backgroundColor = '#dc3545';
+
+        victoryBarFriends.textContent = `${victoryPercentage.toFixed(1)}% Victories`;
+        defeatBarFriends.textContent = `${defeatPercentage.toFixed(1)}% Defeats`;
+    }
+
+    // Chargement des traductions
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
+    
+    // Affichage de l'historique des jeux
+    const latestGamesContainer = document.getElementById('historyDetailsFriends');
+    latestGamesContainer.innerHTML = '';
+
+    const latestGamesTitleElement = document.querySelector('.title-container h3');
+    if (latestGamesTitleElement) {
+        latestGamesTitleElement.textContent = translations.latestGamesTitle || "Latest Games";
+    }
+
+    const noGamesFoundMessage = translations.noGamesFound || "No games found";
+    
+    if (games.length === 0) {
+        latestGamesContainer.innerHTML = `<p style="color: #a16935; text-align: center;">${noGamesFoundMessage}</p>`;
+        return;
+    }
+
+    games.slice(0, 100).forEach(game => {
+        const gameSummary = document.createElement('div');
+        gameSummary.classList.add('game-summary');
+
+        gameSummary.innerHTML = `
+        <span>${new Date(game.date).toLocaleDateString()}</span>
+        <span>${translations.modeLabel || "Mode"}: ${game.game_mode.toUpperCase()}</span>
+        <span>${translations.typeLabel || "Type"}: ${game.game_played === "1" ? translations.onePlayer || "1 Player" : game.game_played === "2" ? translations.twoPlayers || "2 Players" : translations.tournament || "Tournament"}</span>
+        <span>${translations.resultLabel || "Result"}: ${game.result === 'V' ? translations.victoriesStats || "Victory" : translations.defeatsStats || "Defeat"}</span>
+        `;
+        
+        latestGamesContainer.appendChild(gameSummary);
+    });
 }
 
 export async function initializeFriendsPreview() {
