@@ -79,6 +79,7 @@
     "oldPasswordPlaceholder": "Old password",
     "newPasswordLabel": "New password:",
     "newPasswordPlaceholder": "New password",
+    "confirmNewPassword": "Confirm new password:",
     "confirmNewPasswordPlaceholder": "Confirm new password",
     "saveButton": "Save",
 
@@ -101,6 +102,7 @@
     "type2Players": "2 PLAYERS",
     "typeTournament": "TOURNAMENT",
     "noGamesFound": "No games found",
+    "noGamesPlayed": "0 games played",
     "victories": "Victories",
     "defeats": "Defeats",
 
