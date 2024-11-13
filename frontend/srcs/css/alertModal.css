@@ -82,6 +82,9 @@
 .siren-icon {
     color: #a16935;
     animation: siren 1s infinite alternate;
+    font-size: 1em; /* Ajuste la taille selon tes préférences */
+    vertical-align: middle;
+    margin-right: 5px; /* Espace entre l'icône et le texte */
 }
 
 @keyframes siren {
@@ -89,6 +92,6 @@
         opacity: 1;
     }
     100% {
-        opacity: 0.3;
+        opacity: 0.4;
     }
 }

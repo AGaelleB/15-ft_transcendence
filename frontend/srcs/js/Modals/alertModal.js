@@ -7,12 +7,12 @@ export function initializeAlertModal() {
         const modalHtml = `
             <div id="alertModal" class="alert-modal hidden">
                 <div class="alert-modal-content">
-                    <h2 class="message-alert" data-lang-key="alertMessage">
+                    <h2 class="message-alert">
                         <i class="bi bi-megaphone-fill siren-icon"></i>
-                        Alert Message
+                        <span data-lang-key="alertMessage">Alert Message</span>
                         <i class="bi bi-megaphone-fill siren-icon"></i>
                     </h2>
-                    <p class="message-alert-content">texte</p>
+                    <p class="message-alert-content" data-lang-key="alertContent">texte</p>
                     <div class="ok-btn">
                         <button id="closeAlert" class="close-alert-btn" data-lang-key="okButton">OK</button>
                     </div>
@@ -26,6 +26,7 @@ export function initializeAlertModal() {
         alertModalLoaded = true;
     }
 }
+
 
 export async function myAlert(messageId) {
     initializeAlertModal();
