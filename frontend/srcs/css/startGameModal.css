@@ -17,7 +17,6 @@
 	color: #a16935;
 	font-family: 'Jersey', sans-serif;
 	padding: 300px;
-	/* box-sizing: border-box; */
 }
 
 .modal-content-game {
@@ -31,7 +30,6 @@
     margin: auto;
     box-sizing: border-box;
 }
-
 
 .start-game-modal .modal-content-game p,
 .start-game-modal .modal-content-game button {

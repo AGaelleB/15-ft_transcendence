@@ -34,7 +34,6 @@ export async function initializeTournament3D() {
     
     window.addEventListener('popstate', function(event) {
         cleanup1PlayerTournament3D();
-        console.log("Retour arrière du navigateur détecté !");
     });
 
     /****************************** Player Setup *****************************/

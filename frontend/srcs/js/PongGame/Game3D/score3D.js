@@ -53,8 +53,6 @@ export function isGameOver3D() {
 export function setIsGameOver3D(value) {
     if (typeof value === 'boolean')
         gameOver3D = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
 export function getUserFromStorage3D() {

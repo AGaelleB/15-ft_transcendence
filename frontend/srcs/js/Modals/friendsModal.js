@@ -20,11 +20,10 @@ export function initializeFriendsModalEvents() {
 
     closeProfileButtonFriends.addEventListener("click", closeFriendsModal);
 
-    // Attacher les événements de changement aux boutons radio
     const radioButtons = document.querySelectorAll('input[name="friendsOptions"]');
     radioButtons.forEach(radio => {
         radio.addEventListener('change', () => {
-            loadFriendsModalContent(radio.id); // Passe l'ID du bouton sélectionné
+            loadFriendsModalContent(radio.id);
         });
     });
 }
@@ -54,7 +53,6 @@ function getAvatarUrl(username) {
     return `http://127.0.0.1:8001/users/${username}/avatar/`;
 }
 
-// Fonction pour obtenir tous les utilisateurs (à adapter selon votre API)
 async function fetchAllUsers() {
     try {
         const response = await fetch("http://127.0.0.1:8001/users/", {
@@ -71,9 +69,7 @@ async function fetchAllUsers() {
     }
 }
 
-// Fonction pour envoyer une demande d'ami
 async function sendFriendRequest(receiverId) {
-    // Récupère les informations de l'utilisateur connecté depuis le localStorage
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
         console.error("User not logged in");
@@ -87,11 +83,11 @@ async function sendFriendRequest(receiverId) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer <your_auth_token>', // Remplacez <your_auth_token> par votre token d'authentification si nécessaire
+                'Authorization': 'Bearer <your_auth_token>',
             },
             body: JSON.stringify({
-                sender: currentUser.id, // ID de l'utilisateur connecté
-                receiver: receiverId    // ID de l'utilisateur que l'on veut ajouter en ami
+                sender: currentUser.id,
+                receiver: receiverId
             })
         });
 
@@ -104,15 +100,12 @@ async function sendFriendRequest(receiverId) {
     }
 }
 
-// Fonction pour récupérer toutes les demandes d'amis
 async function fetchAllFriendRequests() {
     try {
         const response = await fetch("http://127.0.0.1:8001/friend-request/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Ajoutez l'autorisation si nécessaire, par exemple:
-                // 'Authorization': 'Bearer <votre_token>'
             }
         });
 
@@ -129,14 +122,12 @@ async function fetchAllFriendRequests() {
     }
 }
 
-// Fonction pour afficher les invitations en attente dans l'onglet "Invitations en attente"
 export async function loadPendingInvitations() {
     const contentContainer = document.getElementById("friendsModalContent");
-    contentContainer.innerHTML = ""; // Vide le contenu précédent
+    contentContainer.innerHTML = "";
 
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
-    // translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -147,10 +138,8 @@ export async function loadPendingInvitations() {
         console.error("Error loading translations:", error);
     }
 
-    // Récupère toutes les demandes d'amis
     const friendRequests = await fetchAllFriendRequests();
 
-    // Filtre les demandes pour celles où l'utilisateur actuel est le destinataire
     const pendingInvites = friendRequests.filter(request => request.receiver.id === currentUser.id);
 
     if (pendingInvites.length > 0) {
@@ -161,13 +150,11 @@ export async function loadPendingInvitations() {
             const inviteInfo = document.createElement("div");
             inviteInfo.classList.add("user-info");
 
-            // Avatar de l'expéditeur
             const avatar = document.createElement("img");
             avatar.src = getAvatarUrl(invite.sender.username);
             avatar.alt = `${invite.sender.username}'s avatar`;
             avatar.classList.add("user-avatar");
 
-            // Nom d'utilisateur de l'expéditeur
             const username = document.createElement("p");
             username.textContent = invite.sender.username;
             username.classList.add("user-name");
@@ -175,7 +162,6 @@ export async function loadPendingInvitations() {
             inviteInfo.appendChild(avatar);
             inviteInfo.appendChild(username);
 
-            // Bouton d'acceptation (coche verte)
             const acceptButton = document.createElement("i");
             acceptButton.classList.add("bi", "bi-check-square-fill", "accept-button");
             acceptButton.style.color = "green";
@@ -184,7 +170,6 @@ export async function loadPendingInvitations() {
                 handleFriendRequestAction(invite.id, "accept");
             });
 
-            // Bouton de refus (croix rouge)
             const declineButton = document.createElement("i");
             declineButton.classList.add("bi", "bi-x-square-fill", "decline-button");
             declineButton.style.color = "red";
@@ -211,8 +196,6 @@ async function handleFriendRequestAction(requestId, action) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                // Incluez un jeton d'autorisation si nécessaire :
-                // 'Authorization': 'Bearer <votre_token>'
             }
         });
 
@@ -229,24 +212,24 @@ async function handleFriendRequestAction(requestId, action) {
 }
 
 function updateFriendButtonStatus(button, status) {
-    button.classList.remove("bi-person-add", "bi-person-plus", "bi-person-check"); // Reset classes
-    button.style.cursor = "pointer"; // Reset cursor
-    button.style.pointerEvents = "auto"; // Réactive les clics par défaut
+    button.classList.remove("bi-person-add", "bi-person-plus", "bi-person-check");
+    button.style.cursor = "pointer";
+    button.style.pointerEvents = "auto";
 
     if (status === "pending") {
-        button.classList.add("bi-person-plus"); // Icone d'attente
+        button.classList.add("bi-person-plus");
         button.style.color = "orange";
-        button.style.pointerEvents = "none"; // Empêche complètement les clics
+        button.style.pointerEvents = "none";
     }
     else if (status === "accepted") {
-        button.classList.add("bi-person-check"); // Icon pour les amis
+        button.classList.add("bi-person-check");
         button.style.color = "gray";
-        button.style.pointerEvents = "none"; // Empêche les clics pour les amis aussi
+        button.style.pointerEvents = "none";
     }
     else {
-        button.classList.add("bi-person-add"); // Icon pour ajouter un ami
+        button.classList.add("bi-person-add");
         button.style.color = "green";
-        button.style.pointerEvents = "auto"; // Active les clics uniquement pour ajouter
+        button.style.pointerEvents = "auto";
     }
 }
 
@@ -254,7 +237,6 @@ async function handleFriendRequest(userId, button) {
     try {
         await sendFriendRequest(userId);
         updateFriendButtonStatus(button, "pending");
-        console.log("Demande d'ami envoyée.");
     }
     catch (error) {
         console.error("Erreur lors de l'envoi de la demande d'ami:", error);
@@ -273,14 +255,11 @@ async function checkPendingRequest(userId) {
     const friendRequests = await fetchAllFriendRequests();
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
-    // Vérifie si une demande d'ami est en attente entre l'utilisateur actuel et le `userId`
     return friendRequests.some(request => 
         (request.sender.id === currentUser.id && request.receiver.id === userId) ||
         (request.receiver.id === currentUser.id && request.sender.id === userId)
     );
 }
-
-/* =================== MAIN FUNCTION ==================== */
 
 export function openFriendsProfileModal() {
     const friendsProfileModal = document.getElementById("profileModalfriends");
@@ -296,7 +275,6 @@ export async function loadFriendsModalContent(option) {
     const contentContainer = document.getElementById("friendsModalContent");
     contentContainer.innerHTML = "";
 
-    // translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -313,11 +291,9 @@ export async function loadFriendsModalContent(option) {
         const userDetails = username ? await fetchUserDetails(username) : null;
 
         if (userDetails && userDetails.friends.length > 0) {
-            // Trier les amis par ordre alphabétique
             const sortedFriends = userDetails.friends.sort((a, b) => a.username.localeCompare(b.username));
 
             for (const friend of sortedFriends) {
-                // Récupérer les détails complets de chaque ami pour obtenir `is_connected`
                 const friendDetails = await fetchUserDetails(friend.username);
 
                 const friendRow = document.createElement("div");
@@ -337,7 +313,6 @@ export async function loadFriendsModalContent(option) {
                 const statusDot = document.createElement("span");
                 statusDot.classList.add("status-dot");
                 
-                // Utiliser `is_connected` du détail complet de l'ami
                 statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
                 
                 avatarContainer.appendChild(avatar);
@@ -356,7 +331,6 @@ export async function loadFriendsModalContent(option) {
                 showProfileButton.addEventListener("click", () => {
                     openFriendsProfileModal();
                     initFriendsProfileModal(friend.username);
-                    console.log(`Show profile of ${friend.username}`);
                 });
 
                 friendRow.appendChild(friendInfo);
@@ -472,34 +446,28 @@ async function initFriendsProfileModal(username) {
         console.error("Error loading translations:", error);
     }
 
-    // Mise à jour de l'avatar
     const avatarElement = document.querySelector(".profile-modal-picture-friends");
     if (avatarElement) {
         avatarElement.src = getAvatarUrl(friendDetails.username);
         avatarElement.alt = `${friendDetails.username}'s avatar`;
     }
 
-    // Mise à jour du nom d'utilisateur
     const usernameElement = document.querySelector(".username-dash-friends");
     if (usernameElement) {
         usernameElement.textContent = friendDetails.username;
     }
 
-    // Tri des jeux par date décroissante et extraction des derniers jeux
     const games = friendDetails.games ? friendDetails.games.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
 
-    // Calcul des victoires et défaites
     const victories = games.filter(game => game.result === 'V').length;
     const defeats = games.length - victories;
     const totalGames = victories + defeats;
     const victoryPercentage = totalGames > 0 ? Math.round((victories / totalGames) * 100) : 0;
     const defeatPercentage = 100 - victoryPercentage;
 
-    // Mise à jour des barres de victoire et de défaite
     const victoryBarFriends = document.getElementById('victoryBarFriends');
     const defeatBarFriends = document.getElementById('defeatBarFriends');
 
-    // Réinitialisation des barres et suppression des événements existants
     victoryBarFriends.style.width = '0%';
     defeatBarFriends.style.width = '0%';
     victoryBarFriends.style.backgroundColor = '#28a745';
@@ -507,7 +475,6 @@ async function initFriendsProfileModal(username) {
     victoryBarFriends.textContent = '';
     defeatBarFriends.textContent = '';
 
-    // Supprime les gestionnaires d’événements pour éviter la fuite de données
     const cloneVictoryBar = victoryBarFriends.cloneNode(true);
     const cloneDefeatBar = defeatBarFriends.cloneNode(true);
     victoryBarFriends.parentNode.replaceChild(cloneVictoryBar, victoryBarFriends);
@@ -539,7 +506,6 @@ async function initFriendsProfileModal(username) {
         });
     }
 
-    // Affichage de l'historique des jeux
     const latestGamesContainer = document.getElementById('historyDetailsFriends');
     latestGamesContainer.innerHTML = '';
 
@@ -576,18 +542,15 @@ export async function initializeFriendsPreview() {
     if (expandButton) {
         expandButton.addEventListener('click', () => {
             document.getElementById('friendsModal').classList.remove('hidden');
-            // Charger ici la liste complète des amis si nécessaire
         });
     }
     
-    // Charger la prévisualisation des amis
     loadFriendsPreview();
 }
 
 async function loadFriendsPreview() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || !user.username) {
-        console.warn("Aucun utilisateur connecté ou le nom d'utilisateur est manquant.");
         return;
     }
 
@@ -608,16 +571,14 @@ async function loadFriendsPreview() {
         const data = await response.json();
         const sortedFriends = data.friends.sort((a, b) => a.username.localeCompare(b.username));
 
-        // Pour chaque ami, obtenir son statut `is_connected`
         const friendsWithStatus = await Promise.all(sortedFriends.map(async (friend) => {
             const friendDetails = await fetchUserDetails(friend.username);
             return {
                 ...friend,
-                is_connected: friendDetails.is_connected  // Ajoute le statut `is_connected`
+                is_connected: friendDetails.is_connected
             };
         }));
 
-        // Sélectionner les 6 premiers amis pour l'aperçu
         const latestFriends = friendsWithStatus.slice(0, 6);
         displayFriendsPreview(latestFriends);
 
@@ -628,9 +589,8 @@ async function loadFriendsPreview() {
 
 async function displayFriendsPreview(friends) {
     const friendsListPreview = document.querySelector('.friends-list-preview');
-    friendsListPreview.innerHTML = ''; // Vide le contenu précédent
+    friendsListPreview.innerHTML = '';
 
-     // translations
      let translations = {};
      try {
          const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -650,31 +610,25 @@ async function displayFriendsPreview(friends) {
         const friendItem = document.createElement('div');
         friendItem.classList.add('friend-preview-item');
 
-        // Conteneur pour l'avatar et la pastille de statut
         const avatarContainer = document.createElement('div');
         avatarContainer.classList.add('friend-avatar-container');
 
-        // Avatar
         const avatar = document.createElement('img');
         avatar.src = getAvatarUrl(friend.username);
         avatar.alt = `${friend.username}'s avatar`;
         avatar.classList.add('friend-avatar-preview');
 
-        // Pastille de statut
         const statusDot = document.createElement('span');
         statusDot.classList.add('status-dot-preview');
-        statusDot.style.backgroundColor = friend.is_connected ? "green" : "gray"; // Indicateur en ligne ou hors ligne
+        statusDot.style.backgroundColor = friend.is_connected ? "green" : "gray";
 
-        // Ajout de l'avatar et de la pastille dans le conteneur
         avatarContainer.appendChild(avatar);
         avatarContainer.appendChild(statusDot);
 
-        // Nom d'utilisateur
         const username = document.createElement('p');
         username.textContent = friend.username;
         username.classList.add('friend-username-preview');
 
-        // Ajout des éléments dans `friendItem`
         friendItem.appendChild(avatarContainer);
         friendItem.appendChild(username);
 

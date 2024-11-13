@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 export function loadUserProfileFromLocalStorage() {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
-        console.warn("Aucun utilisateur connecté.");
         return;
     }
 

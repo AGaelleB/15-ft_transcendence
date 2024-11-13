@@ -157,13 +157,11 @@ export function initializeHome() {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Error during logout:', errorData);
-                alert('Logout failed: ' + JSON.stringify(errorData));
             }
             else {
                 localStorage.removeItem('user');
                 
                 closeModal();
-                alert('Logout successful!');
                 window.history.pushState({}, "", "/start");
                 handleLocation();
             }
@@ -176,7 +174,6 @@ export function initializeHome() {
     function loadProfileLinkAvatar() {
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
-            console.warn("Aucun utilisateur connecté.");
             return;
         }
     

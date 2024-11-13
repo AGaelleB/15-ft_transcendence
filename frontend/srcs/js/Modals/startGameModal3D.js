@@ -17,8 +17,6 @@ export function isGameStarted3D() {
 export function setGameStarted3D(value) {
     if (typeof value === 'boolean')
         gameStarted3D = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
 function startGame3D(startGameMessage3D, settingsIcon, homeIcon) {
