@@ -113,7 +113,8 @@ async function uploadNewProfilePicture(event) {
         event.preventDefault();
         window.history.pushState({}, "", "/profil");
         handleLocation();
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error during upload:", error);
         alert("An error occurred while uploading the avatar.");
     }
