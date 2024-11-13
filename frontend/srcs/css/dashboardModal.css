@@ -57,8 +57,8 @@
 }
 
 .profile-picture-modal img {
-    width: 100%;
-    height: auto;
+    width: calc(15vw);
+	height: calc(15vw);
     border-radius: 50%;
     border: calc(0.2vh + 0.2vw) solid #a16935;
     margin-top: 1vh;
@@ -649,7 +649,7 @@ input[type="radio"] {
     align-items: center;
 }
 
-.sender-info .user-avatar {
+.sender-info .user-avatar { 
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -697,6 +697,7 @@ input[type="radio"] {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    border: calc(0.2vh + 0.2vw) solid #a16935;
 }
 
 .status-dot {
@@ -716,8 +717,9 @@ input[type="radio"] {
 }
 
 .user-name {
-    font-size: 1em;
+    font-size: 1.5em;
     color: #a16935;
+    margin-left: calc(1.5vh + 1.5vw);
 }
 
 .show-profile-button {
@@ -1322,8 +1324,8 @@ input[type="radio"] {
 }
 
 .profile-picture-modal-friends img {
-    width: 100%;
-    height: auto;
+    width: calc(15vw);
+	height: calc(15vw);
     border-radius: 50%;
     border: calc(0.2vh + 0.2vw) solid #a16935;
     margin-top: 1vh;

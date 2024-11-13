@@ -7,7 +7,11 @@ export function initializeAlertModal() {
         const modalHtml = `
             <div id="alertModal" class="alert-modal hidden">
                 <div class="alert-modal-content">
-                    <h2 class="message-alert" data-lang-key="alertMessage">Alert Message</h2>
+                    <h2 class="message-alert" data-lang-key="alertMessage">
+                        <i class="bi bi-megaphone-fill siren-icon"></i>
+                        Alert Message
+                        <i class="bi bi-megaphone-fill siren-icon"></i>
+                    </h2>
                     <p class="message-alert-content">texte</p>
                     <div class="ok-btn">
                         <button id="closeAlert" class="close-alert-btn" data-lang-key="okButton">OK</button>
@@ -23,24 +27,34 @@ export function initializeAlertModal() {
     }
 }
 
-export function myAlert(messageId) {
+export async function myAlert(messageId) {
     initializeAlertModal();
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('./switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.error("Error loading translations:", error);
+    }
 
     const modal = document.getElementById('alertModal');
     const messageContent = document.querySelector('.message-alert-content');
 
     switch (messageId) {
         case "emailUse":
-            messageContent.textContent = "Cette adresse e-mail est déjà utilisée, veuillez en choisir une autre.";
+            messageContent.textContent = translations["emailUse"] || "Default message for emailUse.";
             break;
         case "invalidPassword":
-            messageContent.textContent = "Le mot de passe est invalide, veuillez vérifier et réessayer.";
+            messageContent.textContent = translations["invalidPassword"] || "Default message for invalidPassword.";
             break;
         case "emptyField":
-            messageContent.textContent = "Tous les champs doivent être remplis.";
+            messageContent.textContent = translations["emptyField"] || "Default message for emptyField.";
             break;
         default:
-            messageContent.textContent = "Une erreur est survenue. Veuillez réessayer.";
+            messageContent.textContent = translations["defaultError"] || "Default error message.";
     }
 
     modal.classList.remove('hidden');

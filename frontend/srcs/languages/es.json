@@ -115,6 +115,12 @@
     "twoPlayers": "2 JUGADORES",
     "tournament": "TORNEO",
     "victoriesStats": "Victoria",
-    "defeatsStats": "Derrota"
+    "defeatsStats": "Derrota",
 
+    "alertMessage": "Error",
+    "okButton": "OK",
+    "emailUse": "Esta dirección de correo electrónico ya está en uso, elija otra",
+    "invalidPassword": "La contraseña no es válida, verifíquela e intente nuevamente",
+    "emptyField": "Todos los campos deben completarse",
+    "defaultError": "Ocurrió un error. Inténtelo de nuevo"
 }

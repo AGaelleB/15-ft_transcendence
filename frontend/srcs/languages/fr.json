@@ -115,7 +115,13 @@
     "twoPlayers": "2 JOUEURS",
     "tournament": "TOURNOI",
     "victoriesStats": "Victoire",
-    "defeatsStats": "Défaite"
+    "defeatsStats": "Défaite",
 
+    "alertMessage": "Erreur",
+    "okButton": "OK",
+    "emailUse": "Cette adresse e-mail est déjà utilisée, veuillez en choisir une autre",
+    "invalidPassword": "Le mot de passe est invalide, veuillez vérifier et réessayer",
+    "emptyField": "Tous les champs doivent être remplis",
+    "defaultError": "Une erreur est survenue. Veuillez réessayer"
 
 }

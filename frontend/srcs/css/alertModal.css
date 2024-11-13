@@ -78,3 +78,17 @@
 	background-color: #2f213a !important;
 	color: #a16935 !important;
 }
+
+.siren-icon {
+    color: #a16935;
+    animation: siren 1s infinite alternate;
+}
+
+@keyframes siren {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
