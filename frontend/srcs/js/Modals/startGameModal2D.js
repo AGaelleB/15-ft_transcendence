@@ -14,8 +14,6 @@ export function isGameStarted2D() {
 export function setGameStarted2D(value) {
     if (typeof value === 'boolean')
         gameStarted2D = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
 function startGame2D(startGameMessage2D, settingsIcon, homeIcon) {

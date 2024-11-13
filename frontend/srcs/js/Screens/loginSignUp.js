@@ -167,8 +167,6 @@ document.querySelector("form.signup").addEventListener("submit", async function(
                 profileImageUrl: '/srcs/images/icons/loginIcon3.png',
 
             }));
-
-            alert('Signup successful!');
             window.location.href = '/home';
         }
     }

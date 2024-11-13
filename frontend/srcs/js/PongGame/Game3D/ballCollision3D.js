@@ -19,8 +19,6 @@ export function getLastTouchedPaddle3D() {
 export function setLastTouchedPaddle3D(paddle) {
 	if (paddle === 'left' || paddle === 'right' || paddle === null)
 		lastTouchedPaddle = paddle;
-	else
-		console.warn("Invalid paddle value. Use 'left', 'right', or null.");
 }
 
 export function handlePaddleCollision3D(ball, paddle) {

@@ -199,8 +199,8 @@ form .btn input[type="submit"] {
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	margin-top: 1vh; /* Petite marge entre le champ mot de passe et le bouton */
-	margin-bottom: 0; /* Supprimer toute marge inférieure supplémentaire */
+	margin-top: 1vh;
+	margin-bottom: 0;
 }
 
 .option-button-l-sg {
@@ -212,7 +212,6 @@ form .btn input[type="submit"] {
 	padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh);
 	outline: none;
 	transition: color 0.3s ease, transform 0.3s ease;
-	/* Supprimer les marges verticales inutiles */
 	margin: 0;
 }
 
@@ -272,7 +271,6 @@ form .btn input[type="submit"] {
 .option-button-l-sg:focus::before {
 	opacity: 1;
 }
-
 
 /* ========== Link Styling ========== */
 .orange-link {

@@ -1,3 +1,5 @@
+// frontend/srcs/js/Modals/historyModal.js
+
 export function initializeHistoryModal() {
     const expandButton = document.getElementById('expand-button-stats');
     const closeButton = document.getElementById('closeHistoryModal');
@@ -14,11 +16,8 @@ export function initializeHistoryModal() {
             document.getElementById('historyModal').classList.add('hidden');
             homeIcon.classList.remove('hidden');
         });
-    } else {
-        console.warn("Les éléments nécessaires pour le modal d'historique ne sont pas disponibles dans le DOM.");
     }
 
-    // Ajout des écouteurs pour les filtres
     document.querySelectorAll('input[name="gameMode"]').forEach((input) => {
         input.addEventListener('change', applyFilters);
     });
@@ -27,12 +26,11 @@ export function initializeHistoryModal() {
     });
 }
 
-let allGames = []; // Pour stocker toutes les parties chargées
+let allGames = [];
 
 async function loadMatchHistory() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || !user.username) {
-        console.warn("Aucun utilisateur connecté ou le nom d'utilisateur est manquant.");
         return;
     }
 
@@ -51,8 +49,8 @@ async function loadMatchHistory() {
         }
 
         const data = await response.json();
-        allGames = data.games; // Stocke toutes les parties
-        applyFilters(); // Applique les filtres après avoir chargé les données
+        allGames = data.games;
+        applyFilters();
 
     } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
@@ -175,47 +173,36 @@ async function displayFilteredGames(games) {
         return;
     }
 
-    // Tri des parties par ordre de date (décroissant)
     games.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     games.forEach((game) => {
         const gameDetail = document.createElement('div');
         gameDetail.classList.add('game-detail');
 
-        // Date de la partie
         const date = document.createElement('p');
         date.textContent = `${translations.dateLabel}: ${new Date(game.date).toLocaleDateString()}`;
 
-        // Mode de jeu
         const mode = document.createElement('p');
         mode.textContent = `${translations.modeLabel}: ${game.game_mode.toUpperCase()}`;
 
-        // Type de jeu
         const type = document.createElement('p');
         type.textContent = `${translations.typeLabel}: ${game.game_played === "1" ? translations.onePlayer : game.game_played === "2" ? translations.twoPlayers : translations.tournament}`;
 
-        // Score de la partie
         const score = document.createElement('p');
         score.textContent = `${translations.scoreLabel}: ${game.game_played === "1" || game.game_played === "2" ? `${game.score} - ${game.opp_score}` : '-'}`;
 
-        // Résultat de la partie
         const result = document.createElement('p');
         result.textContent = `${translations.resultLabel}: ${game.result === 'V' ? translations.victoriesStats : translations.defeatsStats}`;
 
-        // Ajoute chaque élément dans la case
         gameDetail.appendChild(date);
         gameDetail.appendChild(mode);
         gameDetail.appendChild(type);
         gameDetail.appendChild(score);
         gameDetail.appendChild(result);
 
-        // Ajoute la case au conteneur principal
         historyDetails.appendChild(gameDetail);
     });
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 export function initializePreviewStats() {
     loadPreviewStats();
@@ -226,16 +213,12 @@ export function initializePreviewStats() {
             document.getElementById('historyModal').classList.remove('hidden');
         });
     }
-    else {
-        console.warn("Expand button not found in DOM.");
-    }
 }
 
 
 async function loadPreviewStats() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || !user.username) {
-        console.warn("No user logged in or username missing.");
         return;
     }
 
@@ -254,9 +237,9 @@ async function loadPreviewStats() {
         }
 
         const data = await response.json();
-        const games = data.games.sort((a, b) => new Date(b.date) - new Date(a.date)); // Tri par date décroissante
+        const games = data.games.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        const latestGames = games.slice(0, 3); // Les 3 dernières parties
+        const latestGames = games.slice(0, 3);
         displayLatestGames(latestGames);
 
         const victories = games.filter(game => game.result === 'V').length;
@@ -335,7 +318,7 @@ async function createVictoryDefeatChart(victories, defeats) {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false // Supprime la légende
+                    display: false
                 },
                 tooltip: {
                     callbacks: {
@@ -344,7 +327,6 @@ async function createVictoryDefeatChart(victories, defeats) {
                                 return translations.noGamesFound || '0 games played';
                             }
                             else {
-                                // Affiche le nombre de victoires ou de défaites selon la section survolée
                                 const labelIndex = context.dataIndex;
                                 if (labelIndex === 0) {
                                     return `${victories} ${translations.victories || 'Victoires'}`;

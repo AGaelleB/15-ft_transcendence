@@ -127,7 +127,6 @@ const handleLocation = async () => {
             break;
 
         default:
-            console.log("404 Page not found");
             break;
     }
 };

@@ -10,12 +10,12 @@
 
 .dashboard {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 colonnes de largeur égale */
-    grid-template-rows: auto auto; /* 2 lignes pour contrôler la hauteur */
-    gap: calc(1.5vh + 1.5vw); /* Espacement entre les sections */
-    width: calc(65vw + 1vh); /* Largeur globale de la grille */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: calc(1.5vh + 1.5vw);
+    width: calc(65vw + 1vh);
     border-radius: calc(0.8vh + 0.8vw);
-    margin-top: calc(7vh + 2vw); /* Ajoute une marge en haut pour abaisser les cases */
+    margin-top: calc(7vh + 2vw);
     height: calc(5vw + 70vh);
 }
 
@@ -71,44 +71,42 @@
 }
 
 .username-dash-container {
-    width: 100%; /* Remplit l'espace du parent */
-    max-width: calc(13vh + 10vw); /* Taille maximale fixe pour le conteneur */
-    overflow-x: auto; /* Active le défilement horizontal */
-    overflow-y: hidden; /* Désactive le défilement vertical */
-    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    width: 100%;
+    max-width: calc(13vh + 10vw);
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
     text-align: center;
     margin: 0 auto;
-    padding-bottom: 2px; /* Ajustement de l'espace sous le texte */
+    padding-bottom: 2px;
     box-sizing: border-box;
 }
 
-/* Personnalisation de la barre de défilement horizontal */
 .username-dash-container::-webkit-scrollbar {
-    height: 8px; /* Hauteur de la barre de défilement */
+    height: 8px;
 }
 
 .username-dash-container::-webkit-scrollbar-thumb {
-    background-color: #a16935; /* Couleur de la barre */
+    background-color: #a16935;
     border-radius: 4px;
 }
 
 .username-dash-container::-webkit-scrollbar-track {
-    background: #2f213a; /* Couleur de l'arrière-plan de la barre */
+    background: #2f213a;
 }
 
 .username-dash {
     color: #a16935;
-    font-size: calc(2.5vh + 2.5vw); /* Ajustement de la taille de la police */
-    white-space: nowrap; /* Empêche le texte de passer à la ligne */
-    display: inline-block; /* Nécessaire pour le défilement horizontal */
+    font-size: calc(2.5vh + 2.5vw);
+    white-space: nowrap;
+    display: inline-block;
 }
-
 
 /************************** Section Historique des matchs **************************/
 
 .history-section {
     display: flex;
-    align-items: center; /* Centre verticalement le contenu */
+    align-items: center;
     grid-column: 1 / span 2;
     height: calc(13vh + 12vw);
     border: calc(0.3vh + 0.3vw) solid #a16935;
@@ -117,7 +115,7 @@
     box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
     position: relative;
     overflow: hidden;
-    padding: calc(1vh + 1vw); /* Espace autour du contenu */
+    padding: calc(1vh + 1vw);
 }
 
 .expand-button-stats {
@@ -131,8 +129,8 @@
 }
 
 .expand-button-stats i {
-    color: #a16935; /* Couleur orange pour l'icône */
-    font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
+    color: #a16935;
+    font-size: calc(1.5vh + 1.5vw);
 }
 
 .hidden {
@@ -155,7 +153,6 @@
     align-items: center;
 }
 
-/* Header de la section avec le titre et le bouton d'expansion */
 .section-header {
     display: flex;
     align-items: center;
@@ -169,7 +166,6 @@
     text-align: center;
 }
 
-/* Bouton d'expansion */
 .expand-button-friends {
     background: none;
     border: none;
@@ -188,11 +184,9 @@
 
 .expand-button-friends i {
     color: #a16935;
-    font-size: inherit; /* Utilise la taille du bouton */
+    font-size: inherit;
 }
 
-
-/* Conteneur principal des amis */
 .friends-container {
     width: calc(25vw);
     height: calc(40vh);
@@ -206,7 +200,6 @@
     overflow: hidden;
 }
 
-/* Liste de prévisualisation des amis */
 .friends-list-preview {
     display: flex;
     gap: calc(1vh + 1vw);
@@ -236,12 +229,11 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 20%; /* Intensité du dégradé */
+    height: 20%;
     background: linear-gradient(to bottom, rgba(48, 42, 102, 0) 0%, rgba(48, 42, 102, 1) 100%);
     pointer-events: none;
 }
 
-/* Chaque ami dans la liste */
 .friend-item {
     display: flex;
     align-items: center;
@@ -252,12 +244,10 @@
     color: #a16935;
 }
 
-/* Nom d'utilisateur des amis */
 .friend-username {
     font-size: calc(1vh + 1vw);
 }
 
-/* Chaque ami dans la liste */
 .friend-preview-item {
     display: flex;
     flex-direction: column;
@@ -280,7 +270,6 @@
     border: calc(0.15vh + 0.15vw) solid #a16935;
 }
 
-/* Pastille de statut (statusDot) */
 .status-dot-preview {
     position: absolute;
     bottom: 0;
@@ -288,10 +277,9 @@
     width: calc(1vh + 1vw);
     height: calc(1vh + 1vw);
     border-radius: 50%;
-    border: 2px solid #302a66; /* Bordure de la pastille pour contraste */
+    border: 2px solid #302a66;
 }
 
-/* Nom d'utilisateur */
 .friend-username-preview {
     font-size: calc(1vh + 1vw);
     margin-top: calc(0.2vh + 0.2vw);

@@ -48,8 +48,6 @@ export function initialize1Player3D() {
     function setIsGameActive(value) {
         if (typeof value === 'boolean')
             isGameActive3D = value;
-        else
-            console.warn("Invalid value. Please provide a boolean (true or false).");
     }
 
     window.addEventListener('popstate', function(event) {
