@@ -1,6 +1,5 @@
 // frontend/srcs/js/main.js
 
-// routes pour docker Nginx
 const routes = {
     404: "./templates/404.html",
     "/": "./templates/startScreen.html",

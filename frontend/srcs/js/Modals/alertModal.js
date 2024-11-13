@@ -1,28 +1,32 @@
 // frontend/srcs/js/Modals/alertModal.js
 
-async function loadAlertModal() {
-    if (!document.getElementById('alert-modal')) {
-        const response = await fetch('/frontend/srcs/templates/alertModal.html');
-        const modalHtml = await response.text();
+let alertModalLoaded = false;
+
+export function initializeAlertModal() {
+    if (!alertModalLoaded) {
+        const modalHtml = `
+            <div id="alertModal" class="alert-modal hidden">
+                <h2 class="message-alert" data-lang-key="alertMessage">Alert Message</h2>
+                <p class="message-alert-content">texte</p>
+                <div class="ok-btn">
+                    <button id="closeAlert" class="close-alert-btn" data-lang-key="okButton">OK</button>
+                </div>
+            </div>
+        `;
+
         const modalContainer = document.createElement('div');
         modalContainer.innerHTML = modalHtml;
-        document.body.appendChild(modalContainer);
+        document.body.appendChild(modalContainer.firstElementChild);
+        alertModalLoaded = true;
     }
 }
 
-export async function myAlert(messageId) {
-    await loadAlertModal();
+export function myAlert(messageId) {
+    initializeAlertModal();
 
-    const modal = document.getElementById('alert-modal');
+    const modal = document.getElementById('alertModal');
     const messageContent = document.querySelector('.message-alert-content');
 
-    // Vérifie que les éléments existent
-    if (!modal || !messageContent) {
-        console.error("Modal or message content element not found.");
-        return;
-    }
-
-    // Définit les messages pour chaque identifiant
     switch (messageId) {
         case "emailUse":
             messageContent.textContent = "Cette adresse e-mail est déjà utilisée, veuillez en choisir une autre.";
@@ -37,10 +41,8 @@ export async function myAlert(messageId) {
             messageContent.textContent = "Une erreur est survenue. Veuillez réessayer.";
     }
 
-    // Affiche le modal
     modal.classList.remove('hidden');
 
-    // Gestion de la fermeture du modal
     const closeBtn = document.getElementById('closeAlert');
     closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden');

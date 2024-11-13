@@ -1,8 +1,7 @@
 // frontend/srcs/js/Modals/dashboardModal.js
 
-// import { myAlert } from './alertModal.js';
-
 import { loadLanguages, updatePlaceholders } from './switchLanguages.js';
+import { myAlert } from './alertModal.js';
 
 export async function openProfileModal() {
     const homeIcon = document.getElementById('homeIcon');
@@ -136,7 +135,7 @@ async function isEmailAvailable(email) {
 export async function saveUserProfileToBackendAndLocalStorage() {
     const savedUser = JSON.parse(localStorage.getItem('user'));
     if (!savedUser) {
-        alert("No user logged in.");
+        await myAlert("noUserLoggedIn"); // Affiche un message de connexion si aucun utilisateur
         return;
     }
 
@@ -145,8 +144,7 @@ export async function saveUserProfileToBackendAndLocalStorage() {
 
     const isEmailAvailableForSave = await isEmailAvailable(emailInput);
     if (!isEmailAvailableForSave && emailInput !== savedUser.email) {
-        const { myAlert } = await import('./alertModal.js');
-        myAlert("emailUse");  // Appel de la fonction après importation
+        await myAlert("emailUse"); // Affiche une alerte si l'email est déjà utilisé
         return;
     }
 
