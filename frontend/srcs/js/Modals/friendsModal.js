@@ -330,7 +330,7 @@ export async function loadFriendsModalContent(option) {
                 showProfileButton.classList.add("show-profile-button");
                 showProfileButton.addEventListener("click", () => {
                     openFriendsProfileModal();
-                    initFriendsProfileModal(friend.username);
+                    initFriendsProfileModal(friend.username, username);
                 });
 
                 friendRow.appendChild(friendInfo);
@@ -430,9 +430,9 @@ export async function loadFriendsModalContent(option) {
         await loadPendingInvitations();
 }
 
-async function initFriendsProfileModal(username) {
+async function initFriendsProfileModal(friendUsername, myUsername) {
     const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
-    const friendDetails = await fetchUserDetails(username);
+    const friendDetails = await fetchUserDetails(friendUsername);
 
     closeProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
 
@@ -456,6 +456,53 @@ async function initFriendsProfileModal(username) {
     if (usernameElement) {
         usernameElement.textContent = friendDetails.username;
     }
+
+    const statusDot = document.createElement("span");
+    statusDot.classList.add("status-dot-friends-profile");
+    statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
+    const avatarContainer = document.querySelector(".profile-picture-modal-friends");
+    if (avatarContainer) {
+        avatarContainer.appendChild(statusDot);
+    }
+
+    const removeFriendBtn = document.getElementById("removeFriendBtn");
+    const supprFriendConfirm = document.getElementById("supprFriendConfirm");
+    const supprYesBtn = document.getElementById("supprYes");
+    const supprNoBtn = document.getElementById("supprNo");
+
+    removeFriendBtn.replaceWith(removeFriendBtn.cloneNode(true));
+    const newRemoveFriendBtn = document.getElementById("removeFriendBtn");
+
+    if (newRemoveFriendBtn) {
+        newRemoveFriendBtn.addEventListener("click", () => {
+            supprFriendConfirm.classList.remove("hidden");
+        });
+    }
+
+    supprYesBtn.addEventListener("click", async () => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            if (response.ok) {
+                console.log(`${friendDetails.username} has been removed from friends.`);
+                closeFriendsProfileModal();
+                supprFriendConfirm.classList.add("hidden");
+            } else {
+                console.error("Failed to remove friend:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error removing friend:", error);
+        }
+    });
+
+    supprNoBtn.addEventListener("click", () => {
+        supprFriendConfirm.classList.add("hidden");
+    });
 
     const games = friendDetails.games ? friendDetails.games.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
 

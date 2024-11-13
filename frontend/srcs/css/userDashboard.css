@@ -50,8 +50,8 @@
 }
 
 .profile-picture img {
-    width: calc(15vw);
-	height: calc(15vw);
+    width: calc(13vw);
+	height: calc(13vw);
     border-radius: 50%;
     border: calc(0.2vh + 0.2vw) solid #a16935;
 }

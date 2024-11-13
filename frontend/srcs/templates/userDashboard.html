@@ -157,12 +157,28 @@
                     <div class="profile-left-friends">
                         <div class="profile-picture-modal-friends"><img src="./images/icons/loginIcon2.png" alt="Photo de profil" class="profile-modal-picture-friends"></div>
                         <div class="username-dash-container-friends"><div class="username-dash-friends"></div></div>
+                        <span class="suppr-friends-btn">
+                            <button id="removeFriendBtn" class="remove-friend-btn">
+                                <i class="bi bi-person-fill-x"></i> Remove Friend
+                            </button>
+                        </span>                        
                     </div>
                     <div class="profile-right-friends">
                         <div class="stats-bar-friends"><div class="victory-bar-friends" id="victoryBarFriends"></div><div class="defeat-bar-friends" id="defeatBarFriends"></div></div>                        
                         <div class="history-details-friends" id="historyDetailsFriends"></div>
                     </div>
                 </div>                                          
+            </div>
+        </div>
+
+        <!-- ========== Modale suppr d'un ami ========== -->
+        <div id="supprFriendConfirm" class="suppr-friend-confirm hidden">
+            <div class="suppr-friend-confirm-content">
+                <p class="suppr-friend-message" data-lang-key="areYouSureSuppr">Are you sure you want to delete your profile? This action is irreversible</p>
+                <div class="suppr-friend-option">
+                    <button id="supprYes" class="suppr-friend-btn" data-lang-key="yesButton">Yes</button>
+                    <button id="supprNo" class="suppr-friend-btn" data-lang-key="noButton">No</button>
+                </div>
             </div>
         </div>
 

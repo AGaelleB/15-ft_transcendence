@@ -1320,6 +1320,8 @@ input[type="radio"] {
 .profile-picture-modal-friends {
     width: calc(10vh + 10vw);
     height: auto;
+    position: relative;
+    display: inline-block;
     margin-bottom: calc(1vh + 1vw);
 }
 
@@ -1329,6 +1331,17 @@ input[type="radio"] {
     border-radius: 50%;
     border: calc(0.2vh + 0.2vw) solid #a16935;
     margin-top: 1vh;
+}
+
+.status-dot-friends-profile {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: calc(2vh + 2vw);
+    height: calc(2vh + 2vw);
+    border-radius: 50%;
+    border: 2px solid #302a66;
+    z-index: 10;
 }
 
 .username-dash-container-friends {
@@ -1363,6 +1376,22 @@ input[type="radio"] {
     white-space: nowrap;
     display: inline-block;
 }
+
+.remove-friend-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: calc(1vw + 1vh);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remove-friend-btn:hover {
+    background-color: #c82333;
+}
+
 
 /************************ Section droite ************************/
 
@@ -1465,3 +1494,73 @@ input[type="radio"] {
 	color: #a16935 !important;
 }
 
+.suppr-friend-confirm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 100001;
+}
+
+.suppr-friend-confirm-content {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(30vw + 20vh);
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(2vh + 2vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    z-index: 100002;
+}
+
+.suppr-friend-message {
+	font-size: calc(1.8vw + 1.8vh);
+	text-align: center;
+	margin-bottom: calc(2vh);
+	color: #a16935;
+}
+
+.suppr-friend-option {
+	display: flex;
+	justify-content: center;
+	gap: calc(2vw);
+	width: 100%;
+}
+
+.suppr-friend-btn {
+	font-size: calc(1.3vw + 1.3vh);
+	background: #2f213a;
+	padding: calc(0.5vw + 0.5vh) calc(1.5vw + 1.5vh);
+	border: calc(0.3vw + 0.3vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+}
+
+.suppr-friend-btn:hover {
+	box-shadow: calc(0.4vw + 0.4vh) calc(0.4vw + 0.4vh) 0 #a16935;
+	transform: translate(calc(-0.4vw), calc(-0.4vh));
+}
+
+.suppr-friend-btn:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.suppr-friend-btn-primary:focus, .suppr-friend-btn-primary.focus, .suppr-friend-btn:focus, .suppr-friend-btn.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
+}
