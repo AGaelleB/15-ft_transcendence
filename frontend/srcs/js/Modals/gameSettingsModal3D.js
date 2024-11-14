@@ -149,7 +149,7 @@ export function initializeGameSettings3D() {
         else if (gameMode === 'TOURNAMENT 3D' || gameMode === 'tournoi 3D' || gameMode === 'Torneo 3D')
             targetPath = '/tournament-3d';
         else
-            console.error('Error: Mode de jeu non défini');
+            console.error('Error: Game mode not defined');
 
         window.history.pushState({}, "", targetPath);
         handleLocation();

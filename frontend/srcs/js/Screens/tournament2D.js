@@ -18,7 +18,7 @@ export async function initializeTournament2D() {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+        console.warn('Error loading translations:', error);
     }
 
     function cleanup1PlayerTournament2D() {
@@ -243,7 +243,7 @@ export async function showWinMessageTournament2D(winnerName) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+        console.warn('Error loading translations:', error);
     }
 
     winnerMessage.textContent = translations.win_message.replace("${winnerName}", winnerName);
@@ -275,7 +275,7 @@ export async function showWinMessageEndTournament2D(championName) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+        console.warn('Error loading translations:', error);
     }
 
     championNameElement.textContent = translations.champion_name.replace("${championName}", championName);

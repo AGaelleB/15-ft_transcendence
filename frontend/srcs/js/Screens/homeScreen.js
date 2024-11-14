@@ -39,7 +39,7 @@ export function initializeHome() {
         else if (gameMode === 'TOURNAMENT 3D' || gameMode === 'Tournoi 3D' || gameMode === 'Torneo 3D')
             return '/tournament-3d';
         else
-            console.error('Error: Mode de jeu non défini');
+            console.error('Error: Game mode not defined');
     }
 
     menuItems.forEach((item, index) => {

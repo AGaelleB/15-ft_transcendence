@@ -37,7 +37,7 @@ export async function myAlert(messageId, additionalData) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     const modal = document.getElementById('alertModal');
