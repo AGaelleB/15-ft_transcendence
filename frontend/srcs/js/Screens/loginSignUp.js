@@ -1,6 +1,7 @@
 // frontend/srcs/js/Screens/loginSignUp.js
 
 import { myAlert } from '../Modals/alertModal.js';
+import { isEmailAvailable } from '../Modals/dashboardModal.js';
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
@@ -104,16 +105,6 @@ export async function initializeLogin() {
         window.history.pushState({}, "", "/home");
         handleLocation();
     });
-
-    togglePasswordIcons.forEach(icon => {
-        icon.addEventListener("click", function () {
-            const passwordInput = this.parentElement.previousElementSibling;
-            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-            passwordInput.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-            this.classList.toggle("bi-eye-slash");
-        });
-    });
 }
 
 document.querySelector("form.signup").addEventListener("submit", async function(event) {
@@ -126,6 +117,12 @@ document.querySelector("form.signup").addEventListener("submit", async function(
 
     if (password !== confirmPassword) {
         await myAlert("passwordsNotMatch");
+        return;
+    }
+
+    const isEmailAvailableForSave = await isEmailAvailable(email);
+    if (!isEmailAvailableForSave) {
+        await myAlert("emailUse");
         return;
     }
 

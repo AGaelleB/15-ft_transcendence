@@ -127,7 +127,7 @@ async function fetchAllUsers() {
     }
 }
 
-async function isEmailAvailable(email) {
+export async function isEmailAvailable(email) {
     const allUsers = await fetchAllUsers();
     return !allUsers.some(user => user.email === email);
 }
