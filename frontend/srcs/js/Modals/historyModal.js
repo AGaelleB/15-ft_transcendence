@@ -44,7 +44,7 @@ async function loadMatchHistory() {
         });
 
         if (!response.ok) {
-            console.error("Erreur lors de la récupération de l'historique des matchs:", response.statusText);
+            console.error("Error retrieving match history:", response.statusText);
             return;
         }
 
@@ -52,8 +52,9 @@ async function loadMatchHistory() {
         allGames = data.games;
         applyFilters();
 
-    } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
+    }
+    catch (error) {
+        console.error("Data recovery error:", error);
     }
 }
 
@@ -114,7 +115,7 @@ async function updateVictoryDefeatBars(victoryPercentage, victories, defeats) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     const victoryText = translations.victories || "Victories";
@@ -164,7 +165,7 @@ async function displayFilteredGames(games) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     const noGamesFoundMessage = translations.noGamesFound;
@@ -246,7 +247,8 @@ async function loadPreviewStats() {
         const defeats = games.length - victories;
         createVictoryDefeatChart(victories, defeats);
 
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error loading preview stats:", error);
     }
 }
@@ -262,7 +264,7 @@ async function displayLatestGames(latestGames) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     const latestGamesTitleElement = document.querySelector('.title-container h3');
@@ -303,7 +305,7 @@ async function createVictoryDefeatChart(victories, defeats) {
         const storedLang = localStorage.getItem('preferredLanguage') || 'en';
         translations = await loadLanguages(storedLang);
     } catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     new Chart(ctx, {

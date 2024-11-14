@@ -117,7 +117,7 @@ async function fetchAllFriendRequests() {
         return friendRequests;
     }
     catch (error) {
-        console.error("Erreur lors de la récupération des demandes d'amis :", error);
+        console.error("Error retrieving friend requests:", error);
         return [];
     }
 }
@@ -135,7 +135,7 @@ export async function loadPendingInvitations() {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     const friendRequests = await fetchAllFriendRequests();
@@ -202,12 +202,9 @@ async function handleFriendRequestAction(requestId, action) {
         if (response.ok) {
             loadPendingInvitations();
         }
-        else {
-            console.error(`Échec de la demande ${action}`);
-        }
     }
     catch (error) {
-        console.error("Erreur lors de la mise à jour de la demande d'ami :", error);
+        console.error("Error updating friend request:", error);
     }
 }
 
@@ -239,7 +236,7 @@ async function handleFriendRequest(userId, button) {
         updateFriendButtonStatus(button, "pending");
     }
     catch (error) {
-        console.error("Erreur lors de l'envoi de la demande d'ami:", error);
+        console.error("Error sending friend request:", error);
     }
 }
 
@@ -282,7 +279,7 @@ export async function loadFriendsModalContent(option) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     if (option === "friends") {
@@ -348,7 +345,7 @@ export async function loadFriendsModalContent(option) {
         const currentUser = savedUser ? JSON.parse(savedUser).username : null;
 
         if (!currentUser) {
-            console.error("Utilisateur non connecté.");
+            console.warn("User not logged in");
             return;
         }
 
@@ -443,7 +440,7 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     const avatarElement = document.querySelector(".profile-modal-picture-friends");
@@ -480,7 +477,6 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
 
     const supprFriendConfirm = document.getElementById("supprFriendConfirm");
 
-    // Ajout des écouteurs d'événements sans duplication
     removeFriendBtn.addEventListener("click", () => {
         supprFriendConfirm.classList.remove("hidden");
     });
@@ -498,11 +494,10 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
                 console.log(`${friendDetails.username} has been removed from friends.`);
                 closeFriendsProfileModal();
                 supprFriendConfirm.classList.add("hidden");
-                loadFriendsModalContent("friends"); // Recharge la liste des amis
-            } else {
-                console.error("Failed to remove friend:", response.statusText);
+                loadFriendsModalContent("friends");
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Error removing friend:", error);
         }
     });
@@ -619,7 +614,7 @@ async function loadFriendsPreview() {
         });
 
         if (!response.ok) {
-            console.error("Erreur lors de la récupération de la liste des amis:", response.statusText);
+            console.error("Error retrieving friends list:", response.statusText);
             return;
         }
 
@@ -637,8 +632,9 @@ async function loadFriendsPreview() {
         const latestFriends = friendsWithStatus.slice(0, 6);
         displayFriendsPreview(latestFriends);
 
-    } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
+    }
+    catch (error) {
+        console.error("Data recovery error:", error);
     }
 }
 
@@ -653,7 +649,7 @@ async function displayFriendsPreview(friends) {
          translations = await loadLanguages(storedLang);
      }
      catch (error) {
-         console.error("Error loading translations:", error);
+         console.warn("Error loading translations:", error);
      }
 
      if (friends.length === 0) {

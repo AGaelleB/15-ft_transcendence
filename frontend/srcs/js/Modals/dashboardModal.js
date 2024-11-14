@@ -28,7 +28,7 @@ export async function openProfileModal() {
         updatePlaceholdersProfil(translations);
     }
     catch (error) {
-        console.error("Erreur lors de l'importation des traductions :", error);
+        console.warn("Error loading translations:", error);
     }
 
     modal.classList.remove("hidden");
@@ -40,9 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
         editButton.addEventListener("click", () => {
             openProfileModal();
         });
-    }
-    else {
-        console.error("Le bouton de modification n'a pas été trouvé.");
     }
 });
 
@@ -86,7 +83,7 @@ async function uploadNewProfilePicture(event) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Upload failed:", errorData);
+            console.warn("Upload failed:", errorData);
             return;
         }
 
@@ -107,7 +104,7 @@ async function uploadNewProfilePicture(event) {
         handleLocation();
     }
     catch (error) {
-        console.error("Error during upload:", error);
+        console.warn("Error during upload:", error);
     }
 }
 
@@ -122,7 +119,7 @@ async function fetchAllUsers() {
         return response.ok ? await response.json() : [];
     }
     catch (error) {
-        console.error("Error fetching users:", error);
+        console.warn("Error fetching users:", error);
         return [];
     }
 }
@@ -167,7 +164,6 @@ export async function saveUserProfileToBackendAndLocalStorage() {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Échec de la mise à jour du profil:", errorData);
             await myAlert("profileUpdateFailed", errorData);
             return;
         }
@@ -199,7 +195,7 @@ export async function initializeModalEvents() {
         updatePlaceholdersPassword(translations);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     document.getElementById('changePasswordBtn').addEventListener('click', () => {
@@ -275,7 +271,7 @@ export async function initializeModalEvents() {
             const translations = await loadLanguages(preferredLanguage);
             updatePlaceholdersPassword(translations);
         } catch (error) {
-            console.error("Error loading translations:", error);
+            console.warn("Error loading translations:", error);
         }
 
         const languageButtonProfile = document.getElementById("language-button-profile");
