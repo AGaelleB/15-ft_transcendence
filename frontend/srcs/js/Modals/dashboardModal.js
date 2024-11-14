@@ -135,7 +135,7 @@ async function isEmailAvailable(email) {
 export async function saveUserProfileToBackendAndLocalStorage() {
     const savedUser = JSON.parse(localStorage.getItem('user'));
     if (!savedUser) {
-        await myAlert("noUserLoggedIn"); // Affiche un message de connexion si aucun utilisateur
+        await myAlert("noUserLoggedIn");
         return;
     }
 
@@ -144,7 +144,7 @@ export async function saveUserProfileToBackendAndLocalStorage() {
 
     const isEmailAvailableForSave = await isEmailAvailable(emailInput);
     if (!isEmailAvailableForSave && emailInput !== savedUser.email) {
-        await myAlert("emailUse"); // Affiche une alerte si l'email est déjà utilisé
+        await myAlert("emailUse");
         return;
     }
 
@@ -168,7 +168,7 @@ export async function saveUserProfileToBackendAndLocalStorage() {
         if (!response.ok) {
             const errorData = await response.json();
             console.error("Échec de la mise à jour du profil:", errorData);
-            alert("La mise à jour du profil a échoué: " + JSON.stringify(errorData));
+            await myAlert("profileUpdateFailed", errorData);
             return;
         }
 
@@ -222,7 +222,7 @@ export async function initializeModalEvents() {
     
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
-            alert("No user logged in.");
+            await myAlert("noUserLoggedIn");
             return;
         }
     

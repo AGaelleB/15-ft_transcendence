@@ -28,7 +28,7 @@ export function initializeAlertModal() {
 }
 
 
-export async function myAlert(messageId) {
+export async function myAlert(messageId, additionalData) {
     initializeAlertModal();
 
     let translations = {};
@@ -53,6 +53,27 @@ export async function myAlert(messageId) {
             break;
         case "emptyField":
             messageContent.textContent = translations["emptyField"] || "Default message for emptyField.";
+            break;
+        case "profileUpdateFailed":
+            messageContent.textContent = translations["profileUpdateFailed"] || 
+                "Profile update failed: " + (additionalData ? JSON.stringify(additionalData) : "Unknown error.");
+            break;
+        case "noUserLoggedIn":
+            messageContent.textContent = translations["noUserLoggedIn"] || "No user is currently logged in.";
+            break;
+        case "fillFields":
+            messageContent.textContent = translations["fillFields"] || "Please fill in both fields";
+            break;
+        case "loginFailed":
+            messageContent.textContent = translations["loginFailed"] || 
+                "Login failed: " + (additionalData ? JSON.stringify(additionalData) : "Unknown error");
+            break;
+        case "passwordsNotMatch":
+            messageContent.textContent = translations["passwordsNotMatch"] || "Passwords do not match";
+            break;
+        case "signupFailed":
+            messageContent.textContent = translations["signupFailed"] || 
+                "Signup failed: " + (additionalData ? JSON.stringify(additionalData) : "Unknown error");
             break;
         default:
             messageContent.textContent = translations["defaultError"] || "Default error message.";
