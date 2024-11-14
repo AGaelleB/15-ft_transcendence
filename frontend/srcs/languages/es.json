@@ -92,6 +92,7 @@
     "noUsersFound": "No se encontraron usuarios",
     "showProfileButton": "Ver perfil",
     "areYouSureSuppr": "¿Estás seguro de que quieres eliminar a este amigo?",
+    "removeFriend": "Eliminar amigo",
 
     "latestGamesTitle": "Últimos juegos",
 
@@ -123,5 +124,11 @@
     "emailUse": "Esta dirección de correo electrónico ya está en uso, elija otra",
     "invalidPassword": "La contraseña no es válida, verifíquela e intente nuevamente",
     "emptyField": "Todos los campos deben completarse",
+    "profileUpdateFailed": "Error en la actualización del perfil : {errorDetails}",
+    "noUserLoggedIn": "Ningún usuario ha iniciado sesión",
+    "fillFields": "Rellene ambos campos",
+    "loginFailed": "Error de inicio de sesión : {errorDetails}",
+    "passwordsNotMatch": "Las contraseñas no coinciden",
+    "signupFailed": "Error de registro: {errorDetails}",
     "defaultError": "Ocurrió un error. Inténtelo de nuevo"
 }

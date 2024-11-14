@@ -537,8 +537,10 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
     if (totalGames === 0) {
         cloneVictoryBar.style.width = '100%';
         cloneVictoryBar.style.backgroundColor = '#808080';
-        cloneVictoryBar.textContent = '0 games played';
-    } else {
+        cloneVictoryBar.textContent = translations.noGamesPlayed || "0 games played";
+
+    }
+    else {
         cloneVictoryBar.style.width = `${victoryPercentage}%`;
         cloneDefeatBar.style.width = `${defeatPercentage}%`;
 
@@ -585,7 +587,6 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
             <span>${translations.typeLabel || "Type"}: ${game.game_played === "1" ? translations.onePlayer || "1 Player" : game.game_played === "2" ? translations.twoPlayers || "2 Players" : translations.tournament || "Tournament"}</span>
             <span>${translations.resultLabel || "Result"}: ${game.result === 'V' ? translations.victoriesStats || "Victory" : translations.defeatsStats || "Defeat"}</span>
         `;
-        
         latestGamesContainer.appendChild(gameSummary);
     });
 }
