@@ -492,7 +492,8 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
                 console.log(`${friendDetails.username} has been removed from friends.`);
                 closeFriendsProfileModal();
                 supprFriendConfirm.classList.add("hidden");
-            } else {
+            }
+            else {
                 console.error("Failed to remove friend:", response.statusText);
             }
         } catch (error) {
@@ -530,8 +531,10 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
     if (totalGames === 0) {
         cloneVictoryBar.style.width = '100%';
         cloneVictoryBar.style.backgroundColor = '#808080';
-        cloneVictoryBar.textContent = '0 games played';
-    } else {
+        cloneVictoryBar.textContent = translations.noGamesPlayed || "0 games played";
+
+    }
+    else {
         cloneVictoryBar.style.width = `${victoryPercentage}%`;
         cloneDefeatBar.style.width = `${defeatPercentage}%`;
 
