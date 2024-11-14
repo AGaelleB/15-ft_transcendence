@@ -465,19 +465,25 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
         avatarContainer.appendChild(statusDot);
     }
 
-    const removeFriendBtn = document.getElementById("removeFriendBtn");
+    // Remplacement des boutons pour éviter les duplications d'écouteurs d'événements
+    const removeFriendBtnOriginal = document.getElementById("removeFriendBtn");
+    const removeFriendBtn = removeFriendBtnOriginal.cloneNode(true);
+    removeFriendBtnOriginal.replaceWith(removeFriendBtn);
+
+    const supprYesBtnOriginal = document.getElementById("supprYes");
+    const supprYesBtn = supprYesBtnOriginal.cloneNode(true);
+    supprYesBtnOriginal.replaceWith(supprYesBtn);
+
+    const supprNoBtnOriginal = document.getElementById("supprNo");
+    const supprNoBtn = supprNoBtnOriginal.cloneNode(true);
+    supprNoBtnOriginal.replaceWith(supprNoBtn);
+
     const supprFriendConfirm = document.getElementById("supprFriendConfirm");
-    const supprYesBtn = document.getElementById("supprYes");
-    const supprNoBtn = document.getElementById("supprNo");
 
-    removeFriendBtn.replaceWith(removeFriendBtn.cloneNode(true));
-    const newRemoveFriendBtn = document.getElementById("removeFriendBtn");
-
-    if (newRemoveFriendBtn) {
-        newRemoveFriendBtn.addEventListener("click", () => {
-            supprFriendConfirm.classList.remove("hidden");
-        });
-    }
+    // Ajout des écouteurs d'événements sans duplication
+    removeFriendBtn.addEventListener("click", () => {
+        supprFriendConfirm.classList.remove("hidden");
+    });
 
     supprYesBtn.addEventListener("click", async () => {
         try {
@@ -492,6 +498,7 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
                 console.log(`${friendDetails.username} has been removed from friends.`);
                 closeFriendsProfileModal();
                 supprFriendConfirm.classList.add("hidden");
+                loadFriendsModalContent("friends"); // Recharge la liste des amis
             } else {
                 console.error("Failed to remove friend:", response.statusText);
             }
