@@ -27,7 +27,6 @@ export function initializeAlertModal() {
     }
 }
 
-
 export async function myAlert(messageId, additionalData) {
     initializeAlertModal();
 
@@ -44,39 +43,52 @@ export async function myAlert(messageId, additionalData) {
     const modal = document.getElementById('alertModal');
     const messageContent = document.querySelector('.message-alert-content');
 
+    // Gestion de la traduction des détails d'erreur
+    let errorDetail = translations.errorDetails?.unknown || "Unknown error";
+    if (additionalData) {
+        errorDetail = Object.entries(additionalData)
+            .map(([key, value]) => {
+                // Utilise la traduction si elle est disponible, sinon affiche le message brut
+                const translatedMessage = translations.errorDetails[key] || value[0];
+                return translatedMessage;
+            })
+            .join(", ");
+    }
+
+    // Affectation du message selon l'ID, sans répétition
     switch (messageId) {
         case "emailUse":
-            messageContent.textContent = translations["emailUse"] || "Default message for emailUse.";
+            messageContent.textContent = translations["emailUse"] || "This email address is already in use, please choose another";
             break;
         case "invalidPassword":
-            messageContent.textContent = translations["invalidPassword"] || "Default message for invalidPassword.";
+            messageContent.textContent = translations["invalidPassword"] || "The password is invalid, please check and try again";
             break;
         case "emptyField":
-            messageContent.textContent = translations["emptyField"] || "Default message for emptyField.";
+            messageContent.textContent = translations["emptyField"] || "All fields must be filled";
             break;
         case "profileUpdateFailed":
-            messageContent.textContent = translations["profileUpdateFailed"] || 
-                "Profile update failed: " + (additionalData ? JSON.stringify(additionalData) : "Unknown error.");
+            messageContent.textContent = `${translations["profileUpdateFailed"] || "Profile update failed:"} ${errorDetail}`;
             break;
         case "noUserLoggedIn":
-            messageContent.textContent = translations["noUserLoggedIn"] || "No user is currently logged in.";
+            messageContent.textContent = translations["noUserLoggedIn"] || "No user is currently logged in";
             break;
         case "fillFields":
             messageContent.textContent = translations["fillFields"] || "Please fill in both fields";
             break;
         case "loginFailed":
-            messageContent.textContent = translations["loginFailed"] || 
-                "Login failed: " + (additionalData ? JSON.stringify(additionalData) : "Unknown error");
+            messageContent.textContent = `${translations["loginFailed"] || "Login failed:"} ${errorDetail}`;
             break;
         case "passwordsNotMatch":
             messageContent.textContent = translations["passwordsNotMatch"] || "Passwords do not match";
             break;
         case "signupFailed":
-            messageContent.textContent = translations["signupFailed"] || 
-                "Signup failed: " + (additionalData ? JSON.stringify(additionalData) : "Unknown error");
+            messageContent.textContent = `${translations["signupFailed"] || "Signup failed:"} ${errorDetail}`;
+            break;
+        case "invalidNameTournament":
+            messageContent.textContent = translations["invalidNameTournament"] || "Player names must be unique";
             break;
         default:
-            messageContent.textContent = translations["defaultError"] || "Default error message.";
+            messageContent.textContent = translations["defaultError"] || "An error occurred. Please try again.";
     }
 
     modal.classList.remove('hidden');

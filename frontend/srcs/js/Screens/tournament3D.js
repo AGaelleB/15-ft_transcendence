@@ -1,5 +1,6 @@
 // frontend/srcs/js/Screens/tournament3D.js
 
+import { myAlert } from '../Modals/alertModal.js';
 import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
 import { sendGameResult } from '../PongGame/Game2D/score2D.js';
 
@@ -106,22 +107,21 @@ export async function initializeTournament3D() {
 
     /****************************** Start Tournament ******************************/
 
-    document.getElementById('startTournamentButton').addEventListener('click', () => {
+    document.getElementById('startTournamentButton').addEventListener('click', async () => {
         let hasInvalidNames = false;
         const playerNames = new Set();
         const inputs = document.querySelectorAll('#playerFields input');
     
-        inputs.forEach(input => {
+        for (const input of inputs) {
             const name = input.value.trim();
             if (!validatePlayerName(name) || playerNames.has(name)) {
                 hasInvalidNames = true;
-                // alert(`Invalid name: ${name}. Player names must be unique.`);
+                await myAlert("invalidNameTournament");
             }
             playerNames.add(name);
-        });
+        }
     
-        if (hasInvalidNames)
-            return;
+        if (hasInvalidNames) return;
     
         isTournament3D = true;
         tournamentPlayers = Array.from(playerNames); 

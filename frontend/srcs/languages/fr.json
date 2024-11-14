@@ -124,12 +124,20 @@
     "emailUse": "Cette adresse e-mail est déjà utilisée, veuillez en choisir une autre",
     "invalidPassword": "Le mot de passe est invalide, veuillez vérifier et réessayer",
     "emptyField": "Tous les champs doivent être remplis",
-    "profileUpdateFailed": "La mise à jour du profil a échoué : {errorDetails}",
+    "profileUpdateFailed": "La mise à jour du profil a échoué : ",
     "noUserLoggedIn": "Aucun utilisateur n'est actuellement connecté",
     "fillFields": "Veuillez remplir les deux champs",
-    "loginFailed": "Échec de la connexion : {errorDetails}",
+    "loginFailed": "Échec de la connexion : ",
     "passwordsNotMatch": "Les mots de passe ne correspondent pas",
-    "signupFailed": "L'inscription a échoué : {errorDetails}",
-    "defaultError": "Une erreur est survenue. Veuillez réessayer"
+    "signupFailed": "L'inscription a échoué : ",
+    "defaultError": "Une erreur est survenue. Veuillez réessayer",
+    "invalidNameTournament": "Nom de joueur invalide",
+
+    "errorDetails": {
+        "username": "Ce nom d'utilisateur est déjà pris",
+        "email": "Cet email est déjà pris",
+        "password": "Mot de passe invalide",
+        "unknown": "Erreur inconnue"
+    }
 
 }

@@ -124,11 +124,23 @@
     "emailUse": "Esta dirección de correo electrónico ya está en uso, elija otra",
     "invalidPassword": "La contraseña no es válida, verifíquela e intente nuevamente",
     "emptyField": "Todos los campos deben completarse",
-    "profileUpdateFailed": "Error en la actualización del perfil : {errorDetails}",
+    "profileUpdateFailed": "Error en la actualización del perfil : ",
     "noUserLoggedIn": "Ningún usuario ha iniciado sesión",
     "fillFields": "Rellene ambos campos",
-    "loginFailed": "Error de inicio de sesión : {errorDetails}",
+    "loginFailed": "Error de inicio de sesión : ",
     "passwordsNotMatch": "Las contraseñas no coinciden",
-    "signupFailed": "Error de registro: {errorDetails}",
-    "defaultError": "Ocurrió un error. Inténtelo de nuevo"
+    "signupFailed": "Error de registro: ",
+    "defaultError": "Ocurrió un error. Inténtelo de nuevo",
+    "invalidNameTournament": "Nombre de jugador no válido",
+
+    "errorDetails": {
+        "username": "Este nombre de usuario ya está en uso",
+        "email": "Este correo electrónico ya está en uso",
+        "password": "Contraseña inválida",
+        "unknown": "Error desconocido"
+    }
+
 }
+
+
+

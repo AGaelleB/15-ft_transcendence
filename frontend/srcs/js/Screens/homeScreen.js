@@ -1,5 +1,6 @@
 // frontend/srcs/js/Screens/homeScreen.js
 
+import { myAlert } from '../Modals/alertModal.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 export function initializeHome() {
@@ -130,7 +131,7 @@ export function initializeHome() {
     
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
-            alert("No user logged in.");
+            await myAlert("noUserLoggedIn");
             return;
         }
     

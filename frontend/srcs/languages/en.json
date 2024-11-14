@@ -124,11 +124,19 @@
     "emailUse": "This email address is already in use, please choose another",
     "invalidPassword": "The password is invalid, please check and try again",
     "emptyField": "All fields must be filled",
-    "profileUpdateFailed": "Profile update failed: {errorDetails}",
+    "profileUpdateFailed": "Profile update failed: ",
     "noUserLoggedIn": "No user is currently logged in",
     "fillFields": "Please fill in both fields",
-    "loginFailed": "Login failed: {errorDetails}",
+    "loginFailed": "Login failed: ",
     "passwordsNotMatch": "Passwords do not match",
-    "signupFailed": "Signup failed: {errorDetails}",
-    "defaultError": "An error occurred. Please try again"
+    "signupFailed": "Signup failed: ",
+    "defaultError": "An error occurred. Please try again",
+    "invalidNameTournament": "Invalid player name",
+
+    "errorDetails": {
+        "username": "Username already exists",
+        "email": "Email already in use",
+        "password": "Invalid password",
+        "unknown": "Unknown error"
+    }
 }

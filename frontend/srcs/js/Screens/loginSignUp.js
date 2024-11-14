@@ -85,7 +85,7 @@ export async function initializeLogin() {
             }
         }
         catch (error) {
-            console.error('Error during login:', error);
+            console.warn('Error during login:', error);
         }
     });
     
@@ -146,13 +146,13 @@ document.querySelector("form.signup").addEventListener("submit", async function(
             },
             body: JSON.stringify(userData)
         });
-    
+
         if (!response.ok) {
+            // Si la réponse n'est pas ok, on traite l'erreur ici sans loguer dans la console
             const errorData = await response.json();
-            console.error('Error:', errorData);
             await myAlert("signupFailed", errorData);
-        }
-        else {
+        } else {
+            // Si la requête est un succès
             const userResponse = await response.json();
 
             localStorage.setItem('user', JSON.stringify({
@@ -161,12 +161,12 @@ document.querySelector("form.signup").addEventListener("submit", async function(
                 email: userResponse.email,
                 is_2fa: userResponse.is_2fa,
                 profileImageUrl: '/srcs/images/icons/loginIcon3.png',
-
             }));
             window.location.href = '/home';
         }
     }
     catch (error) {
-        console.error('Error:', error);
+        // En cas d'erreur réseau ou d'erreurs non liées à HTTP, on ignore l'affichage d'erreur
+        // ou on peut loguer l'erreur discrètement si nécessaire sans afficher dans la console
     }
 });
