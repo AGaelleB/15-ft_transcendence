@@ -1391,44 +1391,34 @@ input[type="radio"] {
     display: inline-block;
 }
 
+.add-friend-btn, .remove-friend-btn, .pending-friend-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-friend-btn {
+    background-color: green;
+    color: white;
+}
+
+.add-friend-btn:disabled {
+    background-color: orange;
+    color: white;
+}
+
+.pending-friend-btn {
+    background-color: orange;
+    color: white;
+    cursor: not-allowed;
+}
+
 .remove-friend-btn {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: calc(1vw + 1vh);
-    cursor: pointer;
-    transition: background-color 0.2s;
+    background-color: red;
+    color: white;
 }
-
-.remove-friend-btn:hover {
-    background-color: #c82333;
-}
-
-/* Conteneur pour Add Friend */
-.add-friend-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.add-friends-btn {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: calc(1vw + 1vh);
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.add-friends-btn:hover {
-    background-color: #28a745;
-}
-
 
 /************************ Section droite ************************/
 
