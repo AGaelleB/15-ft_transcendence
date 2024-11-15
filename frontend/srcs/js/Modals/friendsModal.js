@@ -465,10 +465,9 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
     removeFriendContainer.innerHTML = "";
 
     const isFriend = await checkIfFriend(myUsername, friendDetails.username);
-    const isPending = await checkPendingRequest(friendDetails.id); // Utilisez l'ID pour vérifier les requêtes en attente
+    const isPending = await checkPendingRequest(friendDetails.id);
 
     if (isFriend) {
-        // Bouton "Remove Friend"
         const removeFriendBtn = document.createElement("button");
         removeFriendBtn.id = "removeFriendBtn";
         removeFriendBtn.classList.add("remove-friend-btn");
@@ -502,8 +501,8 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
                 document.getElementById("supprFriendConfirm").classList.add("hidden");
             });
         });
-    } else if (isPending) {
-        // Bouton "Pending"
+    }
+    else if (isPending) {
         const pendingBtn = document.createElement("button");
         pendingBtn.id = "pendingFriendBtn";
         pendingBtn.classList.add("pending-friend-btn");
@@ -515,10 +514,10 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
 
         pendingBtn.style.backgroundColor = "orange";
         pendingBtn.style.color = "white";
-        pendingBtn.disabled = true; // Désactive les clics
+        pendingBtn.disabled = true;
 
-    } else {
-        // Bouton "Add Friend"
+    }
+    else {
         const addFriendBtn = document.createElement("button");
         addFriendBtn.id = "addFriendBtn";
         addFriendBtn.classList.add("add-friend-btn");
@@ -530,7 +529,7 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
 
         addFriendBtn.addEventListener("click", async () => {
             try {
-                const friendId = friendDetails.id; // Assurez-vous d'utiliser l'ID
+                const friendId = friendDetails.id;
 
                 console.log("Sending friend request with ID:", friendId);
                 await handleFriendRequest(friendId, addFriendBtn);
@@ -548,8 +547,8 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
 
 async function initFriendsProfileModal(friendUsername, myUsername) {
     const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
-    const friendDetails = await fetchUserDetails(friendUsername); // Assurez-vous que cela retourne un `id`
-    console.log("friendDetails:", friendDetails); // Debug pour vérifier `id`
+    const friendDetails = await fetchUserDetails(friendUsername);
+    console.log("friendDetails:", friendDetails);
 
     closeProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
 
@@ -581,17 +580,15 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
         avatarContainer.appendChild(statusDot);
     }
 
-    // Gestion dynamique des boutons
     const removeFriendContainer = document.querySelector(".suppr-friends-btn");
     const addFriendContainer = document.querySelector(".add-friend-container");
     removeFriendContainer.innerHTML = "";
     addFriendContainer.innerHTML = "";
 
     const isFriend = await checkIfFriend(myUsername, friendDetails.username);
-    const isPending = await checkPendingRequest(friendDetails.id); // Utiliser `friendDetails.id`
+    const isPending = await checkPendingRequest(friendDetails.id);
 
     if (isFriend) {
-        // Bouton Remove Friend
         const removeFriendBtn = document.createElement("button");
         removeFriendBtn.id = "removeFriendBtn";
         removeFriendBtn.classList.add("remove-friend-btn");
@@ -627,8 +624,8 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
             document.getElementById("supprFriendConfirm").classList.add("hidden");
         });
 
-    } else if (isPending) {
-        // Bouton Pending
+    }
+    else if (isPending) {
         const pendingBtn = document.createElement("button");
         pendingBtn.id = "pendingFriendBtn";
         pendingBtn.classList.add("pending-friend-btn");
@@ -640,10 +637,10 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
 
         pendingBtn.style.backgroundColor = "orange";
         pendingBtn.style.color = "white";
-        pendingBtn.disabled = true; // Désactive les clics
+        pendingBtn.disabled = true;
 
-    } else {
-        // Bouton Add Friend
+    }
+    else {
         const addFriendBtn = document.createElement("button");
         addFriendBtn.id = "addFriendBtn";
         addFriendBtn.classList.add("add-friend-btn");
@@ -655,7 +652,7 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
 
         addFriendBtn.addEventListener("click", async () => {
             try {
-                const friendId = friendDetails.id; // Utilisation de l'ID
+                const friendId = friendDetails.id;
 
                 await handleFriendRequest(friendId, addFriendBtn);
 
