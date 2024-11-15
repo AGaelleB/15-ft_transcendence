@@ -485,7 +485,7 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
     // removeFriendContainer.appendChild(removeFriendBtn);
 
     // Ajout dynamique du bouton "Add Friend"
-    const addFriendContainer = document.querySelector(".add-friends-btn");
+    const addFriendContainer = document.querySelector(".add-friend-container");
     addFriendContainer.innerHTML = "";
 
     const addFriendBtn = document.createElement("button");
@@ -515,7 +515,6 @@ async function initFriendsProfileModal(friendUsername, myUsername) {
             await myAlert("addFriendFailed", { detail: error.message });
         }
     });
-
 
     // Gestion du modal de confirmation
     const supprFriendConfirm = document.getElementById("supprFriendConfirm");

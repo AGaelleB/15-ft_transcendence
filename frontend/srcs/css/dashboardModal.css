@@ -1406,6 +1406,14 @@ input[type="radio"] {
     background-color: #c82333;
 }
 
+/* Conteneur pour Add Friend */
+.add-friend-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
 .add-friends-btn {
     background-color: #28a745;
     color: #fff;
@@ -1420,6 +1428,7 @@ input[type="radio"] {
 .add-friends-btn:hover {
     background-color: #28a745;
 }
+
 
 /************************ Section droite ************************/
 
