@@ -22,7 +22,7 @@
 - [x] Major module: Implementing Advanced 3D Techniques
 
 ## Accessibility
-- [] Minor module: Expanding Browser Compatibility.
+- [x] Minor module: Expanding Browser Compatibility.
 - [x] Minor module: Multiple language supports.
 
 ### Total 7/8 points
