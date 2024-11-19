@@ -877,6 +877,75 @@ input[type="radio"] {
 	color: #a16935 !important;
 }
 
+/***************************** Filtrage all/my stats ************************/
+
+/* Container des boutons */
+.slide-controls-perso-gen {
+    position: relative;
+    display: flex;
+    height: 5vh;
+    width: 100%;
+    margin: 0 auto 2vh auto;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    background-color: #2f213a;
+    border-radius: calc(0.5vw);
+}
+
+/* Style des boutons */
+.slide-controls-perso-gen .slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: #a16935;
+    font-size: calc(1vw + 1.5vh);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+/* Barre de sélection dynamique */
+.slide-controls-perso-gen .slider-tab {
+    position: absolute;
+    height: 100%;
+    width: 50%; /* Deux boutons donc 50% */
+    background: #a16935;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: calc(0.5vw);
+    z-index: 0;
+}
+
+/* Positionnement de la barre pour chaque bouton */
+#allStat:checked ~ .slider-tab {
+    left: 0;
+}
+#myStat:checked ~ .slider-tab {
+    left: 50%;
+}
+
+/* Couleurs des boutons en fonction de la sélection */
+#allStat:checked ~ label[for="allStat"],
+#myStat:checked ~ label[for="myStat"] {
+    color: #302a66;
+    cursor: default;
+    user-select: none;
+}
+
+#allStat:checked ~ label[for="myStat"],
+#myStat:checked ~ label[for="allStat"] {
+    color: #a16935;
+}
+
+/* Cacher les inputs radio */
+input[type="radio"] {
+    display: none;
+}
+
 /***************************** Boutons de filtrage ************************/
 
 /* Container des boutons */
@@ -1590,4 +1659,216 @@ input[type="radio"] {
 .suppr-friend-btn-primary:focus, .suppr-friend-btn-primary.focus, .suppr-friend-btn:focus, .suppr-friend-btn.focus {
 	background-color: #2f213a !important;
 	color: #a16935 !important;
+}
+
+/* Conteneur du toggle */
+.toggle-stat-mode {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+
+/* Boutons du toggle */
+.stat-toggle-button {
+    background-color: #2f213a;
+    color: #a16935;
+    border: none;
+    padding: 1vh 2vw;
+    margin: 0 1vw;
+    border-radius: calc(0.5vw);
+    cursor: pointer;
+    font-size: calc(1vw + 1.5vh);
+    transition: all 0.3s ease;
+}
+
+.stat-toggle-button.active {
+    background-color: #a16935;
+    color: #2f213a;
+}
+
+.stat-toggle-button:hover {
+    background-color: #a16935;
+    color: #2f213a;
+}
+
+/* Sections General Stats et My Stats */
+.stats-content {
+    display: none;
+    width: 100%;
+    height: auto;
+}
+
+.stats-content:not(.hidden) {
+    display: block;
+}
+
+/****************** Wrapper pour aligner les deux zones ************/
+
+.general-stats-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    height: calc(30vh + 10vw);
+    gap: calc(1vw + 1vh);
+}
+
+.general-stats-left {
+    flex: 1;
+    background-color: #302a66;
+    border-radius: calc(0.5vw);
+    padding: calc(1vh + 1vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a16935;
+    font-size: calc(1.5vw + 1vh);
+    text-align: center;
+    gap: calc(1vh + 1vw);
+}
+
+.total-games-header {
+    font-size: calc(2vw + 1.5vh);
+    margin-bottom: calc(1vh + 1vw);
+}
+
+.history-details-all {
+    flex: 1;
+    width: 100%;
+    background-color: #40356d;
+    border-radius: calc(0.5vw);
+    padding: calc(1vh + 1vw);
+    overflow-y: auto;
+    height: calc(30vh);
+}
+
+.history-details-all::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-details-all::-webkit-scrollbar-thumb {
+    background-color: #a16935;
+    border-radius: 4px;
+}
+
+.history-details-all::-webkit-scrollbar-track {
+    background: #2f213a;
+}
+
+/* Conteneur des parties */
+.game-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(0.5vh + 0.5vw);
+    margin-bottom: calc(0.5vh + 0.5vw);
+    background-color: #302a66;
+    border-radius: calc(0.3vw);
+    color: #a16935;
+    font-size: calc(1vw + 0.5vh);
+    box-shadow: 0 calc(0.2vh + 0.2vw) calc(0.5vh + 0.5vw) rgba(0, 0, 0, 0.3);
+}
+
+/* Style des détails individuels */
+.game-detail-all {
+    margin: 0 calc(1vw);
+    white-space: nowrap;
+}
+
+.games-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(0.5vh + 0.5vw);
+    background-color: #40356d;
+    padding: calc(0.5vh + 0.5vw);
+    border-radius: calc(0.5vw);
+    color: #a16935;
+    overflow-y: auto;
+    height: calc(100%);
+}
+
+.games-list p {
+    margin: 0;
+    padding: 0;
+    font-size: calc(0.8vw + 0.8vh);
+    color: #a16935;
+}
+
+/*******************************8 Conteneur pour la zone droite ****************************/
+.general-stats-right {
+    flex: 1;
+    background-color: #302a66;
+    border-radius: calc(0.5vw);
+    padding: calc(1vh + 1vw);
+    display: flex;
+    flex-direction: column;
+    gap: calc(1vh);
+    text-align: center;
+    color: #a16935;
+}
+
+/* En-tête fixe pour "My Ranking" */
+.ranking-header {
+    padding: calc(1vh + 1vw);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* Conteneur défilant pour la liste */
+.rankings-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: calc(1vh + 1vw);
+    overflow-y: auto;
+    padding: calc(1vh + 1vw);
+    background-color: #302a66;
+    border-radius: calc(0.3vw);
+}
+
+/* Style pour les joueurs */
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(1vh + 1vw);
+    background-color: #40356d;
+    border-radius: calc(0.3vw);
+    color: #a16935;
+    font-size: calc(1.2vw + 0.5vh);
+    box-shadow: 0 calc(0.2vh + 0.2vw) calc(0.5vh + 0.5vw) rgba(0, 0, 0, 0.3);
+}
+
+.ranking-item.even {
+    background-color: #544690;
+}
+
+.ranking-item.odd {
+    background-color: #40356d;
+}
+
+/* Style spécifique pour "My Ranking" */
+.my-ranking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(1vh + 1vw);
+    background-color: #503d80;
+    border: calc(0.2vh + 0.2vw) solid #a16935;
+    border-radius: calc(0.3vw);
+    color: #a16935;
+    font-size: calc(1.5vw);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.my-ranking:hover {
+    background-color: #40356d;
+}
+
+/* Style pour la case de l'utilisateur dans le classement général */
+.ranking-item.current-user {
+    border: calc(0.2vh + 0.2vw) solid #a16935;
+    color: #a16935;
 }

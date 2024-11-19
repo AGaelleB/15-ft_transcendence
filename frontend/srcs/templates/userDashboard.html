@@ -201,34 +201,77 @@
             </div>
         </div>
 
-        <!-- ========== Modale Historique des parties ========== -->
         <div class="history-modal-container hidden" id="historyModal">
             <div class="history-modal">
-                <!-- Filtrage par mode de jeu -->
-                <div class="slide-controls-mode">
-                    <input type="radio" id="allMode" name="gameMode" checked><input type="radio" id="mode2d" name="gameMode"><input type="radio" id="mode3d" name="gameMode">
-                    <label for="allMode" class="slide" data-lang-key="all">ALL</label>
-                    <label for="mode2d" class="slide" data-lang-key="mode2d">2D</label>
-                    <label for="mode3d" class="slide" data-lang-key="mode3d">3D</label>
-                    <div class="slider-tab"></div>
-                </div>                
-                
-                <!-- Filtrage par type de jeu -->
-                <div class="slide-controls-type">
-                    <input type="radio" id="typeAll" name="playerMode" checked><input type="radio" id="type1Player" name="playerMode"><input type="radio" id="type2Players" name="playerMode"><input type="radio" id="typeTournament" name="playerMode">
-                    <label for="typeAll" class="slide" data-lang-key="typeAll">ALL</label>
-                    <label for="type1Player" class="slide" data-lang-key="type1Player">1PLAYER</label>
-                    <label for="type2Players" class="slide" data-lang-key="type2Players">2PLAYERS</label>
-                    <label for="typeTournament" class="slide" data-lang-key="typeTournament">TOURNAMENT</label>
-                    <div class="slider-tab"></div>
+                <!-- Toggle entre General Stats et My Stats -->
+                <div class="toggle-stat-mode">
+                    <button id="generalStatsButton" class="stat-toggle-button active" data-lang-key="allStat">General Stats</button>
+                    <button id="myStatsButton" class="stat-toggle-button" data-lang-key="myStat">My Stats</button>
                 </div>
-                
-                <div class="modal-separator"></div>
-                
-                <!-- Graphique des victoires/défaites -->
-                <div class="stats-bar"><div class="victory-bar" id="victoryBar"></div><div class="defeat-bar" id="defeatBar"></div></div>                                                      
-                
-                <div class="history-details" id="historyDetails"></div>
+
+                <div id="generalStatsContainer" class="stats-content hidden">
+                    <div class="modal-separator"></div>
+                    <div class="general-stats-wrapper">
+                        <!-- Zone gauche -->
+                        <div class="general-stats-left">
+                            <!-- En-tête -->
+                            <div class="total-games-header" id="totalGamesPlayed">Total Games Played: 0</div>
+                            <!-- Liste des parties -->
+                            <div id="allGamesList" class="history-details-all"></div>
+                        </div>
+                        <!-- Zone droite -->
+                        <div class="general-stats-right">
+                            <!-- En-tête fixe pour "My Ranking" -->
+                            <div id="myRankingHeader" class="ranking-header">
+                                <div class="ranking-item my-ranking">
+                                    <div class="ranking-number">#--</div>
+                                    <div class="ranking-name">Your Ranking</div>
+                                    <div class="ranking-wins">-- Wins</div>
+                                </div>
+                            </div>
+                            <!-- Conteneur défilant pour le classement -->
+                            <div id="playerRankings" class="rankings-list">
+                                <!-- Les joueurs apparaîtront ici dynamiquement -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conteneur pour My Stats -->
+                <div id="myStatsContainer" class="stats-content">
+                    <!-- Section pour filtrer les modes -->
+                    <div class="slide-controls-mode">
+                        <input type="radio" id="allMode" name="gameMode" checked>
+                        <input type="radio" id="mode2d" name="gameMode">
+                        <input type="radio" id="mode3d" name="gameMode">
+                        <label for="allMode" class="slide" data-lang-key="all">ALL</label>
+                        <label for="mode2d" class="slide" data-lang-key="mode2d">2D</label>
+                        <label for="mode3d" class="slide" data-lang-key="mode3d">3D</label>
+                        <div class="slider-tab"></div>
+                    </div>
+
+                    <!-- Section pour filtrer les types de jeu -->
+                    <div class="slide-controls-type">
+                        <input type="radio" id="typeAll" name="playerMode" checked>
+                        <input type="radio" id="type1Player" name="playerMode">
+                        <input type="radio" id="type2Players" name="playerMode">
+                        <input type="radio" id="typeTournament" name="playerMode">
+                        <label for="typeAll" class="slide" data-lang-key="typeAll">ALL</label>
+                        <label for="type1Player" class="slide" data-lang-key="type1Player">1PLAYER</label>
+                        <label for="type2Players" class="slide" data-lang-key="type2Players">2PLAYERS</label>
+                        <label for="typeTournament" class="slide" data-lang-key="typeTournament">TOURNAMENT</label>
+                        <div class="slider-tab"></div>
+                    </div>
+
+                    <!-- Graphique des victoires/défaites -->
+                    <div class="stats-bar">
+                        <div class="victory-bar" id="victoryBar"></div>
+                        <div class="defeat-bar" id="defeatBar"></div>
+                    </div>
+
+                    <!-- Historique des parties -->
+                    <div class="history-details" id="historyDetails"></div>
+                </div>
                 <button class="close-button-history" id="closeHistoryModal">&times;</button>
             </div>
         </div>
