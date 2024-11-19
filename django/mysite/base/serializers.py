@@ -40,8 +40,8 @@ class User_Create_Serializer(serializers.ModelSerializer):
     fields needed at creation
     """
     class Meta:
-        model = User 
-        fields = ['id', 'username', 'email', 'is_2fa', 'avatar']
+        model = User
+        fields  = ['id', 'username', 'email', 'is_2fa', 'avatar']
 
 class User_friends_Serializer(serializers.ModelSerializer):
     """
@@ -63,10 +63,11 @@ class User_List_Serializer(serializers.ModelSerializer):
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     friends = User_friends_Serializer(many=True, read_only=True)
     games = Game_easy_Serializer(many=True, source='player', read_only=True)
-    
+    language = serializers.ChoiceField(choices=User.LANGUAGE_CHOICES)  # Ajout du champ language
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games']
+        fields = ['id', 'username', 'email', 'is_connected', 'received_invites', 'avatar', 'friends', 'games', 'language']
 
 class User_Update_Serializer(serializers.ModelSerializer):
     """
@@ -74,9 +75,12 @@ class User_Update_Serializer(serializers.ModelSerializer):
     """
     received_invites = serializers.StringRelatedField(many=True, source="receiver", read_only=True)
     friends = User_friends_Serializer(many=True, read_only=True)
+    language = serializers.ChoiceField(choices=User.LANGUAGE_CHOICES)  # Ajout du champ language
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites']
+        fields = ['id', 'username', 'email', 'is_2fa', 'avatar', 'friends', 'received_invites', 'language']  # Ajout de 'language'
+
 
 class User_Log_in_out_Serializer(serializers.ModelSerializer):
     """
