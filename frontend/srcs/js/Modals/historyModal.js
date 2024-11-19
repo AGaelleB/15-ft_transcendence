@@ -102,10 +102,16 @@ function displayGlobalGames(games) {
     }
 
     games.forEach(game => {
+        // Troncature du nom d'utilisateur si nécessaire
+        const truncatedUsername =
+            game.username.length > 6
+                ? `${game.username.slice(0, 6)}...`
+                : game.username;
+
         const gameItem = document.createElement('div');
         gameItem.classList.add('game-item');
         gameItem.innerHTML = `
-            <span class="game-detail-all">Player: ${game.username}</span>
+            <span class="game-detail-all">Player: ${truncatedUsername}</span>
             <span class="game-detail-all">Mode: ${game.game_mode.toUpperCase()}</span>
             <span class="game-detail-all">Type: ${game.game_played}</span>
             <span class="game-detail-all">Result: ${game.result}</span>
@@ -113,7 +119,6 @@ function displayGlobalGames(games) {
         gamesListContainer.appendChild(gameItem);
     });
 }
-
 
 async function displayPlayerRankings() {
     try {
@@ -163,9 +168,20 @@ async function displayPlayerRankings() {
 
             rankingItem.innerHTML = `
                 <div class="ranking-number">#${index + 1}</div>
-                <div class="ranking-name">${player.username} ${index === myRankingIndex ? '(You)' : ''}</div>
+                <div class="ranking-name">
+                    ${player.username} ${index === myRankingIndex ? '(You)' : ''}
+                    <i class="bi bi-person-lines-fill profile-icon" title="View Profile"></i>
+                </div>
                 <div class="ranking-wins">${player.wins} Wins</div>
             `;
+
+            // Gestionnaire d'événement pour l'icône
+            const profileIcon = rankingItem.querySelector('.profile-icon');
+            profileIcon.addEventListener('click', () => {
+                openFriendsProfileModal();
+                initFriendsProfileModal(player.username, currentUser.username);
+            });
+
             rankingsContainer.appendChild(rankingItem);
         });
 
