@@ -1,6 +1,6 @@
 // frontend/srcs/js/Modals/dashboardModal.js
 
-import { loadLanguages, updatePlaceholders } from './switchLanguages.js';
+import { loadLanguages, updatePlaceholders, updateUserLanguage } from './switchLanguages.js';
 import { myAlert } from './alertModal.js';
 
 export async function openProfileModal() {
@@ -300,14 +300,20 @@ export async function initializeModalEvents() {
             function switchFlagProfile(selectedItem) {
                 const currentFlag = languageButtonProfile.innerHTML;
                 const currentLang = languageButtonProfile.getAttribute("data-lang");
+            
                 languageButtonProfile.innerHTML = selectedItem.innerHTML;
                 languageButtonProfile.setAttribute("data-lang", selectedItem.getAttribute("data-lang"));
+
                 selectedItem.innerHTML = currentFlag;
                 selectedItem.setAttribute("data-lang", currentLang);
+            
                 const newLang = languageButtonProfile.getAttribute("data-lang");
                 localStorage.setItem('preferredLanguage', newLang);
+
                 loadLanguages(newLang);
                 updatePlaceholders(newLang);
+            
+                updateUserLanguage(newLang);
             }
 
             dropdownItemsProfile.forEach(item => {

@@ -92,3 +92,36 @@ export function updatePlaceholdersPassword(translations) {
         input.placeholder = translations.confirmNewPasswordPlaceholder || input.placeholder;
     });
 }
+
+export async function updateUserLanguage(newLang) {
+    const savedUser = JSON.parse(localStorage.getItem('user'));
+    if (!savedUser) {
+        console.warn("No user data found in localStorage");
+        return;
+    }
+
+    const username = savedUser.username;
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ language: newLang }),
+        });
+
+        if (!response.ok) {
+            console.warn("Failed to update user language");
+            return;
+        }
+
+        const updatedUserData = await response.json();
+        savedUser.language = updatedUserData.language;
+        localStorage.setItem('user', JSON.stringify(savedUser));
+    }
+    catch (error) {
+        console.error("Error updating user language:", error);
+    }
+}
