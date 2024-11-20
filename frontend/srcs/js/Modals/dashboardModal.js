@@ -298,37 +298,22 @@ export async function initializeModalEvents() {
             setInitialFlagProfile();
 
             function switchFlagProfile(selectedItem) {
-                // const currentFlag = languageButtonProfile.innerHTML;
-                // const currentLang = languageButtonProfile.getAttribute("data-lang");
-                // languageButtonProfile.innerHTML = selectedItem.innerHTML;
-                // languageButtonProfile.setAttribute("data-lang", selectedItem.getAttribute("data-lang"));
-                // selectedItem.innerHTML = currentFlag;
-                // selectedItem.setAttribute("data-lang", currentLang);
-                // const newLang = languageButtonProfile.getAttribute("data-lang");
-                // localStorage.setItem('preferredLanguage', newLang);
-                // loadLanguages(newLang);
-                // updatePlaceholders(newLang);
-
-
                 const currentFlag = languageButtonProfile.innerHTML;
                 const currentLang = languageButtonProfile.getAttribute("data-lang");
             
                 languageButtonProfile.innerHTML = selectedItem.innerHTML;
                 languageButtonProfile.setAttribute("data-lang", selectedItem.getAttribute("data-lang"));
-            
+
                 selectedItem.innerHTML = currentFlag;
                 selectedItem.setAttribute("data-lang", currentLang);
             
                 const newLang = languageButtonProfile.getAttribute("data-lang");
                 localStorage.setItem('preferredLanguage', newLang);
-            
-                // Charger les nouvelles traductions pour le frontend
+
                 loadLanguages(newLang);
                 updatePlaceholders(newLang);
             
-                // Mettre à jour la langue sur le backend
                 updateUserLanguage(newLang);
-            
             }
 
             dropdownItemsProfile.forEach(item => {
