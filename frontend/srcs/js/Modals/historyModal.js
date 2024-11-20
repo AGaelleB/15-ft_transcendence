@@ -11,7 +11,6 @@ export function initializeHistoryModal() {
     const closeButton = document.getElementById('closeHistoryModal');
     const homeIcon = document.getElementById('homeIcon');
 
-    // Gestion des onglets (General Stats et My Stats)
     if (generalStatsButton && myStatsButton) {
         generalStatsButton.addEventListener('click', () => {
             generalStatsButton.classList.add('active');
@@ -27,17 +26,15 @@ export function initializeHistoryModal() {
             generalStatsButton.classList.remove('active');
             myStatsContainer.classList.remove('hidden');
             generalStatsContainer.classList.add('hidden');
-            loadMatchHistory(); // Charge les données pour My Stats
+            loadMatchHistory();
         });
     }
 
-    // Ouverture et fermeture du modal
     if (expandButton && closeButton) {
         expandButton.addEventListener('click', () => {
             if (homeIcon) homeIcon.classList.add('hidden');
             document.getElementById('historyModal').classList.remove('hidden');
 
-            // Charge par défaut les General Stats à l'ouverture
             generalStatsButton.classList.add('active');
             myStatsButton.classList.remove('active');
             generalStatsContainer.classList.remove('hidden');
@@ -52,7 +49,6 @@ export function initializeHistoryModal() {
         });
     }
 
-    // Gestion des filtres pour "My Stats"
     document.querySelectorAll('input[name="gameMode"]').forEach((input) => {
         input.addEventListener('change', applyFilters);
     });
@@ -63,14 +59,12 @@ export function initializeHistoryModal() {
 
 async function fetchAllUsersGames() {
     try {
-        // Étape 1 : Récupère tous les utilisateurs
         const usersResponse = await fetch('http://127.0.0.1:8001/users');
         if (!usersResponse.ok) {
             throw new Error('Failed to fetch users');
         }
         const users = await usersResponse.json();
 
-        // Étape 2 : Récupère toutes les parties de chaque utilisateur
         const allGames = [];
         users.forEach(user => {
             user.games.forEach(game => {
@@ -78,10 +72,8 @@ async function fetchAllUsersGames() {
             });
         });
 
-        // Étape 3 : Trie les parties par date décroissante
-        allGames.sort((a, b) => b.id - a.id); // Tri basé sur l'ID croissant
+        allGames.sort((a, b) => b.id - a.id);
 
-        // Affiche les résultats dans le modal
         displayGlobalGames(allGames);
     } catch (error) {
         console.error('Error fetching games:', error);
@@ -89,40 +81,57 @@ async function fetchAllUsersGames() {
     }
 }
 
-function displayGlobalGames(games) {
+async function displayGlobalGames(games) {
     const gamesListContainer = document.getElementById('allGamesList');
     const totalGamesHeader = document.getElementById('totalGamesPlayed');
 
-    // Met à jour le nombre total de parties
-    totalGamesHeader.textContent = `Total Games Played: ${games.length}`;
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.warn("Error loading translations:", error);
+    }
+    totalGamesHeader.textContent = `${translations.totalGamePlayed} ${games.length}`;
 
-    gamesListContainer.innerHTML = ''; // Efface l'ancien contenu
+    gamesListContainer.innerHTML = '';
 
     if (games.length === 0) {
-        gamesListContainer.innerHTML = '<p>No games found.</p>';
+        gamesListContainer.innerHTML = translations.noGamesPlayed || '0 games played';
         return;
     }
 
     games.forEach(game => {
-        // Troncature du nom d'utilisateur si nécessaire
         const truncatedUsername =
-            game.username.length > 6
-                ? `${game.username.slice(0, 6)}...`
+            game.username.length > 5
+                ? `${game.username.slice(0, 5)}...`
                 : game.username;
 
         const gameItem = document.createElement('div');
         gameItem.classList.add('game-item');
         gameItem.innerHTML = `
-            <span class="game-detail-all">Player: ${truncatedUsername}</span>
-            <span class="game-detail-all">Mode: ${game.game_mode.toUpperCase()}</span>
-            <span class="game-detail-all">Type: ${game.game_played}</span>
-            <span class="game-detail-all">Result: ${game.result}</span>
+            <span class="game-detail-all">${translations.player}: ${truncatedUsername}</span>
+            <span class="game-detail-all">${translations.modeLabel}: ${game.game_mode.toUpperCase()}</span>
+            <span class="game-detail-all">${translations.typeLabel}: ${game.game_played}</span>
+            <span class="game-detail-all">${translations.resultLabel}: ${game.result}</span>
         `;
         gamesListContainer.appendChild(gameItem);
     });
 }
 
 async function displayPlayerRankings() {
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.warn("Error loading translations:", error);
+    }
+
     try {
         const usersResponse = await fetch('http://127.0.0.1:8001/users');
         if (!usersResponse.ok) {
@@ -130,7 +139,7 @@ async function displayPlayerRankings() {
         }
         const users = await usersResponse.json();
 
-        const currentUser = JSON.parse(localStorage.getItem('user')); // Récupère l'utilisateur actuel
+        const currentUser = JSON.parse(localStorage.getItem('user'));
 
         const playerRankings = users.map(user => {
             const wins = user.games.filter(game => game.result === 'V').length;
@@ -149,8 +158,8 @@ async function displayPlayerRankings() {
         rankingHeader.innerHTML = `
             <div class="ranking-item my-ranking">
                 <div class="ranking-number">#${myRankingIndex + 1}</div>
-                <div class="ranking-name">${myRanking.username} (You)</div>
-                <div class="ranking-wins">${myRanking.wins} Wins</div>
+                <div class="ranking-name">${myRanking.username} ${translations.itsMe}</div>
+                <div class="ranking-wins">${myRanking.wins} ${translations.wins}</div>
             </div>
         `;
 
@@ -160,27 +169,25 @@ async function displayPlayerRankings() {
         playerRankings.forEach((player, index) => {
             const rankingItem = document.createElement('div');
             rankingItem.classList.add('ranking-item');
-            rankingItem.classList.add(index % 2 === 0 ? 'even' : 'odd'); // Alternance de couleur
+            rankingItem.classList.add(index % 2 === 0 ? 'even' : 'odd');
         
-            // Ajout de style spécial pour l'utilisateur connecté
             if (index === myRankingIndex) {
-                rankingItem.id = "my-ranking-item"; // Ajoute un ID unique
-                rankingItem.classList.add('current-user'); // Style spécial pour l'utilisateur actuel
+                rankingItem.id = "my-ranking-item";
+                rankingItem.classList.add('current-user');
             }
         
             rankingItem.innerHTML = `
                 <div class="ranking-number-container">
-                    <span class="ranking-number">#${index + 1}  </span>
+                    <span class="ranking-number">#${index + 1}   </span>
                     ${index !== myRankingIndex ? '<i class="bi bi-person-lines-fill profile-icon-stats" title="View Profile"></i>' : ''}
                 </div>
                 <div class="ranking-name">
-                    ${player.username} ${index === myRankingIndex ? '(You)' : ''}
+                    ${player.username} ${index === myRankingIndex ? translations.itsMe : ''}
                 </div>
-                <div class="ranking-wins">${player.wins} Wins</div>
+                <div class="ranking-wins">${player.wins} ${translations.wins}</div>
             `;
         
-            // Ajout d'un gestionnaire d'événement pour l'icône uniquement si elle existe
-            const profileIcon = rankingItem.querySelector('.profile-icon');
+            const profileIcon = rankingItem.querySelector('.profile-icon-stats');
             if (profileIcon) {
                 profileIcon.addEventListener('click', () => {
                     openFriendsProfileModal();
@@ -191,7 +198,6 @@ async function displayPlayerRankings() {
             rankingsContainer.appendChild(rankingItem);
         });
 
-        // Ajout d'un événement de clic pour recentrer sur la case utilisateur
         const myRankingHeaderElement = document.querySelector('.my-ranking');
         myRankingHeaderElement.addEventListener('click', () => {
             const myRankingItem = document.getElementById('my-ranking-item');
@@ -208,7 +214,6 @@ async function displayPlayerRankings() {
     }
 }
 
-////////////////////////////////// ANCIEN //////////////////////////
 let allGames = [];
 
 async function loadMatchHistory() {

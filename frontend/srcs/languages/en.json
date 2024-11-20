@@ -109,7 +109,13 @@
     "noGamesPlayed": "0 games played",
     "victories": "Victories",
     "defeats": "Defeats",
+    "allStat": "ALL GAME STATISTICS",
+    "myStat": "MY STATISTICS",
+    "totalGamePlayed": "Total Games Played: ",
+    "itsMe": "(Me)",
+    "wins": " Win(s)",
 
+    "player": "Player",
     "dateLabel": "Date",
     "modeLabel": "Mode",
     "typeLabel": "Type",

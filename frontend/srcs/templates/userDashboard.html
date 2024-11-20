@@ -205,17 +205,23 @@
             <div class="history-modal">
                 <!-- Toggle entre General Stats et My Stats -->
                 <div class="toggle-stat-mode">
-                    <button id="generalStatsButton" class="stat-toggle-button active" data-lang-key="allStat">General Stats</button>
-                    <button id="myStatsButton" class="stat-toggle-button" data-lang-key="myStat">My Stats</button>
-                </div>
-
+                    <input type="radio" id="generalStatsButton" name="statMode" checked>
+                    <input type="radio" id="myStatsButton" name="statMode">
+                    
+                    <div class="slide-controls">
+                        <div class="slider-tab"></div>
+                        <label for="generalStatsButton" data-lang-key="allStat" class="slide">General Stats</label>
+                        <label for="myStatsButton" data-lang-key="myStat" class="slide">My Stats</label>
+                    </div>
+                </div>                
                 <div id="generalStatsContainer" class="stats-content hidden">
                     <div class="modal-separator"></div>
                     <div class="general-stats-wrapper">
                         <!-- Zone gauche -->
                         <div class="general-stats-left">
                             <!-- En-tête -->
-                            <div class="total-games-header" id="totalGamesPlayed">Total Games Played: 0</div>
+                            <div class="total-games-header" id="totalGamesPlayed" data-lang-key="totalGamePlayed">Total Games Played: 0</div>
+                            
                             <!-- Liste des parties -->
                             <div id="allGamesList" class="history-details-all"></div>
                         </div>

@@ -591,6 +591,7 @@ input[type="radio"] {
 }
 
 /* ========== Additional Modal Styling ========== */
+
 .modal-separator {
     width: 100%;
     height: calc(0.3vh + 0.3vw);
@@ -1119,6 +1120,8 @@ input[type="radio"] {
     overflow: hidden;
     position: relative;
     display: flex;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
 }
 
 /* Barre de victoires */
@@ -1661,45 +1664,80 @@ input[type="radio"] {
 	color: #a16935 !important;
 }
 
-/* Conteneur du toggle */
+/* ========== Slider Container Styling ========== */
+
+.stats-content {
+    width: 100%;
+}
+
 .toggle-stat-mode {
+    position: relative;
     display: flex;
     justify-content: center;
     margin-bottom: 2vh;
-}
-
-/* Boutons du toggle */
-.stat-toggle-button {
-    background-color: #2f213a;
-    color: #a16935;
-    border: none;
-    padding: 1vh 2vw;
-    margin: 0 1vw;
-    border-radius: calc(0.5vw);
-    cursor: pointer;
-    font-size: calc(1vw + 1.5vh);
-    transition: all 0.3s ease;
-}
-
-.stat-toggle-button.active {
-    background-color: #a16935;
-    color: #2f213a;
-}
-
-.stat-toggle-button:hover {
-    background-color: #a16935;
-    color: #2f213a;
-}
-
-/* Sections General Stats et My Stats */
-.stats-content {
-    display: none;
+    height: 5vh;
     width: 100%;
-    height: auto;
+    overflow: hidden;
+    align-items: center;
+    border-radius: calc(0.5vw);
 }
 
-.stats-content:not(.hidden) {
-    display: block;
+.toggle-stat-mode .slide-controls {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: calc(0.5vw);
+    background-color: #2f213a;
+}
+
+.toggle-stat-mode .slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+    color: #a16935;
+    font-size: calc(1vw + 1vh);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.6s ease;
+}
+
+.toggle-stat-mode .slider-tab {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0;
+    z-index: 0;
+    border-radius: calc(0.5vw);
+    background: #a16935;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#myStatsButton:checked ~ .slide-controls .slider-tab {
+    left: 50%;
+}
+
+#generalStatsButton:checked ~ .slide-controls .slider-tab {
+    left: 0;
+}
+
+#myStatsButton:checked ~ .slide-controls label[for="myStatsButton"],
+#generalStatsButton:checked ~ .slide-controls label[for="generalStatsButton"] {
+    color: #302a66;
+    cursor: default;
+    user-select: none;
+}
+
+#myStatsButton:checked ~ .slide-controls label[for="generalStatsButton"],
+#generalStatsButton:checked ~ .slide-controls label[for="myStatsButton"] {
+    color: #a16935;
 }
 
 /****************** Wrapper pour aligner les deux zones ************/
@@ -1803,18 +1841,18 @@ input[type="radio"] {
     padding: calc(1vh + 1vw);
     display: flex;
     flex-direction: column;
-    gap: calc(1vh);
+    gap: calc(0.2vh);
     text-align: center;
     color: #a16935;
 }
 
 /* En-tête fixe pour "My Ranking" */
 .ranking-header {
-    padding: calc(1vh + 1vw);
     position: sticky;
     top: 0;
     z-index: 2;
 }
+
 
 /* Conteneur défilant pour la liste */
 .rankings-list {
@@ -1833,7 +1871,7 @@ input[type="radio"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: calc(1vh + 1vw);
+    padding: calc(0.5vh + 0.5vw);
     background-color: #40356d;
     border-radius: calc(0.3vw);
     color: #a16935;
@@ -1854,22 +1892,23 @@ input[type="radio"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: calc(0.5vh + 0.5vw); /* Marges internes réduites */
+    padding: calc(0.5vh + 0.5vw);
     background-color: #503d80;
-    border: calc(0.1vh + 0.1vw) solid #a16935; /* Bordure plus fine */
-    border-radius: calc(0.2vw); /* Coins légèrement arrondis */
+    border: calc(0.1vh + 0.1vw) solid #a16935;
+    border-radius: calc(0.2vw);
     color: #a16935;
-    font-size: calc(1vw); /* Taille de police réduite */
+    font-size: calc(1vw);
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Effet de transition amélioré */
-    width: 80%; /* Réduction de la largeur globale */
-    margin: 0 auto; /* Centré horizontalement */
-    box-shadow: 0 calc(0.1vh + 0.1vw) calc(0.3vh + 0.3vw) rgba(0, 0, 0, 0.2); /* Ombre subtile */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    height: 60%;
+    margin: 0 auto;
+    box-shadow: 0 calc(0.1vh + 0.1vw) calc(0.3vh + 0.3vw) rgba(0, 0, 0, 0.2);
 }
 
 .my-ranking:hover {
     background-color: #40356d;
-    transform: scale(1.02); /* Légère mise en avant au survol */
+    transform: scale(1.02);
 }
 
 /* Style pour la case de l'utilisateur dans le classement général */
