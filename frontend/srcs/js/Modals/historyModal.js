@@ -1,5 +1,7 @@
 // frontend/srcs/js/Modals/historyModal.js
 
+import { openFriendsProfileModal, initFriendsProfileModal } from './friendsModal.js';
+
 export function initializeHistoryModal() {
     const generalStatsButton = document.getElementById('generalStatsButton');
     const myStatsButton = document.getElementById('myStatsButton');
@@ -159,29 +161,33 @@ async function displayPlayerRankings() {
             const rankingItem = document.createElement('div');
             rankingItem.classList.add('ranking-item');
             rankingItem.classList.add(index % 2 === 0 ? 'even' : 'odd'); // Alternance de couleur
-
-            // Ajout de la classe spéciale pour l'utilisateur actuel
+        
+            // Ajout de style spécial pour l'utilisateur connecté
             if (index === myRankingIndex) {
                 rankingItem.id = "my-ranking-item"; // Ajoute un ID unique
-                rankingItem.classList.add('current-user'); // Contour orange et style spécial
+                rankingItem.classList.add('current-user'); // Style spécial pour l'utilisateur actuel
             }
-
+        
             rankingItem.innerHTML = `
-                <div class="ranking-number">#${index + 1}</div>
+                <div class="ranking-number-container">
+                    <span class="ranking-number">#${index + 1}  </span>
+                    ${index !== myRankingIndex ? '<i class="bi bi-person-lines-fill profile-icon-stats" title="View Profile"></i>' : ''}
+                </div>
                 <div class="ranking-name">
                     ${player.username} ${index === myRankingIndex ? '(You)' : ''}
-                    <i class="bi bi-person-lines-fill profile-icon" title="View Profile"></i>
                 </div>
                 <div class="ranking-wins">${player.wins} Wins</div>
             `;
-
-            // Gestionnaire d'événement pour l'icône
+        
+            // Ajout d'un gestionnaire d'événement pour l'icône uniquement si elle existe
             const profileIcon = rankingItem.querySelector('.profile-icon');
-            profileIcon.addEventListener('click', () => {
-                openFriendsProfileModal();
-                initFriendsProfileModal(player.username, currentUser.username);
-            });
-
+            if (profileIcon) {
+                profileIcon.addEventListener('click', () => {
+                    openFriendsProfileModal();
+                    initFriendsProfileModal(player.username, currentUser.username);
+                });
+            }
+        
             rankingsContainer.appendChild(rankingItem);
         });
 

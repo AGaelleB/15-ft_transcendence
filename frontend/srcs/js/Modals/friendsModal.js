@@ -537,7 +537,8 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
                 addFriendBtn.disabled = true;
                 addFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
                 addFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Error adding friend:", error);
                 await myAlert("addFriendFailed", { detail: error.message });
             }
@@ -545,7 +546,7 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
     }
 }
 
-async function initFriendsProfileModal(friendUsername, myUsername) {
+export async function initFriendsProfileModal(friendUsername, myUsername) {
     const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
     const friendDetails = await fetchUserDetails(friendUsername);
     console.log("friendDetails:", friendDetails);

@@ -1854,22 +1854,54 @@ input[type="radio"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: calc(1vh + 1vw);
+    padding: calc(0.5vh + 0.5vw); /* Marges internes réduites */
     background-color: #503d80;
-    border: calc(0.2vh + 0.2vw) solid #a16935;
-    border-radius: calc(0.3vw);
+    border: calc(0.1vh + 0.1vw) solid #a16935; /* Bordure plus fine */
+    border-radius: calc(0.2vw); /* Coins légèrement arrondis */
     color: #a16935;
-    font-size: calc(1.5vw);
+    font-size: calc(1vw); /* Taille de police réduite */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Effet de transition amélioré */
+    width: 80%; /* Réduction de la largeur globale */
+    margin: 0 auto; /* Centré horizontalement */
+    box-shadow: 0 calc(0.1vh + 0.1vw) calc(0.3vh + 0.3vw) rgba(0, 0, 0, 0.2); /* Ombre subtile */
 }
 
 .my-ranking:hover {
     background-color: #40356d;
+    transform: scale(1.02); /* Légère mise en avant au survol */
 }
 
 /* Style pour la case de l'utilisateur dans le classement général */
 .ranking-item.current-user {
     border: calc(0.2vh + 0.2vw) solid #a16935;
     color: #a16935;
+}
+
+.ranking-number-container {
+    font-size: calc(1vh + 1vw);
+}
+
+.ranking-number {
+    font-size: calc(2vh + 2vw);
+}
+
+.ranking-wins {
+    font-size: calc(1vh + 1vw);
+}
+
+.ranking-name {
+    font-size: calc(1vh + 1vw);
+}
+
+.profile-icon-stats {
+    font-size: 1.2em;
+    color: #a16935;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.profile-icon-stats:hover {
+    color: #804c1e;
+    transform: scale(1.1);
 }
