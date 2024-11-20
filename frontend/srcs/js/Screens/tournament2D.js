@@ -170,7 +170,6 @@ function shuffleArray(array) {
     return array;
 }
 
-
 /************************** Tournament Match Management **************************/
 
 export function startNextMatch2D() {

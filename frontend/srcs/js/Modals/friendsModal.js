@@ -83,8 +83,6 @@ async function sendFriendRequest(receiverId) {
         receiver: receiverId,
     };
 
-    console.log("Sending friend request with body:", requestBody);
-    
     try {
         const response = await fetch("http://127.0.0.1:8001/friend-request/create/", {
             method: 'POST',
@@ -445,7 +443,6 @@ export async function loadFriendsModalContent(option) {
 
 
 async function checkIfFriend(myUsername, friendUsername) {
-    console.log("myUsername:", myUsername, "friendUsername:", friendUsername); // Debug
     const currentUserDetails = await fetchUserDetails(myUsername);
     const friendsUsernames = currentUserDetails && currentUserDetails.friends 
         ? currentUserDetails.friends.map(friend => friend.username) 
@@ -456,7 +453,6 @@ async function checkIfFriend(myUsername, friendUsername) {
 
 
 async function manageFriendButtons(myUsername, friendDetails, translations) {
-    console.log("manageFriendButtons called with:", myUsername, friendDetails);
 
     const addFriendContainer = document.querySelector(".add-friend-container");
     const removeFriendContainer = document.querySelector(".suppr-friends-btn");
@@ -488,7 +484,6 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
                     });
 
                     if (response.ok) {
-                        console.log(`${friendDetails.username} has been removed from friends.`);
                         document.getElementById("supprFriendConfirm").classList.add("hidden");
                         await manageFriendButtons(myUsername, friendDetails, translations);
                     }
@@ -531,7 +526,6 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
             try {
                 const friendId = friendDetails.id;
 
-                console.log("Sending friend request with ID:", friendId);
                 await handleFriendRequest(friendId, addFriendBtn);
 
                 addFriendBtn.disabled = true;
@@ -549,7 +543,6 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
 export async function initFriendsProfileModal(friendUsername, myUsername) {
     const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
     const friendDetails = await fetchUserDetails(friendUsername);
-    console.log("friendDetails:", friendDetails);
 
     closeProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
 
@@ -558,7 +551,8 @@ export async function initFriendsProfileModal(friendUsername, myUsername) {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
         const storedLang = localStorage.getItem('preferredLanguage') || 'en';
         translations = await loadLanguages(storedLang);
-    } catch (error) {
+    }
+    catch (error) {
         console.warn("Error loading translations:", error);
     }
 
@@ -611,7 +605,6 @@ export async function initFriendsProfileModal(friendUsername, myUsername) {
                 });
 
                 if (response.ok) {
-                    console.log(`${friendDetails.username} has been removed from friends.`);
                     document.getElementById("supprFriendConfirm").classList.add("hidden");
                     await manageFriendButtons(myUsername, friendDetails, translations);
                 }
