@@ -61,7 +61,7 @@ export function initializeHome() {
     
             const targetPath = getTargetPath(mode);
             window.history.pushState({}, "", targetPath);
-    
+
             handleLocation();
         });
     });
