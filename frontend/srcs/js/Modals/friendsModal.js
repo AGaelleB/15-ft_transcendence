@@ -271,7 +271,11 @@ export function openFriendsProfileModal() {
 export function closeFriendsProfileModal() {
     const friendsProfileModal = document.getElementById("profileModalfriends");
     friendsProfileModal.classList.add("hidden");
+
+    // Recharge l'onglet "users" pour mettre à jour les boutons après fermeture
+    loadFriendsModalContent("users");
 }
+
 
 export async function loadFriendsModalContent(option) {
     const contentContainer = document.getElementById("friendsModalContent");
@@ -451,19 +455,20 @@ async function checkIfFriend(myUsername, friendUsername) {
     return friendsUsernames.includes(friendUsername);
 }
 
-
 async function manageFriendButtons(myUsername, friendDetails, translations) {
-
     const addFriendContainer = document.querySelector(".add-friend-container");
     const removeFriendContainer = document.querySelector(".suppr-friends-btn");
 
-    addFriendContainer.innerHTML = "";
-    removeFriendContainer.innerHTML = "";
+    // Nettoyage total des conteneurs
+    addFriendContainer.textContent = ""; // Vide tout le contenu du conteneur
+    removeFriendContainer.textContent = ""; // Vide tout le contenu du conteneur
 
+    // Vérifie si l'utilisateur est déjà un ami ou s'il y a une demande en attente
     const isFriend = await checkIfFriend(myUsername, friendDetails.username);
     const isPending = await checkPendingRequest(friendDetails.id);
 
     if (isFriend) {
+        // Création du bouton "Supprimer un ami"
         const removeFriendBtn = document.createElement("button");
         removeFriendBtn.id = "removeFriendBtn";
         removeFriendBtn.classList.add("remove-friend-btn");
@@ -473,10 +478,174 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
         `;
         removeFriendContainer.appendChild(removeFriendBtn);
 
+        // Gestion de l'événement pour confirmer la suppression
         removeFriendBtn.addEventListener("click", () => {
+            const supprConfirm = document.getElementById("supprFriendConfirm");
+            supprConfirm.classList.remove("hidden");
+
+            const confirmYes = document.getElementById("supprYes");
+            const confirmNo = document.getElementById("supprNo");
+
+            // Supprime les anciens événements pour éviter les doublons
+            confirmYes.replaceWith(confirmYes.cloneNode(true));
+            confirmNo.replaceWith(confirmNo.cloneNode(true));
+
+            const newConfirmYes = document.getElementById("supprYes");
+            const newConfirmNo = document.getElementById("supprNo");
+
+            newConfirmYes.addEventListener("click", async () => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (response.ok) {
+                        supprConfirm.classList.add("hidden");
+                        await manageFriendButtons(myUsername, friendDetails, translations); // Recharge les boutons
+                    }
+                } catch (error) {
+                    console.error("Error removing friend:", error);
+                }
+            });
+
+            newConfirmNo.addEventListener("click", () => {
+                supprConfirm.classList.add("hidden");
+            });
+        });
+    } else if (isPending) {
+        // Création du bouton "Demande en attente"
+        const pendingBtn = document.createElement("button");
+        pendingBtn.id = "pendingFriendBtn";
+        pendingBtn.classList.add("pending-friend-btn");
+        pendingBtn.innerHTML = `
+            <i class="bi bi-person-plus"></i>
+            <span data-lang-key="friendRequestPending">${translations.friendRequestPending || "Pending"}</span>
+        `;
+        addFriendContainer.appendChild(pendingBtn);
+
+        // Désactivation du bouton en attente
+        pendingBtn.disabled = true;
+        pendingBtn.style.backgroundColor = "orange";
+        pendingBtn.style.color = "white";
+    } else {
+        // Création du bouton "Ajouter un ami"
+        const addFriendBtn = document.createElement("button");
+        addFriendBtn.id = "addFriendBtn";
+        addFriendBtn.classList.add("add-friend-btn");
+        addFriendBtn.innerHTML = `
+            <i class="bi bi-person-fill-add"></i>
+            <span data-lang-key="addFriend">${translations.addFriend || "Add Friend"}</span>
+        `;
+        addFriendContainer.appendChild(addFriendBtn);
+
+        // Gestion de l'événement pour ajouter un ami
+        addFriendBtn.addEventListener("click", async () => {
+            try {
+                const friendId = friendDetails.id;
+
+                await handleFriendRequest(friendId, addFriendBtn);
+
+                // Mise à jour du bouton après l'ajout
+                addFriendBtn.disabled = true;
+                addFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
+                addFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
+
+                // Recharge les boutons pour refléter l'état actuel
+                await manageFriendButtons(myUsername, friendDetails, translations);
+            } catch (error) {
+                console.error("Error adding friend:", error);
+                await myAlert("addFriendFailed", { detail: error.message });
+            }
+        });
+    }
+}
+
+export async function initFriendsProfileModal(friendUsername, myUsername) {
+    const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
+
+    // Suppression des anciens événements pour éviter les doublons
+    closeProfilFriendsModal.replaceWith(closeProfilFriendsModal.cloneNode(true));
+    const newCloseProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
+    newCloseProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
+
+    const friendDetails = await fetchUserDetails(friendUsername);
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    } catch (error) {
+        console.warn("Error loading translations:", error);
+    }
+
+    // Mise à jour de l'avatar
+    const avatarElement = document.querySelector(".profile-modal-picture-friends");
+    if (avatarElement) {
+        avatarElement.src = getAvatarUrl(friendDetails.username);
+        avatarElement.alt = `${friendDetails.username}'s avatar`;
+    }
+
+    // Mise à jour du nom d'utilisateur
+    const usernameElement = document.querySelector(".username-dash-friends");
+    if (usernameElement) {
+        usernameElement.textContent = friendDetails.username;
+    }
+
+    // Mise à jour du statut
+    const avatarContainer = document.querySelector(".profile-picture-modal-friends");
+    const existingStatusDot = avatarContainer.querySelector(".status-dot-friends-profile");
+    if (existingStatusDot) {
+        existingStatusDot.remove();
+    }
+    const statusDot = document.createElement("span");
+    statusDot.classList.add("status-dot-friends-profile");
+    statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
+    avatarContainer.appendChild(statusDot);
+
+    // Conteneurs pour les boutons
+    const removeFriendContainer = document.querySelector(".suppr-friends-btn");
+    const addFriendContainer = document.querySelector(".add-friend-container");
+
+    // Nettoyage strict des conteneurs
+    removeFriendContainer.textContent = ""; // Supprime tout contenu existant
+    addFriendContainer.textContent = ""; // Supprime tout contenu existant
+
+    // Vérifie si l'utilisateur est ami ou si une demande est en attente
+    const isFriend = await checkIfFriend(myUsername, friendDetails.username);
+    const isPending = await checkPendingRequest(friendDetails.id);
+
+    if (isFriend) {
+        // Bouton "Supprimer un ami"
+        const removeFriendBtn = document.createElement("button");
+        removeFriendBtn.id = "removeFriendBtn";
+        removeFriendBtn.classList.add("remove-friend-btn");
+        removeFriendBtn.innerHTML = `
+            <i class="bi bi-person-fill-x"></i>
+            <span data-lang-key="removeFriend">${translations.removeFriend || "Remove Friend"}</span>
+        `;
+        removeFriendContainer.appendChild(removeFriendBtn);
+
+        // Suppression des anciens événements pour le bouton
+        removeFriendBtn.replaceWith(removeFriendBtn.cloneNode(true));
+        const newRemoveFriendBtn = removeFriendContainer.querySelector("#removeFriendBtn");
+
+        // Gestion des événements pour la suppression
+        newRemoveFriendBtn.addEventListener("click", () => {
             document.getElementById("supprFriendConfirm").classList.remove("hidden");
 
-            document.getElementById("supprYes").addEventListener("click", async () => {
+            const confirmYes = document.getElementById("supprYes");
+            const confirmNo = document.getElementById("supprNo");
+
+            // Suppression des anciens événements de confirmation
+            confirmYes.replaceWith(confirmYes.cloneNode(true));
+            confirmNo.replaceWith(confirmNo.cloneNode(true));
+
+            const newConfirmYes = document.getElementById("supprYes");
+            const newConfirmNo = document.getElementById("supprNo");
+
+            newConfirmYes.addEventListener("click", async () => {
                 try {
                     const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
                         method: "PUT",
@@ -492,12 +661,12 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
                 }
             });
 
-            document.getElementById("supprNo").addEventListener("click", () => {
+            newConfirmNo.addEventListener("click", () => {
                 document.getElementById("supprFriendConfirm").classList.add("hidden");
             });
         });
-    }
-    else if (isPending) {
+    } else if (isPending) {
+        // Bouton "Demande en attente"
         const pendingBtn = document.createElement("button");
         pendingBtn.id = "pendingFriendBtn";
         pendingBtn.classList.add("pending-friend-btn");
@@ -507,12 +676,11 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
         `;
         addFriendContainer.appendChild(pendingBtn);
 
+        pendingBtn.disabled = true;
         pendingBtn.style.backgroundColor = "orange";
         pendingBtn.style.color = "white";
-        pendingBtn.disabled = true;
-
-    }
-    else {
+    } else {
+        // Bouton "Ajouter un ami"
         const addFriendBtn = document.createElement("button");
         addFriendBtn.id = "addFriendBtn";
         addFriendBtn.classList.add("add-friend-btn");
@@ -522,145 +690,27 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
         `;
         addFriendContainer.appendChild(addFriendBtn);
 
-        addFriendBtn.addEventListener("click", async () => {
+        // Suppression des anciens événements pour le bouton
+        addFriendBtn.replaceWith(addFriendBtn.cloneNode(true));
+        const newAddFriendBtn = addFriendContainer.querySelector("#addFriendBtn");
+
+        // Gestion de l'événement pour ajouter un ami
+        newAddFriendBtn.addEventListener("click", async () => {
             try {
                 const friendId = friendDetails.id;
 
-                await handleFriendRequest(friendId, addFriendBtn);
+                await handleFriendRequest(friendId, newAddFriendBtn);
 
-                addFriendBtn.disabled = true;
-                addFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
-                addFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
-            }
-            catch (error) {
+                newAddFriendBtn.disabled = true;
+                newAddFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
+                newAddFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
+
+                await manageFriendButtons(myUsername, friendDetails, translations);
+            } catch (error) {
                 console.error("Error adding friend:", error);
-                await myAlert("addFriendFailed", { detail: error.message });
             }
         });
     }
-}
-
-export async function initFriendsProfileModal(friendUsername, myUsername) {
-    const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
-    const friendDetails = await fetchUserDetails(friendUsername);
-
-    closeProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
-
-    let translations = {};
-    try {
-        const { loadLanguages } = await import('../Modals/switchLanguages.js');
-        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-        translations = await loadLanguages(storedLang);
-    }
-    catch (error) {
-        console.warn("Error loading translations:", error);
-    }
-
-    const avatarElement = document.querySelector(".profile-modal-picture-friends");
-    if (avatarElement) {
-        avatarElement.src = getAvatarUrl(friendDetails.username);
-        avatarElement.alt = `${friendDetails.username}'s avatar`;
-    }
-
-    const usernameElement = document.querySelector(".username-dash-friends");
-    if (usernameElement) {
-        usernameElement.textContent = friendDetails.username;
-    }
-
-    const statusDot = document.createElement("span");
-    statusDot.classList.add("status-dot-friends-profile");
-    statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
-    const avatarContainer = document.querySelector(".profile-picture-modal-friends");
-    if (avatarContainer) {
-        avatarContainer.appendChild(statusDot);
-    }
-
-    const removeFriendContainer = document.querySelector(".suppr-friends-btn");
-    const addFriendContainer = document.querySelector(".add-friend-container");
-    removeFriendContainer.innerHTML = "";
-    addFriendContainer.innerHTML = "";
-
-    const isFriend = await checkIfFriend(myUsername, friendDetails.username);
-    const isPending = await checkPendingRequest(friendDetails.id);
-
-    if (isFriend) {
-        const removeFriendBtn = document.createElement("button");
-        removeFriendBtn.id = "removeFriendBtn";
-        removeFriendBtn.classList.add("remove-friend-btn");
-        removeFriendBtn.innerHTML = `
-            <i class="bi bi-person-fill-x"></i>
-            <span data-lang-key="removeFriend">${translations.removeFriend || "Remove Friend"}</span>
-        `;
-        removeFriendContainer.appendChild(removeFriendBtn);
-
-        removeFriendBtn.addEventListener("click", () => {
-            document.getElementById("supprFriendConfirm").classList.remove("hidden");
-        });
-
-        document.getElementById("supprYes").addEventListener("click", async () => {
-            try {
-                const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                if (response.ok) {
-                    document.getElementById("supprFriendConfirm").classList.add("hidden");
-                    await manageFriendButtons(myUsername, friendDetails, translations);
-                }
-            }
-            catch (error) {
-                console.error("Error removing friend:", error);
-            }
-        });
-
-        document.getElementById("supprNo").addEventListener("click", () => {
-            document.getElementById("supprFriendConfirm").classList.add("hidden");
-        });
-
-    }
-    else if (isPending) {
-        const pendingBtn = document.createElement("button");
-        pendingBtn.id = "pendingFriendBtn";
-        pendingBtn.classList.add("pending-friend-btn");
-        pendingBtn.innerHTML = `
-            <i class="bi bi-person-plus"></i>
-            <span data-lang-key="friendRequestPending">${translations.friendRequestPending || "Pending"}</span>
-        `;
-        addFriendContainer.appendChild(pendingBtn);
-
-        pendingBtn.style.backgroundColor = "orange";
-        pendingBtn.style.color = "white";
-        pendingBtn.disabled = true;
-
-    }
-    else {
-        const addFriendBtn = document.createElement("button");
-        addFriendBtn.id = "addFriendBtn";
-        addFriendBtn.classList.add("add-friend-btn");
-        addFriendBtn.innerHTML = `
-            <i class="bi bi-person-fill-add"></i>
-            <span data-lang-key="addFriend">${translations.addFriend || "Add Friend"}</span>
-        `;
-        addFriendContainer.appendChild(addFriendBtn);
-
-        addFriendBtn.addEventListener("click", async () => {
-            try {
-                const friendId = friendDetails.id;
-
-                await handleFriendRequest(friendId, addFriendBtn);
-
-                addFriendBtn.disabled = true;
-                addFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
-                addFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
-            }
-            catch (error) {
-                console.error("Error adding friend:", error);
-                await myAlert("addFriendFailed", { detail: error.message });
-            }
-        });
-    }
-
 
     const games = friendDetails.games ? friendDetails.games.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
 
