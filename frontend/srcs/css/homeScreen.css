@@ -159,7 +159,7 @@ input[type="radio"] {
 .profile-link {
 	position: absolute;
 	top: calc(14vh);
-	right: calc(12vw);
+	right: calc(16vw);
 	display: inline-block;
 	width: calc(4vh + 4vw);
 	height: auto;
