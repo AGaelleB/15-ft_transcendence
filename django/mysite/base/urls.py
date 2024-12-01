@@ -18,6 +18,6 @@ urlpatterns = [
     path('friend-request/<int:pk>/', FriendRequest_retrieve.as_view(), name='single friend request'),
     path('friend-request/<int:pk>/<str:action>/', FriendRequest_accept_decline.as_view(), name='accept/decline a friend request'),
     # games
-    path('games/', GameListGeneric.as_view()),
-    path('games/<int:pk>/', GameDetailGeneric.as_view()),
+    path('games/', GameListCreate.as_view()),
+    path('games/<int:pk>/', GameRetrieve.as_view()),
 ]
