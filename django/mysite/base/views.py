@@ -4,9 +4,14 @@ from rest_framework import status, mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from jwtauth import login, logout
+from django.contrib.auth import authenticate
+
 from .models import *
 from .serializers import *
 from .utils import *
+from .permissions import *
+
 
 ##########################################################
 #       USER 
@@ -14,9 +19,11 @@ from .utils import *
 class UserListCreate(generics.ListCreateAPIView):
     """
     list all users (GET) or create a new one (POST)
+    no JWT returned on creation: you must then login
     """
-    queryset = User.objects.all()
-    serializer_class = User_Create_Serializer
+    permission_classes      =   [UserListCreatePermission]
+    queryset                =   User.objects.filter(is_superuser=False)
+    serializer_class        =   User_Create_Serializer
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -24,13 +31,15 @@ class UserListCreate(generics.ListCreateAPIView):
         else:
             return User_Create_Serializer
 
+
 class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     """ 
     individual user page : retrieve (GET), partial_update (PUT) or destroy (DELETE)
     """
-    queryset = User.objects.all()
-    serializer_class = User_Update_Serializer
-    lookup_field = 'username'
+    permission_classes      =   [UserRUDPermission]
+    queryset                =   User.objects.all()
+    serializer_class        =   User_Update_Serializer
+    lookup_field            =   'username'
 
     def get_serializer_class(self):
         if self.request.method in ['GET', 'DELETE']:
@@ -40,53 +49,16 @@ class UserRUD(generics.RetrieveUpdateDestroyAPIView):
     
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-
-class User_remove_friend(generics.UpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = User_List_Serializer
-    lookup_field = 'username'
     
-    def put(self, request, *args, **kwargs):
-        instance = self.get_object()
-        friend_username = self.kwargs.get('friend')
-        friend_id = User.objects.get(username=friend_username).id
-        for f in instance.friends.all():
-            if f.id == friend_id:
-                instance.friends.remove(friend_id)
-                return Response({"status": "Friend removed"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"status": "Invalid friend id."}, status=status.HTTP_400_BAD_REQUEST)
-
-class User_log_in_out(generics.UpdateAPIView):
-    """
-    check pass word here (if yes, add password in serializer)?
-    """
-    queryset = User.objects.all()
-    serializer_class = User_Log_in_out_Serializer
-    lookup_field = 'username'
-
-    def put(self, request, *args, **kwargs):
-        instance = self.get_object()
-        action = self.kwargs.get('action')
-        print(action)
-        print(instance)
-        if action == 'in':
-            if instance.is_connected == True:
-                return Response({"status": "Already logged in"}, status=status.HTTP_200_OK) # 400?
-            instance.is_connected = True
-            instance.save()
-            return Response({"status": "Login succes"}, status=status.HTTP_200_OK)
-        elif action == 'out':
-            instance.is_connected = False
-            instance.save()
-            return Response({"status": "Logout succes"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"status": "Invalid action."}, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, *args, **kwargs):
+        logout(request)
+        return self.destroy(request, *args, **kwargs)
+    
 
 class User_avatar(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = User_avatar_serializer
-    lookup_field = 'username'
+    permission_classes      =   [IsUserConnectedPermission]
+    queryset                =   User.objects.all()
+    lookup_field            =   'username'
 
     def get(self, request, username=None):
         if username:
@@ -96,39 +68,117 @@ class User_avatar(generics.RetrieveAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         return FileResponse(open(image.path, 'rb'), content_type=get_image_mime_type(image))
 
+
+class User_remove_friend(generics.UpdateAPIView):
+    permission_classes      =   [UserRUDPermission]
+    queryset                =   User.objects.all()
+    serializer_class        =   User_List_Serializer
+    lookup_field            =   'username'
+    
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        friend_username = self.kwargs.get('friend')
+        try:
+            friend_id = User.objects.get(username=friend_username).id
+        except User.DoesNotExist:
+            return Response({"status": "Unknown friend user"}, status=status.HTTP_400_BAD_REQUEST)
+        for f in instance.friends.all():
+            if f.id == friend_id:
+                instance.friends.remove(friend_id)
+                return Response({"status": "Friend removed"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"status": "Invalid friend id."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserLogin(APIView):
+    """
+    2FA later: maybe also via serializer? if not we can redefine here the post method
+    """
+    def post(self, request, *args, **kwargs):
+        serializer = UserLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if request.user.is_authenticated:
+            return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
+        if user is None:
+            return Response({"status": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
+        # 2fa here
+        user.is_connected = True
+        user.save()
+        login(request, user)
+        return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
+
+
+class UserLogout(APIView):
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated == False:
+            return Response({"status": "unauthenticated user"}, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_connected == False:
+            return Response({"status": "user not connected"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        request.user.is_connected = False
+        request.user.save()
+        logout(request)
+        return Response({"status": "log out success"}, status=status.HTTP_204_NO_CONTENT)
+
+
+class ResetPassword(generics.GenericAPIView):
+    """
+    since generics.view, do we need to specify serializer in post? try
+    old != new done in seria
+    """
+    permission_classes      =   [IsUserConnectedPermission]
+    serializer_class        =   ResetPasswordSerializer
+
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = request.user
+        if user.check_password(serializer.validated_data['old_password']) == False:
+            return Response({"status": "wrong password"}, status=status.HTTP_400_BAD_REQUEST)
+        user.set_password(serializer.validated_data['new_password'])
+        user.save()
+        return Response({"status": "password has been reset"}, status=status.HTTP_201_CREATED)
+
+
 ##########################################################
 #       Friend invite
 ##########################################################
 class FriendRequest_create(generics.CreateAPIView):
     """
-    create a single Request, sender/receiver id must be provided
+    create a single Request, sender/receiver id must be provided, auth user must be sender
     """
-    queryset = FriendRequest.objects.all()
-    serializer_class = FriendRequest_create_Serializer
+    permission_classes      =   [FriendRequestCreatePermission]
+    queryset                =   FriendRequest.objects.all()
+    serializer_class        =   FriendRequest_create_Serializer
+
 
 class FriendRequest_list(generics.ListAPIView):
-    """
-    list all requests
-    """
-    queryset = FriendRequest.objects.all()
-    serializer_class = FriendRequest_show_Serializer
+    permission_classes      =   [IsUserConnectedPermission]
+    queryset                =   FriendRequest.objects.all()
+    serializer_class        =   FriendRequest_show_Serializer
+
 
 class FriendRequest_retrieve(generics.RetrieveAPIView):
+    permission_classes      =   [IsUserConnectedPermission]
+    queryset                =   FriendRequest.objects.all()
+    serializer_class        =   FriendRequest_show_Serializer
+
+
+class FriendRequest_accept_decline(generics.UpdateAPIView):
     """
-    returns a single request
+    accept/refuse via model methods, auth.user must be revceiver
+    cant use permission to detect if request.user is receiver.id (cant get pk in permissions)
     """
-    queryset = FriendRequest.objects.all()
-    serializer_class = FriendRequest_show_Serializer
-    
-class FriendRequest_accept_decline(generics.RetrieveUpdateAPIView):
-    """
-    accept/refuse via model methods
-    """
-    queryset = FriendRequest.objects.all()
-    serializer_class = FriendRequest_show_Serializer
-    
+    queryset                =   FriendRequest.objects.all()
+    serializer_class        =   FriendRequest_show_Serializer
+
     def put(self, request, *args, **kwargs):
         friend_request = self.get_object()
+        if str(friend_request.receiver.id) != str(request.user.id):
+            return Response({"status": "Only receiver can accept/decline friend request"}, status=status.HTTP_401_UNAUTHORIZED)
         action = self.kwargs.get('action')
         if action == "accept":
             friend_request.accept_request()
@@ -143,9 +193,10 @@ class FriendRequest_accept_decline(generics.RetrieveUpdateAPIView):
 ##########################################################
 #       GAME API VIEWS 
 ##########################################################
-class GameListGeneric(generics.ListCreateAPIView):
-    queryset = Game.objects.all()
-    serializer_class = Game_list_Serializer
+class GameListCreate(generics.ListCreateAPIView):
+    #permission_classes      =   [GameListCreatePermission] not tested yet, might be on error 
+    queryset                =   Game.objects.all()
+    serializer_class        =   Game_list_Serializer
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -153,8 +204,10 @@ class GameListGeneric(generics.ListCreateAPIView):
         else:
             return Game_create_Serializer
 
-class GameDetailGeneric(generics.RetrieveDestroyAPIView):
-    queryset = Game.objects.all()
-    serializer_class = Game_list_Serializer
+
+class GameRetrieve(generics.RetrieveAPIView):
+    permission_classes      =   [IsUserConnectedPermission]
+    queryset                =   Game.objects.all()
+    serializer_class        =   Game_list_Serializer
 
 
