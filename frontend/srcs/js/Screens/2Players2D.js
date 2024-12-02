@@ -38,7 +38,6 @@ export function initialize2Players2D() {
     });
 
     window.addEventListener('popstate', function(event) {
-        console.log("Retour arrière du navigateur détecté !");
         cleanup2Players2D();
     });
 
@@ -71,8 +70,6 @@ export function initialize2Players2D() {
     function setIsGameActive2d(value) {
         if (typeof value === 'boolean')
             isGameActive2d = value;
-        else
-            console.warn("Invalid value. Please provide a boolean (true or false).");
     }
 
     initializeButton2D();

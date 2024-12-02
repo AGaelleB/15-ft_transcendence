@@ -107,6 +107,7 @@ input[type="radio"] {
 .menu-item a {
 	text-decoration: none;
 	color: inherit;
+	cursor: pointer;
 }
 
 .menu-item.selected {
@@ -152,32 +153,30 @@ input[type="radio"] {
 	position: absolute;
 	top: calc(9vh);
 	left: calc(12vw);
+	cursor: pointer; 
 }
 
 .profile-link {
 	position: absolute;
 	top: calc(14vh);
-	right: calc(12vw);
+	right: calc(16vw);
 	display: inline-block;
-	width: calc(4vh + 4vw); /* Ajustez la taille en fonction de vos préférences */
+	width: calc(4vh + 4vw);
 	height: auto;
+	cursor: pointer; 
 }
 
 .profile-link-picture {
     width: 100%;
     height: auto;
     border-radius: 50%;
-    border: calc(0.2vh + 0.2vw) solid #a16935; /* Orange */
-}
-
-.logout-link img {
-	width: calc(14vw);
-	height: calc(24vh);
+    border: calc(0.2vh + 0.2vw) solid #a16935;
+	cursor: pointer; 
 }
 
 .profile-link img {
-	width: calc(6vw);
-	height: calc(6vw);
+	width: calc(10vw);
+	height: calc(10vw);
 }
 
 /* ========== Start Game Text ========== */

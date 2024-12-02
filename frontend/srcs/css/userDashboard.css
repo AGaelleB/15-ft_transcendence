@@ -10,12 +10,12 @@
 
 .dashboard {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 colonnes de largeur égale */
-    grid-template-rows: auto auto; /* 2 lignes pour contrôler la hauteur */
-    gap: calc(1.5vh + 1.5vw); /* Espacement entre les sections */
-    width: calc(65vw + 1vh); /* Largeur globale de la grille */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: calc(1.5vh + 1.5vw);
+    width: calc(65vw + 1vh);
     border-radius: calc(0.8vh + 0.8vw);
-    margin-top: calc(7vh + 2vw); /* Ajoute une marge en haut pour abaisser les cases */
+    margin-top: calc(7vh + 2vw);
     height: calc(5vw + 70vh);
 }
 
@@ -50,8 +50,8 @@
 }
 
 .profile-picture img {
-    width: 100%;
-    height: auto;
+    width: calc(13vw);
+	height: calc(13vw);
     border-radius: 50%;
     border: calc(0.2vh + 0.2vw) solid #a16935;
 }
@@ -70,48 +70,52 @@
     font-size: calc(1.5vh + 1.5vw);
 }
 
-.username-dash {
-    color: #a16935;
-    font-size: calc(3vh + 3vw);
+.username-dash-container {
+    width: 100%;
+    max-width: calc(13vh + 10vw);
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
     text-align: center;
-    margin-top: calc(0.3vh + 0.3vw);
-    max-width: 90%;
-    word-wrap: break-word;
+    margin: 0 auto;
+    padding-bottom: 2px;
+    box-sizing: border-box;
 }
 
-/********************************** Section Amis ***********************************/
-.friends-section {
-    height: calc(15vh + 12vw);
-    font-size: calc(30vh + 3vw);
+.username-dash-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.username-dash-container::-webkit-scrollbar-thumb {
+    background-color: #a16935;
+    border-radius: 4px;
+}
+
+.username-dash-container::-webkit-scrollbar-track {
+    background: #2f213a;
+}
+
+.username-dash {
+    color: #a16935;
+    font-size: calc(2.5vh + 2.5vw);
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/************************** Section Historique des matchs **************************/
+
+.history-section {
+    display: flex;
+    align-items: center;
+    grid-column: 1 / span 2;
+    height: calc(13vh + 12vw);
     border: calc(0.3vh + 0.3vw) solid #a16935;
     border-radius: calc(0.5vw);
     background: #2f213a;
     box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
-    padding: calc(2vh + 2vw);
-    text-align: center;
-}
-
-.section-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #a16935;
-    margin-bottom: calc(1vh + 1vw);
-}
-
-.friends-list {
-    display: flex;
-    gap: calc(1vh + 1vw);
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.friends-list img {
-    width: calc(3vh + 3vw);
-    height: calc(3vh + 3vw);
-    border-radius: 50%;
-    border: calc(0.15vh + 0.15vw) solid #a16935;
+    position: relative;
+    overflow: hidden;
+    padding: calc(1vh + 1vw);
 }
 
 .expand-button-stats {
@@ -121,62 +125,162 @@
     background: transparent;
     border: none;
     cursor: pointer;
+    z-index: 15;
 }
 
 .expand-button-stats i {
-    color: #a16935; /* Couleur orange pour l'icône */
-    font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
-}
-
-.expand-button-friends {
-    position: absolute;
-    top: calc(0.8vh + 0.8vw);
-    right: calc(0.8vh + 0.8vw);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.expand-button-friends i {
-    color: #a16935; /* Couleur orange pour l'icône */
-    font-size: calc(1.5vh + 1.5vw); /* Taille adaptée */
-}
-/************************** Section Historique des matchs **************************/
-
-.history-section {
-    display: flex;
-    align-items: center; /* Centre verticalement le contenu */
-    grid-column: 1 / span 2;
-    height: calc(13vh + 12vw);
-    border: calc(0.3vh + 0.3vw) solid #a16935;
-    border-radius: calc(0.5vw);
-    background: #2f213a;
-    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
-    position: relative;
-    overflow: hidden;
-    padding: calc(1vh + 1vw); /* Espace autour du contenu */
-}
-
-.history-content {
-    display: flex;
-    align-items: center;
-    height: 100%; /* Remplit la hauteur de la section */
-    width: 100%;
-}
-
-.history-chart {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Aligne le graphique à gauche */
-    width: 25%; /* Ajuste la largeur pour garder le graphique à gauche */
-    height: 90%; /* Maintient une marge haute/basse équilibrée */
-}
-
-#victoryChart {
-    width: 100%; /* Remplit la largeur de .history-chart */
-    height: 100%; /* Remplit la hauteur de .history-chart */
+    color: #a16935;
+    font-size: calc(1.5vh + 1.5vw);
 }
 
 .hidden {
     display: none;
+}
+
+/********************************** Section Amis ***********************************/
+
+.friends-section {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1vh + 1vw);
+    height: calc(15vh + 12vw);
+    border: calc(0.3vh + 0.3vw) solid #a16935;
+    border-radius: calc(0.5vw);
+    background: #2f213a;
+    box-shadow: calc(0.8vh + 0.8vw) calc(0.8vh + 0.8vw) 0 #a16935;
+    padding: calc(0.5vh + 0.5vw);
+    text-align: center;
+    align-items: center;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a16935;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: calc(1.5vh + 1.5vw);
+    text-align: center;
+}
+
+.expand-button-friends {
+    background: none;
+    border: none;
+    color: #a16935;
+    font-size: calc(1.5vh + 1.5vw);
+    cursor: pointer;
+    position: absolute;
+    top: calc(0.8vh + 0.8vw);
+    right: calc(0.8vh + 0.8vw);
+    transition: transform 0.2s ease;
+}
+
+.expand-button-friends:hover {
+    transform: scale(1.1);
+}
+
+.expand-button-friends i {
+    color: #a16935;
+    font-size: inherit;
+}
+
+.friends-container {
+    width: calc(25vw);
+    height: calc(40vh);
+    background-color: #302a66;
+    padding: calc(1vh + 1vw);
+    border-radius: calc(0.5vh + 0.5vw);
+    display: flex;
+    flex-direction: column;
+    gap: calc(0.5vh + 0.5vw);
+    position: relative;
+    overflow: hidden;
+}
+
+.friends-list-preview {
+    display: flex;
+    gap: calc(1vh + 1vw);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.friends-list-preview::-webkit-scrollbar {
+    width: 8px;
+}
+
+.friends-list-preview::-webkit-scrollbar-thumb {
+    background-color: #a16935;
+    border-radius: 4px;
+}
+
+.friends-list-preview::-webkit-scrollbar-track {
+    background: #2f213a;
+}
+
+.friends-container:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(to bottom, rgba(48, 42, 102, 0) 0%, rgba(48, 42, 102, 1) 100%);
+    pointer-events: none;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    padding: calc(0.5vh + 0.5vw);
+    gap: calc(1vw);
+    background-color: #40356d;
+    border-radius: calc(0.5vh + 0.5vw);
+    color: #a16935;
+}
+
+.friend-username {
+    font-size: calc(1vh + 1vw);
+}
+
+.friend-preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(0.5vh + 0.5vw);
+    text-align: center;
+    color: #a16935;
+}
+
+.friend-avatar-container {
+    position: relative;
+    width: calc(4vh + 4vw);
+    height: calc(4vh + 4vw);
+}
+
+.friend-avatar-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: calc(0.15vh + 0.15vw) solid #a16935;
+}
+
+.status-dot-preview {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: calc(1vh + 1vw);
+    height: calc(1vh + 1vw);
+    border-radius: 50%;
+    border: 2px solid #302a66;
+}
+
+.friend-username-preview {
+    font-size: calc(1vh + 1vw);
+    margin-top: calc(0.2vh + 0.2vw);
 }

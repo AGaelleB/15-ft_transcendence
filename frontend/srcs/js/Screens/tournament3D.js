@@ -1,5 +1,6 @@
 // frontend/srcs/js/Screens/tournament3D.js
 
+import { myAlert } from '../Modals/alertModal.js';
 import { updatePlaceholdersTournament } from '../Modals/switchLanguages.js';
 import { sendGameResult } from '../PongGame/Game2D/score2D.js';
 
@@ -17,7 +18,7 @@ export async function initializeTournament3D() {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+        console.warn('Error loading translations:', error);
     }
 
     function cleanup1PlayerTournament3D() {
@@ -34,7 +35,6 @@ export async function initializeTournament3D() {
     
     window.addEventListener('popstate', function(event) {
         cleanup1PlayerTournament3D();
-        console.log("Retour arrière du navigateur détecté !");
     });
 
     /****************************** Player Setup *****************************/
@@ -107,22 +107,21 @@ export async function initializeTournament3D() {
 
     /****************************** Start Tournament ******************************/
 
-    document.getElementById('startTournamentButton').addEventListener('click', () => {
+    document.getElementById('startTournamentButton').addEventListener('click', async () => {
         let hasInvalidNames = false;
         const playerNames = new Set();
         const inputs = document.querySelectorAll('#playerFields input');
     
-        inputs.forEach(input => {
+        for (const input of inputs) {
             const name = input.value.trim();
             if (!validatePlayerName(name) || playerNames.has(name)) {
                 hasInvalidNames = true;
-                // alert(`Invalid name: ${name}. Player names must be unique.`);
+                await myAlert("invalidNameTournament");
             }
             playerNames.add(name);
-        });
+        }
     
-        if (hasInvalidNames)
-            return;
+        if (hasInvalidNames) return;
     
         isTournament3D = true;
         tournamentPlayers = Array.from(playerNames); 
@@ -176,7 +175,6 @@ function shuffleArray(array) {
 
 export function startNextMatch3D() {
     const matchQueue = JSON.parse(localStorage.getItem("tournamentMatches")) || [];
-    // console.log("Current match queue at start:", matchQueue);
 
     if (matchQueue.length === 0) {
         if (winners.length === 1) {
@@ -210,7 +208,6 @@ export function startNextMatch3D() {
     const { player1, player2 } = matchQueue.shift();
     currentMatchPlayers3D = { player1, player2 };
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-    // console.log(`Starting next match: ${player1} vs ${player2}`);
 
     // Redirect "Mr Robot" 
     if (player2 === "Mr Robot" || player1 === "Mr Robot")
@@ -246,7 +243,7 @@ export async function showWinMessageTournament3D(winnerName) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+        console.warn('Error loading translations:', error);
     }
 
     winnerMessage.textContent = translations.win_message.replace("${winnerName}", winnerName);
@@ -278,7 +275,7 @@ export async function showWinMessageEndTournament3D(championName) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+        console.warn('Error loading translations:', error);
     }
 
     championNameElement.textContent = translations.champion_name.replace("${championName}", championName);

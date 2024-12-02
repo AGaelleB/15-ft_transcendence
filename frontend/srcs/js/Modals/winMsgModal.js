@@ -25,8 +25,9 @@ export async function showWinMessage(winner, username = null) {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
         const storedLang = localStorage.getItem('preferredLanguage') || 'en';
         translations = await loadLanguages(storedLang);
-    } catch (error) {
-        console.error('Erreur lors du chargement des traductions :', error);
+    }
+    catch (error) {
+        console.warn('Error loading translations:', error);
     }
 
     let opponentName;

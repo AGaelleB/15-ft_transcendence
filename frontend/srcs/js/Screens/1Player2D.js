@@ -47,7 +47,6 @@ export function initialize1Player2D() {
     });
     
     window.addEventListener('popstate', function(event) {
-        console.log("Retour arrière du navigateur détecté !");
         cleanup1Player2D();
     });
 
@@ -77,8 +76,6 @@ export function initialize1Player2D() {
     function setIsGameActive2d(value) {
         if (typeof value === 'boolean')
             isGameActive2d = value;
-        else
-            console.warn("Invalid value. Please provide a boolean (true or false).");
     }
 
     let paddleSpeed = gameSettings2D.canvasHeight * gameSettings2D.paddleSpeedFactor;

@@ -16,7 +16,7 @@ export function initializeRenderer3D() {
     if (pongCanvas)
         pongCanvas.appendChild(renderer.domElement);
     else {
-        console.error("L'élément 'pongCanvas' est introuvable.");
+        console.error("'pongCanvas' element not found");
         return;
     }
 

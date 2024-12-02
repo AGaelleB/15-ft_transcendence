@@ -61,12 +61,12 @@
     "champion_name": "¡Felicidades, ${championName} es el campeón del torneo!",
 
     "uploadButton": "Subir una nueva imagen",
-    "usernameLabel": "Nombre de usuario",
+    "usernameLabel": "Nombre de usuario : ",
     "newUsernamePlaceholder": "Nuevo nombre de usuario",
-    "emailLabel": "Correo electrónico",
+    "emailLabel": "Correo electrónico : ",
     "newEmailPlaceholder": "Nuevo correo electrónico",
-    "enable2faLabel": "Activar 2FA",
-    "defaultLanguageLabel": "Idioma predeterminado",
+    "enable2faLabel": "Activar 2FA : ",
+    "defaultLanguageLabel": "Idioma : ",
     "changePasswordBtn": "Cambiar la contraseña",
     "saveInfoBtn": "Guardar mi información",
     
@@ -74,11 +74,12 @@
     "areYouSureDelete": "¿Está seguro de que desea eliminar su perfil? Esta acción es irreversible",
     "yesButton": "Sí",
     "noButton": "No",
-    "closePasswordModal": "Cerrar",
+    "closePasswordModal": "x",
     "oldPasswordLabel": "Contraseña antigua:",
     "oldPasswordPlaceholder": "Contraseña antigua",
     "newPasswordLabel": "Nueva contraseña:",
     "newPasswordPlaceholder": "Nueva contraseña",
+    "confirmNewPassword": "Confirmar nueva contraseña : ",
     "confirmNewPasswordPlaceholder": "Confirmar nueva contraseña",
     "saveButton": "Guardar",
 
@@ -89,6 +90,13 @@
     "noInvitationPending": "Ninguna invitación pendiente",
     "noFriendsFound": "No se encontraron amigos",
     "noUsersFound": "No se encontraron usuarios",
+    "showProfileButton": "Ver perfil",
+    "areYouSureSuppr": "¿Estás seguro de que quieres eliminar a este amigo?",
+    "removeFriend": "Eliminar amigo",
+    "addFriend": "Añadir amigo",
+    "friendRequestPending": "Pendiente",
+
+    "latestGamesTitle": "Últimos juegos",
 
     "all": "TODO",
     "mode2d": "2D",
@@ -98,9 +106,16 @@
     "type2Players": "2 JUGADORES",
     "typeTournament": "TORNEO",
     "noGamesFound": "No se encontraron juegos",
-    "victories": "Victoria(s)",
-    "defeats": "Derrota(s)",
+    "noGamesPlayed": "0 partidos jugados",
+    "victories": "Victorias",
+    "defeats": "Derrotas",
+    "allStat": "TODAS LAS ESTADISTICAS",
+    "myStat": "MIS ESTADISTICAS",
+    "totalGamePlayed": "Total de juegos jugados : ",
+    "itsMe": "(A mí)",
+    "wins": " Ganado(s)",
 
+    "player": "Jugador",
     "dateLabel": "Fecha",
     "modeLabel": "Modo",
     "typeLabel": "Tipo",
@@ -110,6 +125,30 @@
     "twoPlayers": "2 JUGADORES",
     "tournament": "TORNEO",
     "victoriesStats": "Victoria",
-    "defeatsStats": "Derrota"
+    "defeatsStats": "Derrota",
+
+    "alertMessage": "Error",
+    "okButton": "OK",
+    "emailUse": "Esta dirección de correo electrónico ya está en uso, elija otra",
+    "invalidPassword": "La contraseña no es válida, verifíquela e intente nuevamente",
+    "emptyField": "Todos los campos deben completarse",
+    "profileUpdateFailed": "Error en la actualización del perfil : ",
+    "noUserLoggedIn": "Ningún usuario ha iniciado sesión",
+    "fillFields": "Rellene ambos campos",
+    "loginFailed": "Error de inicio de sesión : ",
+    "passwordsNotMatch": "Las contraseñas no coinciden",
+    "signupFailed": "Error de registro: ",
+    "defaultError": "Ocurrió un error. Inténtelo de nuevo",
+    "invalidNameTournament": "Nombre de jugador no válido",
+
+    "errorDetails": {
+        "username": "Este nombre de usuario ya está en uso",
+        "email": "Este correo electrónico ya está en uso",
+        "password": "Contraseña inválida",
+        "unknown": "Error desconocido"
+    }
 
 }
+
+
+

@@ -1,5 +1,6 @@
 // frontend/srcs/js/Screens/homeScreen.js
 
+import { myAlert } from '../Modals/alertModal.js';
 import { loadLanguages } from '../Modals/switchLanguages.js';
 
 export function initializeHome() {
@@ -38,7 +39,7 @@ export function initializeHome() {
         else if (gameMode === 'TOURNAMENT 3D' || gameMode === 'Tournoi 3D' || gameMode === 'Torneo 3D')
             return '/tournament-3d';
         else
-            console.error('Error: Mode de jeu non défini');
+            console.error('Error: Game mode not defined');
     }
 
     menuItems.forEach((item, index) => {
@@ -55,39 +56,14 @@ export function initializeHome() {
         item.addEventListener('click', function(event) {
             event.preventDefault();
     
-            const mode = item.innerText.trim();  // "1 PLAYER", "2 PLAYERS", "TOURNAMENT"
+            const mode = item.innerText.trim();
             localStorage.setItem('gameMode', mode);
     
             const targetPath = getTargetPath(mode);
             window.history.pushState({}, "", targetPath);
-    
+
             handleLocation();
         });
-    });
-
-    document.addEventListener('keydown', function(event) {
-        if (!keyboardNavigationEnabled) return;
-    
-        if (event.key === 'ArrowDown' && currentIndex < menuItems.length - 1) {
-            currentIndex++;
-            updateSelection();
-        }
-        else if (event.key === 'ArrowUp' && currentIndex > 0) {
-            currentIndex--;
-            updateSelection();
-        }
-        else if (event.key === 'Enter') {
-            const selectedItem = menuItems[currentIndex];
-    
-            const mode = selectedItem.innerText.trim();
-            localStorage.setItem('gameMode', mode);
-    
-            // Utilise également pushState pour la navigation par clavier
-            const targetPath = getTargetPath(mode);
-            window.history.pushState({}, "", targetPath);
-    
-            handleLocation();
-        }
     });
 
     const game2dRadio = document.getElementById('game2d');
@@ -153,19 +129,14 @@ export function initializeHome() {
     confirmLogoutButton.addEventListener('click', async function(event) {
         event.preventDefault();
     
-        // Récupère les données de l'utilisateur depuis le localStorage
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
-            alert("No user logged in.");
+            await myAlert("noUserLoggedIn");
             return;
         }
     
         const user = JSON.parse(savedUser);
         const username = user.username;
-        // console.log("user ID: ", userId);
-        // console.log("user name: ", user.username);
-    
-        // Construire les données à envoyer dans la requête PUT pour déconnexion
         const userData = {
             "username": user.username,
             "first_name": "",
@@ -187,15 +158,11 @@ export function initializeHome() {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Error during logout:', errorData);
-                alert('Logout failed: ' + JSON.stringify(errorData));
             }
             else {
-                // Supprimer les informations de l'utilisateur du localStorage
                 localStorage.removeItem('user');
                 
-                // Fermer le modal et rediriger vers la page de démarrage
                 closeModal();
-                alert('Logout successful!');
                 window.history.pushState({}, "", "/start");
                 handleLocation();
             }
@@ -208,16 +175,13 @@ export function initializeHome() {
     function loadProfileLinkAvatar() {
         const savedUser = localStorage.getItem('user');
         if (!savedUser) {
-            console.warn("Aucun utilisateur connecté.");
             return;
         }
     
         const user = JSON.parse(savedUser);
         const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
     
-        // Mettre à jour l'avatar dans le lien de profil
         document.querySelector('.profile-link img').src = avatarUrl;
-        // console.log("Avatar URL dans le lien de profil:", avatarUrl);
     }
     
     loadProfileLinkAvatar();

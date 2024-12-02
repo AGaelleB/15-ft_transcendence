@@ -1,6 +1,8 @@
 // frontend/srcs/js/Modals/friendsModal.js
 
 export function openFriendsModal() {
+    const homeIcon = document.getElementById('homeIcon');
+    homeIcon.classList.add('hidden');
     const modal = document.getElementById("friendsModal");
     modal.classList.remove("hidden");
     loadFriendsModalContent("friends");
@@ -9,24 +11,19 @@ export function openFriendsModal() {
 export function closeFriendsModal() {
     const modal = document.getElementById("friendsModal");
     modal.classList.add("hidden");
+    homeIcon.classList.remove('hidden');
 }
 
 export function initializeFriendsModalEvents() {
     const friendsModal = document.getElementById("friendsModal");
     const closeProfileButtonFriends = friendsModal.querySelector(".close-button-friends");
 
-    if (closeProfileButtonFriends) {
-        closeProfileButtonFriends.addEventListener("click", closeFriendsModal);
-    } else {
-        console.error("Le bouton de fermeture du modal n'a pas été trouvé.");
-    }
+    closeProfileButtonFriends.addEventListener("click", closeFriendsModal);
 
-    // Attacher les événements de changement aux boutons radio
     const radioButtons = document.querySelectorAll('input[name="friendsOptions"]');
     radioButtons.forEach(radio => {
         radio.addEventListener('change', () => {
-            loadFriendsModalContent(radio.id); // Passe l'ID du bouton sélectionné
-            console.log(`Onglet sélectionné : ${radio.id}`); // Log pour suivre l'onglet
+            loadFriendsModalContent(radio.id);
         });
     });
 }
@@ -45,7 +42,8 @@ async function fetchUserDetails(username) {
         }
         const userDetails = await response.json();
         return userDetails;
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error fetching user details:", error);
         return null;
     }
@@ -55,7 +53,6 @@ function getAvatarUrl(username) {
     return `http://127.0.0.1:8001/users/${username}/avatar/`;
 }
 
-// Fonction pour obtenir tous les utilisateurs (à adapter selon votre API)
 async function fetchAllUsers() {
     try {
         const response = await fetch("http://127.0.0.1:8001/users/", {
@@ -65,15 +62,14 @@ async function fetchAllUsers() {
             },
         });
         return response.ok ? await response.json() : [];
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error fetching users:", error);
         return [];
     }
 }
 
-// Fonction pour envoyer une demande d'ami
 async function sendFriendRequest(receiverId) {
-    // Récupère les informations de l'utilisateur connecté depuis le localStorage
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
         console.error("User not logged in");
@@ -82,38 +78,39 @@ async function sendFriendRequest(receiverId) {
 
     const currentUser = JSON.parse(savedUser);
 
+    const requestBody = {
+        sender: currentUser.id,
+        receiver: receiverId,
+    };
+
     try {
         const response = await fetch("http://127.0.0.1:8001/friend-request/create/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer <your_auth_token>', // Remplacez <your_auth_token> par votre token d'authentification si nécessaire
+                'Authorization': 'Bearer <your_auth_token>',
             },
             body: JSON.stringify({
-                sender: currentUser.id, // ID de l'utilisateur connecté
-                receiver: receiverId    // ID de l'utilisateur que l'on veut ajouter en ami
+                sender: currentUser.id,
+                receiver: receiverId
             })
         });
 
         if (!response.ok) {
             throw new Error("Failed to send friend request");
         }
-
-        console.log("Friend request sent successfully");
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error sending friend request:", error);
     }
 }
 
-// Fonction pour récupérer toutes les demandes d'amis
 async function fetchAllFriendRequests() {
     try {
         const response = await fetch("http://127.0.0.1:8001/friend-request/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Ajoutez l'autorisation si nécessaire, par exemple:
-                // 'Authorization': 'Bearer <votre_token>'
             }
         });
 
@@ -123,20 +120,19 @@ async function fetchAllFriendRequests() {
 
         const friendRequests = await response.json();
         return friendRequests;
-    } catch (error) {
-        console.error("Erreur lors de la récupération des demandes d'amis :", error);
+    }
+    catch (error) {
+        console.error("Error retrieving friend requests:", error);
         return [];
     }
 }
 
-// Fonction pour afficher les invitations en attente dans l'onglet "Invitations en attente"
 export async function loadPendingInvitations() {
     const contentContainer = document.getElementById("friendsModalContent");
-    contentContainer.innerHTML = ""; // Vide le contenu précédent
+    contentContainer.innerHTML = "";
 
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
-    // translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -144,13 +140,11 @@ export async function loadPendingInvitations() {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
-    // Récupère toutes les demandes d'amis
     const friendRequests = await fetchAllFriendRequests();
 
-    // Filtre les demandes pour celles où l'utilisateur actuel est le destinataire
     const pendingInvites = friendRequests.filter(request => request.receiver.id === currentUser.id);
 
     if (pendingInvites.length > 0) {
@@ -161,13 +155,11 @@ export async function loadPendingInvitations() {
             const inviteInfo = document.createElement("div");
             inviteInfo.classList.add("user-info");
 
-            // Avatar de l'expéditeur
             const avatar = document.createElement("img");
             avatar.src = getAvatarUrl(invite.sender.username);
             avatar.alt = `${invite.sender.username}'s avatar`;
             avatar.classList.add("user-avatar");
 
-            // Nom d'utilisateur de l'expéditeur
             const username = document.createElement("p");
             username.textContent = invite.sender.username;
             username.classList.add("user-name");
@@ -175,7 +167,6 @@ export async function loadPendingInvitations() {
             inviteInfo.appendChild(avatar);
             inviteInfo.appendChild(username);
 
-            // Bouton d'acceptation (coche verte)
             const acceptButton = document.createElement("i");
             acceptButton.classList.add("bi", "bi-check-square-fill", "accept-button");
             acceptButton.style.color = "green";
@@ -184,7 +175,6 @@ export async function loadPendingInvitations() {
                 handleFriendRequestAction(invite.id, "accept");
             });
 
-            // Bouton de refus (croix rouge)
             const declineButton = document.createElement("i");
             declineButton.classList.add("bi", "bi-x-square-fill", "decline-button");
             declineButton.style.color = "red";
@@ -211,44 +201,37 @@ async function handleFriendRequestAction(requestId, action) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                // Incluez un jeton d'autorisation si nécessaire :
-                // 'Authorization': 'Bearer <votre_token>'
             }
         });
 
         if (response.ok) {
-            console.log(`Demande ${action === "accept" ? "acceptée" : "refusée"} avec succès.`);
             loadPendingInvitations();
-        }
-        else {
-            console.error(`Échec de la demande ${action}`);
         }
     }
     catch (error) {
-        console.error("Erreur lors de la mise à jour de la demande d'ami :", error);
+        console.error("Error updating friend request:", error);
     }
 }
 
 function updateFriendButtonStatus(button, status) {
-    button.classList.remove("bi-person-add", "bi-person-plus", "bi-person-check"); // Reset classes
-    button.style.cursor = "pointer"; // Reset cursor
-    button.style.pointerEvents = "auto"; // Réactive les clics par défaut
+    button.classList.remove("bi-person-add", "bi-person-plus", "bi-person-check");
+    button.style.cursor = "pointer";
+    button.style.pointerEvents = "auto";
 
     if (status === "pending") {
-        console.log("Status is pending, setting to orange.");
-        button.classList.add("bi-person-plus"); // Icone d'attente
+        button.classList.add("bi-person-plus");
         button.style.color = "orange";
-        button.style.pointerEvents = "none"; // Empêche complètement les clics
-    } else if (status === "accepted") {
-        console.log("Status is accepted, setting to person-check icon.");
-        button.classList.add("bi-person-check"); // Icon pour les amis
+        button.style.pointerEvents = "none";
+    }
+    else if (status === "accepted") {
+        button.classList.add("bi-person-check");
         button.style.color = "gray";
-        button.style.pointerEvents = "none"; // Empêche les clics pour les amis aussi
-    } else {
-        console.log("Default add-friend icon");
-        button.classList.add("bi-person-add"); // Icon pour ajouter un ami
+        button.style.pointerEvents = "none";
+    }
+    else {
+        button.classList.add("bi-person-add");
         button.style.color = "green";
-        button.style.pointerEvents = "auto"; // Active les clics uniquement pour ajouter
+        button.style.pointerEvents = "auto";
     }
 }
 
@@ -256,10 +239,9 @@ async function handleFriendRequest(userId, button) {
     try {
         await sendFriendRequest(userId);
         updateFriendButtonStatus(button, "pending");
-        console.log("Demande d'ami envoyée.");
     }
     catch (error) {
-        console.error("Erreur lors de l'envoi de la demande d'ami:", error);
+        console.error("Error sending friend request:", error);
     }
 }
 
@@ -275,20 +257,30 @@ async function checkPendingRequest(userId) {
     const friendRequests = await fetchAllFriendRequests();
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
-    // Vérifie si une demande d'ami est en attente entre l'utilisateur actuel et le `userId`
     return friendRequests.some(request => 
         (request.sender.id === currentUser.id && request.receiver.id === userId) ||
         (request.receiver.id === currentUser.id && request.sender.id === userId)
     );
 }
 
-/* =================== MAIN FUNCTION ==================== */
+export function openFriendsProfileModal() {
+    const friendsProfileModal = document.getElementById("profileModalfriends");
+    friendsProfileModal.classList.remove("hidden");
+}
+
+export function closeFriendsProfileModal() {
+    const friendsProfileModal = document.getElementById("profileModalfriends");
+    friendsProfileModal.classList.add("hidden");
+
+    // Recharge l'onglet "users" pour mettre à jour les boutons après fermeture
+    loadFriendsModalContent("users");
+}
+
 
 export async function loadFriendsModalContent(option) {
     const contentContainer = document.getElementById("friendsModalContent");
     contentContainer.innerHTML = "";
 
-    // translations
     let translations = {};
     try {
         const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -296,7 +288,7 @@ export async function loadFriendsModalContent(option) {
         translations = await loadLanguages(storedLang);
     }
     catch (error) {
-        console.error("Error loading translations:", error);
+        console.warn("Error loading translations:", error);
     }
 
     if (option === "friends") {
@@ -305,55 +297,53 @@ export async function loadFriendsModalContent(option) {
         const userDetails = username ? await fetchUserDetails(username) : null;
 
         if (userDetails && userDetails.friends.length > 0) {
-            // Trier les amis par ordre alphabétique
             const sortedFriends = userDetails.friends.sort((a, b) => a.username.localeCompare(b.username));
 
-            sortedFriends.forEach(friend => {
+            for (const friend of sortedFriends) {
+                const friendDetails = await fetchUserDetails(friend.username);
+
                 const friendRow = document.createElement("div");
                 friendRow.classList.add("user-row");
 
                 const friendInfo = document.createElement("div");
                 friendInfo.classList.add("user-info");
 
-                // Avatar
+                const avatarContainer = document.createElement("div");
+                avatarContainer.classList.add("avatar-container");
+
                 const avatar = document.createElement("img");
                 avatar.src = getAvatarUrl(friend.username);
                 avatar.alt = `${friend.username}'s avatar`;
                 avatar.classList.add("user-avatar");
 
-                // Nom d'utilisateur
+                const statusDot = document.createElement("span");
+                statusDot.classList.add("status-dot");
+                
+                statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
+                
+                avatarContainer.appendChild(avatar);
+                avatarContainer.appendChild(statusDot);
+
                 const usernameElement = document.createElement("p");
                 usernameElement.textContent = friend.username;
                 usernameElement.classList.add("user-name");
 
-                friendInfo.appendChild(avatar);
+                friendInfo.appendChild(avatarContainer);
                 friendInfo.appendChild(usernameElement);
 
-                // Bouton "Show Profile"
                 const showProfileButton = document.createElement("button");
-                showProfileButton.textContent = "Show Profile";
+                showProfileButton.textContent = translations.showProfileButton || "Show Profile";
                 showProfileButton.classList.add("show-profile-button");
                 showProfileButton.addEventListener("click", () => {
-                    console.log(`Show profile of ${friend.username}`);
-                    // Fonctionnalité pour afficher le profil
-                });
-
-                // Icône de flèche verte pour le profil
-                const profileArrow = document.createElement("i");
-                profileArrow.classList.add("bi", "bi-arrow-right-circle-fill");
-                profileArrow.style.color = "green";
-                profileArrow.style.cursor = "pointer";
-                profileArrow.addEventListener("click", () => {
-                    console.log(`Redirect to profile of ${friend.username}`);
-                    // Fonctionnalité pour rediriger vers la page de profil
+                    openFriendsProfileModal();
+                    initFriendsProfileModal(friend.username, username);
                 });
 
                 friendRow.appendChild(friendInfo);
                 friendRow.appendChild(showProfileButton);
-                friendRow.appendChild(profileArrow);
 
                 contentContainer.appendChild(friendRow);
-            });
+            }
         }
         else {
             contentContainer.innerHTML = `<p>${translations.noFriendsFound}</p>`;
@@ -361,26 +351,21 @@ export async function loadFriendsModalContent(option) {
     }
     else if (option === "users") {
         const savedUser = localStorage.getItem('user');
-        const currentUser = savedUser ? JSON.parse(savedUser) : null;
+        const currentUser = savedUser ? JSON.parse(savedUser).username : null;
 
         if (!currentUser) {
-            console.error("Utilisateur non connecté.");
+            console.warn("User not logged in");
             return;
         }
 
-        // Récupérer les informations complètes de l'utilisateur connecté pour obtenir la liste d'amis
-        const currentUserDetails = await fetchUserDetails(currentUser.username);
-        const friendsUsernames = currentUserDetails && currentUserDetails.friends
-            ? currentUserDetails.friends.map(friend => friend.username)
-            : [];
+        const currentUserDetails = await fetchUserDetails(currentUser);
+        const friendsUsernames = currentUserDetails && currentUserDetails.friends ? currentUserDetails.friends.map(friend => friend.username) : [];
 
-        // Récupérer la liste de tous les utilisateurs
         const users = await fetchAllUsers();
 
         if (users && users.length > 0) {
-            // Trier les utilisateurs par ordre alphabétique et exclure l'utilisateur connecté
             users.sort((a, b) => a.username.localeCompare(b.username));
-            const filteredUsers = users.filter(user => user.id !== currentUser.id);
+            const filteredUsers = users.filter(user => user.id !== currentUserDetails.id);
 
             for (const user of filteredUsers) {
                 const userRow = document.createElement("div");
@@ -389,44 +374,47 @@ export async function loadFriendsModalContent(option) {
                 const userInfo = document.createElement("div");
                 userInfo.classList.add("user-info");
 
-                // Avatar
+                const avatarContainer = document.createElement("div");
+                avatarContainer.classList.add("avatar-container");
+
                 const avatar = document.createElement("img");
                 avatar.src = getAvatarUrl(user.username);
                 avatar.alt = `${user.username}'s avatar`;
                 avatar.classList.add("user-avatar");
 
-                // Nom d'utilisateur
+                const statusDot = document.createElement("span");
+                statusDot.classList.add("status-dot");
+
+                statusDot.style.backgroundColor = user.is_connected ? "green" : "gray";
+
+                avatarContainer.appendChild(avatar);
+                avatarContainer.appendChild(statusDot);
+
                 const usernameElement = document.createElement("p");
                 usernameElement.textContent = user.username;
                 usernameElement.classList.add("user-name");
 
-                userInfo.appendChild(avatar);
+                userInfo.appendChild(avatarContainer);
                 userInfo.appendChild(usernameElement);
 
-                // Bouton d'ajout d'ami
                 const addButton = document.createElement("i");
                 addButton.classList.add("bi", "add-button");
                 addButton.style.cursor = "pointer";
 
-                // Vérifier si l'utilisateur est déjà un ami
                 if (friendsUsernames.includes(user.username)) {
-                    // Afficher l'icône d'ami en gris
                     addButton.classList.add("bi-person-check");
                     addButton.style.color = "gray";
-                    addButton.style.pointerEvents = "none"; // Icône désactivée
-                }
+                    addButton.style.pointerEvents = "none";
+                } 
                 else {
-                    // Vérification si une demande d'ami est en attente
                     const isPendingRequest = await checkPendingRequest(user.id);
 
                     if (isPendingRequest) {
-                        // Icône orange et non cliquable pour les demandes en attente
                         addButton.classList.add("bi-person-plus");
                         addButton.style.color = "orange";
                         addButton.style.pointerEvents = "none";
-                    }
+                    } 
                     else {
-                        // Icône verte pour ajouter un ami si pas de demande en cours et pas encore ami
                         addButton.classList.add("bi-person-add");
                         addButton.style.color = "green";
                         addButton.addEventListener("click", () => {
@@ -435,16 +423,474 @@ export async function loadFriendsModalContent(option) {
                     }
                 }
 
+                const showProfileButton = document.createElement("button");
+                showProfileButton.textContent = translations.showProfileButton || "Show Profile";
+                showProfileButton.classList.add("show-profile-button-user");
+                showProfileButton.addEventListener("click", () => {
+                    openFriendsProfileModal();
+                    initFriendsProfileModal(user.username, currentUserDetails.username);
+                });
+
                 userRow.appendChild(userInfo);
+                userRow.appendChild(showProfileButton);
                 userRow.appendChild(addButton);
 
                 contentContainer.appendChild(userRow);
             }
         }
-        else {
+        else
             contentContainer.innerHTML = `<p>${translations.noUsersFound}</p>`;
-        }
     } 
     else if (option === "invitations")
         await loadPendingInvitations();
 }
+
+
+async function checkIfFriend(myUsername, friendUsername) {
+    const currentUserDetails = await fetchUserDetails(myUsername);
+    const friendsUsernames = currentUserDetails && currentUserDetails.friends 
+        ? currentUserDetails.friends.map(friend => friend.username) 
+        : [];
+
+    return friendsUsernames.includes(friendUsername);
+}
+
+async function manageFriendButtons(myUsername, friendDetails, translations) {
+    const addFriendContainer = document.querySelector(".add-friend-container");
+    const removeFriendContainer = document.querySelector(".suppr-friends-btn");
+
+    // Nettoyage total des conteneurs
+    addFriendContainer.textContent = ""; // Vide tout le contenu du conteneur
+    removeFriendContainer.textContent = ""; // Vide tout le contenu du conteneur
+
+    // Vérifie si l'utilisateur est déjà un ami ou s'il y a une demande en attente
+    const isFriend = await checkIfFriend(myUsername, friendDetails.username);
+    const isPending = await checkPendingRequest(friendDetails.id);
+
+    if (isFriend) {
+        // Création du bouton "Supprimer un ami"
+        const removeFriendBtn = document.createElement("button");
+        removeFriendBtn.id = "removeFriendBtn";
+        removeFriendBtn.classList.add("remove-friend-btn");
+        removeFriendBtn.innerHTML = `
+            <i class="bi bi-person-fill-x"></i>
+            <span data-lang-key="removeFriend">${translations.removeFriend || "Remove Friend"}</span>
+        `;
+        removeFriendContainer.appendChild(removeFriendBtn);
+
+        // Gestion de l'événement pour confirmer la suppression
+        removeFriendBtn.addEventListener("click", () => {
+            const supprConfirm = document.getElementById("supprFriendConfirm");
+            supprConfirm.classList.remove("hidden");
+
+            const confirmYes = document.getElementById("supprYes");
+            const confirmNo = document.getElementById("supprNo");
+
+            // Supprime les anciens événements pour éviter les doublons
+            confirmYes.replaceWith(confirmYes.cloneNode(true));
+            confirmNo.replaceWith(confirmNo.cloneNode(true));
+
+            const newConfirmYes = document.getElementById("supprYes");
+            const newConfirmNo = document.getElementById("supprNo");
+
+            newConfirmYes.addEventListener("click", async () => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (response.ok) {
+                        supprConfirm.classList.add("hidden");
+                        await manageFriendButtons(myUsername, friendDetails, translations); // Recharge les boutons
+                    }
+                } catch (error) {
+                    console.error("Error removing friend:", error);
+                }
+            });
+
+            newConfirmNo.addEventListener("click", () => {
+                supprConfirm.classList.add("hidden");
+            });
+        });
+    } else if (isPending) {
+        // Création du bouton "Demande en attente"
+        const pendingBtn = document.createElement("button");
+        pendingBtn.id = "pendingFriendBtn";
+        pendingBtn.classList.add("pending-friend-btn");
+        pendingBtn.innerHTML = `
+            <i class="bi bi-person-plus"></i>
+            <span data-lang-key="friendRequestPending">${translations.friendRequestPending || "Pending"}</span>
+        `;
+        addFriendContainer.appendChild(pendingBtn);
+
+        // Désactivation du bouton en attente
+        pendingBtn.disabled = true;
+        pendingBtn.style.backgroundColor = "orange";
+        pendingBtn.style.color = "white";
+    } else {
+        // Création du bouton "Ajouter un ami"
+        const addFriendBtn = document.createElement("button");
+        addFriendBtn.id = "addFriendBtn";
+        addFriendBtn.classList.add("add-friend-btn");
+        addFriendBtn.innerHTML = `
+            <i class="bi bi-person-fill-add"></i>
+            <span data-lang-key="addFriend">${translations.addFriend || "Add Friend"}</span>
+        `;
+        addFriendContainer.appendChild(addFriendBtn);
+
+        // Gestion de l'événement pour ajouter un ami
+        addFriendBtn.addEventListener("click", async () => {
+            try {
+                const friendId = friendDetails.id;
+
+                await handleFriendRequest(friendId, addFriendBtn);
+
+                // Mise à jour du bouton après l'ajout
+                addFriendBtn.disabled = true;
+                addFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
+                addFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
+
+                // Recharge les boutons pour refléter l'état actuel
+                await manageFriendButtons(myUsername, friendDetails, translations);
+            } catch (error) {
+                console.error("Error adding friend:", error);
+                await myAlert("addFriendFailed", { detail: error.message });
+            }
+        });
+    }
+}
+
+export async function initFriendsProfileModal(friendUsername, myUsername) {
+    const closeProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
+
+    // Suppression des anciens événements pour éviter les doublons
+    closeProfilFriendsModal.replaceWith(closeProfilFriendsModal.cloneNode(true));
+    const newCloseProfilFriendsModal = profileModalfriends.querySelector(".close-button-friends-profile");
+    newCloseProfilFriendsModal.addEventListener("click", closeFriendsProfileModal);
+
+    const friendDetails = await fetchUserDetails(friendUsername);
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    } catch (error) {
+        console.warn("Error loading translations:", error);
+    }
+
+    // Mise à jour de l'avatar
+    const avatarElement = document.querySelector(".profile-modal-picture-friends");
+    if (avatarElement) {
+        avatarElement.src = getAvatarUrl(friendDetails.username);
+        avatarElement.alt = `${friendDetails.username}'s avatar`;
+    }
+
+    // Mise à jour du nom d'utilisateur
+    const usernameElement = document.querySelector(".username-dash-friends");
+    if (usernameElement) {
+        usernameElement.textContent = friendDetails.username;
+    }
+
+    // Mise à jour du statut
+    const avatarContainer = document.querySelector(".profile-picture-modal-friends");
+    const existingStatusDot = avatarContainer.querySelector(".status-dot-friends-profile");
+    if (existingStatusDot) {
+        existingStatusDot.remove();
+    }
+    const statusDot = document.createElement("span");
+    statusDot.classList.add("status-dot-friends-profile");
+    statusDot.style.backgroundColor = friendDetails.is_connected ? "green" : "gray";
+    avatarContainer.appendChild(statusDot);
+
+    // Conteneurs pour les boutons
+    const removeFriendContainer = document.querySelector(".suppr-friends-btn");
+    const addFriendContainer = document.querySelector(".add-friend-container");
+
+    // Nettoyage strict des conteneurs
+    removeFriendContainer.textContent = ""; // Supprime tout contenu existant
+    addFriendContainer.textContent = ""; // Supprime tout contenu existant
+
+    // Vérifie si l'utilisateur est ami ou si une demande est en attente
+    const isFriend = await checkIfFriend(myUsername, friendDetails.username);
+    const isPending = await checkPendingRequest(friendDetails.id);
+
+    if (isFriend) {
+        // Bouton "Supprimer un ami"
+        const removeFriendBtn = document.createElement("button");
+        removeFriendBtn.id = "removeFriendBtn";
+        removeFriendBtn.classList.add("remove-friend-btn");
+        removeFriendBtn.innerHTML = `
+            <i class="bi bi-person-fill-x"></i>
+            <span data-lang-key="removeFriend">${translations.removeFriend || "Remove Friend"}</span>
+        `;
+        removeFriendContainer.appendChild(removeFriendBtn);
+
+        // Suppression des anciens événements pour le bouton
+        removeFriendBtn.replaceWith(removeFriendBtn.cloneNode(true));
+        const newRemoveFriendBtn = removeFriendContainer.querySelector("#removeFriendBtn");
+
+        // Gestion des événements pour la suppression
+        newRemoveFriendBtn.addEventListener("click", () => {
+            document.getElementById("supprFriendConfirm").classList.remove("hidden");
+
+            const confirmYes = document.getElementById("supprYes");
+            const confirmNo = document.getElementById("supprNo");
+
+            // Suppression des anciens événements de confirmation
+            confirmYes.replaceWith(confirmYes.cloneNode(true));
+            confirmNo.replaceWith(confirmNo.cloneNode(true));
+
+            const newConfirmYes = document.getElementById("supprYes");
+            const newConfirmNo = document.getElementById("supprNo");
+
+            newConfirmYes.addEventListener("click", async () => {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (response.ok) {
+                        document.getElementById("supprFriendConfirm").classList.add("hidden");
+                        await manageFriendButtons(myUsername, friendDetails, translations);
+                    }
+                } catch (error) {
+                    console.error("Error removing friend:", error);
+                }
+            });
+
+            newConfirmNo.addEventListener("click", () => {
+                document.getElementById("supprFriendConfirm").classList.add("hidden");
+            });
+        });
+    } else if (isPending) {
+        // Bouton "Demande en attente"
+        const pendingBtn = document.createElement("button");
+        pendingBtn.id = "pendingFriendBtn";
+        pendingBtn.classList.add("pending-friend-btn");
+        pendingBtn.innerHTML = `
+            <i class="bi bi-person-plus"></i>
+            <span data-lang-key="friendRequestPending">${translations.friendRequestPending || "Pending"}</span>
+        `;
+        addFriendContainer.appendChild(pendingBtn);
+
+        pendingBtn.disabled = true;
+        pendingBtn.style.backgroundColor = "orange";
+        pendingBtn.style.color = "white";
+    } else {
+        // Bouton "Ajouter un ami"
+        const addFriendBtn = document.createElement("button");
+        addFriendBtn.id = "addFriendBtn";
+        addFriendBtn.classList.add("add-friend-btn");
+        addFriendBtn.innerHTML = `
+            <i class="bi bi-person-fill-add"></i>
+            <span data-lang-key="addFriend">${translations.addFriend || "Add Friend"}</span>
+        `;
+        addFriendContainer.appendChild(addFriendBtn);
+
+        // Suppression des anciens événements pour le bouton
+        addFriendBtn.replaceWith(addFriendBtn.cloneNode(true));
+        const newAddFriendBtn = addFriendContainer.querySelector("#addFriendBtn");
+
+        // Gestion de l'événement pour ajouter un ami
+        newAddFriendBtn.addEventListener("click", async () => {
+            try {
+                const friendId = friendDetails.id;
+
+                await handleFriendRequest(friendId, newAddFriendBtn);
+
+                newAddFriendBtn.disabled = true;
+                newAddFriendBtn.querySelector("i").classList.replace("bi-person-fill-add", "bi-person-plus");
+                newAddFriendBtn.querySelector("span").textContent = translations.friendRequestPending || "Pending";
+
+                await manageFriendButtons(myUsername, friendDetails, translations);
+            } catch (error) {
+                console.error("Error adding friend:", error);
+            }
+        });
+    }
+
+    const games = friendDetails.games ? friendDetails.games.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
+
+    const victories = games.filter(game => game.result === 'V').length;
+    const defeats = games.length - victories;
+    const totalGames = victories + defeats;
+    const victoryPercentage = totalGames > 0 ? Math.round((victories / totalGames) * 100) : 0;
+    const defeatPercentage = 100 - victoryPercentage;
+
+    const victoryBarFriends = document.getElementById('victoryBarFriends');
+    const defeatBarFriends = document.getElementById('defeatBarFriends');
+
+    victoryBarFriends.style.width = '0%';
+    defeatBarFriends.style.width = '0%';
+    victoryBarFriends.style.backgroundColor = '#28a745';
+    defeatBarFriends.style.backgroundColor = '#dc3545';
+    victoryBarFriends.textContent = '';
+    defeatBarFriends.textContent = '';
+
+    const cloneVictoryBar = victoryBarFriends.cloneNode(true);
+    const cloneDefeatBar = defeatBarFriends.cloneNode(true);
+    victoryBarFriends.parentNode.replaceChild(cloneVictoryBar, victoryBarFriends);
+    defeatBarFriends.parentNode.replaceChild(cloneDefeatBar, defeatBarFriends);
+
+    if (totalGames === 0) {
+        cloneVictoryBar.style.width = '100%';
+        cloneVictoryBar.style.backgroundColor = '#808080';
+        cloneVictoryBar.textContent = translations.noGamesPlayed || "0 games played";
+
+    }
+    else {
+        cloneVictoryBar.style.width = `${victoryPercentage}%`;
+        cloneDefeatBar.style.width = `${defeatPercentage}%`;
+
+        cloneVictoryBar.textContent = `${victoryPercentage}% ${translations.victories || "Victories"}`;
+        cloneDefeatBar.textContent = `${defeatPercentage}% ${translations.defeats || "Defeats"}`;
+
+        cloneVictoryBar.addEventListener('mouseover', () => {
+            cloneVictoryBar.textContent = `${victories} ${translations.victories || "Victories"}`;
+        });
+        cloneVictoryBar.addEventListener('mouseout', () => {
+            cloneVictoryBar.textContent = `${victoryPercentage}% ${translations.victories || "Victories"}`;
+        });
+
+        cloneDefeatBar.addEventListener('mouseover', () => {
+            cloneDefeatBar.textContent = `${defeats} ${translations.defeats || "Defeats"}`;
+        });
+        cloneDefeatBar.addEventListener('mouseout', () => {
+            cloneDefeatBar.textContent = `${defeatPercentage}% ${translations.defeats || "Defeats"}`;
+        });
+    }
+
+    const latestGamesContainer = document.getElementById('historyDetailsFriends');
+    latestGamesContainer.innerHTML = '';
+
+    const latestGamesTitleElement = document.querySelector('.title-container h3');
+    if (latestGamesTitleElement) {
+        latestGamesTitleElement.textContent = translations.latestGamesTitle || "Latest Games";
+    }
+
+    const noGamesFoundMessage = translations.noGamesFound || "No games found";
+    
+    if (games.length === 0) {
+        latestGamesContainer.innerHTML = `<p style="color: #a16935; text-align: center;">${noGamesFoundMessage}</p>`;
+        return;
+    }
+
+    games.slice(0, 100).forEach(game => {
+        const gameSummary = document.createElement('div');
+        gameSummary.classList.add('game-summary');
+
+        gameSummary.innerHTML = `
+            <span>${new Date(game.date).toLocaleDateString()}</span>
+            <span>${translations.modeLabel || "Mode"}: ${game.game_mode.toUpperCase()}</span>
+            <span>${translations.typeLabel || "Type"}: ${game.game_played === "1" ? translations.onePlayer || "1 Player" : game.game_played === "2" ? translations.twoPlayers || "2 Players" : translations.tournament || "Tournament"}</span>
+            <span>${translations.resultLabel || "Result"}: ${game.result === 'V' ? translations.victoriesStats || "Victory" : translations.defeatsStats || "Defeat"}</span>
+        `;
+        latestGamesContainer.appendChild(gameSummary);
+    });
+}
+
+
+export async function initializeFriendsPreview() {
+    const expandButton = document.getElementById('expandFriendsBtn');
+    if (expandButton) {
+        expandButton.addEventListener('click', () => {
+            document.getElementById('friendsModal').classList.remove('hidden');
+        });
+    }
+    
+    loadFriendsPreview();
+}
+
+async function loadFriendsPreview() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.username) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            console.error("Error retrieving friends list:", response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+        const sortedFriends = data.friends.sort((a, b) => a.username.localeCompare(b.username));
+
+        const friendsWithStatus = await Promise.all(sortedFriends.map(async (friend) => {
+            const friendDetails = await fetchUserDetails(friend.username);
+            return {
+                ...friend,
+                is_connected: friendDetails.is_connected
+            };
+        }));
+
+        const latestFriends = friendsWithStatus.slice(0, 6);
+        displayFriendsPreview(latestFriends);
+
+    }
+    catch (error) {
+        console.error("Data recovery error:", error);
+    }
+}
+
+async function displayFriendsPreview(friends) {
+    const friendsListPreview = document.querySelector('.friends-list-preview');
+    friendsListPreview.innerHTML = '';
+
+     let translations = {};
+     try {
+         const { loadLanguages } = await import('../Modals/switchLanguages.js');
+         const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+         translations = await loadLanguages(storedLang);
+     }
+     catch (error) {
+         console.warn("Error loading translations:", error);
+     }
+
+     if (friends.length === 0) {
+        friendsListPreview.innerHTML = `<p style="color: #a16935;">${translations.noFriendsFound}</p>`;
+        return;
+    }    
+
+    friends.forEach(friend => {
+        const friendItem = document.createElement('div');
+        friendItem.classList.add('friend-preview-item');
+
+        const avatarContainer = document.createElement('div');
+        avatarContainer.classList.add('friend-avatar-container');
+
+        const avatar = document.createElement('img');
+        avatar.src = getAvatarUrl(friend.username);
+        avatar.alt = `${friend.username}'s avatar`;
+        avatar.classList.add('friend-avatar-preview');
+
+        const statusDot = document.createElement('span');
+        statusDot.classList.add('status-dot-preview');
+        statusDot.style.backgroundColor = friend.is_connected ? "green" : "gray";
+
+        avatarContainer.appendChild(avatar);
+        avatarContainer.appendChild(statusDot);
+
+        const username = document.createElement('p');
+        username.textContent = friend.username;
+        username.classList.add('friend-username-preview');
+
+        friendItem.appendChild(avatarContainer);
+        friendItem.appendChild(username);
+
+        friendsListPreview.appendChild(friendItem);
+    });
+}
+
+

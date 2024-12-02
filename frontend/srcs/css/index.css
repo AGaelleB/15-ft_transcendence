@@ -16,16 +16,13 @@
 }
 
 ::selection {
-	background: #302a66;
-	color: #a16935;
+	background: #a16935;
+	color: #302a66;
 }
 
 html, body {
 	height: 100%;
 	width: 100%;
-	/* display: flex; */
-	/* justify-content: center; */
-	/* align-items: center; */
     background-image: url('../images/backgrounds/backgroundEmpty.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -42,12 +39,3 @@ html, body {
     -moz-user-select: none;
     -ms-user-select: none;
 }
-
-/* 
-    pour le win message
-
-    body {
-	color: #a16935;
-	background-size: 60px 60px;
-	animation: slide 4s infinite linear;
-} */

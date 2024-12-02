@@ -1,6 +1,5 @@
 // frontend/srcs/js/main.js
 
-// routes pour docker Nginx
 const routes = {
     404: "./templates/404.html",
     "/": "./templates/startScreen.html",
@@ -127,7 +126,6 @@ const handleLocation = async () => {
             break;
 
         default:
-            console.log("404 Page not found");
             break;
     }
 };

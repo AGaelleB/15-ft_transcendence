@@ -61,12 +61,12 @@
     "champion_name": "Congratulations, ${championName} is the Tournament Champion!",
 
     "uploadButton": "Upload a new picture",
-    "usernameLabel": "User name",
+    "usernameLabel": "User name: ",
     "newUsernamePlaceholder": "New User name",
-    "emailLabel": "Email",
+    "emailLabel": "Email: ",
     "newEmailPlaceholder": "New email",
-    "enable2faLabel": "Enable 2FA",
-    "defaultLanguageLabel": "Default language",
+    "enable2faLabel": "Enable 2FA: ",
+    "defaultLanguageLabel": "Language: ",
     "changePasswordBtn": "Change Password",
     "saveInfoBtn": "Save My Informations",
     
@@ -74,11 +74,12 @@
     "areYouSureDelete": "Are you sure you want to delete your profile? This action is irreversible",
     "yesButton": "Yes",
     "noButton": "No",
-    "closePasswordModal": "Close",
+    "closePasswordModal": "x",
     "oldPasswordLabel": "Old password:",
     "oldPasswordPlaceholder": "Old password",
     "newPasswordLabel": "New password:",
     "newPasswordPlaceholder": "New password",
+    "confirmNewPassword": "Confirm new password:",
     "confirmNewPasswordPlaceholder": "Confirm new password",
     "saveButton": "Save",
 
@@ -89,6 +90,13 @@
     "noInvitationPending": "No invitation pending",
     "noFriendsFound": "No friends found",
     "noUsersFound": "No users found",
+    "showProfileButton": "Show Profile",
+    "areYouSureSuppr": "Are you sure you want to remove this friend?",
+    "removeFriend": "Remove Friend",
+    "addFriend": "Add Friend",
+    "friendRequestPending": "Pending",
+
+    "latestGamesTitle": "Latest Games",
 
     "all": "ALL",
     "mode2d": "2D",
@@ -98,9 +106,16 @@
     "type2Players": "2 PLAYERS",
     "typeTournament": "TOURNAMENT",
     "noGamesFound": "No games found",
-    "victories": "Victorie(s)",
-    "defeats": "Defeat(s)",
+    "noGamesPlayed": "0 games played",
+    "victories": "Victories",
+    "defeats": "Defeats",
+    "allStat": "ALL GAME STATISTICS",
+    "myStat": "MY STATISTICS",
+    "totalGamePlayed": "Total Games Played: ",
+    "itsMe": "(Me)",
+    "wins": " Win(s)",
 
+    "player": "Player",
     "dateLabel": "Date",
     "modeLabel": "Mode",
     "typeLabel": "Type",
@@ -110,7 +125,26 @@
     "twoPlayers": "2 PLAYERS",
     "tournament": "TOURNAMENT",
     "victoriesStats": "Victory",
-    "defeatsStats": "Defeat"
+    "defeatsStats": "Defeat",
 
+    "alertMessage": "Error",
+    "okButton": "OK",
+    "emailUse": "This email address is already in use, please choose another",
+    "invalidPassword": "The password is invalid, please check and try again",
+    "emptyField": "All fields must be filled",
+    "profileUpdateFailed": "Profile update failed: ",
+    "noUserLoggedIn": "No user is currently logged in",
+    "fillFields": "Please fill in both fields",
+    "loginFailed": "Login failed: ",
+    "passwordsNotMatch": "Passwords do not match",
+    "signupFailed": "Signup failed: ",
+    "defaultError": "An error occurred. Please try again",
+    "invalidNameTournament": "Invalid player name",
 
+    "errorDetails": {
+        "username": "Username already exists",
+        "email": "Email already in use",
+        "password": "Invalid password",
+        "unknown": "Unknown error"
+    }
 }

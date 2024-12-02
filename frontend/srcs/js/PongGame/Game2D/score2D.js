@@ -53,8 +53,6 @@ export function isGameOver2D() {
 export function setIsGameOver2D(value) {
     if (typeof value === 'boolean')
         gameOver2D = value;
-    else
-        console.warn("Invalid value. Please provide a boolean (true or false).");
 }
 
 export function getUserFromStorage2D() {
@@ -125,10 +123,7 @@ export async function sendGameResult(score, opp_score, player, game_mode, game_p
         if (!response.ok) {
             const errorData = await response.json();
             console.error('Error sending game result:', errorData);
-            alert('Failed to save game result');
         }
-        else
-            console.log('Game result saved successfully!');
     }
     catch (error) {
         console.error('Network error when sending game result:', error);
