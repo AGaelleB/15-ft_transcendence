@@ -105,14 +105,16 @@ class UserLogin(APIView):
         user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
         if user is None:
             return Response({"status": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
-        # 2fa here
+        #generate otp and send to user's email if 2fa is activate
         if user.is_2fa:
-            otp = generate_otp(user.id)
+            otp = generate_otp()
             send_otp_email(user.email, otp)
-        user.is_connected = True
-        user.save()
-        login(request, user)
-        return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
+            cache.set("user", user, timeout=300)
+        else:
+            user.is_connected = True
+            user.save()
+            login(request, user)
+        return Response({"status": "login succes, go to 'verify-otp/' for complete connection"}, status=status.HTTP_202_ACCEPTED)
 
 
 class UserLogout(APIView):
@@ -148,25 +150,29 @@ class ResetPassword(generics.GenericAPIView):
 
 
 class VerifyOTP(APIView):
+    """
+    Check the OTP send via user's email, connect if it's good
+    """
     def post(self, request):
-        user_id = request.data.get("user_id")
         otp_input = request.data.get("otp")
 
-        if not user_id or not otp_input:
-            return Response({"error": "user_id et otp sont requis"}, status=status.HTTP_400_BAD_REQUEST)
+        if not otp_input:
+            return Response({"error": "otp est requis"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Récupérer l'OTP stocké
-        stored_otp = cache.get(f"otp_{user_id}")
+        stored_otp = cache.get("otp")
 
         if stored_otp is None:
             return Response({"error": "OTP expiré ou invalide"}, status=status.HTTP_400_BAD_REQUEST)
 
         if str(stored_otp) == str(otp_input):
-            # OTP valide
-            cache.delete(f"otp_{user_id}")  # Supprimer l'OTP après validation
-            return Response({"message": "Authentification réussie"}, status=status.HTTP_200_OK)
+            cache.delete("otp")
+            user = cache.get("user")
+            user.is_connected = True
+            user.save()
+            login(request, user)
+            cache.delete("user")
+            return Response({"status": "Authentification réussie"}, status=status.HTTP_200_OK)
         else:
-            # OTP invalide
             return Response({"error": "OTP invalide"}, status=status.HTTP_400_BAD_REQUEST)
 
 ##########################################################

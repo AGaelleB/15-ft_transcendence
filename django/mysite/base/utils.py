@@ -15,10 +15,10 @@ def get_image_mime_type(image):
         return 'application/octet-stream'
     return mime_type
 
-def generate_otp(user_id):
-    otp = random.randint(100000, 999999)  # Générer un OTP à 6 chiffres
-    expiration_time = timedelta(minutes=5)  # Durée de validité
-    cache.set(f"otp_{user_id}", otp, timeout=expiration_time.total_seconds())
+def generate_otp():
+    otp = random.randint(100000, 999999) 
+    expiration_time = timedelta(minutes=5)
+    cache.set("otp", otp, timeout=expiration_time.total_seconds())
     return otp
 
 def send_otp_email(user_email, otp):
