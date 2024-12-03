@@ -16,7 +16,7 @@
 - [x] Minor module: User and Game Stats Dashboards.
 
 ## Cybersecurity
-- [] Major module: Implement Two-Factor Authentication (2FA) and JWT.
+- [x] Major module: Implement Two-Factor Authentication (2FA) and JWT.
 
 ## Graphics
 - [x] Major module: Implementing Advanced 3D Techniques
@@ -25,4 +25,4 @@
 - [x] Minor module: Expanding Browser Compatibility.
 - [x] Minor module: Multiple language supports.
 
-### Total 7/8 points
+### Total 8/8 points
