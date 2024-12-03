@@ -194,7 +194,7 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
 #       GAME API VIEWS 
 ##########################################################
 class GameListCreate(generics.ListCreateAPIView):
-    #permission_classes      =   [GameListCreatePermission] not tested yet, might be on error 
+    permission_classes      =   [GameListCreatePermission] 
     queryset                =   Game.objects.all()
     serializer_class        =   Game_list_Serializer
 

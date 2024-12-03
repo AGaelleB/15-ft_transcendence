@@ -39,8 +39,6 @@ class UserListCreatePermission(BasePermission):
             return request.user.is_authenticated and request.user.is_connected
         if request.method in ['POST', 'OPTIONS']:
             return True
-            #return request.user.is_authenticated and request.user.is_connected #and request.user.is_superuser
-            # just check that request.user.is_authenticated == FALSE ?? 
         return False
 
 class UserRUDPermission(BasePermission):
@@ -75,8 +73,6 @@ class GameListCreatePermission(BasePermission):
     POST: user must be player; GET: any authenticated user
     """
     def has_permission(self, request, view):
-        if request.method in ['GET', 'OPTIONS', 'HEAD']:
+        if request.method in ['GET', 'OPTIONS', 'POST']:
             return request.user.is_authenticated and request.user.is_connected
-        if request.method in ['POST']:
-            return request.user.is_authenticated and request.user.is_connected #and request.data.get['player'] == request.user
         return False
