@@ -48,21 +48,20 @@ export async function initializeLogin() {
 
     loginSubmitButton.addEventListener('click', async function(event) {
         event.preventDefault();
-        const username = document.querySelector("form.login input[placeholder='User Name']").value;
-        const password = document.querySelector("form.login input[placeholder='Password']").value;
+        const username = document.getElementById("login-username").value;
+        const password = document.getElementById("login-password-input").value;
         if (!username) {
             await myAlert("fillFields");
             return;
         }
+
         const loginData = {
             "username": username,
-            "first_name": "",
-            "last_name": "",
-            "email": "email@email.com",
-            "is_2fa": false,
+            "password": password,
         };
+        
         try {
-            const response = await fetch('http://127.0.0.1:8001/users/', {
+            const response = await fetch('http://127.0.0.1:8001/login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,12 +97,6 @@ export async function initializeLogin() {
             this.classList.toggle("bi-eye");
             this.classList.toggle("bi-eye-slash");
         });
-    });
-
-    loginSubmitButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        window.history.pushState({}, "", "/home");
-        handleLocation();
     });
 }
 
