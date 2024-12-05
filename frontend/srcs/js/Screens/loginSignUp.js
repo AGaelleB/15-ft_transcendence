@@ -59,7 +59,9 @@ export async function initializeLogin() {
             "username": username,
             "password": password,
         };
-        
+        console.log("username :", username);
+        console.log("password :", password);
+
         try {
             const response = await fetch('http://127.0.0.1:8001/login/', {
                 method: 'POST',
@@ -71,17 +73,20 @@ export async function initializeLogin() {
             });
             if (!response.ok) {
                 const errorData = await response.json();
+                console.log("errorData :", errorData);
                 await myAlert("loginFailed", errorData);
             }
             else {
                 const userResponse = await response.json();
+                console.log("reponse :", userResponse);
                 localStorage.setItem('user', JSON.stringify({
                     id: userResponse.id,
                     username: userResponse.username,
                     email: userResponse.email,
                     is_2fa: userResponse.is_2fa,
                 }));
-                window.location.href = '/home';
+                window.history.pushState({}, "", "/home");
+                handleLocation();
             }
         }
         catch (error) {
@@ -152,7 +157,8 @@ document.querySelector("form.signup").addEventListener("submit", async function(
                 is_2fa: userResponse.is_2fa,
                 profileImageUrl: '/srcs/images/icons/loginIcon3.png',
             }));
-            window.location.href = '/home';
+            window.history.pushState({}, "", "/home");
+            handleLocation();
         }
     }
     catch (error) {
