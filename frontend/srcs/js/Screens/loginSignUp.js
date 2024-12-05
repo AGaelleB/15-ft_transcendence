@@ -69,28 +69,53 @@ export async function initializeLogin() {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify(loginData)
+                body: JSON.stringify(loginData),
             });
+        
             if (!response.ok) {
                 const errorData = await response.json();
-                console.log("errorData :", errorData);
+                console.log("Login failed:", errorData);
                 await myAlert("loginFailed", errorData);
+                return;
             }
-            else {
-                const userResponse = await response.json();
-                console.log("reponse :", userResponse);
-                localStorage.setItem('user', JSON.stringify({
-                    id: userResponse.id,
-                    username: userResponse.username,
-                    email: userResponse.email,
-                    is_2fa: userResponse.is_2fa,
-                }));
-                window.history.pushState({}, "", "/home");
-                handleLocation();
+        
+            const userResponse = await response.json();
+            console.log("Login response:", userResponse);
+        
+            // Récupérer les détails de l'utilisateur
+            try {
+                const response_log = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${userResponse.token}`, // Si un token est utilisé
+                    },
+                });
+        
+                if (response_log.ok) {
+                    const userData = await response_log.json();
+                    console.log("User data:", userData);
+        
+                    // Sauvegarde des données utilisateur dans localStorage
+                    localStorage.setItem('user', JSON.stringify({
+                        id: userData.id,
+                        username: userData.username,
+                        email: userData.email,
+                        is_2fa: userData.is_2fa,
+                    }));
+        
+                    // Redirection vers /home
+                    window.history.pushState({}, "", "/home");
+                    handleLocation();
+                } else {
+                    const errorData_log = await response_log.json();
+                    console.warn("Failed to fetch user data:", errorData_log);
+                }
+            } catch (error) {
+                console.warn("Error during user data fetch:", error);
             }
-        }
-        catch (error) {
-            console.warn('Error during login:', error);
+        } catch (error) {
+            console.warn("Error during login:", error);
         }
     });
     
