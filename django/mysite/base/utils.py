@@ -1,4 +1,5 @@
 import mimetypes
+from django.conf import settings
 
 def rename_image(instance, filename):
     ext = filename.split('.')[-1]
@@ -9,3 +10,14 @@ def get_image_mime_type(image):
     if mime_type is None:
         return 'application/octet-stream'
     return mime_type
+
+
+def custom_set_token(response, key, token, samesite="Lax"):
+    secure = not settings.DEBUG 
+    response.set_cookie(
+        key,
+        token.encoding,
+        httponly=True,
+        samesite=samesite,
+        secure=secure,
+    )

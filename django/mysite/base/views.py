@@ -108,7 +108,10 @@ class UserLogin(APIView):
         user.is_connected = True
         user.save()
         login(request, user)
-        return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
+        
+        reponse = Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
+
+        return reponse
 
 
 class UserLogout(APIView):

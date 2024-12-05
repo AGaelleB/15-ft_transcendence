@@ -22,6 +22,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000'
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 JWTAUTH = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=3),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
@@ -57,7 +59,6 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
-    'jwtauth.middleware.AuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,6 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'base.middleware.SameSiteCookieMiddleware',
+    'jwtauth.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'

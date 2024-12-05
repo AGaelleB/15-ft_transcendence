@@ -65,6 +65,7 @@ export async function initializeLogin() {
         try {
             const response = await fetch('http://127.0.0.1:8001/login/', {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -86,6 +87,7 @@ export async function initializeLogin() {
             try {
                 const response_log = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
                     method: 'GET',
+                    credentials: "include",
                     headers: {
                         'Accept': 'application/json',
                         'Authorization': `Bearer ${userResponse.token}`, // Si un token est utilisé
