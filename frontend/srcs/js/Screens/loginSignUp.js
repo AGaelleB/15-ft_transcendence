@@ -128,10 +128,9 @@ document.querySelector("form.signup").addEventListener("submit", async function(
 
     const userData = {
         "username": username,
-        "first_name": "",
-        "last_name": "",
         "email": email,
         "is_2fa": false,
+        "password": password,
     };
 
     try {
@@ -147,6 +146,7 @@ document.querySelector("form.signup").addEventListener("submit", async function(
         if (!response.ok) {
             // Si la réponse n'est pas ok, on traite l'erreur ici sans loguer dans la console
             const errorData = await response.json();
+            console.log(errorData);
             await myAlert("signupFailed", errorData);
         } else {
             // Si la requête est un succès
