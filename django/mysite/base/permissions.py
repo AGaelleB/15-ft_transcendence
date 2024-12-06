@@ -60,12 +60,12 @@ class FriendRequestCreatePermission(BasePermission):
     """
     def has_permission(self, request, view):
         if request.method in ['GET', 'OPTIONS']:
-            return request.user.is_authenticated and request.user.is_connected
+            return request.user.is_authenticated and getattr(request.user, 'is_connected', False)
         if request.method == 'POST':
             sender = request.data.get('sender')
             if not sender:
                 return True
-            return str(request.user.id) == sender and request.user.is_connected
+            return request.user.id == int(sender) and getattr(request.user, 'is_connected', False)
 
 
 class GameListCreatePermission(BasePermission):

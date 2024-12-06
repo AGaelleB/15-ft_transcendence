@@ -94,10 +94,7 @@ async function sendFriendRequest(receiverId) {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
-            body: JSON.stringify({
-                sender: currentUser.id,
-                receiver: receiverId
-            })
+            body: JSON.stringify(requestBody)
         });
 
         if (!response.ok) {
@@ -681,7 +678,8 @@ export async function initFriendsProfileModal(friendUsername, myUsername) {
                 document.getElementById("supprFriendConfirm").classList.add("hidden");
             });
         });
-    } else if (isPending) {
+    }
+    else if (isPending) {
         // Bouton "Demande en attente"
         const pendingBtn = document.createElement("button");
         pendingBtn.id = "pendingFriendBtn";
@@ -695,7 +693,8 @@ export async function initFriendsProfileModal(friendUsername, myUsername) {
         pendingBtn.disabled = true;
         pendingBtn.style.backgroundColor = "orange";
         pendingBtn.style.color = "white";
-    } else {
+    }
+    else {
         // Bouton "Ajouter un ami"
         const addFriendBtn = document.createElement("button");
         addFriendBtn.id = "addFriendBtn";
