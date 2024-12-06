@@ -5,6 +5,7 @@ import { isEmailAvailable } from '../Modals/dashboardModal.js';
 import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
+    console.log("Debug step:", localStorage.getItem("debugStep"));
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     try {
         const translations = await loadLanguages(storedLang);
@@ -59,8 +60,6 @@ export async function initializeLogin() {
             "username": username,
             "password": password,
         };
-        console.log("username :", username);
-        console.log("password :", password);
 
         try {
             const response = await fetch('http://127.0.0.1:8001/login/', {
@@ -109,14 +108,17 @@ export async function initializeLogin() {
                     // Redirection vers /home
                     window.history.pushState({}, "", "/home");
                     handleLocation();
-                } else {
+                }
+                else {
                     const errorData_log = await response_log.json();
                     console.warn("Failed to fetch user data:", errorData_log);
                 }
-            } catch (error) {
+            }
+            catch (error) {
                 console.warn("Error during user data fetch:", error);
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.warn("Error during login:", error);
         }
     });
@@ -133,6 +135,7 @@ export async function initializeLogin() {
 }
 
 document.querySelector("form.signup").addEventListener("submit", async function(event) {
+    console.log("Form submission intercepted"); // Ajouter pour déboguer
     event.preventDefault();
 
     const username = document.getElementById("signup-username").value;
@@ -145,11 +148,11 @@ document.querySelector("form.signup").addEventListener("submit", async function(
         return;
     }
 
-    const isEmailAvailableForSave = await isEmailAvailable(email);
-    if (!isEmailAvailableForSave) {
-        await myAlert("emailUse");
-        return;
-    }
+    // const isEmailAvailableForSave = await isEmailAvailable(email);
+    // if (!isEmailAvailableForSave) {
+    //     await myAlert("emailUse");
+    //     return;
+    // }
 
     const userData = {
         "username": username,
@@ -170,12 +173,11 @@ document.querySelector("form.signup").addEventListener("submit", async function(
         });
 
         if (!response.ok) {
-            // Si la réponse n'est pas ok, on traite l'erreur ici sans loguer dans la console
             const errorData = await response.json();
             console.log(errorData);
             await myAlert("signupFailed", errorData);
-        } else {
-            // Si la requête est un succès
+        }
+        else {
             const userResponse = await response.json();
 
             localStorage.setItem('user', JSON.stringify({
@@ -185,8 +187,71 @@ document.querySelector("form.signup").addEventListener("submit", async function(
                 is_2fa: userResponse.is_2fa,
                 profileImageUrl: '/srcs/images/icons/loginIcon3.png',
             }));
-            window.history.pushState({}, "", "/home");
-            handleLocation();
+
+            const loginData = {
+                "username": username,
+                "password": password,
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:8001/login/', {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(loginData),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.log("Login failed:", errorData);
+                    await myAlert("loginFailed", errorData);
+                    return;
+                }
+
+
+                const userResponse = await response.json();
+                console.log("Login response:", userResponse);
+            
+                try {
+                    const response_log = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+                        method: 'GET',
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
+                    });
+
+                    if (response_log.ok) {
+                        const userData = await response_log.json();
+                        console.log("User data:", userData);
+            
+                        localStorage.setItem('user', JSON.stringify({
+                            id: userData.id,
+                            username: userData.username,
+                            email: userData.email,
+                            is_2fa: userData.is_2fa,
+                        }));
+            
+                        console.log("Redirecting to /home");
+                        window.history.pushState({}, "", "/home");
+                        handleLocation();
+                    }
+                    else {
+                        const errorData_log = await response_log.json();
+                        console.warn("Failed to fetch user data:", errorData_log);
+                    }
+                }
+                catch (error) {
+                    console.warn("Error during user data fetch:", error);
+                }
+            }
+            catch (error) {
+                console.warn("Error during login:", error);
+            }
         }
     }
     catch (error) {
