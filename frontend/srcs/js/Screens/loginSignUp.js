@@ -89,8 +89,8 @@ export async function initializeLogin() {
                     method: 'GET',
                     credentials: "include",
                     headers: {
+                        'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': `Bearer ${userResponse.token}`, // Si un token est utilisé
                     },
                 });
         
@@ -161,6 +161,7 @@ document.querySelector("form.signup").addEventListener("submit", async function(
     try {
         const response = await fetch('http://127.0.0.1:8001/users/', {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

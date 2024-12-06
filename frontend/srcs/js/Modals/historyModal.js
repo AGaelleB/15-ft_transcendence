@@ -59,7 +59,15 @@ export function initializeHistoryModal() {
 
 async function fetchAllUsersGames() {
     try {
-        const usersResponse = await fetch('http://127.0.0.1:8001/users');
+        const usersResponse = await fetch('http://127.0.0.1:8001/users', {
+            method: 'GET',
+            credentials: "include", // Ajout de l'option credentials
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
         if (!usersResponse.ok) {
             throw new Error('Failed to fetch users');
         }
@@ -75,7 +83,8 @@ async function fetchAllUsersGames() {
         allGames.sort((a, b) => b.id - a.id);
 
         displayGlobalGames(allGames);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching games:', error);
         document.getElementById('allGamesList').innerHTML = '<p>Error loading games.</p>';
     }
@@ -133,7 +142,15 @@ async function displayPlayerRankings() {
     }
 
     try {
-        const usersResponse = await fetch('http://127.0.0.1:8001/users');
+        const usersResponse = await fetch('http://127.0.0.1:8001/users', {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+        
         if (!usersResponse.ok) {
             throw new Error('Failed to fetch users');
         }
@@ -208,7 +225,8 @@ async function displayPlayerRankings() {
                 });
             }
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching player rankings:', error);
         document.getElementById('playerRankings').innerHTML = '<p>Error loading rankings.</p>';
     }
@@ -225,10 +243,11 @@ async function loadMatchHistory() {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            }
+            },
         });
 
         if (!response.ok) {
@@ -414,10 +433,11 @@ async function loadPreviewStats() {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            }
+            },
         });
 
         if (!response.ok) {

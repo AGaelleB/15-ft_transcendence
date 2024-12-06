@@ -148,6 +148,7 @@ export function initializeHome() {
         try {
             const response = await fetch(`http://127.0.0.1:8001/users/${username}/logout/`, {
                 method: 'PUT',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',

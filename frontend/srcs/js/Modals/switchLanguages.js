@@ -2,21 +2,29 @@
 
 export async function loadLanguages(lang) {
 	try {
-		const response = await fetch(`./languages/${lang}.json`);
-		if (!response.ok)
+		const response = await fetch(`./languages/${lang}.json`, {
+			method: 'GET',
+			credentials: "include",
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+		});
+
+		if (!response.ok) {
 			throw new Error(`Language file ${lang} not found (HTTP ${response.status})`);
+		}
+
 		const translations = await response.json();
-		
 		applyLanguages(translations);
-		
+
 		return translations;
-	}
-	catch (error) {
+	} catch (error) {
 		console.error(`Error loading language file ${lang}:`, error);
 		return {};
 	}
 }
-  
+
 export function updatePlaceholders(translations) {
 	if (!translations) {
 		console.error("Translations data missing.");
@@ -105,6 +113,7 @@ export async function updateUserLanguage(newLang) {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
             method: 'PUT',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

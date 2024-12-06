@@ -32,10 +32,11 @@ async function fetchUserDetails(username) {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
             method: 'GET',
+            credentials: "include",
             headers: {
-                'Authorization': 'Bearer <mettre_le_token_d_authentification>',
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
         });
         if (!response.ok) {
             throw new Error("Failed to fetch user details");
@@ -57,8 +58,10 @@ async function fetchAllUsers() {
     try {
         const response = await fetch("http://127.0.0.1:8001/users/", {
             method: "GET",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             },
         });
         return response.ok ? await response.json() : [];
@@ -86,9 +89,10 @@ async function sendFriendRequest(receiverId) {
     try {
         const response = await fetch("http://127.0.0.1:8001/friend-request/create/", {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer <your_auth_token>',
+                'Accept': 'application/json',
             },
             body: JSON.stringify({
                 sender: currentUser.id,
@@ -109,9 +113,11 @@ async function fetchAllFriendRequests() {
     try {
         const response = await fetch("http://127.0.0.1:8001/friend-request/", {
             method: 'GET',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
-            }
+                'Accept': 'application/json',
+            },
         });
 
         if (!response.ok) {
@@ -199,9 +205,11 @@ async function handleFriendRequestAction(requestId, action) {
     try {
         const response = await fetch(`http://127.0.0.1:8001/friend-request/${requestId}/${action}/`, {
             method: "PUT",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/json",
-            }
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
         });
 
         if (response.ok) {
@@ -497,7 +505,11 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
                 try {
                     const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
                         method: "PUT",
-                        headers: { "Content-Type": "application/json" },
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
                     });
 
                     if (response.ok) {
@@ -649,7 +661,11 @@ export async function initFriendsProfileModal(friendUsername, myUsername) {
                 try {
                     const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
                         method: "PUT",
-                        headers: { "Content-Type": "application/json" },
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
                     });
 
                     if (response.ok) {
@@ -813,10 +829,11 @@ async function loadFriendsPreview() {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            }
+            },
         });
 
         if (!response.ok) {

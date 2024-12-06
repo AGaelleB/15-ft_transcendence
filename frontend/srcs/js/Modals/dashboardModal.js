@@ -78,6 +78,11 @@ async function uploadNewProfilePicture(event) {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
             method: 'PUT',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
             body: formData,
         });               
 
@@ -112,8 +117,10 @@ async function fetchAllUsers() {
     try {
         const response = await fetch("http://127.0.0.1:8001/users/", {
             method: "GET",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             },
         });
         return response.ok ? await response.json() : [];
@@ -154,8 +161,8 @@ export async function saveUserProfileToBackendAndLocalStorage() {
     try {
         const response = await fetch(`http://127.0.0.1:8001/users/${savedUser.username}/`, {
             method: 'PUT',
+            credentials: "include",
             headers: {
-                'Authorization': 'Bearer <mettre_le_token_d_authentification>',
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
@@ -236,6 +243,7 @@ export async function initializeModalEvents() {
         try {
             const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
                 method: 'DELETE',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
