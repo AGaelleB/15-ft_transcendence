@@ -98,8 +98,8 @@ class UserLogin(APIView):
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if request.user.is_authenticated:
-            return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
+        # if request.user.is_authenticated:
+        #     return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
         if user is None:

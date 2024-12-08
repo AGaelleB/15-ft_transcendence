@@ -13,12 +13,15 @@ export async function openProfileModal() {
         const user = JSON.parse(savedUser);
         const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
 
-        if (document.querySelector('.profile-modal-picture')) {
+        if (document.querySelector('.profile-modal-picture'))
             document.querySelector('.profile-modal-picture').src = avatarUrl;
-        }
-        if (document.querySelector('.profile-link img')) {
+
+        if (document.querySelector('.profile-link img'))
             document.querySelector('.profile-link img').src = avatarUrl;
-        }
+
+        const enable2FACheckbox = document.getElementById("2fa");
+        if (enable2FACheckbox)
+            enable2FACheckbox.checked = user.is_2fa || false;
     }
 
     try {
@@ -42,6 +45,48 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+async function toggle2FA(isEnabled) {
+    const savedUser = JSON.parse(localStorage.getItem('user'));
+    if (!savedUser) {
+        await myAlert("noUserLoggedIn");
+        return;
+    }
+
+    const userData = {
+        "is_2fa": isEnabled,
+    };
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${savedUser.username}/`, {
+            method: 'PUT',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Failed to update 2FA:", errorData);
+            await myAlert("2FAUpdateFailed", errorData);
+            return;
+        }
+
+        const updatedUser = await response.json();
+        console.log("2FA updated successfully:", updatedUser);
+
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        currentUser.is_2fa = updatedUser.is_2fa;
+        localStorage.setItem('user', JSON.stringify(currentUser));
+    }
+    catch (error) {
+        console.error("Error updating 2FA:", error);
+        await myAlert("2FAUpdateFailed");
+    }
+}
 
 export function closeProfileModal() {
     const modal = document.getElementById("profileModal");
@@ -195,6 +240,15 @@ export async function initializeModalEvents() {
     const langSwitcher = document.getElementById("lang-switcher-profile");
     closeProfileButton.addEventListener("click", closeProfileModal);
 
+    const enable2FACheckbox = document.getElementById("2fa");
+
+    if (enable2FACheckbox) {
+        enable2FACheckbox.addEventListener("change", async (event) => {
+            const isEnabled = event.target.checked;
+            await toggle2FA(isEnabled);
+        });
+    }
+
     try {
         const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
         const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
@@ -234,10 +288,8 @@ export async function initializeModalEvents() {
     
         const userData = {
             "username": user.username,
-            "first_name": "",
-            "last_name": "",
             "email": user.email,
-            "is_2fa": false,
+            "is_2fa": user.is_2fa,
         };
 
         try {

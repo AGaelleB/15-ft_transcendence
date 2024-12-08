@@ -48,6 +48,81 @@ export async function initializeLogin() {
 
     loginForm.addEventListener("submit", handleLogin);
     signupForm.addEventListener("submit", handleSignup);
+
+    const togglePasswordIcons = document.querySelectorAll(".toggle-password-icon");
+
+    togglePasswordIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            const passwordInput = icon.closest(".password-field").querySelector("input[type='password'], input[type='text']");
+
+            if (passwordInput) {
+                const isPasswordVisible = passwordInput.type === "text";
+                passwordInput.type = isPasswordVisible ? "password" : "text";
+
+                icon.classList.toggle("bi-eye");
+                icon.classList.toggle("bi-eye-slash");
+            }
+            else
+                console.error("Password input not found for icon:", icon);
+        });
+    });
+}
+
+export function open2FAModal(email) {
+    const modal = document.getElementById("twoFAModal");
+    modal.classList.remove("hidden");
+
+    const descriptionElement = modal.querySelector(".two-fa-description");
+    if (descriptionElement) {
+        const emailMasked = maskEmail(email);
+        descriptionElement.textContent = `Enter the verification code sent to ${emailMasked}`;
+    }
+    else
+        console.error("Element .two-fa-description not found in the modal.");
+
+    const inputs = Array.from(modal.querySelectorAll(".two-fa-input"));
+    const confirmButton = modal.querySelector(".two-fa-button");
+
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", (event) => {
+            if (event.target.value.length === 1 && index < inputs.length - 1)
+                inputs[index + 1].focus();
+        });
+
+        input.addEventListener("keydown", (event) => {
+            if (event.key === "Backspace" && !event.target.value && index > 0)
+                inputs[index - 1].focus();
+        });
+    });
+
+    confirmButton.addEventListener("click", handle2FAConfirm);
+}
+
+export function close2FAModal() {
+    const modal = document.getElementById("twoFAModal");
+    modal.classList.add("hidden");
+}
+
+function handle2FAConfirm() {
+    const inputs = Array.from(document.querySelectorAll(".two-fa-input"));
+    const code = inputs.map(input => input.value).join("");
+
+    if (code.length !== 6) {
+        myAlert("Please enter a valid 6-digit code.");
+        return;
+    }
+
+    console.log("2FA Code entered:", code);
+    close2FAModal();
+
+    window.history.pushState({}, "", "/home");
+    handleLocation();
+}
+
+function maskEmail(email) {
+    const [localPart, domain] = email.split("@");
+    const maskedLocalPart = localPart[0] + "*".repeat(localPart.length - 1);
+    return `${maskedLocalPart}@${domain}`;
 }
 
 async function handleLogin(event, loginData = null) {
@@ -83,13 +158,28 @@ async function handleLogin(event, loginData = null) {
         const userResponse = await response.json();
         console.log("Login response:", userResponse);
 
-        localStorage.setItem('user', JSON.stringify({
-            id: userResponse.id,
-            username,
-        }));
+        const userDetails = await fetchUserDetails(username);
 
-        window.history.pushState({}, "", "/home");
-        handleLocation();
+        if (userDetails) {
+            localStorage.setItem('user', JSON.stringify({
+                id: userDetails.id,
+                username: userDetails.username,
+                email: userDetails.email,
+                is_2fa: userDetails.is_2fa,
+            }));
+
+            if (userDetails.is_2fa) {
+                console.log("2FA enabled, opening modal...");
+                open2FAModal(userDetails.email);
+            }
+            else {
+                console.log("2FA not enabled, redirecting to home...");
+                window.history.pushState({}, "", "/home");
+                handleLocation();
+            }
+        }
+        else
+            console.warn("Failed to retrieve user details after login.");
     }
     catch (error) {
         console.error("Error during login:", error);
@@ -156,3 +246,32 @@ async function handleSignup(event) {
         console.error("Error during signup:", error);
     }
 }
+
+async function fetchUserDetails(username) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const userData = await response.json();
+            console.log("User data fetched:", userData);
+            return userData;
+        }
+        else {
+            console.warn("Failed to fetch user data");
+            return null;
+        }
+    }
+    catch (error) {
+        console.warn("Error fetching user data:", error);
+        return null;
+    }
+}
+
+document.querySelector("form.login").addEventListener("submit", handleLogin);
