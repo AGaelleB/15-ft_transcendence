@@ -1,8 +1,7 @@
 // frontend/srcs/js/Screens/loginSignUp.js
 
 import { myAlert } from '../Modals/alertModal.js';
-import { isEmailAvailable } from '../Modals/dashboardModal.js';
-import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
+import { applyLanguage, loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
@@ -15,25 +14,24 @@ export async function initializeLogin() {
     }
 
     const loginForm = document.querySelector("form.login");
+    const signupForm = document.querySelector("form.signup");
     const loginBtn = document.querySelector("label.login");
     const signupBtn = document.querySelector("label.signup");
     const signupLink = document.getElementById("signup-link");
-    const togglePasswordIcons = document.querySelectorAll(".toggle-password-icon");
-    const loginSubmitButton = document.querySelector("form.login button[type='submit']");
 
     signupLink.addEventListener("click", (event) => {
         event.preventDefault();
         signupBtn.click();
     });
-      
+
     signupBtn.onclick = () => {
         loginForm.style.marginLeft = "-50%";
     };
-  
+
     loginBtn.onclick = () => {
         loginForm.style.marginLeft = "0%";
     };
-    
+
     function switchFormBasedOnHash() {
         const hash = window.location.hash;
         if (hash === "#signup")
@@ -41,73 +39,170 @@ export async function initializeLogin() {
         else
             loginBtn.click();
     }
-      
+
     switchFormBasedOnHash();
-    
-    window.addEventListener('hashchange', switchFormBasedOnHash);
-
-    loginSubmitButton.addEventListener('click', async function(event) {
+    window.addEventListener('hashchange', (event) => {
         event.preventDefault();
-        const username = document.querySelector("form.login input[placeholder='User Name']").value;
-        const password = document.querySelector("form.login input[placeholder='Password']").value;
-        if (!username) {
-            await myAlert("fillFields");
-            return;
-        }
-        const loginData = {
-            "username": username,
-            "first_name": "",
-            "last_name": "",
-            "email": "email@email.com",
-            "is_2fa": false,
-        };
-        try {
-            const response = await fetch('http://127.0.0.1:8001/users/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(loginData)
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                await myAlert("loginFailed", errorData);
-            }
-            else {
-                const userResponse = await response.json();
-                localStorage.setItem('user', JSON.stringify({
-                    id: userResponse.id,
-                    username: userResponse.username,
-                    email: userResponse.email,
-                    is_2fa: userResponse.is_2fa,
-                }));
-                window.location.href = '/home';
-            }
-        }
-        catch (error) {
-            console.warn('Error during login:', error);
-        }
+        switchFormBasedOnHash();
     });
-    
+
+    loginForm.addEventListener("submit", handleLogin);
+    signupForm.addEventListener("submit", handleSignup);
+
+    const togglePasswordIcons = document.querySelectorAll(".toggle-password-icon");
+
     togglePasswordIcons.forEach(icon => {
-        icon.addEventListener("click", function () {
-            const passwordInput = this.parentElement.previousElementSibling;
-            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-            passwordInput.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-            this.classList.toggle("bi-eye-slash");
-        });
-    });
+        icon.addEventListener("click", () => {
+            const passwordInput = icon.closest(".password-field").querySelector("input[type='password'], input[type='text']");
 
-    loginSubmitButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        window.history.pushState({}, "", "/home");
-        handleLocation();
+            if (passwordInput) {
+                const isPasswordVisible = passwordInput.type === "text";
+                passwordInput.type = isPasswordVisible ? "password" : "text";
+
+                icon.classList.toggle("bi-eye");
+                icon.classList.toggle("bi-eye-slash");
+            }
+            else
+                console.error("Password input not found for icon:", icon);
+        });
     });
 }
 
-document.querySelector("form.signup").addEventListener("submit", async function(event) {
+export async function open2FAModal(email) {
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.warn("Error loading translations:", error);
+    }
+    const modal = document.getElementById("twoFAModal");
+    modal.classList.remove("hidden");
+    
+    const close2FAButton = twoFAModal ? twoFAModal.querySelector(".close-button-2fa") : null;
+    close2FAButton.addEventListener("click", close2FAModal);
+
+    const descriptionElement = modal.querySelector(".two-fa-description");
+    if (descriptionElement) {
+        const emailMasked = maskEmail(email);
+        descriptionElement.textContent = `${translations.emailText2fa} ${emailMasked}`;
+    }
+    else
+        console.error("Element .two-fa-description not found in the modal.");
+
+    const inputs = Array.from(modal.querySelectorAll(".two-fa-input"));
+    const confirmButton = modal.querySelector(".two-fa-button");
+
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", (event) => {
+            if (event.target.value.length === 1 && index < inputs.length - 1)
+                inputs[index + 1].focus();
+        });
+
+        input.addEventListener("keydown", (event) => {
+            if (event.key === "Backspace" && !event.target.value && index > 0)
+                inputs[index - 1].focus();
+        });
+    });
+
+    confirmButton.addEventListener("click", handle2FAConfirm);
+}
+
+export function close2FAModal() {
+    const modal = document.getElementById("twoFAModal");
+    modal.classList.add("hidden");
+}
+
+function handle2FAConfirm() {
+    const inputs = Array.from(document.querySelectorAll(".two-fa-input"));
+    const code = inputs.map(input => input.value).join("");
+
+    if (code.length !== 6) {
+        myAlert("2faAlert");
+        return;
+    }
+
+    console.log("2FA Code entered:", code);
+    close2FAModal();
+
+    window.history.pushState({}, "", "/home");
+    handleLocation();
+}
+
+function maskEmail(email) {
+    const [localPart, domain] = email.split("@");
+    const maskedLocalPart = localPart[0] + "*".repeat(localPart.length - 1);
+    return `${maskedLocalPart}@${domain}`;
+}
+
+async function handleLogin(event, loginData = null) {
+    event?.preventDefault();
+
+    const username = loginData?.username || document.getElementById("login-username").value;
+    const password = loginData?.password || document.getElementById("login-password-input").value;
+
+    if (!username || !password) {
+        console.error("Login error: Missing username or password.");
+        await myAlert("fillFields");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://127.0.0.1:8001/login/', {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Login failed with details:", errorData);
+            await myAlert("loginFailed", errorData);
+            return;
+        }
+
+        const userResponse = await response.json();
+        console.log("Login response:", userResponse);
+
+        const userDetails = await fetchUserDetails(username);
+
+        if (userDetails) {
+            localStorage.setItem('user', JSON.stringify({
+                id: userDetails.id,
+                username: userDetails.username,
+                email: userDetails.email,
+                is_2fa: userDetails.is_2fa,
+                language: userDetails.language, // Ajout de la langue préférée
+            }));
+
+            await applyLanguage(userDetails.language);
+
+            if (userDetails.is_2fa) {
+                console.log("2FA enabled, opening modal...");
+                open2FAModal(userDetails.email);
+            }
+            else {
+                console.log("2FA not enabled, redirecting to home...");
+                window.history.pushState({}, "", "/home");
+                handleLocation();
+            }
+        }
+        else
+            console.warn("Failed to retrieve user details after login.");
+    }
+    catch (error) {
+        console.error("Error during login:", error);
+    }
+}
+
+async function handleSignup(event) {
     event.preventDefault();
 
     const username = document.getElementById("signup-username").value;
@@ -116,27 +211,28 @@ document.querySelector("form.signup").addEventListener("submit", async function(
     const confirmPassword = document.getElementById("signup-confirm-password").value;
 
     if (password !== confirmPassword) {
+        console.error("Signup error: Passwords do not match.");
         await myAlert("passwordsNotMatch");
         return;
     }
 
-    const isEmailAvailableForSave = await isEmailAvailable(email);
-    if (!isEmailAvailableForSave) {
-        await myAlert("emailUse");
-        return;
-    }
+    // const isEmailAvailableForSave = await isEmailAvailable(email);
+    // if (!isEmailAvailableForSave) {
+    //     await myAlert("emailUse");
+    //     return;
+    // }
 
     const userData = {
         "username": username,
-        "first_name": "",
-        "last_name": "",
         "email": email,
         "is_2fa": false,
+        "password": password,
     };
 
     try {
         const response = await fetch('http://127.0.0.1:8001/users/', {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -145,25 +241,59 @@ document.querySelector("form.signup").addEventListener("submit", async function(
         });
 
         if (!response.ok) {
-            // Si la réponse n'est pas ok, on traite l'erreur ici sans loguer dans la console
             const errorData = await response.json();
-            await myAlert("signupFailed", errorData);
-        } else {
-            // Si la requête est un succès
-            const userResponse = await response.json();
+            console.error("Signup failed with details:", errorData);
 
-            localStorage.setItem('user', JSON.stringify({
-                id: userResponse.id,
-                username: userResponse.username,
-                email: userResponse.email,
-                is_2fa: userResponse.is_2fa,
-                profileImageUrl: '/srcs/images/icons/loginIcon3.png',
-            }));
-            window.location.href = '/home';
+            Object.entries(errorData).forEach(([field, error]) => {
+                console.error(`Field '${field}' error: ${error}`);
+            });
+
+            await myAlert("signupFailed", errorData);
+            return;
+        }
+
+        const userResponse = await response.json();
+        console.log("Signup response:", userResponse);
+
+        await handleLogin(null, { username, password });
+
+        localStorage.setItem('user', JSON.stringify({
+            id: userResponse.id,
+            username: userResponse.username,
+            email: userResponse.email,
+            is_2fa: userResponse.is_2fa,
+        }));
+    }
+    catch (error) {
+        console.error("Error during signup:", error);
+    }
+}
+
+async function fetchUserDetails(username) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const userData = await response.json();
+            console.log("User data fetched:", userData);
+            return userData;
+        }
+        else {
+            console.warn("Failed to fetch user data");
+            return null;
         }
     }
     catch (error) {
-        // En cas d'erreur réseau ou d'erreurs non liées à HTTP, on ignore l'affichage d'erreur
-        // ou on peut loguer l'erreur discrètement si nécessaire sans afficher dans la console
+        console.warn("Error fetching user data:", error);
+        return null;
     }
-});
+}
+
+document.querySelector("form.login").addEventListener("submit", handleLogin);

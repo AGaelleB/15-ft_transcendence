@@ -87,6 +87,9 @@ export async function myAlert(messageId, additionalData) {
         case "invalidNameTournament":
             messageContent.textContent = translations["invalidNameTournament"] || "Player names must be unique";
             break;
+        case "2faAlert":
+            messageContent.textContent = translations["2faAlert"] || "Please enter a valid 6-digit code";
+            break;
         default:
             messageContent.textContent = translations["defaultError"] || "An error occurred. Please try again.";
     }

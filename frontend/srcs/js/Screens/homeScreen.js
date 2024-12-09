@@ -136,18 +136,15 @@ export function initializeHome() {
         }
     
         const user = JSON.parse(savedUser);
-        const username = user.username;
+
         const userData = {
             "username": user.username,
-            "first_name": "",
-            "last_name": "",
-            "email": user.email,
-            "is_2fa": false,
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8001/users/${username}/logout/`, {
-                method: 'PUT',
+            const response = await fetch(`http://127.0.0.1:8001/logout/`, {
+                method: 'POST',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -163,7 +160,7 @@ export function initializeHome() {
                 localStorage.removeItem('user');
                 
                 closeModal();
-                window.history.pushState({}, "", "/start");
+                window.history.pushState({}, "", "/login#login");
                 handleLocation();
             }
         }

@@ -8,6 +8,11 @@
     "login_signup_now": "Signup now",
     "email": "Email Address",
     "password": "Password",
+    
+    "emailText2fa": "Enter the verification code sent to",
+    "2faAuth": "Two-Factor Authentication",
+    "resend2fa": "Resend code",
+    "confirm2fa": "Confirm",
 
     "userPlaceholder": "Username",
     "emailPlaceholder": "Email address",
@@ -140,6 +145,8 @@
     "signupFailed": "Signup failed: ",
     "defaultError": "An error occurred. Please try again",
     "invalidNameTournament": "Invalid player name",
+    "2faAlert": "Please enter a valid 6-digit code",
+    
 
     "errorDetails": {
         "username": "Username already exists",

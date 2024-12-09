@@ -12,7 +12,6 @@ from .serializers import *
 from .utils import *
 from .permissions import *
 
-from django.core.cache import cache
 
 ##########################################################
 #       USER 
@@ -99,22 +98,20 @@ class UserLogin(APIView):
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if request.user.is_authenticated:
-            return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
+        # if request.user.is_authenticated:
+        #     return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
         if user is None:
             return Response({"status": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
-        #generate otp and send to user's email if 2fa is activate
-        if user.is_2fa:
-            otp = generate_otp()
-            send_otp_email(user.email, otp)
-            cache.set("user", user, timeout=300)
-        else:
-            user.is_connected = True
-            user.save()
-            login(request, user)
-        return Response({"status": "login succes, go to 'verify-otp/' for complete connection"}, status=status.HTTP_202_ACCEPTED)
+        # 2fa here
+        user.is_connected = True
+        user.save()
+        login(request, user)
+        
+        reponse = Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
+
+        return reponse
 
 
 class UserLogout(APIView):
@@ -148,32 +145,6 @@ class ResetPassword(generics.GenericAPIView):
         user.save()
         return Response({"status": "password has been reset"}, status=status.HTTP_201_CREATED)
 
-
-class VerifyOTP(APIView):
-    """
-    Check the OTP send via user's email, connect if it's good
-    """
-    def post(self, request):
-        otp_input = request.data.get("otp")
-
-        if not otp_input:
-            return Response({"error": "otp est requis"}, status=status.HTTP_400_BAD_REQUEST)
-
-        stored_otp = cache.get("otp")
-
-        if stored_otp is None:
-            return Response({"error": "OTP expiré ou invalide"}, status=status.HTTP_400_BAD_REQUEST)
-
-        if str(stored_otp) == str(otp_input):
-            cache.delete("otp")
-            user = cache.get("user")
-            user.is_connected = True
-            user.save()
-            login(request, user)
-            cache.delete("user")
-            return Response({"status": "Authentification réussie"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "OTP invalide"}, status=status.HTTP_400_BAD_REQUEST)
 
 ##########################################################
 #       Friend invite
@@ -226,7 +197,7 @@ class FriendRequest_accept_decline(generics.UpdateAPIView):
 #       GAME API VIEWS 
 ##########################################################
 class GameListCreate(generics.ListCreateAPIView):
-    #permission_classes      =   [GameListCreatePermission] not tested yet, might be on error 
+    permission_classes      =   [GameListCreatePermission] 
     queryset                =   Game.objects.all()
     serializer_class        =   Game_list_Serializer
 
