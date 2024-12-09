@@ -24,5 +24,5 @@ def generate_otp():
 def send_otp_email(user_email, otp):
     subject = "Votre OTP pour la connexion"
     message = f"Voici votre code de vérification : {otp}. Ce code est valide pendant 5 minutes."
-    sender_email = "noreply@example.com"
+    sender_email = "ft.transcendence.mbbag@gmail.com"
     send_mail(subject, message, sender_email, [user_email])
