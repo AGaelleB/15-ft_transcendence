@@ -234,6 +234,25 @@ export async function saveUserProfileToBackendAndLocalStorage() {
 window.openProfileModal = openProfileModal;
 window.uploadNewProfilePicture = uploadNewProfilePicture;
 
+async function openPasswordModal() {
+    const passwordModal = document.getElementById('passwordModal');
+    passwordModal.classList.remove('hidden');
+    try {
+        const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
+        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+        const translations = await loadLanguages(preferredLanguage);
+        updatePlaceholdersPassword(translations);
+    }
+    catch (error) {
+        console.warn("Error loading translations:", error);
+    }
+}
+
+function closePasswordModal() {
+    const passwordModal = document.getElementById('passwordModal');
+    passwordModal.classList.add('hidden');
+}
+
 export async function initializeModalEvents() {
     const profileModal = document.getElementById("profileModal");
     const closeProfileButton = profileModal ? profileModal.querySelector(".close-button") : null;
@@ -249,23 +268,8 @@ export async function initializeModalEvents() {
         });
     }
 
-    try {
-        const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
-        const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
-        const translations = await loadLanguages(preferredLanguage);
-        updatePlaceholdersPassword(translations);
-    }
-    catch (error) {
-        console.warn("Error loading translations:", error);
-    }
-
-    document.getElementById('changePasswordBtn').addEventListener('click', () => {
-        document.getElementById('passwordModal').classList.remove('hidden');
-    });
-
-    document.querySelector('.close-password-button').addEventListener('click', () => {
-        document.getElementById('passwordModal').classList.add('hidden');
-    });
+    document.getElementById('changePasswordBtn').addEventListener('click', openPasswordModal);
+    document.querySelector('.close-password-button').addEventListener('click', closePasswordModal);
 
     document.querySelector('.delete').addEventListener('click', (event) => {
         event.preventDefault();
@@ -325,15 +329,6 @@ export async function initializeModalEvents() {
 
 
     if (langSwitcher) {
-        try {
-            const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
-            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
-            const translations = await loadLanguages(preferredLanguage);
-            updatePlaceholdersPassword(translations);
-        } catch (error) {
-            console.warn("Error loading translations:", error);
-        }
-
         const languageButtonProfile = document.getElementById("language-button-profile");
         const dropdownItemsProfile = document.querySelectorAll('#language-dropdown-profile .dropdown-item-profile');
 
