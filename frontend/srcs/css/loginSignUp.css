@@ -174,7 +174,7 @@ form .btn input[type="submit"] {
 /* ========== Password Field and Toggle Icon ========== */
 .password-field {
 	position: relative;
-	margin-bottom: 1vh; /* Réduire la marge pour rapprocher le bouton */
+	margin-bottom: 1vh;
 }
 
 .password-field input {
@@ -182,7 +182,7 @@ form .btn input[type="submit"] {
 	padding-right: calc(3vw + 3vh);
 }
 
-.toggle-password {
+/* .toggle-password {
 	position: absolute;
 	top: 50%;
 	right: calc(1vw);
@@ -190,6 +190,21 @@ form .btn input[type="submit"] {
 	cursor: pointer;
 	font-size: calc(1.5vw + 1.5vh);
 	color: #a16935;
+} */
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Ajustez cette valeur pour le positionnement horizontal */
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #a16935;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: #ffffff;
 }
 
 /* ========== Button Container for Login/Signup ========== */

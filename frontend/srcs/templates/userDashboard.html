@@ -116,19 +116,28 @@
             <div class="password-modal">
                 <span class="close-password-button" data-lang-key="closePasswordModal">&times;</span>
                 <form id="passwordForm">
-                    <div class="form-group">
+                    <div class="form-group password-field">
                         <label for="currentPassword" data-lang-key="oldPasswordLabel">Old password: </label>
                         <input type="password" id="currentPassword" placeholder="Old password" data-lang-key="oldPasswordPlaceholder">
+                        <span class="toggle-password">
+                            <i class="bi bi-eye toggle-password-icon"></i>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group password-field">
                         <label for="newPassword" data-lang-key="newPasswordLabel">New password: </label>
                         <input type="password" id="newPassword" placeholder="New password" data-lang-key="newPasswordPlaceholder">
+                        <span class="toggle-password">
+                            <i class="bi bi-eye toggle-password-icon"></i>
+                        </span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group password-field">
                         <label for="confirmNewPassword" data-lang-key="confirmNewPassword">Confirm new password: </label>
                         <input type="password" id="confirmNewPassword" placeholder="Confirm new password" data-lang-key="confirmNewPasswordPlaceholder">
-                    </div>                   
-                    <button type="button" class="save-password-btn" data-lang-key="saveButton">Save</button>
+                        <span class="toggle-password">
+                            <i class="bi bi-eye toggle-password-icon"></i>
+                        </span>
+                    </div>
+                    <button id="savePasswordBtn" type="button" class="save-password-btn" data-lang-key="saveButton">Save</button>
                 </form>
             </div>
         </div>

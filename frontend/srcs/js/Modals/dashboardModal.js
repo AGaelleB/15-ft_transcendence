@@ -237,6 +237,7 @@ window.uploadNewProfilePicture = uploadNewProfilePicture;
 async function openPasswordModal() {
     const passwordModal = document.getElementById('passwordModal');
     passwordModal.classList.remove('hidden');
+
     try {
         const { loadLanguages, updatePlaceholdersPassword } = await import("./switchLanguages.js");
         const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
@@ -245,6 +246,50 @@ async function openPasswordModal() {
     }
     catch (error) {
         console.warn("Error loading translations:", error);
+    }
+}
+
+async function handleSavePassword() {
+    const currentPassword = document.getElementById("currentPassword").value.trim();
+    const newPassword = document.getElementById("newPassword").value.trim();
+    const confirmNewPassword = document.getElementById("confirmNewPassword").value.trim();
+
+    if (newPassword !== confirmNewPassword) {
+        await myAlert("passwordsNotMatch", { message: "Passwords do not match." });
+        return;
+    }
+
+    const passData = {
+        "old_password": currentPassword,
+        "new_password": newPassword
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8001/reset-password/", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(passData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            if (errorData.non_field_errors)
+                await myAlert("changePasswordFailed", { message: errorData.non_field_errors.join(", ") });
+            else if (errorData.currentPassword)
+                await myAlert("invalidCurrentPassword", { message: errorData.currentPassword.join(", ") });
+            else
+                await myAlert("changePasswordFailed", { message: "An unknown error occurred." });
+            return;
+        }
+
+        closePasswordModal();
+    }
+    catch (error) {
+        console.error("Error during password reset request:", error);
     }
 }
 
@@ -268,8 +313,37 @@ export async function initializeModalEvents() {
         });
     }
 
-    document.getElementById('changePasswordBtn').addEventListener('click', openPasswordModal);
-    document.querySelector('.close-password-button').addEventListener('click', closePasswordModal);
+    const changePasswordButton = document.getElementById('changePasswordBtn');
+    if (changePasswordButton) {
+        changePasswordButton.addEventListener('click', openPasswordModal);
+    }
+
+    const closePasswordButton = document.querySelector('.close-password-button');
+    if (closePasswordButton) {
+        closePasswordButton.addEventListener('click', closePasswordModal);
+    }
+
+    const togglePasswordIcons = document.querySelectorAll(".toggle-password-icon");
+
+    togglePasswordIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            const passwordInput = icon.closest(".password-field").querySelector("input[type='password'], input[type='text']");
+
+            if (passwordInput) {
+                const isPasswordVisible = passwordInput.type === "text";
+                passwordInput.type = isPasswordVisible ? "password" : "text";
+
+                icon.classList.toggle("bi-eye");
+                icon.classList.toggle("bi-eye-slash");
+            }
+            else
+                console.error("Password input not found for icon:", icon);
+        });
+    });
+
+    const savePasswordButton = document.getElementById("savePasswordBtn");
+    if (savePasswordButton)
+        savePasswordButton.addEventListener("click", handleSavePassword);
 
     document.querySelector('.delete').addEventListener('click', (event) => {
         event.preventDefault();
