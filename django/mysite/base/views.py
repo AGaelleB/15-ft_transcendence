@@ -146,6 +146,32 @@ class ResetPassword(generics.GenericAPIView):
         return Response({"status": "password has been reset"}, status=status.HTTP_201_CREATED)
 
 
+class VerifyOTP(APIView):
+    """
+    Check the OTP send via user's email, connect if it's good
+    """
+    def post(self, request):
+        otp_input = request.data.get("otp")
+
+        if not otp_input:
+            return Response({"status": "otp est requis"}, status=status.HTTP_400_BAD_REQUEST)
+
+        stored_otp = cache.get("otp")
+
+        if stored_otp is None:
+            return Response({"status": "OTP expiré"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if str(stored_otp) == str(otp_input):
+            cache.delete("otp")
+            user = cache.get("user")
+            user.is_connected = True
+            user.save()
+            login(request, user)
+            cache.delete("user")
+            return Response({"status": "Authentification réussie"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "OTP invalide"}, status=status.HTTP_400_BAD_REQUEST)
+
 ##########################################################
 #       Friend invite
 ##########################################################
