@@ -96,19 +96,47 @@
 }
 
 /* ========== 404 error ========== */
+
 .centered-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #a16935;
+}
+
+.error-title {
+    font-size: calc(5vw + 5vh);
+    margin-bottom: calc(2vh + 2vw);
+    text-transform: uppercase;
+}
+
+.error-message {
+    font-size: calc(1.5vw + 1.5vh);
+    margin-bottom: calc(3vh + 3vw);
+}
+
+.home-icon-404 {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    text-align: center;
+    margin-top: calc(2vh + 2vw);
+    font-size: calc(5vw + 5vh);
+    color: #a16935;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
 }
 
-.centered-div h1 {
-    color: orange;
-    font-size: 5rem;
+.home-icon-404:hover {
+    transform: scale(1.1);
+    color: #ffcc00;
 }
 
+.home-icon-404:active {
+    transform: scale(0.9);
+}
 
 /* ========== Bootstrap form tournament ========== */
 
