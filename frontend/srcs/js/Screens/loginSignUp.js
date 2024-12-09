@@ -1,7 +1,7 @@
 // frontend/srcs/js/Screens/loginSignUp.js
 
 import { myAlert } from '../Modals/alertModal.js';
-import { loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
+import { applyLanguage, loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
@@ -179,7 +179,10 @@ async function handleLogin(event, loginData = null) {
                 username: userDetails.username,
                 email: userDetails.email,
                 is_2fa: userDetails.is_2fa,
+                language: userDetails.language, // Ajout de la langue préférée
             }));
+
+            await applyLanguage(userDetails.language);
 
             if (userDetails.is_2fa) {
                 console.log("2FA enabled, opening modal...");
