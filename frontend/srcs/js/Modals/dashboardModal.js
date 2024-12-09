@@ -237,8 +237,8 @@ window.uploadNewProfilePicture = uploadNewProfilePicture;
 export async function initializeModalEvents() {
     const profileModal = document.getElementById("profileModal");
     const closeProfileButton = profileModal ? profileModal.querySelector(".close-button") : null;
-    const langSwitcher = document.getElementById("lang-switcher-profile");
     closeProfileButton.addEventListener("click", closeProfileModal);
+    const langSwitcher = document.getElementById("lang-switcher-profile");
 
     const enable2FACheckbox = document.getElementById("2fa");
 

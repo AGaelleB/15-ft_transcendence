@@ -32,7 +32,7 @@
 }
 
 .two-fa-title {
-    font-size: calc(1.8vw + 1.8vh);
+    font-size: calc(1.6vw + 1.6vh);
     text-align: center;
     margin-bottom: calc(2vh);
     color: #a16935;
@@ -65,7 +65,7 @@
 
 .two-fa-input:focus {
     outline: none;
-    border-color: #ffffff;
+    border-color: #ffcc00;
 }
 
 .two-fa-actions {
@@ -86,7 +86,7 @@
 }
 
 .two-fa-resend:hover {
-    color: #ffffff;
+    color: #ffcc00;
 }
 
 .two-fa-button {
@@ -108,4 +108,34 @@
 .two-fa-button:active {
     box-shadow: none;
     transform: translate(0, 0);
+}
+
+.close-button-2fa {
+	font-size: calc(1vw + 1vh);
+	background: #2f213a;
+	padding: calc(0.1vw + 0.1vh) calc(0.4vw + 0.4vh);
+	border: calc(0.2vw + 0.2vh) solid #a16935;
+	border-radius: calc(0.5vw);
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+	color: #a16935;
+
+    position: absolute;
+    top: calc(0.5vh + 0.5vw);
+    right: calc(0.5vh + 0.5vw);
+}
+
+.close-button-2fa:hover {
+	box-shadow: calc(0.2vw + 0.2vh) calc(0.2vw + 0.2vh) 0 #a16935;
+	transform: translate(calc(-0.2vw), calc(-0.2vh));
+}
+
+.close-button-2fa:active {
+	box-shadow: none;
+	transform: translate(0, 0);
+}
+
+.close-button-2fa-primary:focus, .close-button-2fa-primary.focus, .close-button-2fa:focus, .close-button-2fa.focus {
+	background-color: #2f213a !important;
+	color: #a16935 !important;
 }

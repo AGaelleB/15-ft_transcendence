@@ -9,6 +9,11 @@
     "email": "Correo electrónico",
     "password": "Contraseña",
 
+    "emailText2fa": "Ingrese el código de verificación enviado a",
+    "2faAuth": "Autenticación de dos factores",
+    "resend2fa": "Reenviar código",
+    "confirm2fa": "Confirmar",
+
     "userPlaceholder": "Nombre de usuario",
     "emailPlaceholder": "Correo electrónico",
     "passwordPlaceholder": "Contraseña",
@@ -140,6 +145,7 @@
     "signupFailed": "Error de registro: ",
     "defaultError": "Ocurrió un error. Inténtelo de nuevo",
     "invalidNameTournament": "Nombre de jugador no válido",
+    "2faAlert": "Por favor, introduzca un código válido de 6 dígitos",
 
     "errorDetails": {
         "username": "Este nombre de usuario ya está en uso",

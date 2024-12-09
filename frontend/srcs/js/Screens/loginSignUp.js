@@ -68,14 +68,27 @@ export async function initializeLogin() {
     });
 }
 
-export function open2FAModal(email) {
+export async function open2FAModal(email) {
+
+    let translations = {};
+    try {
+        const { loadLanguages } = await import('../Modals/switchLanguages.js');
+        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
+        translations = await loadLanguages(storedLang);
+    }
+    catch (error) {
+        console.warn("Error loading translations:", error);
+    }
     const modal = document.getElementById("twoFAModal");
     modal.classList.remove("hidden");
+    
+    const close2FAButton = twoFAModal ? twoFAModal.querySelector(".close-button-2fa") : null;
+    close2FAButton.addEventListener("click", close2FAModal);
 
     const descriptionElement = modal.querySelector(".two-fa-description");
     if (descriptionElement) {
         const emailMasked = maskEmail(email);
-        descriptionElement.textContent = `Enter the verification code sent to ${emailMasked}`;
+        descriptionElement.textContent = `${translations.emailText2fa} ${emailMasked}`;
     }
     else
         console.error("Element .two-fa-description not found in the modal.");
@@ -108,7 +121,7 @@ function handle2FAConfirm() {
     const code = inputs.map(input => input.value).join("");
 
     if (code.length !== 6) {
-        myAlert("Please enter a valid 6-digit code.");
+        myAlert("2faAlert");
         return;
     }
 
