@@ -213,6 +213,12 @@ async function handleSignup(event) {
         return;
     }
 
+    // const isEmailAvailableForSave = await isEmailAvailable(email);
+    // if (!isEmailAvailableForSave) {
+    //     await myAlert("emailUse");
+    //     return;
+    // }
+
     const userData = {
         "username": username,
         "email": email,
