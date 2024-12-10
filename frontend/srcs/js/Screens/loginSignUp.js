@@ -69,45 +69,34 @@ export async function initializeLogin() {
 }
 
 export async function open2FAModal(email) {
-
-    let translations = {};
-    try {
-        const { loadLanguages } = await import('../Modals/switchLanguages.js');
-        const storedLang = localStorage.getItem('preferredLanguage') || 'en';
-        translations = await loadLanguages(storedLang);
-    }
-    catch (error) {
-        console.warn("Error loading translations:", error);
-    }
     const modal = document.getElementById("twoFAModal");
     modal.classList.remove("hidden");
-    
-    const close2FAButton = twoFAModal ? twoFAModal.querySelector(".close-button-2fa") : null;
+
+    const close2FAButton = modal.querySelector(".close-button-2fa");
     close2FAButton.addEventListener("click", close2FAModal);
 
     const descriptionElement = modal.querySelector(".two-fa-description");
     if (descriptionElement) {
-        const emailMasked = maskEmail(email);
-        descriptionElement.textContent = `${translations.emailText2fa} ${emailMasked}`;
+        const emailMasked = maskEmail(email); // Mask the email address
+        descriptionElement.textContent = `Enter the verification code sent to ${emailMasked}`;
     }
-    else
-        console.error("Element .two-fa-description not found in the modal.");
 
     const inputs = Array.from(modal.querySelectorAll(".two-fa-input"));
-    const confirmButton = modal.querySelector(".two-fa-button");
-
     inputs.forEach((input, index) => {
         input.addEventListener("input", (event) => {
-            if (event.target.value.length === 1 && index < inputs.length - 1)
+            if (event.target.value.length === 1 && index < inputs.length - 1) {
                 inputs[index + 1].focus();
+            }
         });
 
         input.addEventListener("keydown", (event) => {
-            if (event.key === "Backspace" && !event.target.value && index > 0)
+            if (event.key === "Backspace" && !event.target.value && index > 0) {
                 inputs[index - 1].focus();
+            }
         });
     });
 
+    const confirmButton = modal.querySelector(".two-fa-button");
     confirmButton.addEventListener("click", handle2FAConfirm);
 }
 
@@ -116,20 +105,40 @@ export function close2FAModal() {
     modal.classList.add("hidden");
 }
 
-function handle2FAConfirm() {
+async function handle2FAConfirm() {
     const inputs = Array.from(document.querySelectorAll(".two-fa-input"));
-    const code = inputs.map(input => input.value).join("");
+    const otp = inputs.map(input => input.value).join("");
 
-    if (code.length !== 6) {
-        myAlert("2faAlert");
+    if (otp.length !== 6) {
+        await myAlert("2faAlert", { message: "Please enter a valid 6-digit code." });
         return;
     }
 
-    console.log("2FA Code entered:", code);
-    close2FAModal();
+    try {
+        const response = await fetch("http://127.0.0.1:8001/verify-otp/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ otp, action: "verify" }),
+        });
 
-    window.history.pushState({}, "", "/home");
-    handleLocation();
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log("2FA verification successful:", data);
+            close2FAModal();
+
+            // Save user data and redirect to dashboard
+            localStorage.setItem("user", JSON.stringify(data.user));
+            window.location.href = "/dashboard";
+        } else {
+            await myAlert("2faAlert", { message: data.status || "Invalid OTP. Please try again." });
+        }
+    } catch (error) {
+        console.error("Error verifying OTP:", error);
+        await myAlert("defaultError");
+    }
 }
 
 function maskEmail(email) {
@@ -138,69 +147,46 @@ function maskEmail(email) {
     return `${maskedLocalPart}@${domain}`;
 }
 
-async function handleLogin(event, loginData = null) {
+async function handleLogin(event) {
     event?.preventDefault();
 
-    const username = loginData?.username || document.getElementById("login-username").value;
-    const password = loginData?.password || document.getElementById("login-password-input").value;
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password-input").value.trim();
 
     if (!username || !password) {
-        console.error("Login error: Missing username or password.");
-        await myAlert("fillFields");
+        await myAlert("fillFields", { message: "Please fill in all fields." });
         return;
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:8001/login/', {
-            method: 'POST',
-            credentials: "include",
+        const response = await fetch("http://127.0.0.1:8001/login/", {
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
             },
             body: JSON.stringify({ username, password }),
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Login failed with details:", errorData);
-            await myAlert("loginFailed", errorData);
-            return;
+        const data = await response.json();
+
+        if (response.status === 202) {
+            console.log("2FA required:", data);
+            open2FAModal(data.email); // Open the 2FA modal with user email
+        } else if (response.status === 200) {
+            console.log("Login successful:", data);
+
+            // Save user data and redirect to dashboard
+            localStorage.setItem("user", JSON.stringify(data.user));
+            window.location.href = "/dashboard";
+        } else {
+            await myAlert("loginFailed", { message: data.status || "Login failed." });
         }
-
-        const userResponse = await response.json();
-        console.log("Login response:", userResponse);
-
-        const userDetails = await fetchUserDetails(username);
-
-        if (userDetails) {
-            localStorage.setItem('user', JSON.stringify({
-                id: userDetails.id,
-                username: userDetails.username,
-                email: userDetails.email,
-                is_2fa: userDetails.is_2fa,
-                language: userDetails.language, // Ajout de la langue préférée
-            }));
-
-            await applyLanguage(userDetails.language);
-
-            if (userDetails.is_2fa) {
-                console.log("2FA enabled, opening modal...");
-                open2FAModal(userDetails.email);
-            }
-            else {
-                console.log("2FA not enabled, redirecting to home...");
-                window.history.pushState({}, "", "/home");
-                handleLocation();
-            }
-        }
-        else
-            console.warn("Failed to retrieve user details after login.");
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error during login:", error);
+        await myAlert("defaultError");
     }
 }
+
 
 async function handleSignup(event) {
     event.preventDefault();
