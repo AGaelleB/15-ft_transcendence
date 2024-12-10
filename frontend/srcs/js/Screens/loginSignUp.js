@@ -4,6 +4,10 @@ import { myAlert } from '../Modals/alertModal.js';
 import { applyLanguage, loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
+    console.log("localStorage contents at startup:", localStorage);
+    const userData = localStorage.getItem('user');
+    console.log("Retrieved user from localStorage:", userData);
+
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     try {
         const translations = await loadLanguages(storedLang);
@@ -141,7 +145,6 @@ async function handle2FAConfirm() {
             close2FAModal();
 
             // Save user data and redirect to dashboard
-            localStorage.setItem("user", JSON.stringify(data.user));
             window.history.pushState({}, "", "/home");
             handleLocation();
         }
@@ -212,7 +215,6 @@ async function handleLogin(event, loginData = null) {
 
             await applyLanguage(userDetails.language);
 
-            localStorage.setItem("user", JSON.stringify(data.user));
             window.history.pushState({}, "", "/home");
             handleLocation();
         }
