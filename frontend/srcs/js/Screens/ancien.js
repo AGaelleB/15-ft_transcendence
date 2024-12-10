@@ -1,4 +1,4 @@
-// frontend/srcs/js/Screens/loginSignUp.js
+// frontend/srcs/js/Screens/ANCIEN.js
 
 import { myAlert } from '../Modals/alertModal.js';
 import { applyLanguage, loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
@@ -116,43 +116,20 @@ export function close2FAModal() {
     modal.classList.add("hidden");
 }
 
-async function handle2FAConfirm() {
+function handle2FAConfirm() {
     const inputs = Array.from(document.querySelectorAll(".two-fa-input"));
-    const otp = inputs.map(input => input.value).join("");
+    const code = inputs.map(input => input.value).join("");
 
-    if (otp.length !== 6) {
-        await myAlert("2faAlert", { message: "Please enter a valid 6-digit code." });
+    if (code.length !== 6) {
+        myAlert("2faAlert");
         return;
     }
 
-    try {
-        const response = await fetch("http://127.0.0.1:8001/verify-otp/", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ otp, action: "verify" }),
-        });
+    console.log("2FA Code entered:", code);
+    close2FAModal();
 
-        const data = await response.json();
-
-        if (response.ok) {
-            console.log("2FA verification successful:", data);
-            close2FAModal();
-
-            // Save user data and redirect to dashboard
-            localStorage.setItem("user", JSON.stringify(data.user));
-            window.history.pushState({}, "", "/home");
-            handleLocation();
-        }
-        else {
-            await myAlert("2faAlert", { message: data.status || "Invalid OTP. Please try again." });
-        }
-    }
-    catch (error) {
-        console.error("Error verifying OTP:", error);
-        await myAlert("defaultError");
-    }
+    window.history.pushState({}, "", "/home");
+    handleLocation();
 }
 
 function maskEmail(email) {
@@ -173,9 +150,6 @@ async function handleLogin(event, loginData = null) {
         return;
     }
 
-    console.log("username : ", username);
-    console.log("password : ", password);
-
     try {
         const response = await fetch('http://127.0.0.1:8001/login/', {
             method: 'POST',
@@ -187,46 +161,44 @@ async function handleLogin(event, loginData = null) {
             body: JSON.stringify({ username, password }),
         });
 
-        const data = await response.json();
-
-        console.log("response.status : ", response.status);
-
-        if (response.status === 200) {
-            console.log("2FA required:", data);
-            open2FAModal(data.email);
-        }
-        else if (response.status === 202) {
-            console.log("Login successful:", data);
-
-            const userDetails = await fetchUserDetails(username);
-
-            if (userDetails) {
-                localStorage.setItem('user', JSON.stringify({
-                    id: userDetails.id,
-                    username: userDetails.username,
-                    email: userDetails.email,
-                    is_2fa: userDetails.is_2fa,
-                    language: userDetails.language, // Ajout de la langue préférée
-                }));
-            }
-
-            await applyLanguage(userDetails.language);
-
-            localStorage.setItem("user", JSON.stringify(data.user));
-            window.history.pushState({}, "", "/home");
-            handleLocation();
-        }
-        else {
+        if (!response.ok) {
             const errorData = await response.json();
             console.error("Login failed with details:", errorData);
             await myAlert("loginFailed", errorData);
             return;
-
         }
+
+        const userResponse = await response.json();
+        console.log("Login response:", userResponse);
+
+        const userDetails = await fetchUserDetails(username);
+
+        if (userDetails) {
+            localStorage.setItem('user', JSON.stringify({
+                id: userDetails.id,
+                username: userDetails.username,
+                email: userDetails.email,
+                is_2fa: userDetails.is_2fa,
+                language: userDetails.language, // Ajout de la langue préférée
+            }));
+
+            await applyLanguage(userDetails.language);
+
+            if (userDetails.is_2fa) {
+                console.log("2FA enabled, opening modal...");
+                open2FAModal(userDetails.email);
+            }
+            else {
+                console.log("2FA not enabled, redirecting to home...");
+                window.history.pushState({}, "", "/home");
+                handleLocation();
+            }
+        }
+        else
+            console.warn("Failed to retrieve user details after login.");
     }
     catch (error) {
         console.error("Error during login:", error);
-        await myAlert("defaultError");
     }
 }
 

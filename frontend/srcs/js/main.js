@@ -22,10 +22,10 @@ const route = (event) => {
     handleLocation();
 };
 
-const isUserLoggedIn = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return !!user;
-};
+// const isUserLoggedIn = () => {
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     return !!user;
+// };
 
 
 const handleLocation = async () => {
@@ -33,23 +33,23 @@ const handleLocation = async () => {
     if (path.includes("/frontend/srcs/"))
         path = path.replace("/frontend/srcs", "");
 
-    const publicRoutes = ['/login', '/start', '/index.html', '/'];
-    if (!isUserLoggedIn() && !publicRoutes.includes(path))
-        path = '/404'
+    // const publicRoutes = ['/login', '/start', '/index.html', '/'];
+    // if (!isUserLoggedIn() && !publicRoutes.includes(path))
+    //     path = '/404'
 
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("app").innerHTML = html;
 
-    if (path === '/404') {
-        const homeIcon404 = document.getElementById("homeIcon404");
-        if (homeIcon404) {
-            homeIcon404.addEventListener("click", () => {
-                window.history.pushState({}, "", "/start");
-                handleLocation();
-            });
-        }
-    }
+    // if (path === '/404') {
+    //     const homeIcon404 = document.getElementById("homeIcon404");
+    //     if (homeIcon404) {
+    //         homeIcon404.addEventListener("click", () => {
+    //             window.history.pushState({}, "", "/start");
+    //             handleLocation();
+    //         });
+    //     }
+    // }
 
     switch (path) {
         case '/start':
