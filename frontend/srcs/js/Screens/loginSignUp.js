@@ -4,9 +4,8 @@ import { myAlert } from '../Modals/alertModal.js';
 import { applyLanguage, loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
-    console.log("localStorage contents at startup:", localStorage);
     const userData = localStorage.getItem('user');
-    console.log("Retrieved user from localStorage:", userData);
+    console.log("userData in initializeLogin:", userData);
 
     const storedLang = localStorage.getItem('preferredLanguage') || 'en';
     try {
@@ -144,7 +143,6 @@ async function handle2FAConfirm() {
             console.log("2FA verification successful:", data);
             close2FAModal();
 
-            // Save user data and redirect to dashboard
             window.history.pushState({}, "", "/home");
             handleLocation();
         }
@@ -176,9 +174,6 @@ async function handleLogin(event, loginData = null) {
         return;
     }
 
-    console.log("username : ", username);
-    console.log("password : ", password);
-
     try {
         const response = await fetch('http://127.0.0.1:8001/login/', {
             method: 'POST',
@@ -192,8 +187,6 @@ async function handleLogin(event, loginData = null) {
 
         const data = await response.json();
 
-        console.log("response.status : ", response.status);
-
         if (response.status === 200) {
             console.log("2FA required:", data);
             open2FAModal(data.email);
@@ -204,16 +197,18 @@ async function handleLogin(event, loginData = null) {
             const userDetails = await fetchUserDetails(username);
 
             if (userDetails) {
+                const storedLang = localStorage.getItem('preferredLanguage') || userDetails.language || 'en';
+                
                 localStorage.setItem('user', JSON.stringify({
                     id: userDetails.id,
                     username: userDetails.username,
                     email: userDetails.email,
                     is_2fa: userDetails.is_2fa,
-                    language: userDetails.language, // Ajout de la langue préférée
+                    language: storedLang,
                 }));
+        
+                await applyLanguage(storedLang);
             }
-
-            await applyLanguage(userDetails.language);
 
             window.history.pushState({}, "", "/home");
             handleLocation();
@@ -312,7 +307,6 @@ async function fetchUserDetails(username) {
 
         if (response.ok) {
             const userData = await response.json();
-            console.log("User data fetched:", userData);
             return userData;
         }
         else {

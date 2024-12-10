@@ -140,18 +140,16 @@ export async function applyLanguage(language) {
     try {
         console.log(`Applying language: ${language}`);
         
-        // Charger les traductions
         const translations = await loadLanguages(language);
         
-        // Appliquer les traductions aux éléments
         updatePlaceholders(translations);
         applyLanguages(translations);
         
-        // Stocker la langue dans localStorage pour les prochaines sessions
         localStorage.setItem('preferredLanguage', language);
 
         console.log(`Language applied successfully: ${language}`);
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error applying language:", error);
     }
 }
