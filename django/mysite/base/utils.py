@@ -1,5 +1,10 @@
 import mimetypes
+import random
+from datetime import datetime, timedelta
+from django.core.cache import cache
+from django.core.mail import send_mail
 from django.conf import settings
+
 
 def rename_image(instance, filename):
     ext = filename.split('.')[-1]
