@@ -153,5 +153,8 @@
         "email": "Email already in use",
         "password": "Invalid password",
         "unknown": "Unknown error"
-    }
+    },
+
+    "404NotFound": "404 - Page Not Found",
+    "errorAccesPage": "Oops! The page you're looking for doesn't exist or you might not have access"
 }

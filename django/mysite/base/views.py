@@ -109,12 +109,11 @@ class UserLogin(APIView):
             otp = generate_otp()
             send_otp_email(user.email, otp)
             cache.set("user", user, timeout=600)
-        else:
-            user.is_connected = True
-            user.save()
-            login(request, user)
-        return Response({"status": "login succes, go to 'verify-otp/' for complete connection"}, status=status.HTTP_202_ACCEPTED)
-
+            return Response({"status": "go to 'verify-otp/' for complete connection"}, status=status.HTTP_202_ACCEPTED)
+        user.is_connected = True
+        user.save()
+        login(request, user)
+        return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
 
 class UserLogout(APIView):
     def post(self, request, *args, **kwargs):

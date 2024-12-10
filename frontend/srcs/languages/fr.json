@@ -152,6 +152,8 @@
         "email": "Cet email est déjà pris",
         "password": "Mot de passe invalide",
         "unknown": "Erreur inconnue"
-    }
+    },
 
+    "404NotFound": "404 - Page Introuvable",
+    "errorAccesPage": "Oups ! La page que vous cherchez n'existe pas ou vous n'y avez peut-être pas accès"
 }

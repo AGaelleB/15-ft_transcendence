@@ -48,8 +48,8 @@ export async function myAlert(messageId, additionalData) {
     if (additionalData) {
         errorDetail = Object.entries(additionalData)
             .map(([key, value]) => {
-                // Utilise la traduction si elle est disponible, sinon affiche le message brut
-                const translatedMessage = translations.errorDetails[key] || value[0];
+                // Utilise la traduction si elle est disponible, sinon affiche la valeur brute
+                const translatedMessage = translations.errorDetails[key] || value;
                 return translatedMessage;
             })
             .join(", ");

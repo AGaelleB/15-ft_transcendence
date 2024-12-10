@@ -152,8 +152,10 @@
         "email": "Este correo electrónico ya está en uso",
         "password": "Contraseña inválida",
         "unknown": "Error desconocido"
-    }
+    },
 
+    "404NotFound": "404 - Página No Encontrada",
+    "errorAccesPage": "¡Ups! La página que buscas no existe o puede que no tengas acceso"
 }
 
 
