@@ -131,11 +131,14 @@ async function handle2FAConfirm() {
 
             // Save user data and redirect to dashboard
             localStorage.setItem("user", JSON.stringify(data.user));
-            window.location.href = "/dashboard";
-        } else {
+            window.history.pushState({}, "", "/home");
+            handleLocation();
+        }
+        else {
             await myAlert("2faAlert", { message: data.status || "Invalid OTP. Please try again." });
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error verifying OTP:", error);
         await myAlert("defaultError");
     }
@@ -147,14 +150,15 @@ function maskEmail(email) {
     return `${maskedLocalPart}@${domain}`;
 }
 
-async function handleLogin(event) {
+async function handleLogin(event, loginData = null) {
     event?.preventDefault();
 
-    const username = document.getElementById("login-username").value.trim();
-    const password = document.getElementById("login-password-input").value.trim();
+    const username = loginData?.username || document.getElementById("login-username").value;
+    const password = loginData?.password || document.getElementById("login-password-input").value;
 
     if (!username || !password) {
-        await myAlert("fillFields", { message: "Please fill in all fields." });
+        console.error("Login error: Missing username or password.");
+        await myAlert("fillFields");
         return;
     }
 
@@ -172,16 +176,20 @@ async function handleLogin(event) {
         if (response.status === 202) {
             console.log("2FA required:", data);
             open2FAModal(data.email); // Open the 2FA modal with user email
-        } else if (response.status === 200) {
+        }
+        else if (response.status === 200) {
             console.log("Login successful:", data);
 
             // Save user data and redirect to dashboard
             localStorage.setItem("user", JSON.stringify(data.user));
-            window.location.href = "/dashboard";
-        } else {
+            window.history.pushState({}, "", "/home");
+            handleLocation();
+        }
+        else {
             await myAlert("loginFailed", { message: data.status || "Login failed." });
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error during login:", error);
         await myAlert("defaultError");
     }
