@@ -12,6 +12,7 @@ urlpatterns = [
     path('login/', UserLogin.as_view(), name='login_and_get_tokens'),
     path('logout/', UserLogout.as_view(), name='logout_and_blacklist_tokens'),
     path('reset-password/', ResetPassword.as_view(), name='reset_password'),
+    path('verify-otp/', VerifyOTP.as_view(), name='verify-otp'),
     # friend request
     path('friend-request/', FriendRequest_list.as_view(), name='all friend requests'),
     path('friend-request/create/', FriendRequest_create.as_view(), name='friends request create'),
