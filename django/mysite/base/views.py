@@ -109,7 +109,10 @@ class UserLogin(APIView):
             otp = generate_otp()
             send_otp_email(user.email, otp)
             cache.set("user", user, timeout=600)
-            return Response({"status": "go to 'verify-otp/' for complete connection"}, status=status.HTTP_202_ACCEPTED)
+            return Response({
+                "status": "go to 'verify-otp/' for complete connection",
+                "email": user.email  # Ajout de l'email dans la réponse
+            }, status=status.HTTP_202_ACCEPTED)
         user.is_connected = True
         user.save()
         login(request, user)
