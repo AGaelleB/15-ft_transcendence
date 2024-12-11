@@ -135,7 +135,6 @@ export async function open2FAModal(username, email) {
 	resendButton.addEventListener("click", handleResendOTP);
 }
 
-
 export function close2FAModal() {
 	const modal = document.getElementById("twoFAModal");
 	modal.classList.add("hidden");
@@ -178,8 +177,10 @@ async function handle2FAConfirm(username) {
 	try {
 		const response = await fetch("http://127.0.0.1:8001/verify-otp/", {
 			method: "POST",
+			credentials: "include",
 			headers: {
 				'Content-Type': 'application/json',
+				'Accept': 'application/json',
 			},
 			body: JSON.stringify({ otp, action: "verify" }),
 		});
@@ -252,7 +253,7 @@ async function handleLogin(event, loginData = null) {
 
 		if (response.status === 202 && data.status === "go to 'verify-otp/' for complete connection") {
 			console.log("2FA required:", data);
-			localStorage.setItem("pendingUserEmail", data.email); // Stocker l'email temporairement
+			localStorage.setItem("pendingUserEmail", data.email);
 			open2FAModal(username, data.email);
 		}
 		else if (response.status === 202 && data.status === "login succes") {
@@ -270,7 +271,7 @@ async function handleLogin(event, loginData = null) {
 					is_2fa: userDetails.is_2fa,
 					language: storedLang,
 				}));
-		
+
 				await applyLanguage(storedLang);
 			}
 
@@ -303,12 +304,6 @@ async function handleSignup(event) {
 		await myAlert("passwordsNotMatch");
 		return;
 	}
-
-	// const isEmailAvailableForSave = await isEmailAvailable(email);
-	// if (!isEmailAvailableForSave) {
-	//     await myAlert("emailUse");
-	//     return;
-	// }
 
 	const userData = {
 		"username": username,
