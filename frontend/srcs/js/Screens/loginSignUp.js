@@ -193,7 +193,7 @@ async function handle2FAConfirm(username) {
 
 			const userDetails = await fetchUserDetails(username);
 			if (userDetails) {
-				const storedLang = localStorage.getItem('preferredLanguage') || userDetails.language || 'en';
+				const storedLang = userDetails.language || localStorage.getItem('preferredLanguage') || 'en'; // Par défaut à 'en'
 
 				localStorage.setItem('user', JSON.stringify({
 					id: userDetails.id,
@@ -201,7 +201,7 @@ async function handle2FAConfirm(username) {
 					email: userDetails.email,
 					is_2fa: userDetails.is_2fa,
 					language: storedLang,
-				}));
+			}));
 
 				await applyLanguage(storedLang);
 			}
@@ -262,15 +262,15 @@ async function handleLogin(event, loginData = null) {
 			const userDetails = await fetchUserDetails(username);
 
 			if (userDetails) {
-				const storedLang = localStorage.getItem('preferredLanguage') || userDetails.language || 'en';
-				
+				const storedLang = userDetails.language || localStorage.getItem('preferredLanguage') || 'en'; // Par défaut à 'en'
+
 				localStorage.setItem('user', JSON.stringify({
 					id: userDetails.id,
 					username: userDetails.username,
 					email: userDetails.email,
 					is_2fa: userDetails.is_2fa,
 					language: storedLang,
-				}));
+			}));
 
 				await applyLanguage(storedLang);
 			}
