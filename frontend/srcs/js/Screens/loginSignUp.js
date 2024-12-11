@@ -72,7 +72,6 @@ export async function initializeLogin() {
 }
 
 export async function open2FAModal(username, email) {
-
 	let translations = {};
 	try {
 		const { loadLanguages } = await import('../Modals/switchLanguages.js');
@@ -82,10 +81,11 @@ export async function open2FAModal(username, email) {
 	catch (error) {
 		console.warn("Error loading translations:", error);
 	}
+
 	const modal = document.getElementById("twoFAModal");
 	modal.classList.remove("hidden");
-	
-	const close2FAButton = twoFAModal ? twoFAModal.querySelector(".close-button-2fa") : null;
+
+	const close2FAButton = modal.querySelector(".close-button-2fa");
 	close2FAButton.addEventListener("click", close2FAModal);
 
 	const descriptionElement = modal.querySelector(".two-fa-description");
@@ -93,8 +93,6 @@ export async function open2FAModal(username, email) {
 		const emailMasked = maskEmail(email);
 		descriptionElement.textContent = `${translations.emailText2fa || "Enter the code sent to"} ${emailMasked}`;
 	}
-	else
-		console.error("Element .two-fa-description not found in the modal.");
 
 	const inputs = Array.from(modal.querySelectorAll(".two-fa-input"));
 	const confirmButton = modal.querySelector(".two-fa-button");
@@ -112,9 +110,31 @@ export async function open2FAModal(username, email) {
 		});
 	});
 
+	inputs[0].addEventListener("paste", (event) => {
+		event.preventDefault();
+		const pasteData = event.clipboardData.getData("text");
+		if (/^\d{6}$/.test(pasteData)) {
+			pasteData.split("").forEach((char, i) => {
+				if (inputs[i]) inputs[i].value = char;
+			});
+			inputs[5].focus();
+		}
+		else
+			console.warn("Invalid OTP format pasted.");
+	});
+
 	confirmButton.addEventListener("click", () => handle2FAConfirm(username));
+
+	modal.addEventListener("keydown", (event) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			confirmButton.click();
+		}
+	});
+
 	resendButton.addEventListener("click", handleResendOTP);
 }
+
 
 export function close2FAModal() {
 	const modal = document.getElementById("twoFAModal");
