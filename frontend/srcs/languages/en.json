@@ -146,6 +146,7 @@
     "defaultError": "An error occurred. Please try again",
     "invalidNameTournament": "Invalid player name",
     "2faAlert": "Please enter a valid 6-digit code",
+    "2faResend": "OTP resent successfully to your email",
     
 
     "errorDetails": {

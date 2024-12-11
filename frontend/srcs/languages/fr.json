@@ -146,6 +146,7 @@
     "defaultError": "Une erreur est survenue. Veuillez réessayer",
     "invalidNameTournament": "Nom de joueur invalide",
     "2faAlert": "Veuillez saisir un code valide à 6 chiffres",
+    "2faResend": "OTP renvoyé avec succès à votre email",
 
     "errorDetails": {
         "username": "Le nom d'utilisateur doit etre alphanumérique et comporter entre 3 et 20 caractères",

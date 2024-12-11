@@ -27,8 +27,35 @@ export function initializeAlertModal() {
     }
 }
 
+export function initializeAlertModal2() {
+    if (!alertModalLoaded) {
+        const modalHtml = `
+            <div id="alertModal" class="alert-modal hidden">
+                <div class="alert-modal-content">
+                    <h2 class="message-alert">
+                        <i class="bi bi-megaphone-fill siren-icon"></i>
+                    </h2>
+                    <p class="message-alert-content" data-lang-key="alertContent">texte</p>
+                    <div class="ok-btn">
+                        <button id="closeAlert" class="close-alert-btn" data-lang-key="okButton">OK</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = modalHtml;
+        document.body.appendChild(modalContainer.firstElementChild);
+        alertModalLoaded = true;
+    }
+}
+
 export async function myAlert(messageId, additionalData) {
-    initializeAlertModal();
+    console.log("messageId:", messageId);
+    if (messageId !== "2faResend")
+        initializeAlertModal();
+    else
+        initializeAlertModal2();
 
     let translations = {};
     try {
@@ -89,6 +116,9 @@ export async function myAlert(messageId, additionalData) {
             break;
         case "2faAlert":
             messageContent.textContent = translations["2faAlert"] || "Please enter a valid 6-digit code";
+            break;
+        case "2faResend":
+            messageContent.textContent = translations["2faResend"] || "OTP resent successfully to your email";
             break;
         default:
             messageContent.textContent = translations["defaultError"] || "An error occurred. Please try again.";

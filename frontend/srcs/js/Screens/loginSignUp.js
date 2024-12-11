@@ -154,10 +154,10 @@ async function handleResendOTP() {
 
 		if (response.ok) {
 			console.log("OTP resent successfully:", data);
-			await myAlert("2faAlert", { message: "OTP resent successfully to your email." });
+			await myAlert("2faResend");
 		}
 		else
-			await myAlert("2faAlert", { message: data.status || "Unable to resend OTP. Please try again." });
+			await myAlert("defaultError");
 	}
 	catch (error) {
 		console.error("Error resending OTP:", error);
@@ -262,7 +262,7 @@ async function handleLogin(event, loginData = null) {
 			const userDetails = await fetchUserDetails(username);
 
 			if (userDetails) {
-				const storedLang = userDetails.language || localStorage.getItem('preferredLanguage') || 'en'; // Par défaut à 'en'
+				const storedLang = userDetails.language || localStorage.getItem('preferredLanguage') || 'en';
 
 				localStorage.setItem('user', JSON.stringify({
 					id: userDetails.id,
