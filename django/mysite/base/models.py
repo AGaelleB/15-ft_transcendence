@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .utils import rename_image
+from django.core.validators import MinLengthValidator
+
 
 class User(AbstractUser):
 
@@ -10,9 +12,9 @@ class User(AbstractUser):
         ("en", "English"),
     ]
 
-    username        = models.CharField(max_length=20, blank=False, unique=True)
+    username        = models.CharField(max_length=20, validators=[MinLengthValidator(3)], blank=False, unique=True)
     avatar          = models.ImageField(upload_to=rename_image, default="default.png")
-    email           = models.EmailField()
+    email           = models.EmailField(unique=True)
     is_connected    = models.BooleanField(default=True)
     is_2fa          = models.BooleanField(default=False)
     language        = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default="en")
