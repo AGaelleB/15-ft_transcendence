@@ -149,10 +149,10 @@
     
 
     "errorDetails": {
-        "username": "Username already exists",
-        "email": "Email already in use",
-        "password": "Invalid password",
-        "unknown": "Unknown error"
+        "username": "The username must be between 3 and 20 characters long and contain only alphanumeric characters",
+        "email": "Invalid email address",
+        "password": "The password must be at least 8 characters, and must not be too common or entirely numeric.",
+        "unknown": "An error occurred"
     },
 
     "404NotFound": "404 - Page Not Found",

@@ -279,10 +279,14 @@ async function handleLogin(event, loginData = null) {
 			handleLocation();
 		}
 		else {
-			const errorData = await response.json();
-			console.error("Login failed with details:", errorData);
-			await myAlert("loginFailed", errorData);
-			return;
+            console.error("Login failed with details:", data);
+
+			if (data.status === "Wrong password")
+				await myAlert("invalidPassword");
+			else if (data.non_field_errors && Array.isArray(data.non_field_errors) && data.non_field_errors[0].includes("Unknown user"))
+				await myAlert("invalidNameTournament");
+			else
+				await myAlert("loginFailed", data);
 		}
 	}
 	catch (error) {

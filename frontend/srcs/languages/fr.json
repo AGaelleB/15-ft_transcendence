@@ -148,10 +148,10 @@
     "2faAlert": "Veuillez saisir un code valide à 6 chiffres",
 
     "errorDetails": {
-        "username": "Ce nom d'utilisateur est déjà pris",
-        "email": "Cet email est déjà pris",
-        "password": "Mot de passe invalide",
-        "unknown": "Erreur inconnue"
+        "username": "Le nom d'utilisateur doit etre alphanumérique et comporter entre 3 et 20 caractères",
+        "email": "Adresse email invalide.",
+        "password": "Le mot de passe doit comporter au moins 8 caractères, ne doit pas être trop commun ou entièrement numérique",
+        "unknown": "Une erreur est survenue."
     },
 
     "404NotFound": "404 - Page Introuvable",

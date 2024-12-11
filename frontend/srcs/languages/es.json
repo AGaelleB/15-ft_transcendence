@@ -148,10 +148,10 @@
     "2faAlert": "Por favor, introduzca un código válido de 6 dígitos",
 
     "errorDetails": {
-        "username": "Este nombre de usuario ya está en uso",
-        "email": "Este correo electrónico ya está en uso",
-        "password": "Contraseña inválida",
-        "unknown": "Error desconocido"
+        "username": "El nombre de usuario debe tener entre 3 y 20 caracteres y contener solo letras alfabéticas.",
+        "email": "Dirección de correo electrónico no válida.",
+        "password": "La contraseña debe tener al menos 8 caracteres, y no debe ser demasiado común ni completamente numérica.",
+        "unknown": "Ocurrió un error."
     },
 
     "404NotFound": "404 - Página No Encontrada",
