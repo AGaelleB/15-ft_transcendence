@@ -58,7 +58,13 @@ const handleLocation = async () => {
                 .catch(err => console.error('Failed to load startScreen.js:', err));
             break;
 
+            
         case '/login':
+            if (isUserLoggedIn()) {
+                window.history.pushState({}, "", '/home');
+                handleLocation();
+                return;
+            }
             import('./Screens/loginSignUp.js')
                 .then(module => {
                     module.initializeLogin();
