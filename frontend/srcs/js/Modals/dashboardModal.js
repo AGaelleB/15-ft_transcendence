@@ -76,7 +76,6 @@ async function toggle2FA(isEnabled) {
         }
 
         const updatedUser = await response.json();
-        console.log("2FA updated successfully:", updatedUser);
 
         const currentUser = JSON.parse(localStorage.getItem('user'));
         currentUser.is_2fa = updatedUser.is_2fa;

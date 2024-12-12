@@ -146,7 +146,6 @@ export function initialize2Players2D() {
             setIsGameActive2d(false);
             hidePowerUp(powerUpImageElement);
 
-            // send game stats 
             const savedUser = localStorage.getItem('user');
             const user = JSON.parse(savedUser);
             let result;

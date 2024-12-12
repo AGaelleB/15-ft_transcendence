@@ -58,7 +58,7 @@ export function addSmokeTrail3D(position, scene) {
         scene.remove(smokeSphere);
         smokeSphere.geometry.dispose();
         smokeSphere.material.dispose();
-        smokeParticles = smokeParticles.filter(particle => particle !== smokeSphere); // Retirer du tableau
+        smokeParticles = smokeParticles.filter(particle => particle !== smokeSphere);
     }, smokeLifetime);
 }
 

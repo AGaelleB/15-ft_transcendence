@@ -3,11 +3,7 @@
 import { currentMatchPlayers2D, isTournament2D } from "../Screens/tournament2D.js";
 import { currentMatchPlayers3D, isTournament3D } from "../Screens/tournament3D.js";
 
-
-
 export function loadPlayerInfos() {
-
-    // pour tournoi, noms dans le localstorage
     const tournamentPlayers = JSON.parse(localStorage.getItem('tournamentPlayers'));
     const userData = JSON.parse(localStorage.getItem('user'));
 

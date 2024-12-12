@@ -20,7 +20,6 @@ export const setPlayer2Score3D = (value) => {
 export function updateScore3D() {
     const winningScore = gameSettings3D.winningScore;
 
-    // Determine player names based on game context
     let player1Name;
     let player2Name;
 

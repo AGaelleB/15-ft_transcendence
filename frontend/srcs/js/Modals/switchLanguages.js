@@ -138,16 +138,12 @@ export async function updateUserLanguage(newLang) {
 
 export async function applyLanguage(language) {
     try {
-        console.log(`Applying language: ${language}`);
-        
         const translations = await loadLanguages(language);
         
         updatePlaceholders(translations);
         applyLanguages(translations);
         
         localStorage.setItem('preferredLanguage', language);
-
-        console.log(`Language applied successfully: ${language}`);
     }
     catch (error) {
         console.error("Error applying language:", error);

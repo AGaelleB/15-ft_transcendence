@@ -51,7 +51,6 @@ export function initializeAlertModal2() {
 }
 
 export async function myAlert(messageId, additionalData) {
-    console.log("messageId:", messageId);
     if (messageId !== "2faResend")
         initializeAlertModal();
     else
@@ -70,19 +69,16 @@ export async function myAlert(messageId, additionalData) {
     const modal = document.getElementById('alertModal');
     const messageContent = document.querySelector('.message-alert-content');
 
-    // Gestion de la traduction des détails d'erreur
     let errorDetail = translations.errorDetails?.unknown || "Unknown error";
     if (additionalData) {
         errorDetail = Object.entries(additionalData)
             .map(([key, value]) => {
-                // Utilise la traduction si elle est disponible, sinon affiche la valeur brute
                 const translatedMessage = translations.errorDetails[key] || value;
                 return translatedMessage;
             })
             .join(", ");
     }
 
-    // Affectation du message selon l'ID, sans répétition
     switch (messageId) {
         case "emailUse":
             messageContent.textContent = translations["emailUse"] || "This email address is already in use, please choose another";

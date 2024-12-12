@@ -124,7 +124,6 @@ export function initialize2Players3D() {
         if (checkBallOutOfBounds3D(scene) === false) {
             setIsGameActive(false);
 
-            // send game stats 
             const savedUser = localStorage.getItem('user');
             const user = JSON.parse(savedUser);
             let result;

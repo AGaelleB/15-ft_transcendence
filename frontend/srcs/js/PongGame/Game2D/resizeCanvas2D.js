@@ -18,7 +18,6 @@ function resizeCanvas(paddleLeft, paddleRight, ball) {
             canvas.width = canvas.height * gameSettings2D.aspectRatio;
         }
 
-        // Ajustement des paddles et de la balle
         paddleLeft.width = canvas.width * gameSettings2D.paddleWidth2D;
         paddleLeft.height = canvas.height * gameSettings2D.paddleHeight2D;
         paddleRight.width = paddleLeft.width;
@@ -26,7 +25,6 @@ function resizeCanvas(paddleLeft, paddleRight, ball) {
 
         ball.size = canvas.width * gameSettings2D.ballSizeFactor2D;
 
-        // Mise à jour des positions initiales
         paddleLeft.y = (canvas.height / 2) - (paddleLeft.height / 2);
         paddleRight.x = canvas.width - paddleRight.width;
         paddleRight.y = (canvas.height / 2) - (paddleRight.height / 2);
@@ -34,16 +32,13 @@ function resizeCanvas(paddleLeft, paddleRight, ball) {
         ball.x = canvas.width / 2;
         ball.y = canvas.height / 2;
 
-        // Mise à jour de la vitesse des éléments du jeu
         window.paddleSpeed = canvas.height * gameSettings2D.paddleSpeedFactor;
         window.ballSpeedX2D = canvas.width * gameSettings2D.ballSpeedX2D / 100;
         window.ballSpeedY2D = canvas.height * gameSettings2D.ballSpeedY2D / 100;
 
-        // Application de la vitesse
         ball.dx = window.ballSpeedX2D;
         ball.dy = window.ballSpeedY2D;
 
-        // Ajustement dynamique de la bordure selon gameSettings2D
         const borderSize = Math.max(canvas.width * gameSettings2D.borderFactor, gameSettings2D.minBorderSize);
         canvas.style.border = `${borderSize}px solid ${gameSettings2D.borderColor}`;
     }

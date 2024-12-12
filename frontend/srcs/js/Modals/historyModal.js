@@ -273,28 +273,21 @@ function applyFilters() {
         let matchesGameMode = false;
         let matchesPlayerMode = false;
 
-        if (selectedGameMode === 'allMode') {
+        if (selectedGameMode === 'allMode')
             matchesGameMode = true;
-        }
-        else if (selectedGameMode === 'mode2d' && game.game_mode === '2d') {
+        else if (selectedGameMode === 'mode2d' && game.game_mode === '2d')
             matchesGameMode = true;
-        }
-        else if (selectedGameMode === 'mode3d' && game.game_mode === '3d') {
+        else if (selectedGameMode === 'mode3d' && game.game_mode === '3d')
             matchesGameMode = true;
-        }
 
-        if (selectedPlayerMode === 'typeAll') {
+        if (selectedPlayerMode === 'typeAll')
             matchesPlayerMode = true;
-        }
-        else if (selectedPlayerMode === 'type1Player' && game.game_played === "1") {
+        else if (selectedPlayerMode === 'type1Player' && game.game_played === "1")
             matchesPlayerMode = true;
-        }
-        else if (selectedPlayerMode === 'type2Players' && game.game_played === "2") {
+        else if (selectedPlayerMode === 'type2Players' && game.game_played === "2")
             matchesPlayerMode = true;
-        }
-        else if (selectedPlayerMode === 'typeTournament' && game.game_played === "T") {
+        else if (selectedPlayerMode === 'typeTournament' && game.game_played === "T")
             matchesPlayerMode = true;
-        }
 
         return matchesGameMode && matchesPlayerMode;
     });

@@ -159,7 +159,7 @@ export function createTournamentMatches2D(playerNames) {
     }
 
     localStorage.setItem("tournamentMatches", JSON.stringify(matchQueue));
-    console.log("Tournament matches created:", matchQueue);
+    // console.log("Tournament matches created:", matchQueue);
 }
 
 function shuffleArray(array) {
@@ -177,7 +177,7 @@ export function startNextMatch2D() {
 
     if (matchQueue.length === 0) {
         if (winners.length === 1) {
-            console.log("%c>>> Tournament Complete - Champion is: " + winners[0] + " <<<", "color: yellow; font-weight: bold;");
+            // console.log("%c>>> Tournament Complete - Champion is: " + winners[0] + " <<<", "color: yellow; font-weight: bold;");
             showWinMessageEndTournament2D(winners[0]);
             
             // send game stats 
@@ -195,7 +195,7 @@ export function startNextMatch2D() {
             return;
         }
         if (winners.length > 1) {
-            console.log("Starting next round with winners:", winners);
+            // console.log("Starting next round with winners:", winners);
             createTournamentMatches2D(winners);
             winners = [];
             startNextMatch2D();
@@ -251,7 +251,7 @@ export async function showWinMessageTournament2D(winnerName) {
 
     if (winners[winners.length - 1] !== winnerName) {
         winners.push(winnerName);
-        console.log(`%cwinnerName is : ${winnerName}`, "color: magenta; font-weight: bold;");
+        // console.log(`%cwinnerName is : ${winnerName}`, "color: magenta; font-weight: bold;");
     }
 
     nextMatchButton.addEventListener('click', handleNextMatchClick2D, { once: true });

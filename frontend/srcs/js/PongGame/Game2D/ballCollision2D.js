@@ -25,13 +25,11 @@ export function handlePaddleCollision2D(ball, paddle) {
 }
 
 export function handleWallCollision2D(ball, canvas) {
-    // Ball collision with top wall
     if (ball.y - ball.size < 0) {
         ball.dy = -ball.dy;
         ball.y = ball.size;
     }
 
-    // Ball collision with bottom wall
     if (ball.y + ball.size > canvas.height) {
         ball.dy = -ball.dy;
         ball.y = canvas.height - ball.size;
@@ -39,7 +37,6 @@ export function handleWallCollision2D(ball, canvas) {
 }
 
 export function checkPaddleCollision2D(ball, paddleLeft, paddleRight, resetOutOfBoundsFlag) {
-    // Ball collision with left paddle (Player 1)
     if (ball.x - ball.size < paddleLeft.x + paddleLeft.width &&
         ball.y > paddleLeft.y && ball.y < paddleLeft.y + paddleLeft.height) {
         ball.dx = -ball.dx;
@@ -49,7 +46,6 @@ export function checkPaddleCollision2D(ball, paddleLeft, paddleRight, resetOutOf
         setLastTouchedPaddle2D('left');
     }
 
-    // Ball collision with right paddle (Player 2 or AI)
     else if (ball.x + ball.size > paddleRight.x &&
         ball.y > paddleRight.y && ball.y < paddleRight.y + paddleRight.height) {
         ball.dx = -ball.dx;

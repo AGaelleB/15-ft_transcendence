@@ -4,9 +4,6 @@ import { myAlert } from '../Modals/alertModal.js';
 import { applyLanguage, loadLanguages, updatePlaceholders } from '../Modals/switchLanguages.js';
 
 export async function initializeLogin() {
-	const userData = localStorage.getItem('user');
-	console.log("userData in initializeLogin:", userData);
-
 	const storedLang = localStorage.getItem('preferredLanguage') || 'en';
 	try {
 		const translations = await loadLanguages(storedLang);
@@ -152,10 +149,8 @@ async function handleResendOTP() {
 
 		const data = await response.json();
 
-		if (response.ok) {
-			console.log("OTP resent successfully:", data);
+		if (response.ok)
 			await myAlert("2faResend");
-		}
 		else
 			await myAlert("defaultError");
 	}
@@ -188,7 +183,6 @@ async function handle2FAConfirm(username) {
 		const data = await response.json();
 
 		if (response.ok) {
-			console.log("2FA verification successful:", data);
 			close2FAModal();
 
 			const userDetails = await fetchUserDetails(username);
@@ -249,16 +243,12 @@ async function handleLogin(event, loginData = null) {
 
 		const data = await response.json();
 
-		console.log("response.status:", response.status);
 
 		if (response.status === 202 && data.status === "go to 'verify-otp/' for complete connection") {
-			console.log("2FA required:", data);
 			localStorage.setItem("pendingUserEmail", data.email);
 			open2FAModal(username, data.email);
 		}
 		else if (response.status === 202 && data.status === "login succes") {
-			console.log("Login successful:", data);
-
 			const userDetails = await fetchUserDetails(username);
 
 			if (userDetails) {
@@ -340,8 +330,6 @@ async function handleSignup(event) {
 		}
 
 		const userResponse = await response.json();
-		console.log("Signup response:", userResponse);
-
 		await handleLogin(null, { username, password });
 
 		localStorage.setItem('user', JSON.stringify({

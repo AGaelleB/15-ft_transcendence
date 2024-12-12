@@ -20,7 +20,6 @@ export const setPlayer2Score2D = (value) => {
 export function updateScore2D() {
     const winningScore = gameSettings2D.winningScore;
 
-    // Determine player names based on game context
     let player1Name;
     let player2Name;
 
@@ -80,7 +79,6 @@ export function checkGameEnd2D() {
 
     if (player1Score2D >= winningScore) {
         gameOver2D = true;
-        //ici
         if (isTournament2D)
             showWinMessageTournament2D(player1Name);
         else
@@ -89,7 +87,6 @@ export function checkGameEnd2D() {
     } 
     else if (player2Score2D >= winningScore) {
         gameOver2D = true;
-        //ici
         if (isTournament2D)
             showWinMessageTournament2D(player2Name);
         else

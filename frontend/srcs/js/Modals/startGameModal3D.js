@@ -65,8 +65,10 @@ export function initializeGameStartListener3D(startGameMessage3D, settingsIcon, 
 
     const player1NameElement = document.getElementById('player1Name');
     const player2NameElement = document.getElementById('player2Name');
-    if (player1NameElement) player1NameElement.textContent = player1Name;
-    if (player2NameElement) player2NameElement.textContent = player2Name;
+    if (player1NameElement)
+        player1NameElement.textContent = player1Name;
+    if (player2NameElement)
+        player2NameElement.textContent = player2Name;
 
     startGameMessage3D.style.display = 'block';
     document.addEventListener('keypress', handleKeyPress3D);
