@@ -18,7 +18,7 @@ export const setPlayer2Score3D = (value) => {
 };
 
 export function updateScore3D() {
-    const winningScore = gameSettings3D.winningScore;
+    const winningScore = gameSettings3D.winningScore || gameSettings3D.pointsToWin;
 
     let player1Name;
     let player2Name;
