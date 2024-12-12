@@ -123,10 +123,6 @@ async function uploadNewProfilePicture(event) {
         const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
             method: 'PUT',
             credentials: "include",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
             body: formData,
         });               
 
@@ -138,12 +134,10 @@ async function uploadNewProfilePicture(event) {
 
         const updatedUserData = await response.json();
 
-        if (document.querySelector('.profile-modal-picture')) {
+        if (document.querySelector('.profile-modal-picture'))
             document.querySelector('.profile-modal-picture').src = updatedUserData.avatar;
-        }
-        if (document.querySelector('.profile-link img')) {
+        if (document.querySelector('.profile-link img'))
             document.querySelector('.profile-link img').src = updatedUserData.avatar;
-        }
 
         savedUser.avatar = updatedUserData.avatar;
         localStorage.setItem('user', JSON.stringify(savedUser));
