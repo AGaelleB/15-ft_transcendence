@@ -7,12 +7,10 @@ class SameSiteCookieMiddleware:
 
 
         if 'access_token' in response.cookies:
-            print("Found access_token, modifying SameSite...")
             response.cookies['access_token']['samesite'] = 'Lax'
             response.cookies['access_token']['secure'] = 'True'
             
         if 'refresh_token' in response.cookies:
-            print("Found refresh_token, modifying SameSite...")
             response.cookies['refresh_token']['samesite'] = 'Lax'
             response.cookies['refresh_token']['secure'] = 'True'
 
