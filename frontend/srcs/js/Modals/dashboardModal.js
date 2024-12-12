@@ -2,6 +2,7 @@
 
 import { loadLanguages, updatePlaceholders, updateUserLanguage } from './switchLanguages.js';
 import { myAlert } from './alertModal.js';
+import { getAvatarUrl } from './friendsModal.js';
 
 export async function openProfileModal() {
     const homeIcon = document.getElementById('homeIcon');
@@ -11,7 +12,7 @@ export async function openProfileModal() {
     
     if (savedUser) {
         const user = JSON.parse(savedUser);
-        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
+        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
 
         if (document.querySelector('.profile-modal-picture'))
             document.querySelector('.profile-modal-picture').src = avatarUrl;
@@ -134,12 +135,13 @@ async function uploadNewProfilePicture(event) {
 
         const updatedUserData = await response.json();
 
+        let avatarSrc = getAvatarUrl(updatedUserData.username);
         if (document.querySelector('.profile-modal-picture'))
-            document.querySelector('.profile-modal-picture').src = updatedUserData.avatar;
+            document.querySelector('.profile-modal-picture').src = avatarSrc;
         if (document.querySelector('.profile-link img'))
-            document.querySelector('.profile-link img').src = updatedUserData.avatar;
+            document.querySelector('.profile-link img').src = avatarSrc;
 
-        savedUser.avatar = updatedUserData.avatar;
+        savedUser.avatar = avatarSrc;
         localStorage.setItem('user', JSON.stringify(savedUser));
 
         event.preventDefault();

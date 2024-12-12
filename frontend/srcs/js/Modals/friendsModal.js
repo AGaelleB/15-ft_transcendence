@@ -50,8 +50,8 @@ async function fetchUserDetails(username) {
     }
 }
 
-function getAvatarUrl(username) {
-    return `http://127.0.0.1:8001/users/${username}/avatar/`;
+export function getAvatarUrl(username) {
+    return `http://127.0.0.1:8001/users/${username}/avatar/?t=${new Date().getTime()}`;
 }
 
 async function fetchAllUsers() {

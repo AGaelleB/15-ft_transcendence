@@ -176,7 +176,7 @@ export function initializeHome() {
         }
     
         const user = JSON.parse(savedUser);
-        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
+        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
     
         document.querySelector('.profile-link img').src = avatarUrl;
     }
