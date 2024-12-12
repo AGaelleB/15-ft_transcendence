@@ -22,9 +22,25 @@ const route = (event) => {
     handleLocation();
 };
 
-const isUserLoggedIn = () => {
+const isUserLoggedIn = async () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    return !!user;
+    if (!user || !user.username)
+        return !!user;
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (response.ok)
+            return true;
+        else
+            return false;
+    }
+    catch (error) {
+        return false;
+    }
 };
 
 const isUserLoggedIn2 = async () => {
@@ -72,8 +88,10 @@ const handleLocation = async () => {
         path = path.replace("/frontend/srcs", "");
 
     const publicRoutes = ['/login', '/start', '/index.html', '/'];
-    if (!isUserLoggedIn() && !publicRoutes.includes(path))
-        path = '/404'
+
+    const loggedIn = await isUserLoggedIn();
+    if (!loggedIn && !publicRoutes.includes(path))
+        path = '/404';
 
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
