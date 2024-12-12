@@ -14,6 +14,8 @@ services:
       dockerfile: ./django/dockerfile
     ports:
       - "8001:8001"
+    volumes:
+      - /goinfre/django-images:/djangodir/mysite/media
     env_file: ".env"
     depends_on:
       - db
