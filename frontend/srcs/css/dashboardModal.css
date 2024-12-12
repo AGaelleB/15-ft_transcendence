@@ -1129,7 +1129,7 @@ input[type="radio"] {
     height: 100%;
     background-color: #28a745;
     color: white;
-    font-size: 2em;
+    font-size: 1.2em;
     text-align: center;
     line-height: 25px;
     transition: width 0.5s ease;
