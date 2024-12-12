@@ -98,8 +98,8 @@ class UserLogin(APIView):
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # if request.user.is_authenticated:
-        #     return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_authenticated:
+            return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
         if user is None:
@@ -113,9 +113,10 @@ class UserLogin(APIView):
                 "status": "go to 'verify-otp/' for complete connection",
                 "email": user.email  # Ajout de l'email dans la réponse
             }, status=status.HTTP_202_ACCEPTED)
+        
+        login(request, user)
         user.is_connected = True
         user.save()
-        login(request, user)
         return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
 
 class UserLogout(APIView):
