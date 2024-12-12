@@ -104,6 +104,10 @@ class UserLogin(APIView):
         user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
         if user is None:
             return Response({"status": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if user.is_connected == True:
+            return Response({"status": "This user is already connected"}, status=status.HTTP_400_BAD_REQUEST)
+
         #generate otp and send to user's email if 2fa is activate
         if user.is_2fa:
             otp = generate_otp()
