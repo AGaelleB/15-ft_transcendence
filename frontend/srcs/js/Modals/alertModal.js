@@ -51,7 +51,7 @@ export function initializeAlertModal2() {
 }
 
 export async function myAlert(messageId, additionalData) {
-    if (messageId !== "2faResend")
+    if (messageId === "2faResend")
         initializeAlertModal();
     else
         initializeAlertModal2();
