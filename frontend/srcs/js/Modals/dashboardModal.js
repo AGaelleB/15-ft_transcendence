@@ -12,7 +12,7 @@ export async function openProfileModal() {
     
     if (savedUser) {
         const user = JSON.parse(savedUser);
-        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
+        const avatarUrl = `https://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
 
         if (document.querySelector('.profile-modal-picture'))
             document.querySelector('.profile-modal-picture').src = avatarUrl;
@@ -59,7 +59,7 @@ async function toggle2FA(isEnabled) {
     };
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${savedUser.username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${savedUser.username}/`, {
             method: 'PUT',
             credentials: "include",
             headers: {
@@ -121,7 +121,7 @@ async function uploadNewProfilePicture(event) {
     const username = savedUser.username;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${username}/`, {
             method: 'PUT',
             credentials: "include",
             body: formData,
@@ -155,7 +155,7 @@ async function uploadNewProfilePicture(event) {
 
 async function fetchAllUsers() {
     try {
-        const response = await fetch("http://127.0.0.1:8001/users/", {
+        const response = await fetch("https://127.0.0.1:8001/users/", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -195,11 +195,11 @@ export async function saveUserProfileToBackendAndLocalStorage() {
     const userData = {
         username: usernameInput,
         email: emailInput,
-        profileImageUrl: `http://127.0.0.1:8001/users/${usernameInput}/avatar/`,
+        profileImageUrl: `https://127.0.0.1:8001/users/${usernameInput}/avatar/`,
     };
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${savedUser.username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${savedUser.username}/`, {
             method: 'PUT',
             credentials: "include",
             headers: {
@@ -260,7 +260,7 @@ async function handleSavePassword() {
     };
 
     try {
-        const response = await fetch("http://127.0.0.1:8001/reset-password/", {
+        const response = await fetch("https://127.0.0.1:8001/reset-password/", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -366,7 +366,7 @@ export async function initializeModalEvents() {
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+            const response = await fetch(`https://127.0.0.1:8001/users/${username}/`, {
                 method: 'DELETE',
                 credentials: "include",
                 headers: {

@@ -16,7 +16,7 @@ export function loadUserProfileFromLocalStorage() {
     }
 
     const user = JSON.parse(savedUser);
-    const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
+    const avatarUrl = `https://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
 
     document.querySelector('.profile-picture img').src = avatarUrl;
     document.querySelector('.username-dash').textContent = user.username || 'Nom d\'utilisateur';

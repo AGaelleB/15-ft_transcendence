@@ -38,7 +38,7 @@ const isUserLoggedIn2 = async () => {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
             credentials: 'include',
         });
