@@ -59,7 +59,7 @@ export function initializeHistoryModal() {
 
 async function fetchAllUsersGames() {
     try {
-        const usersResponse = await fetch('http://127.0.0.1:8001/users', {
+        const usersResponse = await fetch('https://127.0.0.1:8001/users', {
             method: 'GET',
             credentials: "include", // Ajout de l'option credentials
             headers: {
@@ -142,7 +142,7 @@ async function displayPlayerRankings() {
     }
 
     try {
-        const usersResponse = await fetch('http://127.0.0.1:8001/users', {
+        const usersResponse = await fetch('https://127.0.0.1:8001/users', {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -241,7 +241,7 @@ async function loadMatchHistory() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -424,7 +424,7 @@ async function loadPreviewStats() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
             credentials: "include",
             headers: {

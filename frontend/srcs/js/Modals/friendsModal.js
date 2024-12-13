@@ -30,7 +30,7 @@ export function initializeFriendsModalEvents() {
 
 async function fetchUserDetails(username) {
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${username}/`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -50,13 +50,13 @@ async function fetchUserDetails(username) {
     }
 }
 
-function getAvatarUrl(username) {
-    return `http://127.0.0.1:8001/users/${username}/avatar/`;
+export function getAvatarUrl(username) {
+    return `https://127.0.0.1:8001/users/${username}/avatar/?t=${new Date().getTime()}`;
 }
 
 async function fetchAllUsers() {
     try {
-        const response = await fetch("http://127.0.0.1:8001/users/", {
+        const response = await fetch("https://127.0.0.1:8001/users/", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -87,7 +87,7 @@ async function sendFriendRequest(receiverId) {
     };
 
     try {
-        const response = await fetch("http://127.0.0.1:8001/friend-request/create/", {
+        const response = await fetch("https://127.0.0.1:8001/friend-request/create/", {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -108,7 +108,7 @@ async function sendFriendRequest(receiverId) {
 
 async function fetchAllFriendRequests() {
     try {
-        const response = await fetch("http://127.0.0.1:8001/friend-request/", {
+        const response = await fetch("https://127.0.0.1:8001/friend-request/", {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -199,7 +199,7 @@ export async function loadPendingInvitations() {
 
 async function handleFriendRequestAction(requestId, action) {
     try {
-        const response = await fetch(`http://127.0.0.1:8001/friend-request/${requestId}/${action}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/friend-request/${requestId}/${action}/`, {
             method: "PUT",
             credentials: "include",
             headers: {
@@ -492,7 +492,7 @@ async function manageFriendButtons(myUsername, friendDetails, translations) {
 
             newConfirmYes.addEventListener("click", async () => {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
+                    const response = await fetch(`https://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
                         method: "PUT",
                         credentials: "include",
                         headers: {
@@ -635,7 +635,7 @@ export async function initFriendsProfileModal(friendUsername, myUsername) {
 
             newConfirmYes.addEventListener("click", async () => {
                 try {
-                    const response = await fetch(`http://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
+                    const response = await fetch(`https://127.0.0.1:8001/users/${myUsername}/remove-friend/${friendDetails.username}/`, {
                         method: "PUT",
                         credentials: "include",
                         headers: {
@@ -800,7 +800,7 @@ async function loadFriendsPreview() {
         return;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${user.username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${user.username}/`, {
             method: 'GET',
             credentials: "include",
             headers: {

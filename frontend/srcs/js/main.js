@@ -27,6 +27,46 @@ const isUserLoggedIn = () => {
     return !!user;
 };
 
+const isUserLoggedIn2 = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.username) {
+        if (window.location.pathname !== '/login') {
+            window.history.pushState({}, "", '/login');
+            handleLocation();
+        }
+        return false;
+    }
+
+    try {
+        const response = await fetch(`https://127.0.0.1:8001/users/${user.username}/`, {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            if (window.location.pathname !== '/home') {
+                window.history.pushState({}, "", '/home');
+                handleLocation();
+            }
+            return true;
+        }
+        else {
+            if (window.location.pathname !== '/login') {
+                window.history.pushState({}, "", '/login');
+                handleLocation();
+            }
+            return false;
+        }
+    }
+    catch (error) {
+        console.error("Error verifying user login:", error);
+        if (window.location.pathname !== '/login') {
+            window.history.pushState({}, "", '/login');
+            handleLocation();
+        }
+        return false;
+    }
+};
 
 const handleLocation = async () => {
     let path = window.location.pathname;
@@ -58,7 +98,11 @@ const handleLocation = async () => {
                 .catch(err => console.error('Failed to load startScreen.js:', err));
             break;
 
+            
         case '/login':
+            const loggedIn = await isUserLoggedIn2();
+            if (loggedIn)
+                return;
             import('./Screens/loginSignUp.js')
                 .then(module => {
                     module.initializeLogin();
@@ -131,7 +175,6 @@ const handleLocation = async () => {
             break;
     }
 };
-    
 
 window.onpopstate = handleLocation;
 

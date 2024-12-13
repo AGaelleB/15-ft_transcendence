@@ -98,24 +98,29 @@ class UserLogin(APIView):
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # if request.user.is_authenticated:
-        #     return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.is_authenticated:
+            return Response({"status": "A user is already connected, please logout first"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = authenticate(request, username=serializer.validated_data['username'], password=serializer.validated_data['password'])
         if user is None:
             return Response({"status": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if user.is_connected == True:
+            return Response({"status": "This user is already connected"}, status=status.HTTP_400_BAD_REQUEST)
+
         #generate otp and send to user's email if 2fa is activate
         if user.is_2fa:
             otp = generate_otp()
             send_otp_email(user.email, otp)
             cache.set("user", user, timeout=600)
             return Response({
-                "status": "go to 'verify-otp/' for complete connection",
+                "status": "Login complete",
                 "email": user.email  # Ajout de l'email dans la réponse
             }, status=status.HTTP_202_ACCEPTED)
+        
+        login(request, user)
         user.is_connected = True
         user.save()
-        login(request, user)
         return Response({"status": "login succes"}, status=status.HTTP_202_ACCEPTED)
 
 class UserLogout(APIView):
@@ -161,20 +166,20 @@ class VerifyOTP(APIView):
         if action == "resend":
             user = cache.get("user")
             if not user:
-                return Response({"status": "you have to re login"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": "You have to re login"}, status=status.HTTP_400_BAD_REQUEST)
             otp = generate_otp()
             send_otp_email(user.email, otp)
             cache.set("user", user, timeout=600)
-            return Response({"status": "email renvoye avec succes"}, status=status.HTTP_200_OK)
+            return Response({"status": "Email successfully resend"}, status=status.HTTP_200_OK)
 
         if action == "verify": 
             if not otp_input:
-                return Response({"status": "otp est requis"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": "OTP is required"}, status=status.HTTP_400_BAD_REQUEST)
 
             stored_otp = cache.get("otp")
 
             if stored_otp is None:
-                return Response({"status": "OTP expiré"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": "OTP expired"}, status=status.HTTP_400_BAD_REQUEST)
 
             if str(stored_otp) == str(otp_input):
                 user = cache.get("user")
@@ -183,9 +188,9 @@ class VerifyOTP(APIView):
                 user.save()
                 login(request, user)
                 cache.delete("otp")
-                return Response({"status": "Authentification réussie"}, status=status.HTTP_200_OK)
+                return Response({"status": "Authentication success"}, status=status.HTTP_200_OK)
             else:
-                return Response({"status": "OTP invalide"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": "Wrong OTP"}, status=status.HTTP_400_BAD_REQUEST)
 
 ##########################################################
 #       Friend invite

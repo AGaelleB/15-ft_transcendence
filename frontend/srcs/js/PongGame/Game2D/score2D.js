@@ -108,7 +108,7 @@ export async function sendGameResult(score, opp_score, player, game_mode, game_p
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:8001/games/', {
+        const response = await fetch('https://127.0.0.1:8001/games/', {
             method: 'POST',
             credentials: "include",
             headers: {

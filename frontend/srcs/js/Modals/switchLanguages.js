@@ -112,7 +112,7 @@ export async function updateUserLanguage(newLang) {
     const username = savedUser.username;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+        const response = await fetch(`https://127.0.0.1:8001/users/${username}/`, {
             method: 'PUT',
             credentials: "include",
             headers: {

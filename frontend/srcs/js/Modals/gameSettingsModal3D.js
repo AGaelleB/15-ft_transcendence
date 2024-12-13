@@ -45,11 +45,32 @@ function resetToDefaultSettings3D() {
     gameSettings3D.setRally3D = false;
     gameSettings3D.setPowerUps3D = false;
 
-    ballSpeedValue = 3;
-    paddleSpeedValue = 3;
-    ballSizeValue = 3;
-    paddleSizeValue = 3;
-    pointsToWinValue = 5;
+    document.getElementById('ballSpeed').value = 3;
+    document.getElementById('paddleSpeed').value = 3;
+    document.getElementById('ballSize').value = 3;
+    document.getElementById('paddleSize').value = 3;
+    document.getElementById('pointsToWin').value = 5;
+
+    document.getElementById('resetPaddlePosition').checked = false;
+    document.getElementById('setRally').checked = false;
+    document.getElementById('setPowerUps').checked = false;
+
+    document.getElementById('intermediate').checked = true;
+
+    ball.geometry.dispose();
+    ball.geometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);
+
+    paddleLeft.geometry.dispose();
+    paddleRight.geometry.dispose();
+
+    const newPaddleGeometry = new THREE.BoxGeometry(
+        gameSettings3D.paddleWidth3D,
+        gameSettings3D.paddleHeight3D,
+        gameSettings3D.paddleDepth3D
+    );
+
+    paddleLeft.geometry = newPaddleGeometry;
+    paddleRight.geometry = newPaddleGeometry;
 
     saveGameSettings3D();
     loadSettingsStorage3D();

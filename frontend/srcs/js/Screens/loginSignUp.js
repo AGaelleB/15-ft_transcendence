@@ -139,7 +139,7 @@ export function close2FAModal() {
 
 async function handleResendOTP() {
 	try {
-		const response = await fetch("http://127.0.0.1:8001/verify-otp/", {
+		const response = await fetch("https://127.0.0.1:8001/verify-otp/", {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ async function handle2FAConfirm(username) {
 	}
 
 	try {
-		const response = await fetch("http://127.0.0.1:8001/verify-otp/", {
+		const response = await fetch("https://127.0.0.1:8001/verify-otp/", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -231,7 +231,7 @@ async function handleLogin(event, loginData = null) {
 	}
 
 	try {
-		const response = await fetch('http://127.0.0.1:8001/login/', {
+		const response = await fetch('https://127.0.0.1:8001/login/', {
 			method: 'POST',
 			credentials: "include",
 			headers: {
@@ -244,7 +244,7 @@ async function handleLogin(event, loginData = null) {
 		const data = await response.json();
 
 
-		if (response.status === 202 && data.status === "go to 'verify-otp/' for complete connection") {
+		if (response.status === 202 && data.status === "Login complete") {
 			localStorage.setItem("pendingUserEmail", data.email);
 			open2FAModal(username, data.email);
 		}
@@ -307,7 +307,7 @@ async function handleSignup(event) {
 	};
 
 	try {
-		const response = await fetch('http://127.0.0.1:8001/users/', {
+		const response = await fetch('https://127.0.0.1:8001/users/', {
 			method: 'POST',
 			credentials: "include",
 			headers: {
@@ -346,7 +346,7 @@ async function handleSignup(event) {
 
 async function fetchUserDetails(username) {
 	try {
-		const response = await fetch(`http://127.0.0.1:8001/users/${username}/`, {
+		const response = await fetch(`https://127.0.0.1:8001/users/${username}/`, {
 			method: 'GET',
 			credentials: "include",
 			headers: {

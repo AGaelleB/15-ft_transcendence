@@ -142,7 +142,7 @@ export function initializeHome() {
         };
 
         try {
-            const response = await fetch(`http://127.0.0.1:8001/logout/`, {
+            const response = await fetch(`https://127.0.0.1:8001/logout/`, {
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -176,7 +176,7 @@ export function initializeHome() {
         }
     
         const user = JSON.parse(savedUser);
-        const avatarUrl = `http://127.0.0.1:8001/users/${user.username}/avatar/`;
+        const avatarUrl = `https://127.0.0.1:8001/users/${user.username}/avatar/?t=${new Date().getTime()}`;
     
         document.querySelector('.profile-link img').src = avatarUrl;
     }

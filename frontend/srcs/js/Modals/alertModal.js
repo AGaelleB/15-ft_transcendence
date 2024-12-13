@@ -9,31 +9,6 @@ export function initializeAlertModal() {
                 <div class="alert-modal-content">
                     <h2 class="message-alert">
                         <i class="bi bi-megaphone-fill siren-icon"></i>
-                        <span data-lang-key="alertMessage">Alert Message</span>
-                        <i class="bi bi-megaphone-fill siren-icon"></i>
-                    </h2>
-                    <p class="message-alert-content" data-lang-key="alertContent">texte</p>
-                    <div class="ok-btn">
-                        <button id="closeAlert" class="close-alert-btn" data-lang-key="okButton">OK</button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        const modalContainer = document.createElement('div');
-        modalContainer.innerHTML = modalHtml;
-        document.body.appendChild(modalContainer.firstElementChild);
-        alertModalLoaded = true;
-    }
-}
-
-export function initializeAlertModal2() {
-    if (!alertModalLoaded) {
-        const modalHtml = `
-            <div id="alertModal" class="alert-modal hidden">
-                <div class="alert-modal-content">
-                    <h2 class="message-alert">
-                        <i class="bi bi-megaphone-fill siren-icon"></i>
                     </h2>
                     <p class="message-alert-content" data-lang-key="alertContent">texte</p>
                     <div class="ok-btn">
@@ -51,10 +26,7 @@ export function initializeAlertModal2() {
 }
 
 export async function myAlert(messageId, additionalData) {
-    if (messageId !== "2faResend")
         initializeAlertModal();
-    else
-        initializeAlertModal2();
 
     let translations = {};
     try {
