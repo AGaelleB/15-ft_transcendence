@@ -6,5 +6,9 @@ COPY ./default.conf /etc/nginx/conf.d/
 COPY ./. /www/
 RUN chmod 755 /etc/nginx/nginx.conf
 
-EXPOSE 80
+RUN mkdir /etc/nginx/ssl/
+COPY ./cert.pem /etc/nginx/ssl/
+COPY ./key.pem /etc/nginx/ssl/
+
+EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]

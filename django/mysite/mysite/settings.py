@@ -18,8 +18,8 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 AUTH_USER_MODEL = 'base.User'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://localhost:8000'
+    'https://127.0.0.1:8000',
+    'https://localhost:8000'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
