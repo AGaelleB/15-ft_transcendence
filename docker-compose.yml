@@ -15,7 +15,7 @@ services:
     ports:
       - "8001:8001"
     volumes:
-      - /goinfre/django-images:/djangodir/mysite/media
+      - /goinfre/django-images:/djangodir/mysite/media/images/
     env_file: ".env"
     depends_on:
       - db
