@@ -55,9 +55,7 @@ function resetToDefaultSettings3D() {
     document.getElementById('setRally').checked = false;
     document.getElementById('setPowerUps').checked = false;
 
-    document.getElementById('novice').checked = false;
     document.getElementById('intermediate').checked = true;
-    document.getElementById('expert').checked = false;
 
     ball.geometry.dispose();
     ball.geometry = new THREE.SphereGeometry(gameSettings3D.ballRadius3D, 32, 32);

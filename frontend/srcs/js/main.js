@@ -49,14 +49,16 @@ const isUserLoggedIn2 = async () => {
                 handleLocation();
             }
             return true;
-        } else {
+        }
+        else {
             if (window.location.pathname !== '/login') {
                 window.history.pushState({}, "", '/login');
                 handleLocation();
             }
             return false;
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error verifying user login:", error);
         if (window.location.pathname !== '/login') {
             window.history.pushState({}, "", '/login');
