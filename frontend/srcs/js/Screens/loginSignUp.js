@@ -244,7 +244,7 @@ async function handleLogin(event, loginData = null) {
 		const data = await response.json();
 
 
-		if (response.status === 202 && data.status === "go to 'verify-otp/' for complete connection") {
+		if (response.status === 202 && data.status === "Login complete") {
 			localStorage.setItem("pendingUserEmail", data.email);
 			open2FAModal(username, data.email);
 		}
