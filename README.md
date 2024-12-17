@@ -97,4 +97,26 @@ make
 
 # **PONG GAME**
 
+### **Game Start**
+![Start](frontend/srcs/images/assets_github/start.gif)
 
+### **2D Game Mode**
+![Game 2D](frontend/srcs/images/assets_github/game_2d.gif)
+
+### **3D Game Mode**
+![Game 3D](frontend/srcs/images/assets_github/game_3d.gif)
+
+### **Dashboard**
+![Dashboard](frontend/srcs/images/assets_github/dashboard.png)
+
+### **User Profile**
+![User Profile](frontend/srcs/images/assets_github/user_profil.png)
+
+### **Friends List**
+![Friends](frontend/srcs/images/assets_github/friends.gif)
+
+### **Stats Overview**
+![Stats](frontend/srcs/images/assets_github/stats.png)
+
+### **My Stats**
+![My Stats](frontend/srcs/images/assets_github/my_stats.png)
